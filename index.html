@@ -799,24 +799,25 @@ footer{
   display: none;
   position: fixed;
   bottom: 0; left: 0; right: 0;
-  height: 64px;
-  background: rgba(8,8,16,0.97);
-  backdrop-filter: blur(20px);
+  height: 70px;
+  background: rgba(8,8,16,0.98);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
   border-top: 1px solid var(--border);
   z-index: 200;
-  padding: 0 4px 8px;
+  padding: 0 8px 10px;
   align-items: center;
   justify-content: space-around;
 }
 .mn-item {
-  display: flex; flex-direction: column; align-items: center; gap: 3px;
-  cursor: pointer; padding: 6px 12px; border-radius: 12px;
+  display: flex; flex-direction: column; align-items: center; gap: 4px;
+  cursor: pointer; padding: 8px 14px; border-radius: 14px;
   border: none; background: transparent; color: var(--muted);
   transition: all 0.2s; flex: 1;
 }
 .mn-item.active { color: var(--green); background: rgba(0,245,155,0.08); }
-.mn-ico { font-size: 18px; line-height: 1; }
-.mn-lbl { font-size: 9px; font-weight: 700; font-family: 'Barlow Condensed', sans-serif; letter-spacing: 0.5px; text-transform: uppercase; }
+.mn-ico { font-size: 20px; line-height: 1; }
+.mn-lbl { font-size: 9px; font-weight: 800; font-family: 'Syne', sans-serif; letter-spacing: 0.5px; text-transform: uppercase; }
 
 /* ── RESPONSIVE ── */
 @media(max-width:900px) {
@@ -836,9 +837,14 @@ footer{
   .mobile-nav { display: flex; }
   nav .nav-cta { display: none; }
   nav .nav-burger { display: none; }
+  nav .nav-links { display: none !important; }
 
   /* Add padding for mobile nav */
-  .page { padding-bottom: 64px; }
+  .page { padding-bottom: 80px; }
+
+  /* Hide desktop nav completely on small screens */
+  nav { padding: 0 4%; }
+  .logo { font-size: 22px; letter-spacing: 2px; }
 
   /* Hero */
   .hero { padding: 40px 5% 60px; min-height: auto; }
@@ -1699,6 +1705,12 @@ function showPage(id) {
   document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
   document.getElementById('page-' + id).classList.add('active');
   window.scrollTo(0,0);
+  // Sync mobile nav
+  document.querySelectorAll('.mn-item').forEach(i => i.classList.remove('active'));
+  const pageToNav = { home:0, network:1, agenda:2, profile:3, ranking:4 };
+  const idx = pageToNav[id];
+  const mobileItems = document.querySelectorAll('.mn-item');
+  if (mobileItems[idx]) mobileItems[idx].classList.add('active');
 }
 function setActive(el) {
   document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
