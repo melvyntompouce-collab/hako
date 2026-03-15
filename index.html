@@ -847,7 +847,21 @@ footer{
   .mobile-home-nav { display: block; }
   /* Sur mobile : cacher les boutons hero (remplacés par les cards) */
   .hero-actions { display: none; }
-  .hero-stats   { display: none; }
+  /* Stats sous les cards sur mobile */
+  .hero-stats {
+    display: flex;
+    order: 10;
+    margin-top: 16px;
+    padding: 16px;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    gap: 0;
+  }
+  .hero-stat-val { font-size: 24px; }
+  .hero-stat-label { font-size: 9px; }
+  .hero-content { display: flex; flex-direction: column; }
+  .mobile-home-nav { order: 5; }
 }
 .leaflet-container {
   background: #0a0f1a !important;
@@ -1135,7 +1149,6 @@ footer{
           <div class="hero-stat-label">Badges à débloquer</div>
         </div>
       </div>
-
       <!-- SECTION MOBILE UNIQUEMENT : boutons de navigation -->
       <div class="mobile-home-nav">
         <div class="mhn-title">Explorer HAKO</div>
@@ -1170,22 +1183,6 @@ footer{
           Déjà un compte ? Se connecter
         </button>
 
-        <!-- Stats sur mobile -->
-        <div style="display:flex;justify-content:space-around;margin-top:28px;padding:20px;background:var(--card);border:1px solid var(--border);border-radius:20px;">
-          <div style="text-align:center;">
-            <div style="font-family:'Syne',sans-serif;font-weight:800;font-size:28px;color:var(--green);" id="stat-artistes-mobile">—</div>
-            <div style="font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:1px;margin-top:4px;">Artistes</div>
-          </div>
-          <div style="text-align:center;">
-            <div style="font-family:'Syne',sans-serif;font-weight:800;font-size:28px;color:var(--green);">33</div>
-            <div style="font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:1px;margin-top:4px;">Styles</div>
-          </div>
-          <div style="text-align:center;">
-            <div style="font-family:'Syne',sans-serif;font-weight:800;font-size:28px;color:var(--green);">13</div>
-            <div style="font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:1px;margin-top:4px;">Badges</div>
-          </div>
-        </div>
-
       </div>
 
     </div>
@@ -1204,35 +1201,41 @@ footer{
       <p class="section-sub">Une plateforme complète pensée pour la communauté danse</p>
     </div>
     <div class="features-grid">
-      <div class="feature-card">
+      <div class="feature-card" onclick="showPage('network')" style="cursor:pointer;" title="Voir le réseau">
         <div class="feature-icon" style="background:rgba(0,245,155,0.1)">🗺️</div>
         <div class="feature-title">Carte des danseurs</div>
         <p class="feature-desc">Trouvez des danseurs près de chez vous par zone — sans géolocalisation précise. Vous choisissez ce que vous partagez.</p>
+        <div style="margin-top:12px;font-size:12px;color:var(--green);font-weight:700;display:flex;align-items:center;gap:4px;">Explorer le réseau <span>→</span></div>
       </div>
-      <div class="feature-card">
+      <div class="feature-card" onclick="showPage('agenda')" style="cursor:pointer;" title="Voir l'agenda">
         <div class="feature-icon" style="background:rgba(77,159,255,0.1)">📅</div>
         <div class="feature-title">Agenda & billetterie</div>
         <p class="feature-desc">Soirées, cours, battles — tout est là. Réservez vos places directement depuis la plateforme.</p>
+        <div style="margin-top:12px;font-size:12px;color:var(--blue);font-weight:700;display:flex;align-items:center;gap:4px;">Voir l'agenda <span>→</span></div>
       </div>
-      <div class="feature-card">
+      <div class="feature-card" onclick="showPage('profile')" style="cursor:pointer;" title="Voir mon profil">
         <div class="feature-icon" style="background:rgba(155,93,229,0.1)">⌚</div>
         <div class="feature-title">Bracelet connecté</div>
         <p class="feature-desc">Échangez vos profils en approchant vos poignets. LED, vibreur, BLE — la tech au service de la danse.</p>
+        <div style="margin-top:12px;font-size:12px;color:var(--purple);font-weight:700;display:flex;align-items:center;gap:4px;">Mon profil <span>→</span></div>
       </div>
-      <div class="feature-card">
+      <div class="feature-card" onclick="showPage('ranking')" style="cursor:pointer;" title="Voir le classement">
         <div class="feature-icon" style="background:rgba(255,217,61,0.1)">🏆</div>
         <div class="feature-title">Classements & niveaux</div>
         <p class="feature-desc">Progressez, gagnez des badges, montez dans le classement local et national selon votre style.</p>
+        <div style="margin-top:12px;font-size:12px;color:var(--yellow);font-weight:700;display:flex;align-items:center;gap:4px;">Voir le classement <span>→</span></div>
       </div>
-      <div class="feature-card">
+      <div class="feature-card" onclick="showPage('profile')" style="cursor:pointer;" title="Gérer ma confidentialité">
         <div class="feature-icon" style="background:rgba(255,77,109,0.1)">🔐</div>
         <div class="feature-title">Confidentialité totale</div>
         <p class="feature-desc">Chaque info de votre profil a son propre niveau — Public, Amis, ou Privé. Vous contrôlez tout.</p>
+        <div style="margin-top:12px;font-size:12px;color:var(--red);font-weight:700;display:flex;align-items:center;gap:4px;">Mon profil <span>→</span></div>
       </div>
-      <div class="feature-card">
+      <div class="feature-card" onclick="showPage('messages')" style="cursor:pointer;" title="Voir les messages">
         <div class="feature-icon" style="background:rgba(0,245,155,0.1)">🎵</div>
         <div class="feature-title">Playlists & styles</div>
         <p class="feature-desc">Partagez vos playlists Spotify, affichez vos styles de danse, trouvez des partenaires compatibles.</p>
+        <div style="margin-top:12px;font-size:12px;color:var(--green);font-weight:700;display:flex;align-items:center;gap:4px;">Mes messages <span>→</span></div>
       </div>
     </div>
   </section>
