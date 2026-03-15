@@ -741,17 +741,23 @@ nav{
 @keyframes xp-grow{from{width:0}}
 
 .badges-section{margin-bottom:32px;}
-.badges-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:12px;}
+.badges-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:12px;}
 .badge-card{
   background:var(--card);border:1px solid var(--border);
-  border-radius:18px;padding:20px 12px;text-align:center;
-  transition:all 0.2s;
+  border-radius:18px;padding:18px 10px;text-align:center;
+  transition:all 0.25s;position:relative;overflow:hidden;
 }
-.badge-card:hover{transform:translateY(-2px);border-color:rgba(255,255,255,0.1);}
-.badge-card.locked{opacity:0.35;}
-.badge-ico{font-size:32px;margin-bottom:8px;}
-.badge-n{font-family:'Syne',sans-serif;font-size:13px;font-weight:700;letter-spacing:0.5px;}
-.badge-v{font-size:11px;color:var(--muted2);margin-top:3px;}
+.badge-card::before{
+  content:'';position:absolute;inset:0;
+  background:radial-gradient(circle at 50% 0%,rgba(0,245,155,0.06),transparent 70%);
+  opacity:0;transition:opacity 0.25s;
+}
+.badge-card:not(.locked):hover{transform:translateY(-3px);border-color:rgba(0,245,155,0.3);box-shadow:0 8px 24px rgba(0,245,155,0.1);}
+.badge-card:not(.locked):hover::before{opacity:1;}
+.badge-card.locked{opacity:0.3;filter:grayscale(1);}
+.badge-ico{font-size:30px;margin-bottom:8px;}
+.badge-n{font-family:'Syne',sans-serif;font-size:12px;font-weight:700;letter-spacing:0.3px;}
+.badge-v{font-size:10px;color:var(--muted2);margin-top:3px;}
 
 .rk-tabs{display:flex;gap:8px;margin-bottom:20px;}
 .rk-tab{
@@ -835,27 +841,32 @@ footer{
   position: fixed;
   bottom: 0; left: 0; right: 0;
   height: 70px;
-  background: rgba(8,8,16,0.98);
-  backdrop-filter: blur(24px);
-  -webkit-backdrop-filter: blur(24px);
-  border-top: 1px solid var(--border);
+  background: #0a0a0f;
+  border-top: 1px solid rgba(255,255,255,0.08);
   z-index: 9999;
-  padding: 0 8px env(safe-area-inset-bottom, 10px);
+  padding: 0 8px;
   align-items: center;
   justify-content: space-around;
-  /* iOS fix */
-  -webkit-transform: translateZ(0);
-  transform: translateZ(0);
-  padding-bottom: max(10px, env(safe-area-inset-bottom));
+  /* iOS rendering fix */
+  -webkit-transform: translate3d(0,0,0);
+  transform: translate3d(0,0,0);
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+  padding-bottom: max(8px, env(safe-area-inset-bottom));
+  will-change: transform;
+  image-rendering: -webkit-optimize-contrast;
 }
 .mn-item {
   display: flex; flex-direction: column; align-items: center; gap: 4px;
   cursor: pointer; padding: 8px 14px; border-radius: 14px;
   border: none; background: transparent; color: var(--muted);
-  transition: all 0.2s; flex: 1;
+  transition: color 0.15s, background 0.15s, transform 0.15s;
+  flex: 1;
+  -webkit-tap-highlight-color: transparent;
 }
 .mn-item.active { color: var(--green); background: rgba(0,245,155,0.08); }
-.mn-ico { font-size: 20px; line-height: 1; }
+.mn-item:active { transform: scale(0.9); }
+.mn-ico { font-size: 22px; line-height: 1; }
 .mn-lbl { font-size: 9px; font-weight: 800; font-family: 'Syne', sans-serif; letter-spacing: 0.5px; text-transform: uppercase; }
 
 /* ── RESPONSIVE ── */
@@ -989,9 +1000,9 @@ footer{
         Le réseau des artistes
       </div>
       <h1 class="hero-title">
-        <span class="filled">CONNECT</span>
-        <span>DANCE</span>
-        <span class="accent" style="-webkit-text-stroke:none;">MOVE</span>
+        <span class="filled">MOVE</span>
+        <span>CREATE</span>
+        <span class="accent" style="-webkit-text-stroke:none;">CONNECT</span>
       </h1>
       <p class="hero-sub">Le premier réseau social conçu pour les artistes. Trouvez des partenaires, découvrez des événements, échangez via votre bracelet connecté.</p>
       <div class="hero-actions">
@@ -1000,16 +1011,16 @@ footer{
       </div>
       <div class="hero-stats">
         <div>
-          <div class="hero-stat-val">2.4K</div>
-          <div class="hero-stat-label">Artistes actifs</div>
+          <div class="hero-stat-val" id="stat-artistes">—</div>
+          <div class="hero-stat-label">Artistes inscrits</div>
         </div>
         <div>
-          <div class="hero-stat-val">180+</div>
-          <div class="hero-stat-label">Événements / mois</div>
-        </div>
-        <div>
-          <div class="hero-stat-val">12</div>
+          <div class="hero-stat-val">33</div>
           <div class="hero-stat-label">Styles de danse</div>
+        </div>
+        <div>
+          <div class="hero-stat-val">13</div>
+          <div class="hero-stat-label">Badges à débloquer</div>
         </div>
       </div>
     </div>
@@ -1379,6 +1390,11 @@ footer{
               <label class="form-label">Blase de danseur <span style="color:var(--muted);font-weight:400">(optionnel)</span></label>
               <input id="profil-blase" class="form-input" type="text" placeholder="Ex: La Furia" style="background:var(--bg2)">
             </div>
+            <div class="form-group" style="margin:0">
+              <label class="form-label">Numéro de téléphone <span style="color:var(--muted);font-weight:400">(optionnel)</span></label>
+              <input id="profil-tel" class="form-input" type="tel" placeholder="Ex: +33 6 12 34 56 78" style="background:var(--bg2)">
+              <div style="font-size:11px;color:var(--muted2);margin-top:6px;">📲 Les autres pourront vous envoyer un message directement</div>
+            </div>
           </div>
         </div>
 
@@ -1532,6 +1548,17 @@ footer{
           </div>
         </div>
         <div class="priv-row">
+          <div class="priv-left"><span class="priv-ico">📞</span><div>
+            <div class="priv-fn">Téléphone</div>
+            <div class="priv-fv" id="tel-display-priv">Non renseigné</div>
+          </div></div>
+          <div class="tg">
+            <button class="to" onclick="setPriv(this,0)">PUB</button>
+            <button class="to sa" onclick="setPriv(this,1)">AMI</button>
+            <button class="to sr" onclick="setPriv(this,2)">PRIV</button>
+          </div>
+        </div>
+        <div class="priv-row">
           <div class="priv-left"><span class="priv-ico">🎵</span><div><div class="priv-fn">Playlists</div><div class="priv-fv">3 playlists</div></div></div>
           <div class="tg">
             <button class="to" onclick="setPriv(this,0)">PUB</button>
@@ -1599,17 +1626,57 @@ footer{
 </div>
 
 <script>
-// ── Navigation ──
+// ── Navigation avec animations ──
 function showPage(id) {
-  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-  document.getElementById('page-' + id).classList.add('active');
-  window.scrollTo(0,0);
+  const pages = document.querySelectorAll('.page');
+  const next = document.getElementById('page-' + id);
+  if (!next) return;
+
+  // Cacher toutes les pages avec fondu
+  pages.forEach(p => {
+    if (p.classList.contains('active')) {
+      p.style.transition = 'opacity 0.15s ease';
+      p.style.opacity = '0';
+      setTimeout(() => {
+        p.classList.remove('active');
+        p.style.opacity = '';
+        p.style.transition = '';
+      }, 150);
+    }
+  });
+
+  // Afficher la nouvelle page
+  setTimeout(() => {
+    next.classList.add('active');
+    next.style.opacity = '0';
+    next.style.transform = 'translateY(10px)';
+    next.style.transition = 'opacity 0.25s ease, transform 0.25s ease';
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        next.style.opacity = '1';
+        next.style.transform = 'translateY(0)';
+        setTimeout(() => {
+          next.style.transition = '';
+          next.style.opacity = '';
+          next.style.transform = '';
+        }, 250);
+      });
+    });
+  }, 150);
+
+  window.scrollTo(0, 0);
+
   // Sync mobile nav
   document.querySelectorAll('.mn-item').forEach(i => i.classList.remove('active'));
   const pageToNav = { home:0, network:1, agenda:2, profile:3, ranking:4 };
   const idx = pageToNav[id];
   const mobileItems = document.querySelectorAll('.mn-item');
-  if (mobileItems[idx]) mobileItems[idx].classList.add('active');
+  if (mobileItems[idx]) {
+    mobileItems[idx].classList.add('active');
+    // Animation tap sur le bouton mobile
+    mobileItems[idx].style.transform = 'scale(0.92)';
+    setTimeout(() => mobileItems[idx].style.transform = '', 150);
+  }
 }
 function setActive(el) {
   document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
@@ -2011,12 +2078,19 @@ function xpPourNiveauSuivant(xp) {
 
 function calculerBadges(d) {
   const badges = [];
-  if ((d.echanges || 0) >= 200) badges.push('connecteur');
-  if ((d.evenements || 0) >= 30) badges.push('assidu');
-  if ((d.xp || 0) >= 1000)      badges.push('certifie');
-  if ((d.streak || 0) >= 7)     badges.push('enfeu');
-  if (d.battleGagne)             badges.push('champion');
-  if ((d.villes || []).length >= 3) badges.push('voyageur');
+  if ((d.echanges || 0) >= 200)        badges.push('connecteur');
+  if ((d.evenements || 0) >= 30)       badges.push('assidu');
+  if ((d.xp || 0) >= 1000)            badges.push('certifie');
+  if ((d.streak || 0) >= 7)           badges.push('enfeu');
+  if (d.battleGagne)                   badges.push('champion');
+  if ((d.villes || []).length >= 3)    badges.push('voyageur');
+  if ((d.vues || 0) >= 100)           badges.push('influenceur');
+  if ((d.connexionsBracelet || 0) >= 10) badges.push('social');
+  if ((d.classement || 999) <= 10)    badges.push('local');
+  if (d.coursGiven)                    badges.push('mentor');
+  if ((d.numeroInscription || 999) <= 100) badges.push('pionnier');
+  if ((d.parrainages || 0) >= 3)      badges.push('ambassadeur');
+  if ((d.joursActif || 0) >= 30)      badges.push('actif');
   return badges;
 }
 
@@ -2025,12 +2099,19 @@ function afficherBadges(badges) {
   if (!grid) return;
 
   const tousLesBadges = [
-    { id:'connecteur', ico:'🥇', nom:'Connecteur', desc:'200+ échanges' },
-    { id:'assidu',     ico:'🎯', nom:'Assidu',     desc:'30+ events'   },
-    { id:'certifie',   ico:'⭐', nom:'Certifié',   desc:'1000+ XP'     },
-    { id:'enfeu',      ico:'🔥', nom:'En feu',     desc:'7j consécutifs'},
-    { id:'champion',   ico:'🏆', nom:'Champion',   desc:'Battle gagné' },
-    { id:'voyageur',   ico:'🌍', nom:'Voyageur',   desc:'3 villes'     },
+    { id:'connecteur',  ico:'🥇', nom:'Connecteur',  desc:'200+ échanges'       },
+    { id:'assidu',      ico:'🎯', nom:'Assidu',       desc:'30+ events'          },
+    { id:'certifie',    ico:'⭐', nom:'Certifié',     desc:'1000+ XP'            },
+    { id:'enfeu',       ico:'🔥', nom:'En feu',       desc:'7j consécutifs'      },
+    { id:'champion',    ico:'🏆', nom:'Champion',     desc:'Battle gagné'        },
+    { id:'voyageur',    ico:'🌍', nom:'Voyageur',     desc:'3 villes'            },
+    { id:'influenceur', ico:'📸', nom:'Influenceur',  desc:'100+ vues profil'    },
+    { id:'social',      ico:'🤝', nom:'Social',       desc:'10 connexions bracelet'},
+    { id:'local',       ico:'🏙️', nom:'Local',        desc:'Top 10 de ta ville'  },
+    { id:'mentor',      ico:'🎓', nom:'Mentor',       desc:'A donné un cours'    },
+    { id:'pionnier',    ico:'💫', nom:'Pionnier',     desc:'100 premiers inscrits'},
+    { id:'ambassadeur', ico:'🔗', nom:'Ambassadeur',  desc:'3 personnes parrainées'},
+    { id:'actif',       ico:'⚡', nom:'Actif',        desc:'30 jours connecté'   },
   ];
 
   grid.innerHTML = tousLesBadges.map(b => `
@@ -2254,6 +2335,7 @@ function ajouterMarqueur(danseur, uid) {
         </div>
         <div class="popup-zone">📍 ${danseur.zone || 'Zone non définie'}</div>
         ${danseur.disponible ? '<div class="popup-dispo">✅ Disponible</div>' : ''}
+        ${danseur.tel ? `<a href="sms:${danseur.tel}" style="display:inline-flex;align-items:center;gap:6px;margin-top:8px;padding:7px 12px;border-radius:10px;background:rgba(0,245,155,0.1);border:1px solid rgba(0,245,155,0.3);color:#00f59b;font-size:12px;font-weight:700;text-decoration:none;">💬 Envoyer un message</a>` : ''}
       </div>
     `)
     .addTo(carte);
@@ -2546,6 +2628,7 @@ window.sauvegarderIdentite = async function() {
 
   const nom   = document.getElementById('profil-nom')?.value.trim()   || '';
   const blase = document.getElementById('profil-blase')?.value.trim() || '';
+  const tel   = document.getElementById('profil-tel')?.value.trim()   || '';
 
   // Récupérer les styles sélectionnés dans la sous-page édition
   const styles = [...document.querySelectorAll('#edit-styles-grid .style-tag.selected')]
@@ -2561,7 +2644,7 @@ window.sauvegarderIdentite = async function() {
 
   try {
     await setDoc(doc(db, 'danseurs', user.uid), {
-      nom, blase, affichageType, nomAffiche,
+      nom, blase, tel, affichageType, nomAffiche,
       ...(styles.length > 0 ? { styles } : {}),
       ...(window._photoBase64 ? { photo: window._photoBase64 } : {})
     }, { merge: true });
@@ -2629,8 +2712,14 @@ async function chargerProfil(uid) {
     // ── Champs édition ──
     const champNom   = document.getElementById('profil-nom');
     const champBlase = document.getElementById('profil-blase');
+    const champTel   = document.getElementById('profil-tel');
     if (champNom)   champNom.value   = d.nom   || '';
     if (champBlase) champBlase.value = d.blase || '';
+    if (champTel)   champTel.value   = d.tel   || '';
+
+    // Afficher tel dans confidentialité
+    const telDisplay = document.getElementById('tel-display-priv');
+    if (telDisplay) telDisplay.textContent = d.tel || 'Non renseigné';
     const type = d.affichageType || 'nom';
     const btnAff = document.getElementById('show-' + type);
     if (btnAff) toggleAffichage(type, btnAff);
@@ -2792,6 +2881,23 @@ console.log('✅ Firebase Auth chargé !');
 // Signaler que Firebase est prêt
 window._firebaseReady = true;
 document.dispatchEvent(new Event('firebase-ready'));
+
+// Charger le vrai nombre d'artistes pour la page d'accueil
+(async () => {
+  try {
+    const { collection, getCountFromServer } = await import(
+      'https://www.gstatic.com/firebasejs/10.0.0/firebase-firestore.js'
+    );
+    const snap = await getCountFromServer(collection(window._db, 'danseurs'));
+    const count = snap.data().count;
+    const el = document.getElementById('stat-artistes');
+    if (el) el.textContent = count > 0 ? count : '—';
+  } catch(e) {
+    // Silencieux si getCountFromServer non supporté
+    const el = document.getElementById('stat-artistes');
+    if (el) el.textContent = '—';
+  }
+})();
 </script>
 
 <!-- Wrapper pour les boutons HTML — appelle les fonctions window quand Firebase est prêt -->
