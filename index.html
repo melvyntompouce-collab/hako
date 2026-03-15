@@ -1919,7 +1919,20 @@ footer{
             </div>
             <div class="form-group" style="margin:0">
               <label class="form-label">Ville <span style="color:var(--muted);font-weight:400">(optionnel)</span></label>
-              <input id="profil-ville" class="form-input" type="text" placeholder="Ex: Paris, Lyon, Bordeaux..." style="background:var(--bg2)">
+              <select id="profil-ville" class="form-select" style="background:var(--bg2)">
+                <option value="">— Choisir une ville —</option>
+                <option>Bordeaux</option>
+                <option>Grenoble</option>
+                <option>Lille</option>
+                <option>Lyon</option>
+                <option>Marseille</option>
+                <option>Nantes</option>
+                <option>Nice</option>
+                <option>Orléans</option>
+                <option>Paris</option>
+                <option>Strasbourg</option>
+                <option>Toulouse</option>
+              </select>
               <div style="font-size:11px;color:var(--muted2);margin-top:6px;">Utilisée pour le score de compatibilité et la carte du réseau</div>
             </div>
           </div>
@@ -4938,7 +4951,13 @@ async function chargerProfil(uid) {
     if (champNom)         champNom.value         = d.nom        || '';
     if (champBlase)       champBlase.value       = d.blase      || '';
     if (champTel)         champTel.value         = d.tel        || '';
-    if (champVille)       champVille.value       = d.ville      || d.zone || '';
+    if (champVille) {
+      const v = d.ville || d.zone || '';
+      // Sélectionner l'option correspondante
+      [...champVille.options].forEach(opt => {
+        opt.selected = opt.value === v || opt.text === v;
+      });
+    }
     if (champInsta)       champInsta.value       = d.instagram  || '';
     if (champTiktok)      champTiktok.value      = d.tiktok     || '';
     if (champLien)        champLien.value        = d.lien       || '';
