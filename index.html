@@ -1455,22 +1455,33 @@ footer{
       </div>
 
       <!-- Input zone -->
-      <div style="padding:10px 12px;border-top:1px solid var(--border);display:flex;gap:8px;align-items:flex-end;flex-shrink:0;background:var(--bg);">
-        <!-- Bouton photo -->
-        <button onclick="document.getElementById('msg-photo-input').click()" style="width:40px;height:40px;border-radius:50%;background:var(--card2);border:1px solid var(--border);color:var(--muted2);cursor:pointer;font-size:18px;flex-shrink:0;display:flex;align-items:center;justify-content:center;">🖼️</button>
-        <input type="file" id="msg-photo-input" accept="image/*" style="display:none" onchange="envoyerPhoto(this)">
+      <div style="padding:10px 12px;border-top:1px solid var(--border);flex-shrink:0;background:var(--bg);">
 
-        <!-- Input texte -->
-        <input id="msg-input" type="text" placeholder="Message..." style="flex:1;padding:10px 16px;border-radius:22px;background:var(--card);border:1px solid var(--border);color:var(--text);font-family:'DM Sans',sans-serif;font-size:14px;outline:none;min-width:0;" onkeydown="if(event.key==='Enter')envoyerMessage()">
+        <!-- Waveform enregistrement (caché par défaut) -->
+        <div id="waveform-zone" style="display:none;align-items:center;gap:12px;padding:8px 4px;margin-bottom:8px;">
+          <div style="font-size:12px;color:var(--red);font-weight:700;font-family:'Syne',sans-serif;white-space:nowrap;">🔴 <span id="waveform-timer">0:00</span></div>
+          <canvas id="waveform-canvas" style="flex:1;height:40px;border-radius:8px;background:rgba(255,77,109,0.06);"></canvas>
+          <button onclick="annulerEnregistrement()" style="width:32px;height:32px;border-radius:50%;background:rgba(255,77,109,0.1);border:1px solid rgba(255,77,109,0.3);color:var(--red);cursor:pointer;font-size:14px;flex-shrink:0;">✕</button>
+        </div>
 
-        <!-- Bouton vocal (maintien = enregistrement) -->
-        <button id="btn-vocal"
-          onmousedown="demarrerEnregistrement()" ontouchstart="demarrerEnregistrement()"
-          onmouseup="arreterEnregistrement()"   ontouchend="arreterEnregistrement()"
-          style="width:40px;height:40px;border-radius:50%;background:var(--card2);border:1px solid var(--border);color:var(--muted2);cursor:pointer;font-size:18px;flex-shrink:0;display:flex;align-items:center;justify-content:center;transition:all 0.15s;user-select:none;">🎤</button>
+        <!-- Barre input normale -->
+        <div id="input-zone" style="display:flex;gap:8px;align-items:flex-end;">
+          <!-- Bouton photo -->
+          <button onclick="document.getElementById('msg-photo-input').click()" style="width:40px;height:40px;border-radius:50%;background:var(--card2);border:1px solid var(--border);color:var(--muted2);cursor:pointer;font-size:18px;flex-shrink:0;display:flex;align-items:center;justify-content:center;">🖼️</button>
+          <input type="file" id="msg-photo-input" accept="image/*" style="display:none" onchange="envoyerPhoto(this)">
 
-        <!-- Bouton envoyer -->
-        <button onclick="envoyerMessage()" style="width:40px;height:40px;border-radius:50%;background:var(--green);border:none;cursor:pointer;font-size:18px;flex-shrink:0;display:flex;align-items:center;justify-content:center;">↑</button>
+          <!-- Input texte -->
+          <input id="msg-input" type="text" placeholder="Message..." style="flex:1;padding:10px 16px;border-radius:22px;background:var(--card);border:1px solid var(--border);color:var(--text);font-family:'DM Sans',sans-serif;font-size:14px;outline:none;min-width:0;" onkeydown="if(event.key==='Enter')envoyerMessage()">
+
+          <!-- Bouton vocal -->
+          <button id="btn-vocal"
+            onmousedown="demarrerEnregistrement()" ontouchstart="event.preventDefault();demarrerEnregistrement()"
+            onmouseup="arreterEnregistrement()"   ontouchend="event.preventDefault();arreterEnregistrement()"
+            style="width:40px;height:40px;border-radius:50%;background:var(--card2);border:1px solid var(--border);color:var(--muted2);cursor:pointer;font-size:18px;flex-shrink:0;display:flex;align-items:center;justify-content:center;transition:all 0.15s;user-select:none;-webkit-user-select:none;">🎤</button>
+
+          <!-- Bouton envoyer -->
+          <button onclick="envoyerMessage()" style="width:40px;height:40px;border-radius:50%;background:var(--green);border:none;cursor:pointer;font-size:18px;flex-shrink:0;display:flex;align-items:center;justify-content:center;">↑</button>
+        </div>
       </div>
     </div>
 
@@ -3355,13 +3366,20 @@ window.envoyerPhoto = async function(input) {
 }
 
 // ── Messages vocaux ──
+// ── Variables waveform ──
+let waveformAnimId = null;
+let waveformTimer  = null;
+let waveformSecs   = 0;
+let analyser       = null;
+let audioCtx       = null;
+
 window.demarrerEnregistrement = async function() {
   if (!convOuverte) return;
   try {
     const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
     audioChunks = [];
 
-    // Détecter le format supporté — iOS Safari supporte mp4, Chrome supporte webm
+    // Format compatible iOS/Android
     const mimeType = MediaRecorder.isTypeSupported('audio/mp4')  ? 'audio/mp4'
                    : MediaRecorder.isTypeSupported('audio/webm') ? 'audio/webm'
                    : '';
@@ -3371,45 +3389,113 @@ window.demarrerEnregistrement = async function() {
       : new MediaRecorder(stream);
 
     mediaRecorder.ondataavailable = e => { if (e.data.size > 0) audioChunks.push(e.data); };
-    mediaRecorder.start(100); // Collecter toutes les 100ms pour iOS
+    mediaRecorder.start(100);
     enregistrement = true;
 
-    const btn = document.getElementById('btn-vocal');
-    if (btn) {
-      btn.style.background = 'var(--red)';
-      btn.style.color = '#fff';
-      btn.textContent = '🔴';
-    }
+    // Afficher waveform, cacher input
+    document.getElementById('waveform-zone').style.display = 'flex';
+    document.getElementById('input-zone').style.display = 'none';
+
+    // Timer
+    waveformSecs = 0;
+    document.getElementById('waveform-timer').textContent = '0:00';
+    waveformTimer = setInterval(() => {
+      waveformSecs++;
+      const m = Math.floor(waveformSecs / 60);
+      const s = waveformSecs % 60;
+      document.getElementById('waveform-timer').textContent = `${m}:${s.toString().padStart(2,'0')}`;
+    }, 1000);
+
+    // Analyser audio pour le waveform
+    audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    analyser = audioCtx.createAnalyser();
+    analyser.fftSize = 64;
+    const source = audioCtx.createMediaStreamSource(stream);
+    source.connect(analyser);
+    dessinerWaveform();
+
   } catch(e) {
     console.error('Micro:', e);
     alert('⚠️ Autorisez l\'accès au microphone dans les réglages');
   }
 }
 
+function dessinerWaveform() {
+  const canvas  = document.getElementById('waveform-canvas');
+  if (!canvas || !analyser) return;
+  const ctx     = canvas.getContext('2d');
+  const W       = canvas.offsetWidth;
+  const H       = canvas.offsetHeight;
+  canvas.width  = W;
+  canvas.height = H;
+
+  const bufferLength = analyser.frequencyBinCount;
+  const dataArray    = new Uint8Array(bufferLength);
+
+  function draw() {
+    waveformAnimId = requestAnimationFrame(draw);
+    analyser.getByteFrequencyData(dataArray);
+
+    ctx.clearRect(0, 0, W, H);
+
+    const barW   = (W / bufferLength) * 2;
+    const gap    = 2;
+    let x = 0;
+
+    for (let i = 0; i < bufferLength; i++) {
+      const v      = dataArray[i] / 255;
+      const barH   = Math.max(4, v * H * 0.9);
+      const alpha  = 0.4 + v * 0.6;
+
+      ctx.fillStyle = `rgba(255, 77, 109, ${alpha})`;
+      const y = (H - barH) / 2;
+      ctx.beginPath();
+      ctx.roundRect(x, y, barW - gap, barH, 2);
+      ctx.fill();
+      x += barW;
+    }
+  }
+  draw();
+}
+
+function stopperWaveform() {
+  if (waveformAnimId) { cancelAnimationFrame(waveformAnimId); waveformAnimId = null; }
+  if (waveformTimer)  { clearInterval(waveformTimer); waveformTimer = null; }
+  if (audioCtx)       { audioCtx.close(); audioCtx = null; analyser = null; }
+
+  // Effacer canvas
+  const canvas = document.getElementById('waveform-canvas');
+  if (canvas) canvas.getContext('2d').clearRect(0, 0, canvas.width, canvas.height);
+
+  // Afficher input, cacher waveform
+  document.getElementById('waveform-zone').style.display = 'none';
+  document.getElementById('input-zone').style.display = 'flex';
+}
+
+window.annulerEnregistrement = function() {
+  if (mediaRecorder && enregistrement) {
+    enregistrement = false;
+    mediaRecorder.stop();
+    mediaRecorder.onstop = () => {
+      mediaRecorder.stream.getTracks().forEach(t => t.stop());
+    };
+  }
+  stopperWaveform();
+}
+
 window.arreterEnregistrement = async function() {
   if (!mediaRecorder || !enregistrement) return;
   enregistrement = false;
-
-  const btn = document.getElementById('btn-vocal');
-  if (btn) {
-    btn.style.background = 'var(--card2)';
-    btn.style.color = 'var(--muted2)';
-    btn.textContent = '⏳';
-  }
+  stopperWaveform();
 
   mediaRecorder.stop();
   mediaRecorder.onstop = async () => {
     try {
-      // Détecter le bon type MIME selon ce qui a été enregistré
       const mimeType = mediaRecorder.mimeType || 'audio/webm';
-      const ext = mimeType.includes('mp4') ? 'mp4' : mimeType.includes('ogg') ? 'ogg' : 'webm';
+      const ext      = mimeType.includes('mp4') ? 'mp4' : mimeType.includes('ogg') ? 'ogg' : 'webm';
       const audioBlob = new Blob(audioChunks, { type: mimeType });
 
-      if (audioBlob.size < 1000) {
-        console.warn('Audio trop court');
-        if (btn) btn.textContent = '🎤';
-        return;
-      }
+      if (audioBlob.size < 1000) { console.warn('Audio trop court'); return; }
 
       // Upload Firebase Storage
       const { getStorage, ref, uploadBytes, getDownloadURL } = await import(
@@ -3421,16 +3507,13 @@ window.arreterEnregistrement = async function() {
 
       await uploadBytes(storageRef, audioBlob);
       const audioUrl = await getDownloadURL(storageRef);
-
       await _envoyerDansConv({ type: 'audio', audioUrl, texte: '🎤 Message vocal', repondA: null });
 
-      // Arrêter le micro
       mediaRecorder.stream.getTracks().forEach(t => t.stop());
     } catch(e) {
       console.error('Erreur vocal:', e);
       alert('❌ Erreur envoi vocal : ' + e.message);
     }
-    if (btn) btn.textContent = '🎤';
   };
 }
 
