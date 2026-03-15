@@ -6,7 +6,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <title>HAKO — Le réseau des artistes</title>
-<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500;600&family=Big+Shoulders+Display:wght@900&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <style>
@@ -127,10 +127,11 @@ nav{
   margin-bottom:32px;
 }
 .hero-title{
-  font-family:'Syne',sans-serif;
-  font-size:clamp(60px,10vw,120px);
-  line-height:0.9;
-  letter-spacing:2px;
+  font-family:'Big Shoulders Display',sans-serif;
+  font-weight:900;
+  font-size:clamp(72px,12vw,140px);
+  line-height:0.85;
+  letter-spacing:-1px;
   margin-bottom:24px;
 }
 .hero-title span{
@@ -983,6 +984,10 @@ footer{
     <a class="nav-link" href="#" onclick="showPage('agenda');setActive(this)">Agenda</a>
     <a class="nav-link" href="#" onclick="showPage('profile');setActive(this)">Profil</a>
     <a class="nav-link" href="#" onclick="showPage('ranking');setActive(this)">Classement</a>
+    <a class="nav-link" href="#" onclick="showPage('messages');setActive(this)" style="position:relative;">
+      💬
+      <span id="msg-badge" style="display:none;position:absolute;top:-4px;right:-8px;background:var(--red);color:#fff;font-size:9px;font-weight:800;padding:2px 5px;border-radius:10px;font-family:'Syne',sans-serif;">0</span>
+    </a>
   </div>
   <a class="nav-cta" href="#" onclick="showPage('auth')">Rejoindre →</a>
   <div class="nav-burger" onclick="toggleMobileMenu()">
@@ -1001,7 +1006,7 @@ footer{
       </div>
       <h1 class="hero-title">
         <span class="filled">MOVE</span>
-        <span>CREATE</span>
+        <span style="-webkit-text-stroke:2px rgba(255,255,255,0.25);color:transparent;">CREATE</span>
         <span class="accent" style="-webkit-text-stroke:none;">CONNECT</span>
       </h1>
       <p class="hero-sub">Le premier réseau social conçu pour les artistes. Trouvez des partenaires, découvrez des événements, échangez via votre bracelet connecté.</p>
@@ -1327,6 +1332,58 @@ footer{
             </button>
           </div>
         </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ═══ PAGE: MESSAGES ═══ -->
+<div class="page" id="page-messages">
+  <div style="max-width:700px;margin:0 auto;padding:24px 20px 100px;">
+
+    <!-- Header -->
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:24px;">
+      <div>
+        <div style="font-family:'Syne',sans-serif;font-size:11px;font-weight:700;color:var(--muted);letter-spacing:2px;text-transform:uppercase;margin-bottom:4px;">Messagerie</div>
+        <h1 style="font-family:'Big Shoulders Display',sans-serif;font-weight:900;font-size:42px;letter-spacing:-1px;line-height:1;">MESSAGES</h1>
+      </div>
+    </div>
+
+    <!-- Si non connecté -->
+    <div id="msg-not-connected" style="display:none;text-align:center;padding:60px 20px;">
+      <div style="font-size:48px;margin-bottom:16px;">💬</div>
+      <div style="font-family:'Syne',sans-serif;font-weight:800;font-size:18px;margin-bottom:8px;">Connecte-toi pour accéder aux messages</div>
+      <button onclick="showPage('auth')" style="margin-top:16px;padding:12px 24px;border-radius:12px;background:var(--green);color:#080810;font-weight:800;font-size:14px;border:none;cursor:pointer;font-family:'Syne',sans-serif;">Se connecter →</button>
+    </div>
+
+    <!-- Liste conversations -->
+    <div id="msg-list" style="display:none;">
+      <div id="conversations-list">
+        <div style="text-align:center;padding:40px;color:var(--muted);font-size:14px;">⏳ Chargement...</div>
+      </div>
+    </div>
+
+    <!-- Fenêtre de conversation -->
+    <div id="msg-conversation" style="display:none;position:fixed;inset:0;z-index:300;background:var(--bg);padding-top:70px;display:none;flex-direction:column;">
+
+      <!-- Header conversation -->
+      <div style="padding:16px 20px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:12px;flex-shrink:0;">
+        <button onclick="fermerConversation()" style="width:36px;height:36px;border-radius:10px;background:var(--card);border:1px solid var(--border);color:var(--text);font-size:18px;cursor:pointer;flex-shrink:0;">←</button>
+        <div id="conv-avatar" style="width:40px;height:40px;border-radius:12px;background:linear-gradient(135deg,var(--green),var(--purple));display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;">💃</div>
+        <div>
+          <div id="conv-name" style="font-family:'Syne',sans-serif;font-weight:800;font-size:15px;"></div>
+          <div id="conv-status" style="font-size:11px;color:var(--green);">✅ Amis mutuels</div>
+        </div>
+      </div>
+
+      <!-- Messages -->
+      <div id="messages-container" style="flex:1;overflow-y:auto;padding:20px;display:flex;flex-direction:column;gap:12px;scrollbar-width:none;"></div>
+
+      <!-- Input -->
+      <div style="padding:12px 16px;border-top:1px solid var(--border);display:flex;gap:10px;flex-shrink:0;background:var(--bg);">
+        <input id="msg-input" type="text" placeholder="Écris un message..." style="flex:1;padding:12px 16px;border-radius:20px;background:var(--card);border:1px solid var(--border);color:var(--text);font-family:'DM Sans',sans-serif;font-size:14px;outline:none;" onkeydown="if(event.key==='Enter')envoyerMessage()">
+        <button onclick="envoyerMessage()" style="width:44px;height:44px;border-radius:50%;background:var(--green);border:none;cursor:pointer;font-size:18px;flex-shrink:0;">↑</button>
       </div>
     </div>
 
@@ -1668,7 +1725,7 @@ function showPage(id) {
 
   // Sync mobile nav
   document.querySelectorAll('.mn-item').forEach(i => i.classList.remove('active'));
-  const pageToNav = { home:0, network:1, agenda:2, profile:3, ranking:4 };
+  const pageToNav = { home:0, network:1, agenda:2, messages:3, profile:4, ranking:5 };
   const idx = pageToNav[id];
   const mobileItems = document.querySelectorAll('.mn-item');
   if (mobileItems[idx]) {
@@ -2248,6 +2305,267 @@ function setMobileActive(el) {
 }
 
 // ════════════════════════════════
+// SYSTÈME D'ABONNEMENT
+// ════════════════════════════════
+let mesAbonnements = new Set();
+let convOuverte = null;
+
+async function chargerAbonnements() {
+  if (!window._currentUid || !window._db) return;
+  try {
+    const { getDoc, doc } = await import('https://www.gstatic.com/firebasejs/10.0.0/firebase-firestore.js');
+    const snap = await getDoc(doc(window._db, 'danseurs', window._currentUid));
+    if (snap.exists()) {
+      const d = snap.data();
+      mesAbonnements = new Set(d.abonnements || []);
+      // Mettre à jour tous les boutons suivre
+      mesAbonnements.forEach(uid => mettreAJourBtnSuivre(uid, true));
+    }
+  } catch(e) { console.error(e); }
+}
+
+function mettreAJourBtnSuivre(uid, suivi) {
+  const btn = document.getElementById('btn-suivre-' + uid);
+  if (!btn) return;
+  if (suivi) {
+    btn.textContent = '✓ Suivi';
+    btn.style.background = 'rgba(0,245,155,0.1)';
+    btn.style.borderColor = 'var(--green)';
+    btn.style.color = 'var(--green)';
+  } else {
+    btn.textContent = '+ Suivre';
+    btn.style.background = 'transparent';
+    btn.style.borderColor = 'var(--border)';
+    btn.style.color = 'var(--muted2)';
+  }
+}
+
+window.toggleSuivre = async function(targetUid) {
+  if (!window._currentUid) { showPage('auth'); return; }
+  if (targetUid === window._currentUid) return;
+
+  try {
+    const { doc, updateDoc, arrayUnion, arrayRemove, getDoc } = await import(
+      'https://www.gstatic.com/firebasejs/10.0.0/firebase-firestore.js'
+    );
+
+    const estSuivi = mesAbonnements.has(targetUid);
+
+    if (estSuivi) {
+      // Se désabonner
+      await updateDoc(doc(window._db, 'danseurs', window._currentUid), {
+        abonnements: arrayRemove(targetUid)
+      });
+      mesAbonnements.delete(targetUid);
+      mettreAJourBtnSuivre(targetUid, false);
+    } else {
+      // S'abonner
+      await updateDoc(doc(window._db, 'danseurs', window._currentUid), {
+        abonnements: arrayUnion(targetUid)
+      });
+      // Notifier la cible
+      await updateDoc(doc(window._db, 'danseurs', targetUid), {
+        notifications: arrayUnion({
+          type: 'nouveau_abonne',
+          de: window._currentUid,
+          date: new Date().toISOString(),
+          lu: false
+        })
+      });
+      mesAbonnements.add(targetUid);
+      mettreAJourBtnSuivre(targetUid, true);
+    }
+  } catch(e) { console.error('Erreur abonnement:', e); }
+}
+
+// ════════════════════════════════
+// MESSAGERIE
+// ════════════════════════════════
+async function chargerMessages() {
+  if (!window._currentUid || !window._db) {
+    document.getElementById('msg-not-connected').style.display = 'block';
+    document.getElementById('msg-list').style.display = 'none';
+    return;
+  }
+
+  document.getElementById('msg-not-connected').style.display = 'none';
+  document.getElementById('msg-list').style.display = 'block';
+
+  try {
+    const { getDoc, doc, collection, getDocs, query, orderBy, limit } = await import(
+      'https://www.gstatic.com/firebasejs/10.0.0/firebase-firestore.js'
+    );
+
+    // Charger mon profil pour avoir mes abonnements
+    const moi = await getDoc(doc(window._db, 'danseurs', window._currentUid));
+    if (!moi.exists()) return;
+    const moiData = moi.data();
+    const mesAbos = moiData.abonnements || [];
+
+    // Trouver les amis mutuels (abonnement mutuel)
+    const amisMutuels = [];
+    for (const uid of mesAbos) {
+      const ami = await getDoc(doc(window._db, 'danseurs', uid));
+      if (ami.exists()) {
+        const amiData = ami.data();
+        const amiAbos = amiData.abonnements || [];
+        if (amiAbos.includes(window._currentUid)) {
+          amisMutuels.push({ uid, ...amiData });
+        }
+      }
+    }
+
+    const list = document.getElementById('conversations-list');
+
+    if (amisMutuels.length === 0) {
+      list.innerHTML = `
+        <div style="text-align:center;padding:60px 20px;">
+          <div style="font-size:48px;margin-bottom:16px;">🤝</div>
+          <div style="font-family:'Syne',sans-serif;font-weight:800;font-size:16px;margin-bottom:8px;">Aucun ami mutuel pour l'instant</div>
+          <div style="font-size:13px;color:var(--muted2);line-height:1.6;">Suis des danseurs et attend qu'ils te suivent en retour pour pouvoir leur écrire</div>
+          <button onclick="showPage('network')" style="margin-top:20px;padding:12px 24px;border-radius:12px;background:var(--green);color:#080810;font-weight:800;font-size:13px;border:none;cursor:pointer;font-family:'Syne',sans-serif;">Explorer le réseau →</button>
+        </div>`;
+      return;
+    }
+
+    // Afficher les conversations
+    list.innerHTML = amisMutuels.map(ami => {
+      const nom = ami.nomAffiche || ami.nom || ami.pseudo || 'Artiste';
+      const convId = [window._currentUid, ami.uid].sort().join('_');
+      return `
+        <div onclick="ouvrirConversation('${ami.uid}','${nom}','${ami.photo || ''}')"
+          style="display:flex;align-items:center;gap:14px;padding:16px;background:var(--card);border:1px solid var(--border);border-radius:18px;margin-bottom:10px;cursor:pointer;transition:all 0.2s;"
+          onmouseover="this.style.borderColor='rgba(0,245,155,0.2)'"
+          onmouseout="this.style.borderColor='var(--border)'">
+          <div style="width:52px;height:52px;border-radius:16px;background:linear-gradient(135deg,var(--green),var(--purple));display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0;overflow:hidden;position:relative;">
+            ${ami.photo ? `<img src="${ami.photo}" style="width:100%;height:100%;object-fit:cover;position:absolute;inset:0;border-radius:16px;">` : '💃'}
+          </div>
+          <div style="flex:1;min-width:0;">
+            <div style="font-family:'Syne',sans-serif;font-weight:800;font-size:15px;">${nom}</div>
+            <div style="font-size:12px;color:var(--muted2);margin-top:2px;">📍 ${ami.zone || ''}</div>
+          </div>
+          <div style="font-size:20px;color:var(--muted);">→</div>
+        </div>`;
+    }).join('');
+
+  } catch(e) {
+    console.error('Erreur messagerie:', e);
+  }
+}
+
+async function ouvrirConversation(uid, nom, photo) {
+  convOuverte = uid;
+  document.getElementById('conv-name').textContent = nom;
+
+  const convEl = document.getElementById('msg-conversation');
+  convEl.style.display = 'flex';
+
+  // Charger les messages
+  await chargerMessagesConv(uid);
+
+  // Écouter en temps réel
+  const convId = [window._currentUid, uid].sort().join('_');
+  try {
+    const { collection, query, orderBy, onSnapshot } = await import(
+      'https://www.gstatic.com/firebasejs/10.0.0/firebase-firestore.js'
+    );
+    window._msgListener = onSnapshot(
+      query(collection(window._db, 'conversations', convId, 'messages'), orderBy('date', 'asc')),
+      snap => afficherMessages(snap.docs.map(d => d.data()))
+    );
+  } catch(e) { console.error(e); }
+}
+
+function fermerConversation() {
+  document.getElementById('msg-conversation').style.display = 'none';
+  convOuverte = null;
+  if (window._msgListener) { window._msgListener(); window._msgListener = null; }
+}
+
+async function chargerMessagesConv(uid) {
+  try {
+    const { collection, query, orderBy, getDocs } = await import(
+      'https://www.gstatic.com/firebasejs/10.0.0/firebase-firestore.js'
+    );
+    const convId = [window._currentUid, uid].sort().join('_');
+    const snap = await getDocs(query(
+      collection(window._db, 'conversations', convId, 'messages'),
+      orderBy('date', 'asc')
+    ));
+    afficherMessages(snap.docs.map(d => d.data()));
+  } catch(e) { console.error(e); }
+}
+
+function afficherMessages(msgs) {
+  const container = document.getElementById('messages-container');
+  if (!container) return;
+  container.innerHTML = msgs.length === 0
+    ? '<div style="text-align:center;color:var(--muted);font-size:13px;margin-top:40px;">Commencez la conversation ! 👋</div>'
+    : msgs.map(m => {
+        const estMoi = m.de === window._currentUid;
+        const date = new Date(m.date).toLocaleTimeString('fr-FR', { hour:'2-digit', minute:'2-digit' });
+        return `
+          <div style="display:flex;flex-direction:column;align-items:${estMoi ? 'flex-end' : 'flex-start'};">
+            <div style="max-width:75%;padding:12px 16px;border-radius:${estMoi ? '18px 18px 4px 18px' : '18px 18px 18px 4px'};background:${estMoi ? 'var(--green)' : 'var(--card2)'};color:${estMoi ? '#080810' : 'var(--text)'};font-size:14px;line-height:1.5;">${m.texte}</div>
+            <div style="font-size:10px;color:var(--muted);margin-top:4px;">${date}</div>
+          </div>`;
+      }).join('');
+  container.scrollTop = container.scrollHeight;
+}
+
+window.envoyerMessage = async function() {
+  const input = document.getElementById('msg-input');
+  const texte = input?.value.trim();
+  if (!texte || !convOuverte || !window._currentUid) return;
+
+  input.value = '';
+
+  try {
+    const { collection, addDoc, doc, setDoc, serverTimestamp } = await import(
+      'https://www.gstatic.com/firebasejs/10.0.0/firebase-firestore.js'
+    );
+    const convId = [window._currentUid, convOuverte].sort().join('_');
+
+    // Créer la conversation si elle n'existe pas
+    await setDoc(doc(window._db, 'conversations', convId), {
+      participants: [window._currentUid, convOuverte],
+      dernierMessage: texte,
+      date: new Date().toISOString()
+    }, { merge: true });
+
+    // Ajouter le message
+    await addDoc(collection(window._db, 'conversations', convId, 'messages'), {
+      de: window._currentUid,
+      texte,
+      date: new Date().toISOString(),
+      lu: false
+    });
+
+    // Notifier le destinataire
+    const { updateDoc, arrayUnion } = await import(
+      'https://www.gstatic.com/firebasejs/10.0.0/firebase-firestore.js'
+    );
+    await updateDoc(doc(window._db, 'danseurs', convOuverte), {
+      notifications: arrayUnion({
+        type: 'nouveau_message',
+        de: window._currentUid,
+        date: new Date().toISOString(),
+        lu: false
+      })
+    });
+
+  } catch(e) { console.error('Erreur envoi:', e); }
+}
+
+// Charger messages quand on clique sur l'onglet
+document.addEventListener('click', function(e) {
+  const btn = e.target.closest('[onclick]');
+  if (btn && btn.getAttribute('onclick')?.includes("'messages'")) {
+    setTimeout(chargerMessages, 200);
+  }
+});
+
+// ════════════════════════════════
 // CARTE LEAFLET + FIREBASE
 // ════════════════════════════════
 let carte = null;
@@ -2403,7 +2721,10 @@ function afficherListeDanseurs(danseurs) {
           <div class="dc-tags">${styles.map(s => `<span class="dc-tag">${s}</span>`).join('')}</div>
           <div class="dc-zone">📍 ${d.zone || 'Zone non définie'}</div>
         </div>
-        <div class="dc-action">👋</div>
+        <button onclick="event.stopPropagation();toggleSuivre('${d.uid}')" id="btn-suivre-${d.uid}"
+          style="padding:6px 12px;border-radius:10px;font-size:11px;font-weight:800;font-family:'Syne',sans-serif;border:1.5px solid var(--border);background:transparent;color:var(--muted2);cursor:pointer;transition:all 0.2s;white-space:nowrap;">
+          + Suivre
+        </button>
       </div>
     `;
   }).join('');
@@ -2862,6 +3183,7 @@ onAuthStateChanged(auth, async (user) => {
   if (user) {
     console.log('✅ Connecté :', user.email);
     await chargerProfil(user.uid);
+    await chargerAbonnements();
   } else {
     console.log('👤 Non connecté');
     mettreAJourNav(null);
@@ -2936,6 +3258,11 @@ function sauvegarderConf(c,v) { _appellerQuandPret('sauvegarderConf', [c,v]); }
   <button class="mn-item" onclick="showPage('agenda');setMobileActive(this)">
     <span class="mn-ico">📅</span>
     <span class="mn-lbl">Agenda</span>
+  </button>
+  <button class="mn-item" onclick="showPage('messages');setMobileActive(this)" style="position:relative;">
+    <span class="mn-ico">💬</span>
+    <span class="mn-lbl">Messages</span>
+    <span id="msg-badge-mobile" style="display:none;position:absolute;top:4px;right:10px;background:var(--red);color:#fff;font-size:9px;font-weight:800;padding:2px 5px;border-radius:10px;font-family:'Syne',sans-serif;">0</span>
   </button>
   <button class="mn-item" onclick="showPage('profile');setMobileActive(this)">
     <span class="mn-ico">👤</span>
