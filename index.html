@@ -3,1045 +3,1660 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>DanceBand — App</title>
-<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<title>DanceBand — Le réseau des danseurs</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
-  :root {
-    --bg: #0a0a0f;
-    --card: #13131a;
-    --card2: #1a1a24;
-    --border: rgba(255,255,255,0.07);
-    --green: #00f59b;
-    --yellow: #ffd93d;
-    --red: #ff4d6d;
-    --blue: #4d9fff;
-    --purple: #9b5de5;
-    --text: #f0f0f8;
-    --muted: #6b6b82;
-    --accent: #00f59b;
-  }
-  * { margin:0; padding:0; box-sizing:border-box; }
-  body {
-    background: var(--bg);
-    font-family: 'DM Sans', sans-serif;
-    color: var(--text);
-    min-height: 100vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 20px;
-  }
-  body::before {
-    content:'';
-    position:fixed; inset:0;
-    background: radial-gradient(ellipse 60% 40% at 20% 10%, rgba(0,245,155,0.06) 0%, transparent 70%),
-                radial-gradient(ellipse 50% 50% at 80% 80%, rgba(155,93,229,0.07) 0%, transparent 70%);
-    pointer-events:none;
-  }
+:root {
+  --bg: #080810;
+  --bg2: #0e0e1a;
+  --card: #12121f;
+  --card2: #1a1a2e;
+  --border: rgba(255,255,255,0.06);
+  --green: #00f59b;
+  --yellow: #ffd93d;
+  --red: #ff4d6d;
+  --blue: #4d9fff;
+  --purple: #9b5de5;
+  --text: #f0f0f8;
+  --muted: #5a5a72;
+  --muted2: #8a8aa2;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{
+  background:var(--bg);
+  font-family:'DM Sans',sans-serif;
+  color:var(--text);
+  overflow-x:hidden;
+}
+body::before{
+  content:'';
+  position:fixed;inset:0;
+  background:
+    radial-gradient(ellipse 80% 50% at 0% 0%,rgba(0,245,155,0.04) 0%,transparent 60%),
+    radial-gradient(ellipse 60% 60% at 100% 100%,rgba(155,93,229,0.05) 0%,transparent 60%);
+  pointer-events:none;z-index:0;
+}
 
-  /* PHONE SHELL */
-  .phone {
-    width: 375px;
-    height: 812px;
-    background: #08080d;
-    border-radius: 48px;
-    border: 1.5px solid rgba(255,255,255,0.1);
-    box-shadow: 0 40px 120px rgba(0,0,0,0.8), 0 0 0 1px rgba(255,255,255,0.04), inset 0 1px 0 rgba(255,255,255,0.08);
-    overflow: hidden;
-    position: relative;
-    display: flex;
-    flex-direction: column;
-  }
+/* ── NOISE TEXTURE ── */
+body::after{
+  content:'';
+  position:fixed;inset:0;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+  pointer-events:none;z-index:0;opacity:0.4;
+}
 
-  /* NOTCH */
-  .notch {
-    position: absolute; top: 0; left: 50%; transform: translateX(-50%);
-    width: 120px; height: 32px;
-    background: #08080d;
-    border-radius: 0 0 20px 20px;
-    z-index: 100;
-    display: flex; align-items: center; justify-content: center; gap: 8px;
-  }
-  .notch-cam { width: 10px; height: 10px; background: #1a1a24; border-radius: 50%; border: 1.5px solid #2a2a3a; }
-  .notch-mic { width: 40px; height: 5px; background: #1a1a24; border-radius: 3px; }
+/* ── NAV ── */
+nav{
+  position:fixed;top:0;left:0;right:0;z-index:100;
+  padding:0 5%;
+  height:70px;
+  display:flex;align-items:center;justify-content:space-between;
+  background:rgba(8,8,16,0.85);
+  backdrop-filter:blur(20px);
+  border-bottom:1px solid var(--border);
+}
+.logo{
+  font-family:'Syne',sans-serif;
+  font-size:28px;
+  letter-spacing:3px;
+  color:var(--green);
+  text-decoration:none;
+  display:flex;align-items:center;gap:10px;
+}
+.logo-dot{
+  width:8px;height:8px;border-radius:50%;
+  background:var(--green);
+  box-shadow:0 0 10px var(--green);
+  animation:pulse-dot 2s ease infinite;
+}
+@keyframes pulse-dot{0%,100%{opacity:1;transform:scale(1)}50%{opacity:0.5;transform:scale(0.8)}}
+.nav-links{display:flex;align-items:center;gap:8px;}
+.nav-link{
+  padding:8px 18px;border-radius:8px;
+  font-size:14px;font-weight:600;
+  color:var(--muted2);text-decoration:none;
+  transition:all 0.2s;letter-spacing:0.5px;
+}
+.nav-link:hover{color:var(--text);}
+.nav-link.active{color:var(--green);}
+.nav-cta{
+  padding:10px 22px;border-radius:10px;
+  background:var(--green);color:#080810;
+  font-weight:700;font-size:14px;
+  text-decoration:none;letter-spacing:0.5px;
+  transition:all 0.2s;
+}
+.nav-cta:hover{background:#00d485;transform:translateY(-1px);}
+.nav-burger{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:5px;}
+.nav-burger span{width:24px;height:2px;background:var(--text);border-radius:2px;transition:all 0.3s;}
 
-  /* STATUS BAR */
-  .status-bar {
-    height: 44px;
-    padding: 0 24px;
-    display: flex; align-items: center; justify-content: space-between;
-    flex-shrink: 0;
-    position: relative; z-index: 10;
-  }
-  .status-time { font-family: 'Syne', sans-serif; font-size: 14px; font-weight: 700; }
-  .status-icons { display: flex; gap: 6px; align-items: center; font-size: 11px; color: var(--muted); }
+/* ── PAGES ── */
+.page{display:none;min-height:100vh;padding-top:70px;position:relative;z-index:1;}
+.page.active{display:block;}
 
-  /* SCREENS */
-  .screens { flex: 1; overflow: hidden; position: relative; }
-  .screen {
-    position: absolute; inset: 0;
-    overflow-y: auto; overflow-x: hidden;
-    padding-bottom: 80px;
-    opacity: 0; pointer-events: none;
-    transform: translateX(30px);
-    transition: opacity 0.3s ease, transform 0.3s ease;
-    scrollbar-width: none;
-  }
-  .screen::-webkit-scrollbar { display: none; }
-  .screen.active {
-    opacity: 1; pointer-events: all;
-    transform: translateX(0);
-  }
+/* ══════════════════════════════
+   PAGE: ACCUEIL
+══════════════════════════════ */
+.hero{
+  min-height:calc(100vh - 70px);
+  display:flex;align-items:center;
+  padding:0 5%;
+  position:relative;overflow:hidden;
+}
+.hero-grid{
+  position:absolute;inset:0;
+  background:
+    linear-gradient(rgba(0,245,155,0.03) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(0,245,155,0.03) 1px,transparent 1px);
+  background-size:60px 60px;
+}
+.hero-content{max-width:700px;position:relative;z-index:1;}
+.hero-badge{
+  display:inline-flex;align-items:center;gap:8px;
+  padding:8px 16px;border-radius:20px;
+  background:rgba(0,245,155,0.08);
+  border:1px solid rgba(0,245,155,0.2);
+  font-size:12px;font-weight:700;color:var(--green);
+  letter-spacing:2px;text-transform:uppercase;
+  margin-bottom:32px;
+}
+.hero-title{
+  font-family:'Syne',sans-serif;
+  font-size:clamp(60px,10vw,120px);
+  line-height:0.9;
+  letter-spacing:2px;
+  margin-bottom:24px;
+}
+.hero-title span{
+  display:block;
+  -webkit-text-stroke:1px rgba(255,255,255,0.15);
+  color:transparent;
+}
+.hero-title span.filled{color:var(--text);-webkit-text-stroke:none;}
+.hero-title span.accent{color:var(--green);-webkit-text-stroke:none;}
+.hero-sub{
+  font-size:18px;color:var(--muted2);
+  line-height:1.7;max-width:500px;
+  margin-bottom:40px;font-weight:400;
+}
+.hero-actions{display:flex;gap:16px;flex-wrap:wrap;align-items:center;}
+.btn-primary{
+  padding:16px 36px;border-radius:12px;
+  background:var(--green);color:#080810;
+  font-weight:800;font-size:16px;
+  text-decoration:none;letter-spacing:0.5px;
+  transition:all 0.2s;border:none;cursor:pointer;
+  font-family:'DM Sans',sans-serif;
+}
+.btn-primary:hover{background:#00d485;transform:translateY(-2px);box-shadow:0 12px 40px rgba(0,245,155,0.3);}
+.btn-secondary{
+  padding:16px 36px;border-radius:12px;
+  background:transparent;color:var(--text);
+  font-weight:700;font-size:16px;
+  text-decoration:none;letter-spacing:0.5px;
+  transition:all 0.2s;
+  border:1.5px solid var(--border);cursor:pointer;
+  font-family:'DM Sans',sans-serif;
+}
+.btn-secondary:hover{border-color:var(--muted2);background:rgba(255,255,255,0.03);}
+.hero-stats{
+  display:flex;gap:48px;margin-top:60px;
+  padding-top:40px;border-top:1px solid var(--border);
+  flex-wrap:wrap;
+}
+.hero-stat-val{
+  font-family:'Syne',sans-serif;
+  font-size:48px;color:var(--green);line-height:1;
+}
+.hero-stat-label{font-size:13px;color:var(--muted);margin-top:4px;letter-spacing:1px;text-transform:uppercase;}
+.hero-visual{
+  position:absolute;right:5%;top:50%;transform:translateY(-50%);
+  width:420px;height:420px;
+  display:flex;align-items:center;justify-content:center;
+}
+.hero-ring{
+  position:absolute;border-radius:50%;
+  border:1px solid rgba(0,245,155,0.1);
+  animation:rotate 20s linear infinite;
+}
+.hero-ring:nth-child(1){width:100%;height:100%;}
+.hero-ring:nth-child(2){width:75%;height:75%;animation-direction:reverse;animation-duration:15s;}
+.hero-ring:nth-child(3){width:50%;height:50%;animation-duration:10s;}
+@keyframes rotate{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
+.hero-center{
+  width:120px;height:120px;border-radius:30px;
+  background:linear-gradient(135deg,var(--green),var(--purple));
+  display:flex;align-items:center;justify-content:center;
+  font-size:48px;position:relative;z-index:1;
+  box-shadow:0 0 80px rgba(0,245,155,0.3);
+}
+.hero-dot{
+  position:absolute;
+  width:40px;height:40px;border-radius:12px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:18px;
+}
 
-  /* NAV */
-  .nav {
-    position: absolute; bottom: 0; left: 0; right: 0;
-    height: 80px;
-    background: rgba(13,13,20,0.95);
-    backdrop-filter: blur(20px);
-    border-top: 1px solid var(--border);
-    display: flex; align-items: center; justify-content: space-around;
-    padding: 0 8px 16px;
-    z-index: 50;
-  }
-  .nav-item {
-    display: flex; flex-direction: column; align-items: center; gap: 4px;
-    cursor: pointer; padding: 8px 16px; border-radius: 16px;
-    transition: all 0.2s;
-    border: none; background: transparent; color: var(--muted);
-  }
-  .nav-item.active { color: var(--green); background: rgba(0,245,155,0.08); }
-  .nav-icon { font-size: 20px; line-height:1; }
-  .nav-label { font-size: 10px; font-weight: 500; font-family: 'Syne', sans-serif; }
+/* FEATURES */
+.features{padding:100px 5%;}
+.section-header{text-align:center;margin-bottom:64px;}
+.section-tag{
+  display:inline-block;
+  font-family:'Syne',sans-serif;
+  font-size:12px;font-weight:700;
+  letter-spacing:3px;text-transform:uppercase;
+  color:var(--green);margin-bottom:16px;
+}
+.section-title{
+  font-family:'Syne',sans-serif;
+  font-size:clamp(40px,6vw,72px);
+  letter-spacing:2px;line-height:1;
+  margin-bottom:16px;
+}
+.section-sub{font-size:16px;color:var(--muted2);max-width:500px;margin:0 auto;}
+.features-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(300px,1fr));
+  gap:24px;
+}
+.feature-card{
+  background:var(--card);border:1px solid var(--border);
+  border-radius:24px;padding:32px;
+  transition:all 0.3s;position:relative;overflow:hidden;
+}
+.feature-card::before{
+  content:'';position:absolute;inset:0;
+  background:radial-gradient(circle at 0% 0%,rgba(0,245,155,0.05) 0%,transparent 60%);
+  opacity:0;transition:opacity 0.3s;
+}
+.feature-card:hover{border-color:rgba(0,245,155,0.2);transform:translateY(-4px);}
+.feature-card:hover::before{opacity:1;}
+.feature-icon{
+  width:56px;height:56px;border-radius:16px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:24px;margin-bottom:20px;
+}
+.feature-title{
+  font-family:'Syne',sans-serif;
+  font-size:22px;font-weight:700;margin-bottom:10px;
+  letter-spacing:0.5px;
+}
+.feature-desc{font-size:14px;color:var(--muted2);line-height:1.7;}
 
-  /* HEADER */
-  .screen-header {
-    padding: 16px 20px 8px;
-    display: flex; align-items: center; justify-content: space-between;
-  }
-  .screen-title { font-family: 'Syne', sans-serif; font-size: 22px; font-weight: 800; }
-  .header-action {
-    width: 36px; height: 36px; border-radius: 12px;
-    background: var(--card2); border: 1px solid var(--border);
-    display: flex; align-items: center; justify-content: center;
-    font-size: 16px; cursor: pointer;
-  }
+/* HOW IT WORKS */
+.how{padding:100px 5%;background:var(--bg2);}
+.steps{display:flex;gap:0;position:relative;flex-wrap:wrap;}
+.steps::before{
+  content:'';position:absolute;
+  top:32px;left:10%;right:10%;height:1px;
+  background:linear-gradient(90deg,transparent,var(--green),transparent);
+}
+.step{flex:1;min-width:200px;text-align:center;padding:0 20px;position:relative;}
+.step-num{
+  width:64px;height:64px;border-radius:20px;
+  background:var(--card);border:1px solid rgba(0,245,155,0.3);
+  display:flex;align-items:center;justify-content:center;
+  font-family:'Syne',sans-serif;font-size:28px;color:var(--green);
+  margin:0 auto 20px;position:relative;z-index:1;
+}
+.step-title{font-family:'Syne',sans-serif;font-size:18px;font-weight:700;margin-bottom:8px;}
+.step-desc{font-size:14px;color:var(--muted2);line-height:1.6;}
 
-  /* CARDS */
-  .card {
-    background: var(--card); border: 1px solid var(--border);
-    border-radius: 20px; overflow: hidden;
-  }
-  .card-pad { padding: 16px; }
+/* ══════════════════════════════
+   PAGE: INSCRIPTION / CONNEXION
+══════════════════════════════ */
+.auth-page{
+  min-height:calc(100vh - 70px);
+  display:flex;align-items:center;justify-content:center;
+  padding:40px 20px;
+}
+.auth-box{
+  width:100%;max-width:480px;
+  background:var(--card);border:1px solid var(--border);
+  border-radius:28px;padding:40px;
+  position:relative;overflow:hidden;
+}
+.auth-box::before{
+  content:'';position:absolute;top:-60px;right:-60px;
+  width:200px;height:200px;
+  background:radial-gradient(circle,rgba(0,245,155,0.08) 0%,transparent 70%);
+  border-radius:50%;
+}
+.auth-tabs{
+  display:flex;gap:0;margin-bottom:32px;
+  background:var(--bg);border-radius:12px;padding:4px;
+}
+.auth-tab{
+  flex:1;padding:10px;border-radius:9px;
+  font-weight:700;font-size:14px;letter-spacing:0.5px;
+  border:none;background:transparent;color:var(--muted2);
+  cursor:pointer;transition:all 0.2s;font-family:'DM Sans',sans-serif;
+}
+.auth-tab.active{background:var(--card2);color:var(--text);}
+.auth-title{
+  font-family:'Syne',sans-serif;
+  font-size:36px;letter-spacing:2px;margin-bottom:8px;
+}
+.auth-sub{font-size:14px;color:var(--muted2);margin-bottom:28px;}
+.form-group{margin-bottom:18px;}
+.form-label{
+  display:block;font-size:12px;font-weight:700;
+  color:var(--muted2);letter-spacing:1px;text-transform:uppercase;
+  margin-bottom:8px;
+}
+.form-input{
+  width:100%;padding:14px 16px;border-radius:12px;
+  background:var(--bg);border:1.5px solid var(--border);
+  color:var(--text);font-size:15px;font-family:'DM Sans',sans-serif;
+  transition:border-color 0.2s;outline:none;
+}
+.form-input:focus{border-color:var(--green);}
+.form-input::placeholder{color:var(--muted);}
+.form-select{
+  width:100%;padding:14px 16px;border-radius:12px;
+  background:var(--bg);border:1.5px solid var(--border);
+  color:var(--text);font-size:15px;font-family:'DM Sans',sans-serif;
+  outline:none;cursor:pointer;
+}
+.form-select option{background:var(--bg2);}
+.styles-grid{display:flex;flex-wrap:wrap;gap:8px;margin-top:4px;}
+.style-tag{
+  padding:7px 14px;border-radius:20px;font-size:12px;font-weight:700;
+  border:1.5px solid var(--border);background:transparent;
+  color:var(--muted2);cursor:pointer;transition:all 0.15s;
+  font-family:'DM Sans',sans-serif;
+}
+.style-tag.selected{
+  background:rgba(0,245,155,0.1);border-color:var(--green);color:var(--green);
+}
+.form-submit{
+  width:100%;padding:16px;border-radius:12px;
+  background:var(--green);color:#080810;
+  font-weight:800;font-size:16px;border:none;
+  cursor:pointer;transition:all 0.2s;
+  font-family:'DM Sans',sans-serif;margin-top:8px;
+}
+.form-submit:hover{background:#00d485;transform:translateY(-1px);}
+.auth-divider{
+  text-align:center;font-size:13px;color:var(--muted);
+  margin:20px 0;position:relative;
+}
+.auth-divider::before,.auth-divider::after{
+  content:'';position:absolute;top:50%;width:40%;height:1px;
+  background:var(--border);
+}
+.auth-divider::before{left:0;}
+.auth-divider::after{right:0;}
 
-  /* MAP SCREEN */
-  .map-container {
-    margin: 0 20px; border-radius: 24px; overflow: hidden;
-    height: 280px; position: relative;
-    background: #0f1520;
-    border: 1px solid var(--border);
-  }
-  .map-bg {
-    position: absolute; inset: 0;
-    background:
-      linear-gradient(rgba(0,245,155,0.03) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(0,245,155,0.03) 1px, transparent 1px);
-    background-size: 30px 30px;
-  }
-  .map-glow {
-    position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%);
-    width: 200px; height: 200px;
-    background: radial-gradient(circle, rgba(0,245,155,0.08) 0%, transparent 70%);
-    border-radius: 50%;
-    border: 1px dashed rgba(0,245,155,0.15);
-  }
-  .map-zone-label {
-    position: absolute; top: 12px; left: 12px;
-    background: rgba(0,245,155,0.12); border: 1px solid rgba(0,245,155,0.3);
-    color: var(--green); padding: 4px 10px; border-radius: 20px;
-    font-size: 11px; font-weight: 600; font-family: 'Syne', sans-serif;
-  }
-  .map-dot {
-    position: absolute; width: 36px; height: 36px;
-    transform: translate(-50%,-50%);
-  }
-  .map-dot-inner {
-    width: 36px; height: 36px; border-radius: 50%;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 14px; font-weight: 700;
-    border: 2px solid rgba(255,255,255,0.2);
-    box-shadow: 0 4px 12px rgba(0,0,0,0.5);
-    position: relative;
-  }
-  .map-dot-inner::after {
-    content:''; position: absolute;
-    inset: -4px; border-radius: 50%;
-    border: 1.5px solid currentColor;
-    opacity: 0.3;
-    animation: pulse-ring 2s ease infinite;
-  }
-  @keyframes pulse-ring {
-    0% { transform: scale(1); opacity: 0.3; }
-    100% { transform: scale(1.5); opacity: 0; }
-  }
-  .dot-green { background: #0d2b1e; color: var(--green); border-color: var(--green); }
-  .dot-yellow { background: #2b2510; color: var(--yellow); border-color: var(--yellow); }
-  .dot-blue { background: #0d1e2b; color: var(--blue); border-color: var(--blue); }
-  .dot-purple { background: #1a0d2b; color: var(--purple); border-color: var(--purple); }
-  .map-event-pin {
-    position: absolute; transform: translate(-50%, -100%);
-    background: var(--red); color: white;
-    padding: 4px 8px; border-radius: 8px;
-    font-size: 10px; font-weight: 700; font-family: 'Syne', sans-serif;
-    white-space: nowrap;
-  }
-  .map-event-pin::after {
-    content:''; position: absolute; bottom: -4px; left: 50%; transform: translateX(-50%);
-    border: 4px solid transparent; border-top-color: var(--red);
-    border-bottom: none;
-  }
-  .map-controls {
-    position: absolute; bottom: 12px; right: 12px;
-    display: flex; flex-direction: column; gap: 6px;
-  }
-  .map-btn {
-    width: 32px; height: 32px; border-radius: 10px;
-    background: rgba(13,13,20,0.9); border: 1px solid var(--border);
-    display: flex; align-items: center; justify-content: center;
-    font-size: 14px; cursor: pointer;
-  }
+/* ══════════════════════════════
+   PAGE: RÉSEAU (CARTE)
+══════════════════════════════ */
+.network-layout{
+  display:grid;
+  grid-template-columns:320px 1fr;
+  height:calc(100vh - 70px);
+}
+.network-sidebar{
+  background:var(--card);border-right:1px solid var(--border);
+  overflow-y:auto;scrollbar-width:thin;
+  scrollbar-color:var(--border) transparent;
+}
+.sidebar-header{
+  padding:20px;border-bottom:1px solid var(--border);
+  position:sticky;top:0;background:var(--card);z-index:10;
+}
+.sidebar-title{
+  font-family:'Syne',sans-serif;
+  font-size:24px;letter-spacing:2px;margin-bottom:12px;
+}
+.search-input{
+  width:100%;padding:10px 14px;border-radius:10px;
+  background:var(--bg);border:1.5px solid var(--border);
+  color:var(--text);font-size:14px;font-family:'DM Sans',sans-serif;
+  outline:none;transition:border-color 0.2s;
+}
+.search-input:focus{border-color:var(--green);}
+.filter-row{display:flex;gap:6px;margin-top:10px;overflow-x:auto;scrollbar-width:none;padding-bottom:2px;}
+.filter-chip{
+  padding:5px 12px;border-radius:20px;font-size:11px;font-weight:700;
+  border:1.5px solid var(--border);background:transparent;
+  color:var(--muted2);cursor:pointer;white-space:nowrap;
+  transition:all 0.15s;font-family:'DM Sans',sans-serif;
+}
+.filter-chip.on{background:rgba(0,245,155,0.08);border-color:var(--green);color:var(--green);}
+.dancer-list{padding:12px;}
+.dancer-card{
+  display:flex;align-items:center;gap:12px;
+  padding:14px;border-radius:16px;
+  border:1px solid var(--border);
+  background:var(--bg2);margin-bottom:8px;
+  cursor:pointer;transition:all 0.2s;
+}
+.dancer-card:hover{border-color:rgba(0,245,155,0.2);background:rgba(0,245,155,0.03);}
+.dancer-card.featured{border-color:rgba(0,245,155,0.25);background:rgba(0,245,155,0.04);}
+.dc-avatar{
+  width:46px;height:46px;border-radius:14px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:20px;flex-shrink:0;position:relative;
+}
+.dc-dot{
+  position:absolute;bottom:1px;right:1px;
+  width:11px;height:11px;border-radius:50%;
+  border:2px solid var(--card);
+}
+.dc-info{flex:1;min-width:0;}
+.dc-name{font-weight:700;font-size:14px;font-family:'Syne',sans-serif;letter-spacing:0.3px;}
+.dc-tags{display:flex;gap:4px;margin-top:3px;flex-wrap:wrap;}
+.dc-tag{font-size:10px;padding:2px 7px;border-radius:5px;background:rgba(255,255,255,0.05);color:var(--muted2);}
+.dc-zone{font-size:11px;color:var(--muted);margin-top:2px;}
+.dc-action{
+  width:32px;height:32px;border-radius:10px;
+  background:rgba(0,245,155,0.08);border:1px solid rgba(0,245,155,0.2);
+  display:flex;align-items:center;justify-content:center;
+  font-size:14px;flex-shrink:0;
+}
 
-  .zone-selector {
-    margin: 12px 20px 0;
-    display: flex; gap: 8px; flex-wrap: wrap;
-  }
-  .zone-chip {
-    padding: 6px 14px; border-radius: 20px; font-size: 12px;
-    font-family: 'Syne', sans-serif; font-weight: 600;
-    border: 1.5px solid var(--border); background: var(--card);
-    color: var(--muted); cursor: pointer; transition: all 0.2s;
-  }
-  .zone-chip.active {
-    background: rgba(0,245,155,0.1); border-color: var(--green); color: var(--green);
-  }
+/* MAP */
+.map-area{
+  position:relative;overflow:hidden;
+  background:#0a0f1a;
+}
+.map-bg-grid{
+  position:absolute;inset:0;
+  background:
+    linear-gradient(rgba(0,245,155,0.02) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(0,245,155,0.02) 1px,transparent 1px);
+  background-size:40px 40px;
+}
+.map-zone-overlay{
+  position:absolute;
+  top:50%;left:50%;transform:translate(-50%,-50%);
+  width:400px;height:400px;
+  border-radius:50%;
+  border:1px dashed rgba(0,245,155,0.15);
+  background:radial-gradient(circle,rgba(0,245,155,0.04) 0%,transparent 70%);
+}
+.map-controls{
+  position:absolute;top:20px;right:20px;
+  display:flex;flex-direction:column;gap:8px;
+}
+.map-ctrl-btn{
+  width:40px;height:40px;border-radius:12px;
+  background:rgba(10,10,20,0.9);border:1px solid var(--border);
+  display:flex;align-items:center;justify-content:center;
+  font-size:16px;cursor:pointer;color:var(--text);
+  transition:all 0.2s;
+}
+.map-ctrl-btn:hover{border-color:var(--green);color:var(--green);}
+.map-zone-selector{
+  position:absolute;bottom:20px;left:50%;transform:translateX(-50%);
+  display:flex;gap:8px;
+  background:rgba(10,10,20,0.9);border:1px solid var(--border);
+  border-radius:20px;padding:6px;
+}
+.mzs-btn{
+  padding:8px 18px;border-radius:14px;font-size:12px;font-weight:700;
+  border:none;background:transparent;color:var(--muted2);cursor:pointer;
+  transition:all 0.2s;font-family:'DM Sans',sans-serif;
+}
+.mzs-btn.active{background:var(--green);color:#080810;}
+.map-marker{
+  position:absolute;transform:translate(-50%,-50%);
+  cursor:pointer;
+}
+.mm-inner{
+  width:44px;height:44px;border-radius:14px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:18px;border:2px solid currentColor;
+  box-shadow:0 4px 20px rgba(0,0,0,0.5);
+  position:relative;transition:transform 0.2s;
+}
+.mm-inner:hover{transform:scale(1.1);}
+.mm-inner::after{
+  content:'';position:absolute;inset:-5px;border-radius:18px;
+  border:1.5px solid currentColor;opacity:0.2;
+  animation:mm-pulse 2.5s ease infinite;
+}
+@keyframes mm-pulse{0%,100%{transform:scale(1);opacity:.2}50%{transform:scale(1.3);opacity:0}}
+.mm-green{background:#0d2b1e;color:var(--green);}
+.mm-yellow{background:#2b250d;color:var(--yellow);}
+.mm-blue{background:#0d1e2b;color:var(--blue);}
+.mm-purple{background:#1a0d2b;color:var(--purple);}
+.map-event-tag{
+  position:absolute;transform:translate(-50%,-100%);
+  background:var(--red);color:#fff;
+  padding:5px 10px;border-radius:8px;
+  font-size:11px;font-weight:700;white-space:nowrap;
+  font-family:'Syne',sans-serif;letter-spacing:0.5px;
+}
+.map-event-tag::after{
+  content:'';position:absolute;bottom:-4px;left:50%;transform:translateX(-50%);
+  border:4px solid transparent;border-top-color:var(--red);border-bottom:none;
+}
+.map-info-box{
+  position:absolute;top:20px;left:20px;
+  background:rgba(10,10,20,0.95);border:1px solid var(--border);
+  border-radius:16px;padding:16px 20px;
+  backdrop-filter:blur(10px);
+}
+.mib-label{font-size:11px;color:var(--muted);font-weight:700;letter-spacing:1px;text-transform:uppercase;}
+.mib-value{font-family:'Syne',sans-serif;font-size:18px;font-weight:700;margin-top:4px;color:var(--green);}
 
-  .dancers-nearby {
-    margin: 16px 20px 0;
-  }
-  .section-label {
-    font-family: 'Syne', sans-serif; font-size: 12px; font-weight: 700;
-    color: var(--muted); text-transform: uppercase; letter-spacing: 1.5px;
-    margin-bottom: 12px;
-  }
-  .dancer-row {
-    display: flex; align-items: center; gap: 12px;
-    padding: 12px 14px; background: var(--card);
-    border-radius: 16px; margin-bottom: 8px;
-    border: 1px solid var(--border);
-  }
-  .dancer-avatar {
-    width: 42px; height: 42px; border-radius: 14px;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 18px; flex-shrink: 0; position: relative;
-  }
-  .status-dot {
-    position: absolute; bottom: 1px; right: 1px;
-    width: 10px; height: 10px; border-radius: 50%;
-    border: 2px solid var(--card);
-  }
-  .dancer-info { flex: 1; }
-  .dancer-name { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 14px; }
-  .dancer-tags { display: flex; gap: 4px; margin-top: 3px; flex-wrap: wrap; }
-  .tag {
-    font-size: 10px; padding: 2px 7px; border-radius: 6px;
-    background: rgba(255,255,255,0.05); color: var(--muted);
-  }
-  .dancer-dist { font-size: 11px; color: var(--muted); font-weight: 500; }
+/* ══════════════════════════════
+   PAGE: AGENDA
+══════════════════════════════ */
+.agenda-page{padding:40px 5%;}
+.agenda-header{
+  display:flex;align-items:center;justify-content:space-between;
+  margin-bottom:32px;flex-wrap:wrap;gap:16px;
+}
+.agenda-filters{display:flex;gap:8px;flex-wrap:wrap;}
+.agenda-filter{
+  padding:10px 20px;border-radius:20px;font-size:13px;font-weight:700;
+  border:1.5px solid var(--border);background:transparent;
+  color:var(--muted2);cursor:pointer;transition:all 0.2s;
+  font-family:'DM Sans',sans-serif;
+}
+.agenda-filter.on{background:rgba(77,159,255,0.08);border-color:var(--blue);color:var(--blue);}
+.agenda-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(340px,1fr));
+  gap:20px;
+}
+.event-card{
+  background:var(--card);border:1px solid var(--border);
+  border-radius:24px;overflow:hidden;
+  cursor:pointer;transition:all 0.2s;
+}
+.event-card:hover{transform:translateY(-4px);border-color:rgba(255,255,255,0.12);}
+.ec-banner{
+  height:120px;position:relative;
+  display:flex;align-items:flex-end;padding:16px;
+}
+.ec-banner-bg{position:absolute;inset:0;}
+.ec-type{
+  position:relative;z-index:1;
+  padding:5px 12px;border-radius:8px;
+  font-size:11px;font-weight:700;
+  font-family:'Syne',sans-serif;letter-spacing:1px;
+  background:rgba(0,0,0,0.5);backdrop-filter:blur(10px);
+  border:1px solid rgba(255,255,255,0.1);
+}
+.ec-body{padding:20px;}
+.ec-title{
+  font-family:'Syne',sans-serif;
+  font-size:22px;font-weight:800;margin-bottom:10px;letter-spacing:0.5px;
+}
+.ec-meta{display:flex;flex-direction:column;gap:6px;}
+.ec-mi{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--muted2);}
+.ec-foot{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:16px 20px;border-top:1px solid var(--border);
+}
+.ec-attendees{display:flex;align-items:center;gap:8px;}
+.ec-avs{display:flex;}
+.ec-av{
+  width:26px;height:26px;border-radius:8px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:12px;border:2px solid var(--card);
+  margin-left:-6px;
+}
+.ec-av:first-child{margin-left:0;}
+.ec-count{font-size:12px;color:var(--muted2);}
+.ec-price-wrap{display:flex;align-items:center;gap:10px;}
+.ec-price{
+  font-family:'Syne',sans-serif;font-size:24px;
+  letter-spacing:1px;
+}
+.ec-btn{
+  padding:10px 20px;border-radius:10px;
+  font-weight:800;font-size:13px;border:none;cursor:pointer;
+  font-family:'DM Sans',sans-serif;transition:all 0.2s;
+}
+.ec-btn-green{background:var(--green);color:#080810;}
+.ec-btn-blue{background:rgba(77,159,255,0.1);color:var(--blue);border:1px solid var(--blue);}
+.ec-btn-yellow{background:var(--yellow);color:#080810;}
+.ec-btn:hover{transform:translateY(-1px);}
 
-  /* AGENDA */
-  .agenda-filters {
-    display: flex; gap: 8px; padding: 8px 20px 0; overflow-x: auto;
-    scrollbar-width: none;
-  }
-  .agenda-filters::-webkit-scrollbar { display: none; }
-  .filter-pill {
-    padding: 7px 16px; border-radius: 20px; font-size: 12px;
-    font-family: 'Syne', sans-serif; font-weight: 600; white-space: nowrap;
-    border: 1.5px solid var(--border); background: var(--card);
-    color: var(--muted); cursor: pointer; flex-shrink: 0; transition: all 0.2s;
-  }
-  .filter-pill.active {
-    background: rgba(77,159,255,0.12); border-color: var(--blue); color: var(--blue);
-  }
-  .event-card {
-    margin: 12px 20px 0;
-    background: var(--card); border: 1px solid var(--border);
-    border-radius: 20px; overflow: hidden; cursor: pointer;
-    transition: transform 0.15s, border-color 0.15s;
-  }
-  .event-card:active { transform: scale(0.98); }
-  .event-banner {
-    height: 90px; position: relative;
-    display: flex; align-items: flex-end; padding: 12px;
-  }
-  .event-banner-bg { position: absolute; inset: 0; }
-  .event-type-badge {
-    position: relative; z-index: 1;
-    padding: 4px 10px; border-radius: 8px;
-    font-size: 10px; font-weight: 700; font-family: 'Syne', sans-serif;
-    background: rgba(0,0,0,0.5); backdrop-filter: blur(10px);
-    border: 1px solid rgba(255,255,255,0.15);
-  }
-  .event-body { padding: 14px; }
-  .event-title { font-family: 'Syne', sans-serif; font-weight: 800; font-size: 16px; margin-bottom: 8px; }
-  .event-meta { display: flex; gap: 14px; flex-wrap: wrap; }
-  .event-meta-item { display: flex; align-items: center; gap: 5px; font-size: 12px; color: var(--muted); }
-  .event-footer {
-    display: flex; align-items: center; justify-content: space-between;
-    padding: 12px 14px; border-top: 1px solid var(--border);
-  }
-  .attendees { display: flex; }
-  .attendee-avatar {
-    width: 24px; height: 24px; border-radius: 8px;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 10px; border: 2px solid var(--card);
-    margin-left: -6px;
-  }
-  .attendee-avatar:first-child { margin-left: 0; }
-  .attendee-count { font-size: 11px; color: var(--muted); margin-left: 6px; align-self: center; }
-  .ticket-btn {
-    padding: 8px 16px; border-radius: 12px;
-    background: var(--green); color: #0a0a0f;
-    font-family: 'Syne', sans-serif; font-weight: 700; font-size: 12px;
-    border: none; cursor: pointer;
-  }
-  .ticket-btn.secondary {
-    background: rgba(77,159,255,0.12); color: var(--blue); border: 1px solid var(--blue);
-  }
+/* ══════════════════════════════
+   PAGE: PROFIL
+══════════════════════════════ */
+.profile-page{padding:40px 5%;max-width:900px;margin:0 auto;}
+.profile-hero{
+  border-radius:28px;overflow:hidden;
+  background:linear-gradient(135deg,#0d2b1e,#1a0d2b,#0d1a2b);
+  border:1px solid var(--border);padding:40px;
+  position:relative;margin-bottom:24px;
+}
+.profile-hero::before{
+  content:'';position:absolute;top:-80px;right:-80px;
+  width:300px;height:300px;
+  background:radial-gradient(circle,rgba(0,245,155,0.1) 0%,transparent 70%);
+  border-radius:50%;
+}
+.ph-top{display:flex;align-items:flex-start;gap:24px;position:relative;flex-wrap:wrap;}
+.ph-avatar{
+  width:90px;height:90px;border-radius:24px;
+  background:linear-gradient(135deg,var(--green),var(--purple));
+  display:flex;align-items:center;justify-content:center;
+  font-size:40px;flex-shrink:0;
+  box-shadow:0 12px 40px rgba(0,245,155,0.3);
+}
+.ph-info{flex:1;}
+.ph-name{
+  font-family:'Syne',sans-serif;
+  font-size:42px;letter-spacing:2px;line-height:1;
+  font-weight:800;
+}
+.ph-handle{font-size:15px;color:var(--muted2);margin-top:4px;}
+.ph-band{
+  display:inline-flex;align-items:center;gap:8px;
+  margin-top:12px;padding:7px 16px;border-radius:20px;
+  background:rgba(0,245,155,0.08);border:1px solid rgba(0,245,155,0.2);
+  font-size:12px;color:var(--green);font-weight:700;
+}
+.ph-led{
+  width:8px;height:8px;border-radius:50%;
+  background:var(--green);box-shadow:0 0 8px var(--green);
+  animation:blink 2s ease infinite;
+}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.3}}
+.ph-edit{
+  padding:10px 20px;border-radius:10px;
+  background:rgba(255,255,255,0.05);border:1px solid var(--border);
+  color:var(--text);font-weight:700;font-size:13px;
+  cursor:pointer;font-family:'DM Sans',sans-serif;transition:all 0.2s;
+}
+.ph-edit:hover{background:rgba(255,255,255,0.08);}
+.ph-stats{
+  display:flex;gap:0;margin-top:28px;
+  background:rgba(255,255,255,0.03);border-radius:16px;overflow:hidden;
+}
+.ph-stat{flex:1;padding:16px;text-align:center;}
+.ph-stat+.ph-stat{border-left:1px solid var(--border);}
+.ph-stat-v{
+  font-family:'Syne',sans-serif;
+  font-size:32px;color:var(--green);letter-spacing:1px;
+  font-weight:800;
+}
+.ph-stat-l{font-size:11px;color:var(--muted);margin-top:4px;letter-spacing:1px;text-transform:uppercase;font-weight:700;}
 
-  /* PROFILE */
-  .profile-hero {
-    margin: 0 20px; border-radius: 24px; overflow: hidden;
-    background: linear-gradient(135deg, #0d2b1e 0%, #1a0d2b 100%);
-    border: 1px solid var(--border); padding: 24px;
-    position: relative;
-  }
-  .profile-hero::before {
-    content:''; position: absolute; top: -40px; right: -40px;
-    width: 160px; height: 160px;
-    background: radial-gradient(circle, rgba(0,245,155,0.15) 0%, transparent 70%);
-    border-radius: 50%;
-  }
-  .profile-top { display: flex; align-items: center; gap: 16px; position: relative; }
-  .profile-avatar {
-    width: 64px; height: 64px; border-radius: 20px;
-    background: linear-gradient(135deg, var(--green), var(--purple));
-    display: flex; align-items: center; justify-content: center;
-    font-size: 28px; flex-shrink: 0;
-    box-shadow: 0 8px 24px rgba(0,245,155,0.3);
-  }
-  .profile-name { font-family: 'Syne', sans-serif; font-weight: 800; font-size: 20px; }
-  .profile-handle { font-size: 13px; color: var(--muted); margin-top: 2px; }
-  .bracelet-status {
-    display: inline-flex; align-items: center; gap: 6px;
-    margin-top: 8px; padding: 5px 12px; border-radius: 20px;
-    background: rgba(0,245,155,0.1); border: 1px solid rgba(0,245,155,0.25);
-    font-size: 11px; color: var(--green); font-weight: 600;
-  }
-  .bracelet-led {
-    width: 8px; height: 8px; border-radius: 50%;
-    background: var(--green);
-    box-shadow: 0 0 6px var(--green);
-    animation: blink 2s ease infinite;
-  }
-  @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.3} }
-  .profile-stats {
-    display: flex; gap: 0; margin-top: 16px; position: relative;
-    background: rgba(255,255,255,0.04); border-radius: 14px; overflow: hidden;
-  }
-  .stat { flex: 1; padding: 12px 8px; text-align: center; }
-  .stat + .stat { border-left: 1px solid var(--border); }
-  .stat-val { font-family: 'Syne', sans-serif; font-weight: 800; font-size: 20px; color: var(--text); }
-  .stat-label { font-size: 10px; color: var(--muted); margin-top: 2px; }
+.profile-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px;}
+.profile-card{
+  background:var(--card);border:1px solid var(--border);
+  border-radius:20px;overflow:hidden;
+}
+.pc-header{
+  padding:16px 20px;border-bottom:1px solid var(--border);
+  display:flex;align-items:center;justify-content:space-between;
+}
+.pc-title{font-family:'Syne',sans-serif;font-weight:700;font-size:16px;letter-spacing:0.5px;}
+.pc-badge{
+  padding:4px 10px;border-radius:8px;
+  font-size:11px;font-weight:700;font-family:'Syne',sans-serif;
+}
+.pcb-amis{background:rgba(255,217,61,0.1);color:var(--yellow);}
+.pcb-pub{background:rgba(0,245,155,0.1);color:var(--green);}
+.priv-row{
+  padding:14px 20px;display:flex;align-items:center;justify-content:space-between;
+  border-bottom:1px solid rgba(255,255,255,0.03);
+}
+.priv-row:last-child{border-bottom:none;}
+.priv-left{display:flex;align-items:center;gap:12px;}
+.priv-ico{font-size:18px;width:24px;text-align:center;}
+.priv-fn{font-size:14px;font-weight:600;}
+.priv-fv{font-size:12px;color:var(--muted2);margin-top:1px;}
+.tg{display:flex;gap:4px;}
+.to{
+  padding:5px 10px;border-radius:7px;font-size:10px;font-weight:800;
+  font-family:'Syne',sans-serif;letter-spacing:0.5px;
+  border:1.5px solid var(--border);background:transparent;
+  color:var(--muted);cursor:pointer;transition:all 0.15s;
+}
+.to.sp{background:rgba(0,245,155,0.1);border-color:var(--green);color:var(--green);}
+.to.sa{background:rgba(255,217,61,0.1);border-color:var(--yellow);color:var(--yellow);}
+.to.sr{background:rgba(255,77,109,0.1);border-color:var(--red);color:var(--red);}
 
-  .privacy-section { margin: 16px 20px 0; }
-  .privacy-card {
-    background: var(--card); border: 1px solid var(--border);
-    border-radius: 20px; overflow: hidden;
-  }
-  .privacy-header {
-    padding: 14px 16px; display: flex; align-items: center; justify-content: space-between;
-    border-bottom: 1px solid var(--border);
-  }
-  .privacy-title { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 14px; }
-  .mode-badge {
-    padding: 4px 10px; border-radius: 8px;
-    font-size: 11px; font-weight: 700; font-family: 'Syne', sans-serif;
-  }
-  .mode-public { background: rgba(0,245,155,0.12); color: var(--green); }
-  .mode-amis { background: rgba(255,217,61,0.12); color: var(--yellow); }
-  .mode-prive { background: rgba(255,77,109,0.12); color: var(--red); }
-  .privacy-row {
-    padding: 14px 16px; display: flex; align-items: center; justify-content: space-between;
-    border-bottom: 1px solid rgba(255,255,255,0.04);
-  }
-  .privacy-row:last-child { border-bottom: none; }
-  .privacy-info { display: flex; align-items: center; gap: 10px; }
-  .privacy-icon { font-size: 18px; width: 24px; text-align: center; }
-  .privacy-field-name { font-size: 14px; font-weight: 500; }
-  .privacy-field-val { font-size: 12px; color: var(--muted); margin-top: 1px; }
-  .toggle-group { display: flex; gap: 4px; }
-  .toggle-opt {
-    padding: 4px 10px; border-radius: 8px; font-size: 10px;
-    font-weight: 700; font-family: 'Syne', sans-serif;
-    border: 1.5px solid var(--border); background: transparent;
-    color: var(--muted); cursor: pointer; transition: all 0.15s;
-  }
-  .toggle-opt.sel-pub { background: rgba(0,245,155,0.12); border-color: var(--green); color: var(--green); }
-  .toggle-opt.sel-ami { background: rgba(255,217,61,0.12); border-color: var(--yellow); color: var(--yellow); }
-  .toggle-opt.sel-priv { background: rgba(255,77,109,0.12); border-color: var(--red); color: var(--red); }
+.zone-opts{padding:16px 20px;display:flex;flex-direction:column;gap:8px;}
+.zo{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:12px 14px;border-radius:12px;
+  background:rgba(255,255,255,0.02);border:1.5px solid var(--border);
+  cursor:pointer;transition:all 0.15s;
+}
+.zo.sel{background:rgba(0,245,155,0.05);border-color:rgba(0,245,155,0.25);}
+.zo-left{display:flex;align-items:center;gap:10px;}
+.zo-n{font-size:14px;font-weight:600;}
+.zo-d{font-size:11px;color:var(--muted2);}
+.zo-check{
+  width:18px;height:18px;border-radius:6px;
+  border:2px solid var(--border);
+  display:flex;align-items:center;justify-content:center;
+  font-size:10px;font-weight:700;
+}
+.zo-check.ok{background:var(--green);border-color:var(--green);color:#080810;}
+.dispo-wrap{padding:0 20px 16px;}
+.dispo-label{font-size:11px;color:var(--muted2);font-weight:700;letter-spacing:1px;text-transform:uppercase;margin-bottom:8px;}
+.dispo-chips{display:flex;gap:6px;flex-wrap:wrap;}
+.dchip{
+  padding:7px 14px;border-radius:20px;font-size:12px;font-weight:700;
+  border:1.5px solid var(--border);background:transparent;
+  color:var(--muted2);cursor:pointer;transition:all 0.15s;
+  font-family:'DM Sans',sans-serif;
+}
+.dchip.on{background:rgba(155,93,229,0.1);border-color:var(--purple);color:var(--purple);}
 
-  .zone-section { margin: 16px 20px 0; }
-  .zone-card {
-    background: var(--card); border: 1px solid var(--border);
-    border-radius: 20px; padding: 16px;
-  }
-  .zone-title { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 14px; margin-bottom: 12px; }
-  .zone-options { display: flex; flex-direction: column; gap: 8px; }
-  .zone-option {
-    display: flex; align-items: center; justify-content: space-between;
-    padding: 10px 14px; border-radius: 14px;
-    background: rgba(255,255,255,0.03); border: 1.5px solid var(--border);
-    cursor: pointer; transition: all 0.15s;
-  }
-  .zone-option.selected {
-    background: rgba(0,245,155,0.07); border-color: rgba(0,245,155,0.3);
-  }
-  .zone-opt-left { display: flex; align-items: center; gap: 10px; }
-  .zone-opt-icon { font-size: 16px; }
-  .zone-opt-name { font-size: 13px; font-weight: 600; font-family: 'Syne', sans-serif; }
-  .zone-opt-desc { font-size: 11px; color: var(--muted); }
-  .zone-check { width: 18px; height: 18px; border-radius: 6px;
-    border: 2px solid var(--border); display: flex; align-items: center; justify-content: center; }
-  .zone-check.checked { background: var(--green); border-color: var(--green); font-size: 10px; }
-  .dispo-slider { margin-top: 12px; }
-  .dispo-label { font-size: 12px; color: var(--muted); margin-bottom: 8px; }
-  .dispo-chips { display: flex; gap: 6px; flex-wrap: wrap; }
-  .dispo-chip {
-    padding: 6px 12px; border-radius: 20px; font-size: 11px;
-    font-family: 'Syne', sans-serif; font-weight: 600;
-    border: 1.5px solid var(--border); background: var(--card2); color: var(--muted);
-    cursor: pointer; transition: all 0.15s;
-  }
-  .dispo-chip.active { background: rgba(155,93,229,0.12); border-color: var(--purple); color: var(--purple); }
+/* ══════════════════════════════
+   PAGE: CLASSEMENT
+══════════════════════════════ */
+.ranking-page{padding:40px 5%;max-width:900px;margin:0 auto;}
+.rk-hero{
+  border-radius:28px;padding:40px;
+  background:linear-gradient(135deg,#1a0d2b,#0d1a2b);
+  border:1px solid var(--border);
+  display:flex;align-items:center;gap:40px;
+  margin-bottom:32px;flex-wrap:wrap;
+}
+.rk-pos-wrap{text-align:center;}
+.rk-pos{
+  font-family:'Syne',sans-serif;
+  font-size:96px;color:var(--yellow);line-height:1;
+  text-shadow:0 0 40px rgba(255,217,61,0.3);
+}
+.rk-pos-label{font-size:12px;color:var(--muted);letter-spacing:2px;text-transform:uppercase;}
+.rk-info{flex:1;}
+.rk-name{font-family:'Syne',sans-serif;font-size:42px;letter-spacing:2px;}
+.rk-sub{font-size:14px;color:var(--muted2);margin-top:4px;}
+.xp-wrap{margin-top:20px;}
+.xp-label{display:flex;justify-content:space-between;font-size:12px;color:var(--muted2);margin-bottom:8px;}
+.xp-bar-bg{background:rgba(255,255,255,0.05);border-radius:8px;height:10px;overflow:hidden;}
+.xp-bar{height:100%;background:linear-gradient(90deg,var(--purple),var(--green));border-radius:8px;width:72%;animation:xp-grow 1.5s ease;}
+@keyframes xp-grow{from{width:0}}
 
-  /* RANKING */
-  .rank-hero {
-    margin: 0 20px; padding: 20px;
-    background: linear-gradient(135deg, #1a0d2b, #0d1a2b);
-    border-radius: 24px; border: 1px solid var(--border);
-    text-align: center;
-  }
-  .rank-position { font-family: 'Syne', sans-serif; font-size: 48px; font-weight: 800; color: var(--yellow); line-height: 1; }
-  .rank-label { font-size: 12px; color: var(--muted); margin-top: 4px; }
-  .rank-name { font-family: 'Syne', sans-serif; font-size: 18px; font-weight: 700; margin-top: 12px; }
-  .xp-bar-wrap { margin: 14px 0 0; background: rgba(255,255,255,0.05); border-radius: 8px; height: 8px; overflow: hidden; }
-  .xp-bar { height: 100%; background: linear-gradient(90deg, var(--purple), var(--green)); border-radius: 8px; width: 72%; animation: grow 1s ease; }
-  @keyframes grow { from{width:0} }
-  .xp-label { display: flex; justify-content: space-between; font-size: 11px; color: var(--muted); margin-top: 6px; }
-  .badges-section { margin: 16px 20px 0; }
-  .badges-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
-  .badge-card {
-    background: var(--card); border: 1px solid var(--border);
-    border-radius: 16px; padding: 14px 10px; text-align: center;
-  }
-  .badge-icon { font-size: 28px; margin-bottom: 6px; }
-  .badge-name { font-family: 'Syne', sans-serif; font-size: 11px; font-weight: 700; }
-  .badge-val { font-size: 10px; color: var(--muted); margin-top: 2px; }
-  .ranking-list { margin: 16px 20px 0; }
-  .rank-row {
-    display: flex; align-items: center; gap: 12px;
-    padding: 12px 14px; background: var(--card);
-    border-radius: 16px; margin-bottom: 8px; border: 1px solid var(--border);
-  }
-  .rank-num { font-family: 'Syne', sans-serif; font-weight: 800; font-size: 16px; width: 24px; text-align: center; }
-  .rank-avatar { width: 38px; height: 38px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 16px; }
-  .rank-info { flex: 1; }
-  .rank-dname { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 13px; }
-  .rank-pts { font-size: 11px; color: var(--muted); margin-top: 2px; }
-  .rank-badge { font-size: 18px; }
+.badges-section{margin-bottom:32px;}
+.badges-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:12px;}
+.badge-card{
+  background:var(--card);border:1px solid var(--border);
+  border-radius:18px;padding:20px 12px;text-align:center;
+  transition:all 0.2s;
+}
+.badge-card:hover{transform:translateY(-2px);border-color:rgba(255,255,255,0.1);}
+.badge-card.locked{opacity:0.35;}
+.badge-ico{font-size:32px;margin-bottom:8px;}
+.badge-n{font-family:'Syne',sans-serif;font-size:13px;font-weight:700;letter-spacing:0.5px;}
+.badge-v{font-size:11px;color:var(--muted2);margin-top:3px;}
 
-  /* SCROLL INDICATORS */
-  .scroll-hint {
-    text-align: center; padding: 8px; font-size: 11px; color: var(--muted);
-  }
+.rk-tabs{display:flex;gap:8px;margin-bottom:20px;}
+.rk-tab{
+  padding:10px 20px;border-radius:20px;font-size:13px;font-weight:700;
+  border:1.5px solid var(--border);background:transparent;
+  color:var(--muted2);cursor:pointer;transition:all 0.2s;
+  font-family:'DM Sans',sans-serif;
+}
+.rk-tab.on{background:rgba(255,217,61,0.08);border-color:var(--yellow);color:var(--yellow);}
+.rk-list{display:flex;flex-direction:column;gap:10px;}
+.rk-row{
+  display:flex;align-items:center;gap:16px;
+  padding:16px 20px;background:var(--card);
+  border-radius:18px;border:1px solid var(--border);
+  transition:all 0.2s;
+}
+.rk-row:hover{border-color:rgba(255,255,255,0.1);}
+.rk-row.me{border-color:rgba(0,245,155,0.25);background:rgba(0,245,155,0.03);}
+.rk-row.gold{border-color:rgba(255,215,0,0.2);background:rgba(255,215,0,0.02);}
+.rk-num{font-family:'Syne',sans-serif;font-size:24px;width:28px;text-align:center;}
+.rk-av{width:46px;height:46px;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:20px;}
+.rk-dn{font-family:'Syne',sans-serif;font-weight:700;font-size:16px;letter-spacing:0.3px;}
+.rk-pts{font-size:12px;color:var(--muted2);margin-top:2px;}
+.rk-badge-ico{font-size:22px;margin-left:auto;}
+
+/* ── FOOTER ── */
+footer{
+  padding:60px 5% 40px;
+  border-top:1px solid var(--border);
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+  gap:40px;
+}
+.footer-brand .logo{margin-bottom:12px;}
+.footer-desc{font-size:14px;color:var(--muted2);line-height:1.7;max-width:280px;}
+.footer-title{font-family:'Syne',sans-serif;font-weight:700;font-size:14px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:16px;}
+.footer-links{display:flex;flex-direction:column;gap:10px;}
+.footer-link{font-size:14px;color:var(--muted2);text-decoration:none;transition:color 0.2s;}
+.footer-link:hover{color:var(--green);}
+.footer-bottom{
+  padding:20px 5%;border-top:1px solid var(--border);
+  display:flex;justify-content:space-between;align-items:center;
+  flex-wrap:wrap;gap:12px;
+}
+.footer-copy{font-size:13px;color:var(--muted);}
+
+/* ── MOBILE BOTTOM NAV ── */
+.mobile-nav {
+  display: none;
+  position: fixed;
+  bottom: 0; left: 0; right: 0;
+  height: 64px;
+  background: rgba(8,8,16,0.97);
+  backdrop-filter: blur(20px);
+  border-top: 1px solid var(--border);
+  z-index: 200;
+  padding: 0 4px 8px;
+  align-items: center;
+  justify-content: space-around;
+}
+.mn-item {
+  display: flex; flex-direction: column; align-items: center; gap: 3px;
+  cursor: pointer; padding: 6px 12px; border-radius: 12px;
+  border: none; background: transparent; color: var(--muted);
+  transition: all 0.2s; flex: 1;
+}
+.mn-item.active { color: var(--green); background: rgba(0,245,155,0.08); }
+.mn-ico { font-size: 18px; line-height: 1; }
+.mn-lbl { font-size: 9px; font-weight: 700; font-family: 'Barlow Condensed', sans-serif; letter-spacing: 0.5px; text-transform: uppercase; }
+
+/* ── RESPONSIVE ── */
+@media(max-width:900px) {
+  .network-layout { grid-template-columns: 1fr; grid-template-rows: 45vh 45vh; }
+  .profile-grid { grid-template-columns: 1fr; }
+  .hero-visual { display: none; }
+  .nav-links { display: none; }
+  .nav-burger { display: flex; }
+  .rk-hero { flex-direction: column; text-align: center; }
+  .steps::before { display: none; }
+  .steps { flex-direction: column; gap: 32px; }
+  footer { grid-template-columns: 1fr 1fr; }
+}
+
+@media(max-width:768px) {
+  /* Show mobile nav, hide desktop nav */
+  .mobile-nav { display: flex; }
+  nav .nav-cta { display: none; }
+  nav .nav-burger { display: none; }
+
+  /* Add padding for mobile nav */
+  .page { padding-bottom: 64px; }
+
+  /* Hero */
+  .hero { padding: 40px 5% 60px; min-height: auto; }
+  .hero-title { font-size: clamp(48px, 14vw, 80px); }
+  .hero-sub { font-size: 15px; }
+  .hero-stats { gap: 20px; }
+  .hero-stat-val { font-size: 36px; }
+  .btn-primary, .btn-secondary { padding: 14px 24px; font-size: 14px; }
+
+  /* Features */
+  .features { padding: 60px 5%; }
+  .features-grid { grid-template-columns: 1fr; gap: 16px; }
+  .feature-card { padding: 24px; }
+  .section-title { font-size: clamp(32px, 8vw, 56px); }
+
+  /* How */
+  .how { padding: 60px 5%; }
+
+  /* Network */
+  .network-layout { grid-template-rows: auto; grid-template-columns: 1fr; height: auto; }
+  .network-sidebar { max-height: 50vh; }
+  .map-area { height: 50vh; }
+  .map-zone-selector { bottom: 10px; gap: 4px; }
+  .mzs-btn { padding: 6px 12px; font-size: 11px; }
+
+  /* Agenda */
+  .agenda-page { padding: 24px 4%; }
+  .agenda-header { flex-direction: column; align-items: flex-start; gap: 12px; }
+  .agenda-grid { grid-template-columns: 1fr; gap: 16px; }
+
+  /* Profile */
+  .profile-page { padding: 24px 4%; }
+  .profile-hero { padding: 24px; }
+  .ph-top { flex-wrap: wrap; gap: 16px; }
+  .ph-avatar { width: 70px; height: 70px; font-size: 32px; border-radius: 20px; }
+  .ph-name { font-size: 32px; }
+  .ph-stats { flex-wrap: wrap; }
+  .ph-stat { min-width: 50%; border-bottom: 1px solid var(--border); }
+  .ph-stat:last-child, .ph-stat:nth-last-child(2) { border-bottom: none; }
+  .ph-edit { width: 100%; margin-top: 8px; }
+  .profile-grid { grid-template-columns: 1fr; gap: 14px; }
+
+  /* Ranking */
+  .ranking-page { padding: 24px 4%; }
+  .rk-hero { padding: 24px; gap: 20px; }
+  .rk-pos { font-size: 72px; }
+  .rk-name { font-size: 32px; }
+  .badges-grid { grid-template-columns: repeat(3, 1fr); gap: 8px; }
+  .badge-card { padding: 14px 8px; border-radius: 14px; }
+  .badge-ico { font-size: 24px; }
+  .rk-row { padding: 12px 14px; gap: 12px; }
+
+  /* Auth */
+  .auth-box { padding: 28px 24px; border-radius: 24px; }
+  .auth-title { font-size: 32px; }
+
+  /* Footer */
+  footer { grid-template-columns: 1fr; gap: 28px; padding: 40px 5% 80px; }
+  .footer-bottom { flex-direction: column; text-align: center; padding-bottom: 80px; }
+}
+
+@media(max-width:400px) {
+  .hero-title { font-size: 44px; }
+  .hero-actions { flex-direction: column; }
+  .btn-primary, .btn-secondary { width: 100%; text-align: center; }
+  .badges-grid { grid-template-columns: repeat(2, 1fr); }
+  .ph-stat { min-width: 50%; }
+}
+
+/* ── ANIMATIONS ── */
+.fade-in{animation:fadeIn 0.5s ease both;}
+@keyframes fadeIn{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
 </style>
 </head>
 <body>
-<div class="phone">
-  <div class="notch">
-    <div class="notch-mic"></div>
-    <div class="notch-cam"></div>
+
+<!-- ═══ NAV ═══ -->
+<nav>
+  <a class="logo" href="#" onclick="showPage('home')">
+    <div class="logo-dot"></div>
+    DANCEBAND
+  </a>
+  <div class="nav-links">
+    <a class="nav-link active" href="#" onclick="showPage('home');setActive(this)">Accueil</a>
+    <a class="nav-link" href="#" onclick="showPage('network');setActive(this)">Réseau</a>
+    <a class="nav-link" href="#" onclick="showPage('agenda');setActive(this)">Agenda</a>
+    <a class="nav-link" href="#" onclick="showPage('profile');setActive(this)">Profil</a>
+    <a class="nav-link" href="#" onclick="showPage('ranking');setActive(this)">Classement</a>
   </div>
-
-  <div class="status-bar">
-    <span class="status-time">21:34</span>
-    <div class="status-icons">
-      <span>●●●</span>
-      <span>WiFi</span>
-      <span>⚡87%</span>
-    </div>
+  <a class="nav-cta" href="#" onclick="showPage('auth')">Rejoindre →</a>
+  <div class="nav-burger" onclick="toggleMobileMenu()">
+    <span></span><span></span><span></span>
   </div>
+</nav>
 
-  <div class="screens">
-
-    <!-- SCREEN: CARTE -->
-    <div class="screen active" id="screen-map">
-      <div class="screen-header">
+<!-- ═══ PAGE: ACCUEIL ═══ -->
+<div class="page active" id="page-home">
+  <section class="hero">
+    <div class="hero-grid"></div>
+    <div class="hero-content fade-in">
+      <div class="hero-badge">
+        <div class="logo-dot"></div>
+        Le réseau des danseurs
+      </div>
+      <h1 class="hero-title">
+        <span class="filled">CONNECT</span>
+        <span>DANCE</span>
+        <span class="accent">MOVE</span>
+      </h1>
+      <p class="hero-sub">Le premier réseau social conçu pour les danseurs. Trouvez des partenaires, découvrez des événements, échangez via votre bracelet connecté.</p>
+      <div class="hero-actions">
+        <a class="btn-primary" href="#" onclick="showPage('auth')">Créer mon profil →</a>
+        <a class="btn-secondary" href="#" onclick="showPage('network')">Explorer le réseau</a>
+      </div>
+      <div class="hero-stats">
         <div>
-          <div class="screen-title">🗺️ Carte</div>
+          <div class="hero-stat-val">2.4K</div>
+          <div class="hero-stat-label">Danseurs actifs</div>
         </div>
-        <div class="header-action">⚙️</div>
-      </div>
-
-      <div class="map-container">
-        <div class="map-bg"></div>
-        <div class="map-glow"></div>
-        <div class="map-zone-label">📍 Paris 11e — Bastille</div>
-
-        <div class="map-dot" style="left:42%;top:45%">
-          <div class="map-dot-inner dot-green">💃</div>
+        <div>
+          <div class="hero-stat-val">180+</div>
+          <div class="hero-stat-label">Événements / mois</div>
         </div>
-        <div class="map-dot" style="left:58%;top:38%">
-          <div class="map-dot-inner dot-yellow">🕺</div>
-        </div>
-        <div class="map-dot" style="left:30%;top:60%">
-          <div class="map-dot-inner dot-blue">💃</div>
-        </div>
-        <div class="map-dot" style="left:70%;top:62%">
-          <div class="map-dot-inner dot-purple">🕺</div>
-        </div>
-        <div class="map-dot" style="left:50%;top:25%">
-          <div class="map-dot-inner dot-green">💃</div>
-        </div>
-
-        <div class="map-event-pin" style="left:55%;top:55%">🎉 Battle Hiphop</div>
-
-        <div class="map-controls">
-          <div class="map-btn">＋</div>
-          <div class="map-btn">－</div>
-          <div class="map-btn">📍</div>
-        </div>
-      </div>
-
-      <div class="zone-selector">
-        <div class="zone-chip">Ville</div>
-        <div class="zone-chip active">Arrondissement</div>
-        <div class="zone-chip">Quartier</div>
-        <div class="zone-chip">5km</div>
-      </div>
-
-      <div class="dancers-nearby">
-        <div class="section-label">Danseurs à proximité</div>
-
-        <div class="dancer-row">
-          <div class="dancer-avatar" style="background:#0d2b1e">
-            💃
-            <div class="status-dot" style="background:var(--green)"></div>
-          </div>
-          <div class="dancer-info">
-            <div class="dancer-name">Sofia M.</div>
-            <div class="dancer-tags">
-              <span class="tag">Salsa</span>
-              <span class="tag">Kizomba</span>
-            </div>
-          </div>
-          <div class="dancer-dist">~400m</div>
-        </div>
-
-        <div class="dancer-row">
-          <div class="dancer-avatar" style="background:#2b2510">
-            🕺
-            <div class="status-dot" style="background:var(--yellow)"></div>
-          </div>
-          <div class="dancer-info">
-            <div class="dancer-name">Marc D.</div>
-            <div class="dancer-tags">
-              <span class="tag">Hip-Hop</span>
-              <span class="tag">Breakdance</span>
-            </div>
-          </div>
-          <div class="dancer-dist">~800m</div>
-        </div>
-
-        <div class="dancer-row">
-          <div class="dancer-avatar" style="background:#1a0d2b">
-            💃
-            <div class="status-dot" style="background:var(--purple)"></div>
-          </div>
-          <div class="dancer-info">
-            <div class="dancer-name">Léa R.</div>
-            <div class="dancer-tags">
-              <span class="tag">Bachata</span>
-              <span class="tag">Zouk</span>
-            </div>
-          </div>
-          <div class="dancer-dist">~1.2km</div>
+        <div>
+          <div class="hero-stat-val">12</div>
+          <div class="hero-stat-label">Styles de danse</div>
         </div>
       </div>
     </div>
+    <div class="hero-visual">
+      <div class="hero-ring"></div>
+      <div class="hero-ring"></div>
+      <div class="hero-ring"></div>
+      <div class="hero-center">💃</div>
+    </div>
+  </section>
 
-    <!-- SCREEN: AGENDA -->
-    <div class="screen" id="screen-agenda">
-      <div class="screen-header">
-        <div class="screen-title">📅 Agenda</div>
-        <div class="header-action">＋</div>
+  <section class="features">
+    <div class="section-header">
+      <div class="section-tag">Fonctionnalités</div>
+      <h2 class="section-title">TOUT CE DONT<br>TU AS BESOIN</h2>
+      <p class="section-sub">Une plateforme complète pensée pour la communauté danse</p>
+    </div>
+    <div class="features-grid">
+      <div class="feature-card">
+        <div class="feature-icon" style="background:rgba(0,245,155,0.1)">🗺️</div>
+        <div class="feature-title">Carte des danseurs</div>
+        <p class="feature-desc">Trouvez des danseurs près de chez vous par zone — sans géolocalisation précise. Vous choisissez ce que vous partagez.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon" style="background:rgba(77,159,255,0.1)">📅</div>
+        <div class="feature-title">Agenda & billetterie</div>
+        <p class="feature-desc">Soirées, cours, battles — tout est là. Réservez vos places directement depuis la plateforme.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon" style="background:rgba(155,93,229,0.1)">⌚</div>
+        <div class="feature-title">Bracelet connecté</div>
+        <p class="feature-desc">Échangez vos profils en approchant vos poignets. LED, vibreur, BLE — la tech au service de la danse.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon" style="background:rgba(255,217,61,0.1)">🏆</div>
+        <div class="feature-title">Classements & niveaux</div>
+        <p class="feature-desc">Progressez, gagnez des badges, montez dans le classement local et national selon votre style.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon" style="background:rgba(255,77,109,0.1)">🔐</div>
+        <div class="feature-title">Confidentialité totale</div>
+        <p class="feature-desc">Chaque info de votre profil a son propre niveau — Public, Amis, ou Privé. Vous contrôlez tout.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon" style="background:rgba(0,245,155,0.1)">🎵</div>
+        <div class="feature-title">Playlists & styles</div>
+        <p class="feature-desc">Partagez vos playlists Spotify, affichez vos styles de danse, trouvez des partenaires compatibles.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="how">
+    <div class="section-header">
+      <div class="section-tag">Comment ça marche</div>
+      <h2 class="section-title">3 ÉTAPES<br>POUR COMMENCER</h2>
+    </div>
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">01</div>
+        <div class="step-title">Créez votre profil</div>
+        <p class="step-desc">Inscrivez-vous, ajoutez vos styles de danse, votre zone et vos disponibilités.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">02</div>
+        <div class="step-title">Explorez le réseau</div>
+        <p class="step-desc">Trouvez des danseurs, découvrez des événements et cours près de chez vous.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">03</div>
+        <div class="step-title">Connectez-vous</div>
+        <p class="step-desc">Échangez vos profils via le bracelet ou le site — et dansez ensemble !</p>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="footer-brand">
+      <div class="logo">
+        <div class="logo-dot"></div>
+        DANCEBAND
+      </div>
+      <p class="footer-desc">Le premier réseau social connecté pour la communauté danse.</p>
+    </div>
+    <div>
+      <div class="footer-title">Navigation</div>
+      <div class="footer-links">
+        <a class="footer-link" href="#" onclick="showPage('network')">Réseau</a>
+        <a class="footer-link" href="#" onclick="showPage('agenda')">Agenda</a>
+        <a class="footer-link" href="#" onclick="showPage('ranking')">Classement</a>
+      </div>
+    </div>
+    <div>
+      <div class="footer-title">Légal</div>
+      <div class="footer-links">
+        <a class="footer-link" href="#">Confidentialité</a>
+        <a class="footer-link" href="#">CGU</a>
+        <a class="footer-link" href="#">RGPD</a>
+      </div>
+    </div>
+  </footer>
+  <div class="footer-bottom">
+    <span class="footer-copy">© 2026 DanceBand — Tous droits réservés</span>
+    <span class="footer-copy">Made with 💚 pour les danseurs</span>
+  </div>
+</div>
+
+<!-- ═══ PAGE: AUTH ═══ -->
+<div class="page" id="page-auth">
+  <div class="auth-page">
+    <div class="auth-box fade-in">
+      <div class="auth-tabs">
+        <button class="auth-tab active" onclick="switchTab(this,'tab-signup')">Inscription</button>
+        <button class="auth-tab" onclick="switchTab(this,'tab-login')">Connexion</button>
       </div>
 
+      <div id="tab-signup">
+        <div class="auth-title">REJOINS<br>DANCEBAND</div>
+        <p class="auth-sub">Crée ton profil en 2 minutes</p>
+        <div class="form-group">
+          <label class="form-label">Pseudo</label>
+          <input class="form-input" type="text" placeholder="@ton_pseudo">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Email</label>
+          <input class="form-input" type="email" placeholder="ton@email.com">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Mot de passe</label>
+          <input class="form-input" type="password" placeholder="••••••••">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Tes styles de danse</label>
+          <div class="styles-grid">
+            <button class="style-tag" onclick="toggleStyle(this)">Salsa</button>
+            <button class="style-tag" onclick="toggleStyle(this)">Kizomba</button>
+            <button class="style-tag" onclick="toggleStyle(this)">Hip-Hop</button>
+            <button class="style-tag" onclick="toggleStyle(this)">Bachata</button>
+            <button class="style-tag" onclick="toggleStyle(this)">Breakdance</button>
+            <button class="style-tag" onclick="toggleStyle(this)">Afro</button>
+            <button class="style-tag" onclick="toggleStyle(this)">Zouk</button>
+            <button class="style-tag" onclick="toggleStyle(this)">Dancehall</button>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Ta zone</label>
+          <select class="form-select">
+            <option>Paris 11e</option>
+            <option>Paris 15e</option>
+            <option>Lyon</option>
+            <option>Marseille</option>
+            <option>Bordeaux</option>
+          </select>
+        </div>
+        <button class="form-submit" onclick="showPage('profile')">Créer mon profil →</button>
+      </div>
+
+      <div id="tab-login" style="display:none">
+        <div class="auth-title">BON<br>RETOUR !</div>
+        <p class="auth-sub">Content de te revoir</p>
+        <div class="form-group">
+          <label class="form-label">Email</label>
+          <input class="form-input" type="email" placeholder="ton@email.com">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Mot de passe</label>
+          <input class="form-input" type="password" placeholder="••••••••">
+        </div>
+        <button class="form-submit" onclick="showPage('network')">Se connecter →</button>
+        <div class="auth-divider">ou</div>
+        <button class="form-submit" style="background:var(--card2);color:var(--text);border:1px solid var(--border);">Continuer avec Google</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ PAGE: RÉSEAU ═══ -->
+<div class="page" id="page-network">
+  <div class="network-layout">
+    <div class="network-sidebar">
+      <div class="sidebar-header">
+        <div class="sidebar-title">RÉSEAU</div>
+        <input class="search-input" type="text" placeholder="🔍 Rechercher un danseur...">
+        <div class="filter-row">
+          <button class="filter-chip on">Tous</button>
+          <button class="filter-chip">Salsa</button>
+          <button class="filter-chip">Hip-Hop</button>
+          <button class="filter-chip">Kizomba</button>
+          <button class="filter-chip">Disponibles</button>
+        </div>
+      </div>
+      <div class="dancer-list">
+        <div class="dancer-card featured">
+          <div class="dc-avatar" style="background:#0d2b1e">💃<div class="dc-dot" style="background:var(--green)"></div></div>
+          <div class="dc-info">
+            <div class="dc-name">Sofia M.</div>
+            <div class="dc-tags"><span class="dc-tag">Salsa</span><span class="dc-tag">Kizomba</span></div>
+            <div class="dc-zone">📍 Paris 11e · ~400m</div>
+          </div>
+          <div class="dc-action">👋</div>
+        </div>
+        <div class="dancer-card">
+          <div class="dc-avatar" style="background:#2b250d">🕺<div class="dc-dot" style="background:var(--yellow)"></div></div>
+          <div class="dc-info">
+            <div class="dc-name">Marc D.</div>
+            <div class="dc-tags"><span class="dc-tag">Hip-Hop</span><span class="dc-tag">Break</span></div>
+            <div class="dc-zone">📍 Paris 11e · ~800m</div>
+          </div>
+          <div class="dc-action">👋</div>
+        </div>
+        <div class="dancer-card">
+          <div class="dc-avatar" style="background:#1a0d2b">💃<div class="dc-dot" style="background:var(--purple)"></div></div>
+          <div class="dc-info">
+            <div class="dc-name">Léa R.</div>
+            <div class="dc-tags"><span class="dc-tag">Bachata</span><span class="dc-tag">Zouk</span></div>
+            <div class="dc-zone">📍 Paris 15e · ~1.2km</div>
+          </div>
+          <div class="dc-action">👋</div>
+        </div>
+        <div class="dancer-card">
+          <div class="dc-avatar" style="background:#0d1e2b">🕺<div class="dc-dot" style="background:var(--blue)"></div></div>
+          <div class="dc-info">
+            <div class="dc-name">Karim B.</div>
+            <div class="dc-tags"><span class="dc-tag">Afro</span><span class="dc-tag">Dancehall</span></div>
+            <div class="dc-zone">📍 Paris 11e · ~1.8km</div>
+          </div>
+          <div class="dc-action">👋</div>
+        </div>
+        <div class="dancer-card">
+          <div class="dc-avatar" style="background:#2b0d1a">💃<div class="dc-dot" style="background:var(--red)"></div></div>
+          <div class="dc-info">
+            <div class="dc-name">Yasmine K.</div>
+            <div class="dc-tags"><span class="dc-tag">Salsa</span><span class="dc-tag">Afro</span></div>
+            <div class="dc-zone">📍 Paris 20e · ~2.4km</div>
+          </div>
+          <div class="dc-action">👋</div>
+        </div>
+        <div class="dancer-card">
+          <div class="dc-avatar" style="background:#0d2b2b">🕺<div class="dc-dot" style="background:var(--green)"></div></div>
+          <div class="dc-info">
+            <div class="dc-name">Thomas V.</div>
+            <div class="dc-tags"><span class="dc-tag">Kizomba</span><span class="dc-tag">Semba</span></div>
+            <div class="dc-zone">📍 Paris 13e · ~3km</div>
+          </div>
+          <div class="dc-action">👋</div>
+        </div>
+      </div>
+    </div>
+    <div class="map-area">
+      <div class="map-bg-grid"></div>
+      <div class="map-zone-overlay"></div>
+
+      <div class="map-marker" style="left:45%;top:48%"><div class="mm-inner mm-green">💃</div></div>
+      <div class="map-marker" style="left:62%;top:38%"><div class="mm-inner mm-yellow">🕺</div></div>
+      <div class="map-marker" style="left:30%;top:60%"><div class="mm-inner mm-purple">💃</div></div>
+      <div class="map-marker" style="left:72%;top:65%"><div class="mm-inner mm-blue">🕺</div></div>
+      <div class="map-marker" style="left:52%;top:25%"><div class="mm-inner mm-green">💃</div></div>
+      <div class="map-marker" style="left:38%;top:35%"><div class="mm-inner mm-yellow">🕺</div></div>
+
+      <div class="map-event-tag" style="left:57%;top:55%">🎉 Battle Hiphop — Ce soir</div>
+      <div class="map-event-tag" style="left:35%;top:72%" >📚 Cours Salsa — Mardi</div>
+
+      <div class="map-info-box">
+        <div class="mib-label">Zone active</div>
+        <div class="mib-value">📍 Paris 11e</div>
+      </div>
+
+      <div class="map-controls">
+        <div class="map-ctrl-btn">＋</div>
+        <div class="map-ctrl-btn">－</div>
+        <div class="map-ctrl-btn">📍</div>
+        <div class="map-ctrl-btn">⚙️</div>
+      </div>
+
+      <div class="map-zone-selector">
+        <button class="mzs-btn">Ville</button>
+        <button class="mzs-btn active">Arrondissement</button>
+        <button class="mzs-btn">Quartier</button>
+        <button class="mzs-btn">5km</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ PAGE: AGENDA ═══ -->
+<div class="page" id="page-agenda">
+  <div class="agenda-page">
+    <div class="agenda-header">
+      <div>
+        <div class="section-tag">Événements & cours</div>
+        <h1 style="font-family:'Syne',sans-serif;font-size:48px;letter-spacing:2px;">AGENDA</h1>
+      </div>
       <div class="agenda-filters">
-        <div class="filter-pill active">Tous</div>
-        <div class="filter-pill">Soirées</div>
-        <div class="filter-pill">Cours</div>
-        <div class="filter-pill">Battles</div>
-        <div class="filter-pill">Salsa</div>
-        <div class="filter-pill">Hip-Hop</div>
+        <button class="agenda-filter on">Tous</button>
+        <button class="agenda-filter">Soirées</button>
+        <button class="agenda-filter">Cours</button>
+        <button class="agenda-filter">Battles</button>
+        <button class="agenda-filter">Salsa</button>
+        <button class="agenda-filter">Hip-Hop</button>
       </div>
+    </div>
+    <div class="agenda-grid">
 
       <div class="event-card">
-        <div class="event-banner">
-          <div class="event-banner-bg" style="background:linear-gradient(135deg,#1a0526,#260d1a);"></div>
-          <span class="event-type-badge">🎉 Soirée</span>
-        </div>
-        <div class="event-body">
-          <div class="event-title">Nuit Kizomba — Bastille</div>
-          <div class="event-meta">
-            <div class="event-meta-item">📅 Ce soir · 21h00</div>
-            <div class="event-meta-item">📍 Paris 11e</div>
-            <div class="event-meta-item">💃 Kizomba, Semba</div>
+        <div class="ec-banner"><div class="ec-banner-bg" style="background:linear-gradient(135deg,#1a0526,#260d1a)"></div><span class="ec-type">🎉 SOIRÉE</span></div>
+        <div class="ec-body">
+          <div class="ec-title">Nuit Kizomba — Bastille</div>
+          <div class="ec-meta">
+            <div class="ec-mi">📅 Ce soir · 21h00 → 04h00</div>
+            <div class="ec-mi">📍 Paris 11e · Chez Louisette</div>
+            <div class="ec-mi">💃 Kizomba, Semba, Tarraxo</div>
+            <div class="ec-mi">⭐ Tous niveaux</div>
           </div>
         </div>
-        <div class="event-footer">
-          <div>
-            <div class="attendees">
-              <div class="attendee-avatar" style="background:#0d2b1e">💃</div>
-              <div class="attendee-avatar" style="background:#2b2510">🕺</div>
-              <div class="attendee-avatar" style="background:#1a0d2b">💃</div>
-            </div>
+        <div class="ec-foot">
+          <div class="ec-attendees">
+            <div class="ec-avs"><div class="ec-av" style="background:#0d2b1e">💃</div><div class="ec-av" style="background:#2b250d">🕺</div><div class="ec-av" style="background:#1a0d2b">💃</div></div>
+            <span class="ec-count">+24 inscrits</span>
           </div>
-          <div style="display:flex;align-items:center;gap:8px">
-            <span style="font-family:'Syne',sans-serif;font-weight:800;font-size:16px;color:var(--green)">12€</span>
-            <button class="ticket-btn">🎟️ Réserver</button>
+          <div class="ec-price-wrap">
+            <span class="ec-price" style="color:var(--green)">12€</span>
+            <button class="ec-btn ec-btn-green">Réserver 🎟️</button>
           </div>
         </div>
       </div>
 
       <div class="event-card">
-        <div class="event-banner">
-          <div class="event-banner-bg" style="background:linear-gradient(135deg,#0a1a2b,#0d2215);"></div>
-          <span class="event-type-badge">📚 Cours</span>
-        </div>
-        <div class="event-body">
-          <div class="event-title">Cours Salsa niveau 2</div>
-          <div class="event-meta">
-            <div class="event-meta-item">📅 Mardi · 19h30</div>
-            <div class="event-meta-item">📍 Paris 15e</div>
-            <div class="event-meta-item">⭐ Niveau intermédiaire</div>
+        <div class="ec-banner"><div class="ec-banner-bg" style="background:linear-gradient(135deg,#0a1a2b,#0d2215)"></div><span class="ec-type">📚 COURS</span></div>
+        <div class="ec-body">
+          <div class="ec-title">Cours Salsa niveau 2</div>
+          <div class="ec-meta">
+            <div class="ec-mi">📅 Mardi · 19h30 → 21h00</div>
+            <div class="ec-mi">📍 Paris 15e · Studio Danza</div>
+            <div class="ec-mi">💃 Salsa cubaine</div>
+            <div class="ec-mi">⭐ Intermédiaire</div>
           </div>
         </div>
-        <div class="event-footer">
-          <div>
-            <div class="attendees">
-              <div class="attendee-avatar" style="background:#0d1e2b">🕺</div>
-              <div class="attendee-avatar" style="background:#1a1a24">💃</div>
-            </div>
-            <span class="attendee-count">+8 inscrits</span>
+        <div class="ec-foot">
+          <div class="ec-attendees">
+            <div class="ec-avs"><div class="ec-av" style="background:#0d1e2b">🕺</div><div class="ec-av" style="background:#1a1a2e">💃</div></div>
+            <span class="ec-count">+8 inscrits</span>
           </div>
-          <div style="display:flex;align-items:center;gap:8px">
-            <span style="font-family:'Syne',sans-serif;font-weight:800;font-size:16px;color:var(--blue)">8€</span>
-            <button class="ticket-btn secondary">S'inscrire</button>
+          <div class="ec-price-wrap">
+            <span class="ec-price" style="color:var(--blue)">8€</span>
+            <button class="ec-btn ec-btn-blue">S'inscrire</button>
           </div>
         </div>
       </div>
 
       <div class="event-card">
-        <div class="event-banner">
-          <div class="event-banner-bg" style="background:linear-gradient(135deg,#2b1a0a,#1a0d0d);"></div>
-          <span class="event-type-badge">🏆 Battle</span>
-        </div>
-        <div class="event-body">
-          <div class="event-title">Battle Hip-Hop Open — Lyon</div>
-          <div class="event-meta">
-            <div class="event-meta-item">📅 Samedi · 18h00</div>
-            <div class="event-meta-item">📍 Lyon · 460km</div>
-            <div class="event-meta-item">💪 Tous niveaux</div>
+        <div class="ec-banner"><div class="ec-banner-bg" style="background:linear-gradient(135deg,#2b1a0a,#1a0d0d)"></div><span class="ec-type">🏆 BATTLE</span></div>
+        <div class="ec-body">
+          <div class="ec-title">Battle Hip-Hop Open — Lyon</div>
+          <div class="ec-meta">
+            <div class="ec-mi">📅 Samedi · 18h00 → 23h00</div>
+            <div class="ec-mi">📍 Lyon · Le Transbordeur</div>
+            <div class="ec-mi">🕺 Hip-Hop, Popping, Locking</div>
+            <div class="ec-mi">💪 Tous niveaux · 1vs1</div>
           </div>
         </div>
-        <div class="event-footer">
-          <div>
-            <div class="attendees">
-              <div class="attendee-avatar" style="background:#2b1a0a">🕺</div>
-              <div class="attendee-avatar" style="background:#0d2b1e">💃</div>
-              <div class="attendee-avatar" style="background:#1a0d2b">🕺</div>
-            </div>
-            <span class="attendee-count">+24 inscrits</span>
+        <div class="ec-foot">
+          <div class="ec-attendees">
+            <div class="ec-avs"><div class="ec-av" style="background:#2b1a0a">🕺</div><div class="ec-av" style="background:#0d2b1e">💃</div><div class="ec-av" style="background:#1a0d2b">🕺</div></div>
+            <span class="ec-count">+48 inscrits</span>
           </div>
-          <div style="display:flex;align-items:center;gap:8px">
-            <span style="font-family:'Syne',sans-serif;font-weight:800;font-size:16px;color:var(--yellow)">5€</span>
-            <button class="ticket-btn" style="background:var(--yellow);color:#0a0a0f">🎟️ Réserver</button>
+          <div class="ec-price-wrap">
+            <span class="ec-price" style="color:var(--yellow)">5€</span>
+            <button class="ec-btn ec-btn-yellow">Réserver 🎟️</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="event-card">
+        <div class="ec-banner"><div class="ec-banner-bg" style="background:linear-gradient(135deg,#1a2b0d,#0d2b1e)"></div><span class="ec-type">📚 COURS</span></div>
+        <div class="ec-body">
+          <div class="ec-title">Atelier Afro Débutants</div>
+          <div class="ec-meta">
+            <div class="ec-mi">📅 Jeudi · 18h30 → 20h00</div>
+            <div class="ec-mi">📍 Paris 18e · MJC</div>
+            <div class="ec-mi">💃 Afrobeat, Amapiano</div>
+            <div class="ec-mi">⭐ Débutants bienvenus</div>
+          </div>
+        </div>
+        <div class="ec-foot">
+          <div class="ec-attendees">
+            <div class="ec-avs"><div class="ec-av" style="background:#1a2b0d">💃</div><div class="ec-av" style="background:#2b0d2b">🕺</div></div>
+            <span class="ec-count">+12 inscrits</span>
+          </div>
+          <div class="ec-price-wrap">
+            <span class="ec-price" style="color:var(--green)">Gratuit</span>
+            <button class="ec-btn ec-btn-green">S'inscrire</button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- ═══ PAGE: PROFIL ═══ -->
+<div class="page" id="page-profile">
+  <div class="profile-page">
+    <div class="profile-hero fade-in">
+      <div class="ph-top">
+        <div class="ph-avatar">💃</div>
+        <div class="ph-info">
+          <div class="ph-name">SOFIA M.</div>
+          <div class="ph-handle">@sofia_dance · Paris 11e</div>
+          <div class="ph-band">
+            <div class="ph-led"></div>
+            Bracelet connecté · Mode Amis
+          </div>
+        </div>
+        <button class="ph-edit">✏️ Modifier</button>
+      </div>
+      <div class="ph-stats">
+        <div class="ph-stat"><div class="ph-stat-v">247</div><div class="ph-stat-l">Échanges</div></div>
+        <div class="ph-stat"><div class="ph-stat-v">32</div><div class="ph-stat-l">Événements</div></div>
+        <div class="ph-stat"><div class="ph-stat-v">4/5</div><div class="ph-stat-l">Niveau</div></div>
+        <div class="ph-stat"><div class="ph-stat-v">#12</div><div class="ph-stat-l">Classement</div></div>
+      </div>
+    </div>
+
+    <div class="profile-grid">
+      <div class="profile-card">
+        <div class="pc-header">
+          <div class="pc-title">📍 Zone de présence</div>
+          <div class="pc-badge pcb-pub">🟢 Visible</div>
+        </div>
+        <div class="zone-opts">
+          <div class="zo" onclick="selectZone(this)">
+            <div class="zo-left"><span>🌆</span><div><div class="zo-n">Ville</div><div class="zo-d">ex: "Paris"</div></div></div>
+            <div class="zo-check"></div>
+          </div>
+          <div class="zo sel" onclick="selectZone(this)">
+            <div class="zo-left"><span>🏘️</span><div><div class="zo-n">Arrondissement</div><div class="zo-d">ex: "Paris 11e"</div></div></div>
+            <div class="zo-check ok">✓</div>
+          </div>
+          <div class="zo" onclick="selectZone(this)">
+            <div class="zo-left"><span>📌</span><div><div class="zo-n">Quartier</div><div class="zo-d">ex: "Bastille"</div></div></div>
+            <div class="zo-check"></div>
+          </div>
+        </div>
+        <div class="dispo-wrap">
+          <div class="dispo-label">Disponibilité</div>
+          <div class="dispo-chips">
+            <button class="dchip on">Maintenant</button>
+            <button class="dchip">Ce soir</button>
+            <button class="dchip">Week-end</button>
+            <button class="dchip">Perso</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="profile-card">
+        <div class="pc-header">
+          <div class="pc-title">🔐 Confidentialité</div>
+          <div class="pc-badge pcb-amis">🟡 Mode Amis</div>
+        </div>
+        <div class="priv-row">
+          <div class="priv-left"><span class="priv-ico">👤</span><div><div class="priv-fn">Nom / Pseudo</div><div class="priv-fv">Sofia M.</div></div></div>
+          <div class="tg">
+            <button class="to sp" onclick="setPriv(this,0)">PUB</button>
+            <button class="to" onclick="setPriv(this,1)">AMI</button>
+            <button class="to" onclick="setPriv(this,2)">PRIV</button>
+          </div>
+        </div>
+        <div class="priv-row">
+          <div class="priv-left"><span class="priv-ico">💃</span><div><div class="priv-fn">Styles</div><div class="priv-fv">Salsa, Kizomba</div></div></div>
+          <div class="tg">
+            <button class="to" onclick="setPriv(this,0)">PUB</button>
+            <button class="to sa" onclick="setPriv(this,1)">AMI</button>
+            <button class="to" onclick="setPriv(this,2)">PRIV</button>
+          </div>
+        </div>
+        <div class="priv-row">
+          <div class="priv-left"><span class="priv-ico">📱</span><div><div class="priv-fn">Réseaux sociaux</div><div class="priv-fv">@sofia_dance</div></div></div>
+          <div class="tg">
+            <button class="to" onclick="setPriv(this,0)">PUB</button>
+            <button class="to" onclick="setPriv(this,1)">AMI</button>
+            <button class="to sr" onclick="setPriv(this,2)">PRIV</button>
+          </div>
+        </div>
+        <div class="priv-row">
+          <div class="priv-left"><span class="priv-ico">🎵</span><div><div class="priv-fn">Playlists</div><div class="priv-fv">3 playlists</div></div></div>
+          <div class="tg">
+            <button class="to" onclick="setPriv(this,0)">PUB</button>
+            <button class="to sa" onclick="setPriv(this,1)">AMI</button>
+            <button class="to" onclick="setPriv(this,2)">PRIV</button>
           </div>
         </div>
       </div>
     </div>
+  </div>
+</div>
 
-    <!-- SCREEN: PROFIL -->
-    <div class="screen" id="screen-profile">
-      <div class="screen-header">
-        <div class="screen-title">👤 Profil</div>
-        <div class="header-action">✏️</div>
+<!-- ═══ PAGE: CLASSEMENT ═══ -->
+<div class="page" id="page-ranking">
+  <div class="ranking-page">
+    <div class="rk-hero fade-in">
+      <div class="rk-pos-wrap">
+        <div class="rk-pos">#12</div>
+        <div class="rk-pos-label">Classement Paris</div>
       </div>
-
-      <div class="profile-hero">
-        <div class="profile-top">
-          <div class="profile-avatar">💃</div>
-          <div>
-            <div class="profile-name">Sofia M.</div>
-            <div class="profile-handle">@sofia_dance · Paris 11e</div>
-            <div class="bracelet-status">
-              <div class="bracelet-led"></div>
-              Bracelet connecté · Mode Amis
-            </div>
-          </div>
-        </div>
-        <div class="profile-stats">
-          <div class="stat"><div class="stat-val">247</div><div class="stat-label">Échanges</div></div>
-          <div class="stat"><div class="stat-val">32</div><div class="stat-label">Events</div></div>
-          <div class="stat"><div class="stat-val">4/5</div><div class="stat-label">Niveau</div></div>
-          <div class="stat"><div class="stat-val">#12</div><div class="stat-label">Classement</div></div>
-        </div>
-      </div>
-
-      <div class="zone-section">
-        <div class="zone-card">
-          <div class="zone-title">📍 Ma zone de présence</div>
-          <div class="zone-options">
-            <div class="zone-option">
-              <div class="zone-opt-left">
-                <span class="zone-opt-icon">🌆</span>
-                <div><div class="zone-opt-name">Ville</div><div class="zone-opt-desc">ex: "Paris"</div></div>
-              </div>
-              <div class="zone-check">　</div>
-            </div>
-            <div class="zone-option selected">
-              <div class="zone-opt-left">
-                <span class="zone-opt-icon">🏘️</span>
-                <div><div class="zone-opt-name">Arrondissement</div><div class="zone-opt-desc">ex: "Paris 11e"</div></div>
-              </div>
-              <div class="zone-check checked">✓</div>
-            </div>
-            <div class="zone-option">
-              <div class="zone-opt-left">
-                <span class="zone-opt-icon">📌</span>
-                <div><div class="zone-opt-name">Quartier</div><div class="zone-opt-desc">ex: "Bastille"</div></div>
-              </div>
-              <div class="zone-check">　</div>
-            </div>
-          </div>
-          <div class="dispo-slider" style="margin-top:14px">
-            <div class="dispo-label">⏱️ Je suis disponible :</div>
-            <div class="dispo-chips">
-              <div class="dispo-chip active">Maintenant</div>
-              <div class="dispo-chip">Ce soir</div>
-              <div class="dispo-chip">Ce week-end</div>
-              <div class="dispo-chip">Personnalisé</div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="privacy-section">
-        <div class="privacy-card">
-          <div class="privacy-header">
-            <div class="privacy-title">🔐 Confidentialité</div>
-            <div class="mode-badge mode-amis">🟡 Amis</div>
-          </div>
-          <div class="privacy-row">
-            <div class="privacy-info">
-              <span class="privacy-icon">👤</span>
-              <div>
-                <div class="privacy-field-name">Nom / Pseudo</div>
-                <div class="privacy-field-val">Sofia M.</div>
-              </div>
-            </div>
-            <div class="toggle-group">
-              <button class="toggle-opt sel-pub">PUB</button>
-              <button class="toggle-opt">AMI</button>
-              <button class="toggle-opt">PRIV</button>
-            </div>
-          </div>
-          <div class="privacy-row">
-            <div class="privacy-info">
-              <span class="privacy-icon">💃</span>
-              <div>
-                <div class="privacy-field-name">Styles de danse</div>
-                <div class="privacy-field-val">Salsa, Kizomba</div>
-              </div>
-            </div>
-            <div class="toggle-group">
-              <button class="toggle-opt">PUB</button>
-              <button class="toggle-opt sel-ami">AMI</button>
-              <button class="toggle-opt">PRIV</button>
-            </div>
-          </div>
-          <div class="privacy-row">
-            <div class="privacy-info">
-              <span class="privacy-icon">📱</span>
-              <div>
-                <div class="privacy-field-name">Réseaux sociaux</div>
-                <div class="privacy-field-val">@sofia_dance</div>
-              </div>
-            </div>
-            <div class="toggle-group">
-              <button class="toggle-opt">PUB</button>
-              <button class="toggle-opt">AMI</button>
-              <button class="toggle-opt sel-priv">PRIV</button>
-            </div>
-          </div>
-          <div class="privacy-row">
-            <div class="privacy-info">
-              <span class="privacy-icon">🎵</span>
-              <div>
-                <div class="privacy-field-name">Playlists</div>
-                <div class="privacy-field-val">3 playlists</div>
-              </div>
-            </div>
-            <div class="toggle-group">
-              <button class="toggle-opt">PUB</button>
-              <button class="toggle-opt sel-ami">AMI</button>
-              <button class="toggle-opt">PRIV</button>
-            </div>
-          </div>
+      <div class="rk-info">
+        <div class="rk-name">SOFIA M.</div>
+        <div class="rk-sub">Niveau 4 · Salsa & Kizomba · Paris 11e</div>
+        <div class="xp-wrap">
+          <div class="xp-label"><span>2 340 XP actuels</span><span>3 000 XP → Niveau 5</span></div>
+          <div class="xp-bar-bg"><div class="xp-bar"></div></div>
         </div>
       </div>
     </div>
 
-    <!-- SCREEN: CLASSEMENT -->
-    <div class="screen" id="screen-rank">
-      <div class="screen-header">
-        <div class="screen-title">🏆 Classement</div>
-        <div class="header-action">🌍</div>
-      </div>
-
-      <div class="rank-hero">
-        <div class="rank-position">#12</div>
-        <div class="rank-label">Classement Paris · Salsa</div>
-        <div class="rank-name">Sofia M. — Niveau 4</div>
-        <div class="xp-bar-wrap"><div class="xp-bar"></div></div>
-        <div class="xp-label"><span>2 340 XP</span><span>3 000 XP → Niveau 5</span></div>
-      </div>
-
-      <div class="badges-section">
-        <div class="section-label">Mes badges</div>
-        <div class="badges-grid">
-          <div class="badge-card">
-            <div class="badge-icon">🥇</div>
-            <div class="badge-name">Connecteur</div>
-            <div class="badge-val">200+ échanges</div>
-          </div>
-          <div class="badge-card">
-            <div class="badge-icon">🎯</div>
-            <div class="badge-name">Assidu</div>
-            <div class="badge-val">30+ events</div>
-          </div>
-          <div class="badge-card">
-            <div class="badge-icon">⭐</div>
-            <div class="badge-name">Certifié</div>
-            <div class="badge-val">3 profs validé</div>
-          </div>
-          <div class="badge-card" style="opacity:0.4">
-            <div class="badge-icon">🏆</div>
-            <div class="badge-name">Champion</div>
-            <div class="badge-val">Battle gagné</div>
-          </div>
-          <div class="badge-card" style="opacity:0.4">
-            <div class="badge-icon">🌍</div>
-            <div class="badge-name">Voyageur</div>
-            <div class="badge-val">3 villes</div>
-          </div>
-          <div class="badge-card" style="opacity:0.4">
-            <div class="badge-icon">🔥</div>
-            <div class="badge-name">En feu</div>
-            <div class="badge-val">7j consécutifs</div>
-          </div>
-        </div>
-      </div>
-
-      <div class="ranking-list">
-        <div class="section-label">Top Paris · Salsa</div>
-        <div class="rank-row" style="border-color:rgba(255,215,0,0.3);background:rgba(255,215,0,0.04)">
-          <div class="rank-num" style="color:var(--yellow)">1</div>
-          <div class="rank-avatar" style="background:#2b2510">🕺</div>
-          <div class="rank-info">
-            <div class="rank-dname">Carlos V.</div>
-            <div class="rank-pts">4 820 XP · Niveau 5</div>
-          </div>
-          <div class="rank-badge">🥇</div>
-        </div>
-        <div class="rank-row" style="border-color:rgba(192,192,192,0.3)">
-          <div class="rank-num" style="color:#aaa">2</div>
-          <div class="rank-avatar" style="background:#1a0d2b">💃</div>
-          <div class="rank-info">
-            <div class="rank-dname">Nina K.</div>
-            <div class="rank-pts">4 210 XP · Niveau 5</div>
-          </div>
-          <div class="rank-badge">🥈</div>
-        </div>
-        <div class="rank-row">
-          <div class="rank-num" style="color:#cd7f32">3</div>
-          <div class="rank-avatar" style="background:#0d2b1e">🕺</div>
-          <div class="rank-info">
-            <div class="rank-dname">Ahmed B.</div>
-            <div class="rank-pts">3 980 XP · Niveau 4</div>
-          </div>
-          <div class="rank-badge">🥉</div>
-        </div>
-        <div class="rank-row" style="border-color:rgba(0,245,155,0.3);background:rgba(0,245,155,0.04)">
-          <div class="rank-num" style="color:var(--green)">12</div>
-          <div class="rank-avatar" style="background:linear-gradient(135deg,var(--green),var(--purple))">💃</div>
-          <div class="rank-info">
-            <div class="rank-dname">Sofia M. <span style="color:var(--green);font-size:10px">(Moi)</span></div>
-            <div class="rank-pts">2 340 XP · Niveau 4</div>
-          </div>
-          <div class="rank-badge">🎯</div>
-        </div>
+    <div class="badges-section">
+      <div class="section-tag" style="margin-bottom:16px">Mes badges</div>
+      <div class="badges-grid">
+        <div class="badge-card"><div class="badge-ico">🥇</div><div class="badge-n">Connecteur</div><div class="badge-v">200+ échanges</div></div>
+        <div class="badge-card"><div class="badge-ico">🎯</div><div class="badge-n">Assidu</div><div class="badge-v">30+ events</div></div>
+        <div class="badge-card"><div class="badge-ico">⭐</div><div class="badge-n">Certifié</div><div class="badge-v">3 profs validés</div></div>
+        <div class="badge-card"><div class="badge-ico">🔥</div><div class="badge-n">En feu</div><div class="badge-v">7j consécutifs</div></div>
+        <div class="badge-card locked"><div class="badge-ico">🏆</div><div class="badge-n">Champion</div><div class="badge-v">Battle gagné</div></div>
+        <div class="badge-card locked"><div class="badge-ico">🌍</div><div class="badge-n">Voyageur</div><div class="badge-v">3 villes</div></div>
       </div>
     </div>
 
-  </div><!-- end screens -->
-
-  <!-- BOTTOM NAV -->
-  <nav class="nav">
-    <button class="nav-item active" onclick="showScreen('map',this)">
-      <span class="nav-icon">🗺️</span>
-      <span class="nav-label">Carte</span>
-    </button>
-    <button class="nav-item" onclick="showScreen('agenda',this)">
-      <span class="nav-icon">📅</span>
-      <span class="nav-label">Agenda</span>
-    </button>
-    <button class="nav-item" onclick="showScreen('profile',this)">
-      <span class="nav-icon">👤</span>
-      <span class="nav-label">Profil</span>
-    </button>
-    <button class="nav-item" onclick="showScreen('rank',this)">
-      <span class="nav-icon">🏆</span>
-      <span class="nav-label">Classement</span>
-    </button>
-  </nav>
+    <div class="rk-tabs">
+      <button class="rk-tab on">Paris · Salsa</button>
+      <button class="rk-tab">Paris · Global</button>
+      <button class="rk-tab">National</button>
+    </div>
+    <div class="rk-list">
+      <div class="rk-row gold">
+        <div class="rk-num" style="color:var(--yellow)">1</div>
+        <div class="rk-av" style="background:#2b250d">🕺</div>
+        <div><div class="rk-dn">Carlos V.</div><div class="rk-pts">4 820 XP · Niveau 5</div></div>
+        <div class="rk-badge-ico">🥇</div>
+      </div>
+      <div class="rk-row">
+        <div class="rk-num" style="color:#aaa">2</div>
+        <div class="rk-av" style="background:#1a0d2b">💃</div>
+        <div><div class="rk-dn">Nina K.</div><div class="rk-pts">4 210 XP · Niveau 5</div></div>
+        <div class="rk-badge-ico">🥈</div>
+      </div>
+      <div class="rk-row">
+        <div class="rk-num" style="color:#cd7f32">3</div>
+        <div class="rk-av" style="background:#0d2b1e">🕺</div>
+        <div><div class="rk-dn">Ahmed B.</div><div class="rk-pts">3 980 XP · Niveau 4</div></div>
+        <div class="rk-badge-ico">🥉</div>
+      </div>
+      <div class="rk-row">
+        <div class="rk-num" style="color:var(--muted2)">4</div>
+        <div class="rk-av" style="background:#0d1e2b">💃</div>
+        <div><div class="rk-dn">Marie L.</div><div class="rk-pts">3 640 XP · Niveau 4</div></div>
+        <div class="rk-badge-ico">🎯</div>
+      </div>
+      <div class="rk-row me">
+        <div class="rk-num" style="color:var(--green)">12</div>
+        <div class="rk-av" style="background:linear-gradient(135deg,var(--green),var(--purple))">💃</div>
+        <div><div class="rk-dn">Sofia M. <span style="color:var(--green);font-size:11px;font-weight:600">(Moi)</span></div><div class="rk-pts">2 340 XP · Niveau 4</div></div>
+        <div class="rk-badge-ico">⭐</div>
+      </div>
+    </div>
+  </div>
 </div>
 
 <script>
-function showScreen(id, btn) {
-  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
-  document.querySelectorAll('.nav-item').forEach(b => b.classList.remove('active'));
-  document.getElementById('screen-' + id).classList.add('active');
-  btn.classList.add('active');
+// ── Navigation ──
+function showPage(id) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.getElementById('page-' + id).classList.add('active');
+  window.scrollTo(0,0);
+}
+function setActive(el) {
+  document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
+  el.classList.add('active');
+}
+function toggleMobileMenu() {
+  // Simple mobile nav toggle
+  const links = document.querySelector('.nav-links');
+  links.style.display = links.style.display === 'flex' ? 'none' : 'flex';
+  links.style.flexDirection = 'column';
+  links.style.position = 'absolute';
+  links.style.top = '70px';
+  links.style.left = '0';
+  links.style.right = '0';
+  links.style.background = 'rgba(8,8,16,0.98)';
+  links.style.padding = '20px';
+  links.style.borderBottom = '1px solid rgba(255,255,255,0.06)';
 }
 
-// Zone option interactivity
-document.querySelectorAll('.zone-option').forEach(opt => {
-  opt.addEventListener('click', function() {
-    document.querySelectorAll('.zone-option').forEach(o => {
-      o.classList.remove('selected');
-      o.querySelector('.zone-check').classList.remove('checked');
-      o.querySelector('.zone-check').innerHTML = '　';
-    });
-    this.classList.add('selected');
-    const check = this.querySelector('.zone-check');
-    check.classList.add('checked');
-    check.innerHTML = '✓';
+// ── Auth tabs ──
+function switchTab(btn, tabId) {
+  document.querySelectorAll('.auth-tab').forEach(t => t.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById('tab-signup').style.display = tabId === 'tab-signup' ? 'block' : 'none';
+  document.getElementById('tab-login').style.display = tabId === 'tab-login' ? 'block' : 'none';
+}
+
+// ── Style tags ──
+function toggleStyle(el) {
+  el.classList.toggle('selected');
+}
+
+// ── Privacy toggles ──
+function setPriv(btn, idx) {
+  const grp = btn.closest('.tg');
+  grp.querySelectorAll('.to').forEach(b => b.className = 'to');
+  btn.classList.add(['sp','sa','sr'][idx]);
+}
+
+// ── Zone selector ──
+function selectZone(el) {
+  document.querySelectorAll('.zo').forEach(o => {
+    o.classList.remove('sel');
+    const c = o.querySelector('.zo-check');
+    c.classList.remove('ok');
+    c.innerHTML = '';
+  });
+  el.classList.add('sel');
+  const c = el.querySelector('.zo-check');
+  c.classList.add('ok');
+  c.innerHTML = '✓';
+}
+
+// ── Dispo chips ──
+document.querySelectorAll('.dchip').forEach(c => {
+  c.addEventListener('click', function() {
+    document.querySelectorAll('.dchip').forEach(x => x.classList.remove('on'));
+    this.classList.add('on');
   });
 });
 
-// Toggle privacy options
-document.querySelectorAll('.toggle-group').forEach(group => {
-  group.querySelectorAll('.toggle-opt').forEach((btn, i) => {
-    btn.addEventListener('click', function() {
-      group.querySelectorAll('.toggle-opt').forEach(b => {
-        b.className = 'toggle-opt';
-      });
-      const classes = ['sel-pub','sel-ami','sel-priv'];
-      this.classList.add(classes[i]);
-    });
+// ── Agenda filters ──
+document.querySelectorAll('.agenda-filter').forEach(f => {
+  f.addEventListener('click', function() {
+    document.querySelectorAll('.agenda-filter').forEach(x => x.classList.remove('on'));
+    this.classList.add('on');
   });
 });
 
-// Dispo chips
-document.querySelectorAll('.dispo-chip').forEach(chip => {
-  chip.addEventListener('click', function() {
-    document.querySelectorAll('.dispo-chip').forEach(c => c.classList.remove('active'));
+// ── Filter chips ──
+document.querySelectorAll('.filter-chip').forEach(c => {
+  c.addEventListener('click', function() {
+    document.querySelectorAll('.filter-chip').forEach(x => x.classList.remove('on'));
+    this.classList.add('on');
+  });
+});
+
+// ── Map zone selector ──
+document.querySelectorAll('.mzs-btn').forEach(b => {
+  b.addEventListener('click', function() {
+    document.querySelectorAll('.mzs-btn').forEach(x => x.classList.remove('active'));
     this.classList.add('active');
   });
 });
 
-// Agenda filters
-document.querySelectorAll('.filter-pill').forEach(pill => {
-  pill.addEventListener('click', function() {
-    document.querySelectorAll('.filter-pill').forEach(p => p.classList.remove('active'));
-    this.classList.add('active');
+// ── Ranking tabs ──
+document.querySelectorAll('.rk-tab').forEach(t => {
+  t.addEventListener('click', function() {
+    document.querySelectorAll('.rk-tab').forEach(x => x.classList.remove('on'));
+    this.classList.add('on');
   });
 });
 
-// Zone chips (map)
-document.querySelectorAll('.zone-chip').forEach(chip => {
-  chip.addEventListener('click', function() {
-    document.querySelectorAll('.zone-chip').forEach(c => c.classList.remove('active'));
-    this.classList.add('active');
-  });
-});
+// ── Mobile nav sync ──
+function setMobileActive(el) {
+  document.querySelectorAll('.mn-item').forEach(i => i.classList.remove('active'));
+  el.classList.add('active');
+}
 </script>
 
-<!-- Firebase connexion -->
-<script type="module">
-
-  import { initializeApp }
-    from "https://www.gstatic.com/firebasejs/10.0.0/firebase-app.js";
-  import { getFirestore, collection, addDoc, getDocs, query, where }
-    from "https://www.gstatic.com/firebasejs/10.0.0/firebase-firestore.js";
-  import { getAuth }
-    from "https://www.gstatic.com/firebasejs/10.0.0/firebase-auth.js";
-
-  const firebaseConfig = {
-  apiKey: "AIzaSyCUVW01qGM7JkULmezdeY6zvqRtsMOaEB8",
-  authDomain: "danceband2.firebaseapp.com",
-  projectId: "danceband2",
-  storageBucket: "danceband2.firebasestorage.app",
-  messagingSenderId: "397526470867",
-  appId: "1:397526470867:web:c38137a8eb3def73644426"
-};
-
-  const app = initializeApp(firebaseConfig);
-  const db = getFirestore(app);
-  const auth = getAuth(app);
-
-  console.log("✅ Firebase connecté !");
-
-  async function chargerDanseurs() {
-    try {
-      const snap = await getDocs(collection(db, "danseurs"));
-      snap.forEach(doc => {
-        console.log("👤 Danseur:", doc.data().nom, "→", doc.data().zone);
-      });
-    } catch (e) {
-      console.error("❌ Erreur:", e);
-    }
-  }
-
-  chargerDanseurs();
-  window.db = db;
-  window.collection = collection;
-  window.addDoc = addDoc;
-
-</script>
+<!-- MOBILE BOTTOM NAV -->
+<nav class="mobile-nav">
+  <button class="mn-item active" onclick="showPage('home');setMobileActive(this)">
+    <span class="mn-ico">🏠</span>
+    <span class="mn-lbl">Accueil</span>
+  </button>
+  <button class="mn-item" onclick="showPage('network');setMobileActive(this)">
+    <span class="mn-ico">🗺️</span>
+    <span class="mn-lbl">Réseau</span>
+  </button>
+  <button class="mn-item" onclick="showPage('agenda');setMobileActive(this)">
+    <span class="mn-ico">📅</span>
+    <span class="mn-lbl">Agenda</span>
+  </button>
+  <button class="mn-item" onclick="showPage('profile');setMobileActive(this)">
+    <span class="mn-ico">👤</span>
+    <span class="mn-lbl">Profil</span>
+  </button>
+  <button class="mn-item" onclick="showPage('ranking');setMobileActive(this)">
+    <span class="mn-ico">🏆</span>
+    <span class="mn-lbl">Top</span>
+  </button>
+</nav>
 
 </body>
 </html>
