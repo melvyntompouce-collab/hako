@@ -1493,6 +1493,9 @@ footer{
             <button id="modal-btn" onclick="sInscrire()" style="padding:14px 28px;border-radius:14px;background:var(--green);color:#080810;font-family:'Syne',sans-serif;font-weight:800;font-size:14px;border:none;cursor:pointer;">
               🎟️ Réserver
             </button>
+            <button id="modal-fav-btn" onclick="toggleFavoriModal()" style="padding:14px;border-radius:14px;background:var(--card2);border:1px solid var(--border);color:var(--muted2);font-size:18px;cursor:pointer;transition:all 0.2s;">
+              ♡
+            </button>
           </div>
         </div>
       </div>
@@ -1920,6 +1923,51 @@ footer{
           </div>
         </div>
 
+        <!-- PLATEFORMES MUSICALES -->
+        <div style="background:var(--card);border:1px solid var(--border);border-radius:20px;padding:24px;margin-bottom:16px;">
+          <div style="font-family:'Syne',sans-serif;font-weight:700;font-size:14px;margin-bottom:6px;">Plateformes musicales</div>
+          <div style="font-size:12px;color:var(--muted2);margin-bottom:16px;">Les visiteurs pourront accéder directement à ton profil</div>
+          <div style="display:flex;flex-direction:column;gap:12px;">
+
+            <!-- Spotify -->
+            <div class="form-group" style="margin:0">
+              <label class="form-label" style="display:flex;align-items:center;gap:8px;">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="#1db954"><path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.301 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.78.241 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.601.18-1.2.72-1.381 4.26-1.26 11.28-1.02 15.721 1.621.539.3.719 1.02.419 1.56-.299.421-1.02.599-1.559.3z"/></svg>
+                Spotify
+              </label>
+              <input id="profil-spotify" class="form-input" type="url" placeholder="https://open.spotify.com/user/..." style="background:var(--bg2)">
+            </div>
+
+            <!-- Apple Music -->
+            <div class="form-group" style="margin:0">
+              <label class="form-label" style="display:flex;align-items:center;gap:8px;">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="#fc3c44"><path d="M23.994 6.124a9.23 9.23 0 0 0-.24-2.19c-.317-1.31-1.064-2.31-2.18-3.043a5.022 5.022 0 0 0-1.877-.726 10.496 10.496 0 0 0-1.564-.15c-.05-.003-.098-.012-.148-.013H5.944l-.05.002a10.56 10.56 0 0 0-1.562.15 4.998 4.998 0 0 0-1.878.726C1.31 1.633.563 2.634.246 3.943a9.23 9.23 0 0 0-.24 2.19c-.006.08-.006 16.54.001 16.62.029.6.158 1.19.388 1.75.46 1.11 1.26 1.91 2.37 2.37.56.23 1.15.36 1.75.39.08.006 16.54.006 16.62-.001.6-.029 1.19-.158 1.75-.388 1.11-.46 1.91-1.26 2.37-2.37.23-.56.36-1.15.39-1.75.006-.08.006-16.54-.001-16.62zM15.5 8.5l-1.5 8-3-5-3 5-1.5-8H8l1 6 2-4 2 4 1-6h1.5z"/></svg>
+                Apple Music
+              </label>
+              <input id="profil-applemusic" class="form-input" type="url" placeholder="https://music.apple.com/profile/..." style="background:var(--bg2)">
+            </div>
+
+            <!-- Deezer -->
+            <div class="form-group" style="margin:0">
+              <label class="form-label" style="display:flex;align-items:center;gap:8px;">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="#a238ff"><path d="M18.81 11.564H24v2.155h-5.19zm0-3.769H24v2.155h-5.19zm0 7.538H24v2.155h-5.19zm0 3.77H24V21.2h-5.19zM12.404 15.333h5.19v2.155h-5.19zm0 3.77h5.19V21.2h-5.19zm0-11.307h5.19v2.155h-5.19zm0 3.768h5.19v2.155h-5.19zM5.999 19.103h5.19V21.2H6zm0-3.77h5.19v2.155H6zM0 19.103h5.19V21.2H0zm0-3.77h5.19v2.155H0z"/></svg>
+                Deezer
+              </label>
+              <input id="profil-deezer" class="form-input" type="url" placeholder="https://www.deezer.com/profile/..." style="background:var(--bg2)">
+            </div>
+
+            <!-- SoundCloud -->
+            <div class="form-group" style="margin:0">
+              <label class="form-label" style="display:flex;align-items:center;gap:8px;">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="#ff5500"><path d="M1.175 12.225c-.017 0-.033.002-.049.003.03-.204.064-.408.101-.608C1.622 8.54 3.898 6 6.791 6c.768 0 1.506.186 2.162.516.199.099.314.277.314.475v9.652c0 .202-.118.381-.32.474-.066.03-.136.047-.207.047H1.175c-.648 0-1.175-.527-1.175-1.176v-.587c0-.648.527-1.176 1.175-1.176zm2.799-4.95c0-.431.35-.78.78-.78s.78.35.78.78v5.868c0 .431-.35.78-.78.78s-.78-.35-.78-.78V7.275zm2.341-.977c0-.431.35-.781.78-.781s.781.35.781.781v6.845c0 .431-.35.78-.78.78s-.781-.35-.781-.78V6.298zm9.066-1.82C14.126 2.232 12.117.967 9.793.967c-1.29 0-2.483.394-3.474 1.064.316.38.488.862.488 1.38v10.347c0 .17-.023.334-.065.49.204.017.41.026.617.026 3.86 0 6.99-3.13 6.99-6.99 0-.626-.083-1.232-.238-1.809zM22.825 8.21c-.537 0-1.047.143-1.487.394-.154-3.297-2.87-5.937-6.205-5.937-.578 0-1.138.082-1.668.232V17.7c0 .198.16.358.358.358h9.002c1.97 0 3.175-1.594 3.175-3.566V11.76c0-1.96-1.591-3.55-3.175-3.55z"/></svg>
+                SoundCloud
+              </label>
+              <input id="profil-soundcloud" class="form-input" type="url" placeholder="https://soundcloud.com/..." style="background:var(--bg2)">
+            </div>
+
+          </div>
+        </div>
+
         <!-- STYLES DE DANSE -->
         <div style="background:var(--card);border:1px solid var(--border);border-radius:20px;padding:24px;margin-bottom:16px;">
           <div style="font-family:'Syne',sans-serif;font-weight:700;font-size:14px;margin-bottom:16px;">Styles de danse</div>
@@ -1961,7 +2009,31 @@ footer{
           </div>
         </div>
 
-        <!-- AFFICHAGE -->
+        <!-- GENRES MUSICAUX -->
+        <div style="background:var(--card);border:1px solid var(--border);border-radius:20px;padding:24px;margin-bottom:16px;">
+          <div style="font-family:'Syne',sans-serif;font-weight:700;font-size:14px;margin-bottom:6px;">Genres musicaux</div>
+          <div style="font-size:12px;color:var(--muted2);margin-bottom:16px;">Sélectionne les genres que tu écoutes en dansant</div>
+          <div class="styles-grid" id="edit-genres-grid">
+            <button class="style-tag" onclick="toggleGenre(this)">Afrobeat</button>
+            <button class="style-tag" onclick="toggleGenre(this)">Amapiano</button>
+            <button class="style-tag" onclick="toggleGenre(this)">Bachata</button>
+            <button class="style-tag" onclick="toggleGenre(this)">Cumbia</button>
+            <button class="style-tag" onclick="toggleGenre(this)">Dancehall</button>
+            <button class="style-tag" onclick="toggleGenre(this)">Electronic</button>
+            <button class="style-tag" onclick="toggleGenre(this)">Funk</button>
+            <button class="style-tag" onclick="toggleGenre(this)">Hip-Hop</button>
+            <button class="style-tag" onclick="toggleGenre(this)">House</button>
+            <button class="style-tag" onclick="toggleGenre(this)">Jazz</button>
+            <button class="style-tag" onclick="toggleGenre(this)">Kizomba</button>
+            <button class="style-tag" onclick="toggleGenre(this)">Latin</button>
+            <button class="style-tag" onclick="toggleGenre(this)">R&B</button>
+            <button class="style-tag" onclick="toggleGenre(this)">Reggaeton</button>
+            <button class="style-tag" onclick="toggleGenre(this)">Salsa</button>
+            <button class="style-tag" onclick="toggleGenre(this)">Soul</button>
+            <button class="style-tag" onclick="toggleGenre(this)">Trap</button>
+            <button class="style-tag" onclick="toggleGenre(this)">Zouk</button>
+          </div>
+        </div>
         <div style="background:var(--card);border:1px solid var(--border);border-radius:20px;padding:24px;margin-bottom:24px;">
           <div style="font-family:'Syne',sans-serif;font-weight:700;font-size:14px;margin-bottom:16px;">Affichage du nom</div>
           <div style="display:flex;gap:8px;flex-wrap:wrap;">
@@ -2128,6 +2200,14 @@ footer{
             <button class="to" onclick="setPriv(this,2)">PRIV</button>
           </div>
         </div>
+      </div>
+
+      <!-- SECTION FAVORIS -->
+      <div class="profile-card" id="profil-favoris-section" style="display:none;">
+        <div class="pc-header">
+          <div class="pc-title">Événements favoris</div>
+        </div>
+        <div id="profil-favoris-list"></div>
       </div>
 
       <!-- SECTION RÉSEAUX SOCIAUX (profil perso) -->
@@ -2334,6 +2414,61 @@ function toggleStyle(el) {
   el.classList.toggle('selected');
 }
 
+function toggleGenre(el) {
+  el.classList.toggle('selected');
+}
+
+// ════════════════════════════════
+// COMPATIBILITÉ
+// ════════════════════════════════
+function calculerCompatibilite(moi, autre) {
+  if (!moi || !autre) return null;
+  let score = 0;
+
+  // 1. Styles de danse (40 pts)
+  const mesStyles   = new Set(normaliserStyles(moi.styles));
+  const sesStyles   = new Set(normaliserStyles(autre.styles));
+  const commStyles  = [...mesStyles].filter(s => sesStyles.has(s));
+  const totStyles   = new Set([...mesStyles, ...sesStyles]).size;
+  if (totStyles > 0) score += Math.round((commStyles.length / totStyles) * 40);
+
+  // 2. Ville (20 pts)
+  const maVille = (moi.zone  || '').split(' ')[0];
+  const saVille = (autre.zone || '').split(' ')[0];
+  if (maVille && saVille && maVille === saVille) score += 20;
+
+  // 3. Événements en commun (25 pts)
+  const mesEvts  = new Set(moi.eventsInscrits  || []);
+  const sesEvts  = new Set(autre.eventsInscrits || []);
+  const commEvts = [...mesEvts].filter(e => sesEvts.has(e));
+  const totEvts  = new Set([...mesEvts, ...sesEvts]).size;
+  if (totEvts > 0) score += Math.round((commEvts.length / totEvts) * 25);
+  else score += 12; // Neutre si aucun event
+
+  // 4. Genres musicaux (15 pts)
+  const mesGenres  = new Set(normaliserStyles(moi.genres));
+  const sesGenres  = new Set(normaliserStyles(autre.genres));
+  const commGenres = [...mesGenres].filter(g => sesGenres.has(g));
+  const totGenres  = new Set([...mesGenres, ...sesGenres]).size;
+  if (totGenres > 0) score += Math.round((commGenres.length / totGenres) * 15);
+  else score += 7; // Neutre si aucun genre
+
+  return Math.min(100, score);
+}
+
+function couleurCompatibilite(score) {
+  if (score >= 75) return '#00f59b';
+  if (score >= 50) return '#ffd93d';
+  if (score >= 25) return '#ff9500';
+  return '#ff4d6d';
+}
+
+function badgeCompatibilite(score) {
+  if (score === null) return '';
+  const c = couleurCompatibilite(score);
+  return `<span style="display:inline-flex;align-items:center;gap:5px;padding:4px 10px;border-radius:8px;background:${c}18;border:1px solid ${c}44;font-size:11px;font-weight:800;font-family:'Syne',sans-serif;color:${c};">⚡ ${score}%</span>`;
+}
+
 // ── Choix affichage nom/blase/les deux ──
 function toggleAffichage(type, el) {
   document.getElementById('show-nom').classList.remove('selected');
@@ -2510,12 +2645,17 @@ function afficherEvents() {
     const btnLabel = ev.type === 'cours' ? "S'inscrire" : '🎟️ Réserver';
     const inscrits = ev.inscrits || 0;
     const date = ev.date ? new Date(ev.date).toLocaleDateString('fr-FR', { weekday:'long', day:'numeric', month:'long' }) : '';
+    const estFavori = mesFavoris.has(ev.id);
 
     return `
       <div class="event-card" onclick="ouvrirEvent('${ev.id}')">
         <div class="ec-banner">
           <div class="ec-banner-bg" style="background:${cfg.bg}"></div>
           <span class="ec-type">${cfg.label}</span>
+          <button id="fav-${ev.id}" onclick="event.stopPropagation();toggleFavori('${ev.id}')"
+            style="position:absolute;top:10px;right:10px;width:32px;height:32px;border-radius:50%;background:rgba(0,0,0,0.4);border:1px solid rgba(255,255,255,0.15);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:16px;transition:all 0.2s;backdrop-filter:blur(4px);">
+            ${estFavori ? '♥' : '♡'}
+          </button>
         </div>
         <div class="ec-body">
           <div class="ec-title">${ev.titre || 'Événement'}</div>
@@ -2566,6 +2706,14 @@ function ouvrirEvent(id) {
 
   const btn = document.getElementById('modal-btn');
   btn.textContent = ev.type === 'cours' ? "✅ S'inscrire" : '🎟️ Réserver';
+
+  // Bouton favori dans le modal
+  const favBtn = document.getElementById('modal-fav-btn');
+  if (favBtn) {
+    const estFav = mesFavoris.has(ev.id);
+    favBtn.textContent = estFav ? '♥' : '♡';
+    favBtn.style.color = estFav ? 'var(--red)' : 'var(--muted2)';
+  }
 
   document.getElementById('event-modal').style.display = 'block';
   document.body.style.overflow = 'hidden';
@@ -3246,8 +3394,81 @@ window.fermerListeSociale = function() {
 }
 
 // ════════════════════════════════
-// SYSTÈME D'ABONNEMENT
+// FAVORIS ÉVÉNEMENTS
 // ════════════════════════════════
+let mesFavoris = new Set();
+
+async function chargerFavoris() {
+  if (!window._currentUid || !window._db) return;
+  try {
+    const { getDoc, doc } = await import('https://www.gstatic.com/firebasejs/10.0.0/firebase-firestore.js');
+    const snap = await getDoc(doc(window._db, 'danseurs', window._currentUid));
+    if (snap.exists()) {
+      mesFavoris = new Set(snap.data().favoris || []);
+    }
+  } catch(e) { console.error(e); }
+}
+
+window.toggleFavori = async function(eventId) {
+  if (!window._currentUid) { showPage('auth'); return; }
+  const estFavori = mesFavoris.has(eventId);
+
+  try {
+    const { doc, updateDoc, arrayUnion, arrayRemove } = await import('https://www.gstatic.com/firebasejs/10.0.0/firebase-firestore.js');
+    if (estFavori) {
+      await updateDoc(doc(window._db, 'danseurs', window._currentUid), { favoris: arrayRemove(eventId) });
+      mesFavoris.delete(eventId);
+    } else {
+      await updateDoc(doc(window._db, 'danseurs', window._currentUid), { favoris: arrayUnion(eventId) });
+      mesFavoris.add(eventId);
+    }
+    // Mettre à jour le bouton sur la card
+    const btn = document.getElementById('fav-' + eventId);
+    if (btn) {
+      btn.textContent = mesFavoris.has(eventId) ? '♥' : '♡';
+      btn.style.color = mesFavoris.has(eventId) ? 'var(--red)' : '';
+    }
+    // Mettre à jour le modal si ouvert
+    const modalFav = document.getElementById('modal-fav-btn');
+    if (modalFav && eventCourant?.id === eventId) {
+      modalFav.textContent = mesFavoris.has(eventId) ? '♥' : '♡';
+      modalFav.style.color = mesFavoris.has(eventId) ? 'var(--red)' : 'var(--muted2)';
+    }
+    // Rafraîchir section favoris du profil
+    afficherFavorisProfile();
+  } catch(e) { console.error(e); }
+}
+
+window.toggleFavoriModal = function() {
+  if (eventCourant) toggleFavori(eventCourant.id);
+}
+
+function afficherFavorisProfile() {
+  const section = document.getElementById('profil-favoris-section');
+  const list    = document.getElementById('profil-favoris-list');
+  if (!section || !list) return;
+
+  const favEvents = tousLesEvents.filter(e => mesFavoris.has(e.id));
+  if (favEvents.length === 0) {
+    section.style.display = 'none';
+    return;
+  }
+
+  section.style.display = 'block';
+  list.innerHTML = favEvents.map(ev => {
+    const cfg = TYPE_CONFIG[ev.type] || TYPE_CONFIG.soiree;
+    const date = ev.date ? new Date(ev.date).toLocaleDateString('fr-FR', { day:'numeric', month:'short' }) : '';
+    return `
+      <div style="display:flex;align-items:center;gap:12px;padding:12px 0;border-bottom:1px solid rgba(255,255,255,0.04);cursor:pointer;" onclick="showPage('agenda');setTimeout(()=>ouvrirEvent('${ev.id}'),300)">
+        <div style="width:40px;height:40px;border-radius:12px;background:${cfg.bg};display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;">${cfg.label.split(' ')[0]}</div>
+        <div style="flex:1;min-width:0;">
+          <div style="font-family:'Syne',sans-serif;font-weight:700;font-size:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${ev.titre}</div>
+          <div style="font-size:11px;color:var(--muted2);margin-top:2px;">${date} · ${ev.ville || ''}</div>
+        </div>
+        <button onclick="event.stopPropagation();toggleFavori('${ev.id}')" style="background:none;border:none;cursor:pointer;font-size:16px;color:var(--red);padding:4px;">♥</button>
+      </div>`;
+  }).join('');
+}
 let mesAbonnements = new Set();
 let convOuverte = null;
 
@@ -3959,6 +4180,7 @@ function afficherListeDanseurs(danseurs) {
           <div class="dc-name" style="text-decoration:underline;text-decoration-color:rgba(255,255,255,0.2);">${nom}</div>
           <div class="dc-tags">${styles.map(s => `<span class="dc-tag">${s}</span>`).join('')}</div>
           <div class="dc-zone">📍 ${d.zone || 'Zone non définie'}</div>
+          ${window._monProfil && d.uid !== window._currentUid ? badgeCompatibilite(calculerCompatibilite(window._monProfil, d)) : ''}
         </div>
         <button onclick="toggleSuivre('${d.uid}')" id="btn-suivre-${d.uid}"
           style="padding:6px 12px;border-radius:10px;font-size:11px;font-weight:800;font-family:'Syne',sans-serif;border:1.5px solid var(--border);background:transparent;color:var(--muted2);cursor:pointer;transition:all 0.2s;white-space:nowrap;">
@@ -4031,6 +4253,21 @@ window.ouvrirProfilArtiste = async function(uid) {
     // ── Zone ──
     document.getElementById('ap-zone').textContent = '📍 ' + (d.zone || 'Zone non définie');
 
+    // ── Score de compatibilité ──
+    let compatEl = document.getElementById('ap-compat');
+    if (!compatEl) {
+      compatEl = document.createElement('div');
+      compatEl.id = 'ap-compat';
+      compatEl.style.cssText = 'margin-top:10px;';
+      document.getElementById('ap-zone').after(compatEl);
+    }
+    if (window._monProfil && uid !== window._currentUid) {
+      const score = calculerCompatibilite(window._monProfil, d);
+      compatEl.innerHTML = badgeCompatibilite(score);
+    } else {
+      compatEl.innerHTML = '';
+    }
+
     // ── Stats (toujours publiques) ──
     document.getElementById('ap-xp').textContent = (d.xp || 0).toLocaleString();
     document.getElementById('ap-events').textContent = d.evenements || 0;
@@ -4080,6 +4317,11 @@ window.ouvrirProfilArtiste = async function(uid) {
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
           Mon site
         </a>`;
+      // Plateformes musicales
+      if (d.spotify)    reseauxHtml += `<a href="${d.spotify}" target="_blank" style="display:inline-flex;align-items:center;gap:7px;padding:8px 14px;border-radius:12px;background:rgba(29,185,84,0.08);border:1px solid rgba(29,185,84,0.3);color:#1db954;font-size:13px;font-weight:700;text-decoration:none;margin-right:8px;margin-bottom:8px;">Spotify</a>`;
+      if (d.applemusic) reseauxHtml += `<a href="${d.applemusic}" target="_blank" style="display:inline-flex;align-items:center;gap:7px;padding:8px 14px;border-radius:12px;background:rgba(252,60,68,0.08);border:1px solid rgba(252,60,68,0.3);color:#fc3c44;font-size:13px;font-weight:700;text-decoration:none;margin-right:8px;margin-bottom:8px;">Apple Music</a>`;
+      if (d.deezer)     reseauxHtml += `<a href="${d.deezer}" target="_blank" style="display:inline-flex;align-items:center;gap:7px;padding:8px 14px;border-radius:12px;background:rgba(162,56,255,0.08);border:1px solid rgba(162,56,255,0.3);color:#a238ff;font-size:13px;font-weight:700;text-decoration:none;margin-right:8px;margin-bottom:8px;">Deezer</a>`;
+      if (d.soundcloud) reseauxHtml += `<a href="${d.soundcloud}" target="_blank" style="display:inline-flex;align-items:center;gap:7px;padding:8px 14px;border-radius:12px;background:rgba(255,85,0,0.08);border:1px solid rgba(255,85,0,0.3);color:#ff5500;font-size:13px;font-weight:700;text-decoration:none;margin-bottom:8px;">SoundCloud</a>`;
     }
 
     // Ajouter section réseaux si elle n'existe pas encore
@@ -4397,12 +4639,18 @@ window.sauvegarderIdentite = async function() {
   const nom   = document.getElementById('profil-nom')?.value.trim()       || '';
   const blase = document.getElementById('profil-blase')?.value.trim()     || '';
   const tel   = document.getElementById('profil-tel')?.value.trim()       || '';
-  const instagram = document.getElementById('profil-instagram')?.value.trim().replace('@','') || '';
-  const tiktok    = document.getElementById('profil-tiktok')?.value.trim().replace('@','')    || '';
-  const lien      = document.getElementById('profil-lien')?.value.trim()  || '';
+  const instagram    = document.getElementById('profil-instagram')?.value.trim().replace('@','') || '';
+  const tiktok       = document.getElementById('profil-tiktok')?.value.trim().replace('@','')    || '';
+  const lien         = document.getElementById('profil-lien')?.value.trim()       || '';
+  const spotify      = document.getElementById('profil-spotify')?.value.trim()    || '';
+  const applemusic   = document.getElementById('profil-applemusic')?.value.trim() || '';
+  const deezer       = document.getElementById('profil-deezer')?.value.trim()     || '';
+  const soundcloud   = document.getElementById('profil-soundcloud')?.value.trim() || '';
 
   // Récupérer les styles sélectionnés dans la sous-page édition
   const styles = [...document.querySelectorAll('#edit-styles-grid .style-tag.selected')]
+    .map(t => t.textContent.trim());
+  const genres = [...document.querySelectorAll('#edit-genres-grid .style-tag.selected')]
     .map(t => t.textContent.trim());
 
   const affichageType = document.querySelector('#show-les-deux.selected') ? 'les-deux'
@@ -4416,8 +4664,10 @@ window.sauvegarderIdentite = async function() {
   try {
     await setDoc(doc(db, 'danseurs', user.uid), {
       nom, blase, tel, instagram, tiktok, lien, lienVisible,
+      spotify, applemusic, deezer, soundcloud,
       affichageType, nomAffiche,
       ...(styles.length > 0 ? { styles } : {}),
+      ...(genres.length > 0 ? { genres } : {}),
       ...(window._photoBase64 ? { photo: window._photoBase64 } : {})
     }, { merge: true });
 
@@ -4485,15 +4735,23 @@ async function chargerProfil(uid) {
     const champNom      = document.getElementById('profil-nom');
     const champBlase    = document.getElementById('profil-blase');
     const champTel      = document.getElementById('profil-tel');
-    const champInsta    = document.getElementById('profil-instagram');
-    const champTiktok   = document.getElementById('profil-tiktok');
-    const champLien     = document.getElementById('profil-lien');
-    if (champNom)    champNom.value    = d.nom       || '';
-    if (champBlase)  champBlase.value  = d.blase     || '';
-    if (champTel)    champTel.value    = d.tel        || '';
-    if (champInsta)  champInsta.value  = d.instagram  || '';
-    if (champTiktok) champTiktok.value = d.tiktok     || '';
-    if (champLien)   champLien.value   = d.lien       || '';
+    const champInsta      = document.getElementById('profil-instagram');
+    const champTiktok     = document.getElementById('profil-tiktok');
+    const champLien       = document.getElementById('profil-lien');
+    const champSpotify    = document.getElementById('profil-spotify');
+    const champApple      = document.getElementById('profil-applemusic');
+    const champDeezer     = document.getElementById('profil-deezer');
+    const champSoundcloud = document.getElementById('profil-soundcloud');
+    if (champNom)         champNom.value         = d.nom        || '';
+    if (champBlase)       champBlase.value       = d.blase      || '';
+    if (champTel)         champTel.value         = d.tel        || '';
+    if (champInsta)       champInsta.value       = d.instagram  || '';
+    if (champTiktok)      champTiktok.value      = d.tiktok     || '';
+    if (champLien)        champLien.value        = d.lien       || '';
+    if (champSpotify)     champSpotify.value     = d.spotify    || '';
+    if (champApple)       champApple.value       = d.applemusic || '';
+    if (champDeezer)      champDeezer.value      = d.deezer     || '';
+    if (champSoundcloud)  champSoundcloud.value  = d.soundcloud || '';
 
     // Toggle lien
     lienVisible = d.lienVisible !== false;
@@ -4542,6 +4800,11 @@ async function chargerProfil(uid) {
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
           Mon site
         </a>`;
+      // Plateformes musicales
+      if (d.spotify)    html += `<a href="${d.spotify}" target="_blank" style="display:inline-flex;align-items:center;gap:7px;padding:9px 14px;border-radius:12px;background:rgba(29,185,84,0.08);border:1px solid rgba(29,185,84,0.3);color:#1db954;font-size:13px;font-weight:700;text-decoration:none;">Spotify</a>`;
+      if (d.applemusic) html += `<a href="${d.applemusic}" target="_blank" style="display:inline-flex;align-items:center;gap:7px;padding:9px 14px;border-radius:12px;background:rgba(252,60,68,0.08);border:1px solid rgba(252,60,68,0.3);color:#fc3c44;font-size:13px;font-weight:700;text-decoration:none;">Apple Music</a>`;
+      if (d.deezer)     html += `<a href="${d.deezer}" target="_blank" style="display:inline-flex;align-items:center;gap:7px;padding:9px 14px;border-radius:12px;background:rgba(162,56,255,0.08);border:1px solid rgba(162,56,255,0.3);color:#a238ff;font-size:13px;font-weight:700;text-decoration:none;">Deezer</a>`;
+      if (d.soundcloud) html += `<a href="${d.soundcloud}" target="_blank" style="display:inline-flex;align-items:center;gap:7px;padding:9px 14px;border-radius:12px;background:rgba(255,85,0,0.08);border:1px solid rgba(255,85,0,0.3);color:#ff5500;font-size:13px;font-weight:700;text-decoration:none;">SoundCloud</a>`;
 
       if (html) {
         reseauxSection.style.display = 'block';
@@ -4608,8 +4871,11 @@ async function chargerProfil(uid) {
       });
     }
 
-    // ── Styles de danse ──
-    const stylesNorm = normaliserStyles(d.styles);
+    // ── Genres musicaux ──
+    const genresNorm = normaliserStyles(d.genres);
+    document.querySelectorAll('#edit-genres-grid .style-tag').forEach(tag => {
+      tag.classList.toggle('selected', genresNorm.includes(tag.textContent.trim()));
+    });
     if (stylesNorm.length > 0) {
       document.querySelectorAll('#styles-grid .style-tag').forEach(tag => {
         tag.classList.toggle('selected', stylesNorm.includes(tag.textContent.trim()));
@@ -4639,10 +4905,13 @@ async function chargerProfil(uid) {
 
     // Compter les abonnés (ceux qui me suivent) — via mesAbonnements déjà chargés
     // On met à jour après chargerAbonnements
-    window._monProfil = d;
+    window._monProfil = { ...d, uid };
 
     // ── Stocker uid courant ──
     window._currentUid = uid;
+
+    // ── Favoris ──
+    afficherFavorisProfile();
 
     mettreAJourNav(d);
 
@@ -4810,6 +5079,7 @@ onAuthStateChanged(auth, async (user) => {
     console.log('✅ Connecté :', user.email);
     await chargerProfil(user.uid);
     await chargerAbonnements();
+    await chargerFavoris();
   } else {
     console.log('👤 Non connecté');
     mettreAJourNav(null);
