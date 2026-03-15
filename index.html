@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>DanceBand — Le réseau des danseurs</title>
+<title>HAKO — Le réseau des artistes</title>
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
 :root {
@@ -63,6 +63,7 @@ nav{
   color:var(--green);
   text-decoration:none;
   display:flex;align-items:center;gap:10px;
+  font-weight:800;
 }
 .logo-dot{
   width:8px;height:8px;border-radius:50%;
@@ -918,7 +919,7 @@ footer{
 <nav>
   <a class="logo" href="#" onclick="showPage('home')">
     <div class="logo-dot"></div>
-    DANCEBAND
+    HAKO
   </a>
   <div class="nav-links">
     <a class="nav-link active" href="#" onclick="showPage('home');setActive(this)">Accueil</a>
@@ -940,14 +941,14 @@ footer{
     <div class="hero-content fade-in">
       <div class="hero-badge">
         <div class="logo-dot"></div>
-        Le réseau des danseurs
+        Le réseau des artistes
       </div>
       <h1 class="hero-title">
         <span class="filled">CONNECT</span>
         <span>DANCE</span>
         <span class="accent" style="-webkit-text-stroke:none;">MOVE</span>
       </h1>
-      <p class="hero-sub">Le premier réseau social conçu pour les danseurs. Trouvez des partenaires, découvrez des événements, échangez via votre bracelet connecté.</p>
+      <p class="hero-sub">Le premier réseau social conçu pour les artistes. Trouvez des partenaires, découvrez des événements, échangez via votre bracelet connecté.</p>
       <div class="hero-actions">
         <a class="btn-primary" href="#" onclick="showPage('auth')">Créer mon profil →</a>
         <a class="btn-secondary" href="#" onclick="showPage('network')">Explorer le réseau</a>
@@ -955,7 +956,7 @@ footer{
       <div class="hero-stats">
         <div>
           <div class="hero-stat-val">2.4K</div>
-          <div class="hero-stat-label">Danseurs actifs</div>
+          <div class="hero-stat-label">Artistes actifs</div>
         </div>
         <div>
           <div class="hero-stat-val">180+</div>
@@ -1043,9 +1044,9 @@ footer{
     <div class="footer-brand">
       <div class="logo">
         <div class="logo-dot"></div>
-        DANCEBAND
+        HAKO
       </div>
-      <p class="footer-desc">Le premier réseau social connecté pour la communauté danse.</p>
+      <p class="footer-desc">Le premier réseau social connecté pour la communauté artistique.</p>
     </div>
     <div>
       <div class="footer-title">Navigation</div>
@@ -1065,8 +1066,8 @@ footer{
     </div>
   </footer>
   <div class="footer-bottom">
-    <span class="footer-copy">© 2026 DanceBand — Tous droits réservés</span>
-    <span class="footer-copy">Made with 💚 pour les danseurs</span>
+    <span class="footer-copy">© 2026 HAKO — Tous droits réservés</span>
+    <span class="footer-copy">Made with 💚 by HAKO</span>
   </div>
 </div>
 
@@ -1081,7 +1082,7 @@ footer{
 
       <!-- INSCRIPTION -->
       <div id="tab-signup">
-        <div class="auth-title">REJOINS<br>DANCEBAND</div>
+        <div class="auth-title">REJOINS<br>HAKO</div>
         <p class="auth-sub">Crée ton profil en 2 minutes</p>
         <div id="signup-error" style="display:none;background:rgba(255,77,109,0.1);border:1px solid var(--red);border-radius:10px;padding:12px;font-size:13px;color:var(--red);margin-bottom:16px;"></div>
         <div id="signup-success" style="display:none;background:rgba(0,245,155,0.1);border:1px solid var(--green);border-radius:10px;padding:12px;font-size:13px;color:var(--green);margin-bottom:16px;"></div>
@@ -1112,19 +1113,43 @@ footer{
             <button class="style-tag" onclick="toggleStyle(this)">Afro</button>
             <button class="style-tag" onclick="toggleStyle(this)">Zouk</button>
             <button class="style-tag" onclick="toggleStyle(this)">Dancehall</button>
+            <button class="style-tag" onclick="toggleStyle(this)">Popping</button>
+            <button class="style-tag" onclick="toggleStyle(this)">Litefeet</button>
+            <button class="style-tag" onclick="toggleStyle(this)">House</button>
+            <button class="style-tag" onclick="toggleStyle(this)">Samba</button>
+            <button class="style-tag" onclick="toggleStyle(this)">New Style</button>
+            <button class="style-tag" onclick="toggleStyle(this)">Krump</button>
+            <button class="style-tag" onclick="toggleStyle(this)">Commercial</button>
+            <button class="style-tag" onclick="toggleStyle(this)">Heels</button>
+            <button class="style-tag" onclick="toggleStyle(this)">Experimental</button>
+            <button class="style-tag" onclick="toggleStyle(this)">Locking</button>
+            <button class="style-tag" onclick="toggleStyle(this)">Classique</button>
+            <button class="style-tag" onclick="toggleStyle(this)">Electro</button>
+            <button class="style-tag" onclick="toggleStyle(this)">Voguing</button>
+            <button class="style-tag" onclick="toggleStyle(this)">Modern Jazz</button>
+            <button class="style-tag" onclick="toggleStyle(this)">Street Jazz</button>
+            <button class="style-tag" onclick="toggleStyle(this)">Bharata Natyam</button>
+            <button class="style-tag" onclick="toggleStyle(this)">Claquettes</button>
+            <button class="style-tag" onclick="toggleStyle(this)">Tango</button>
+            <button class="style-tag" onclick="toggleStyle(this)">Danse Orientale</button>
+            <button class="style-tag" onclick="toggleStyle(this)">Pole Dance</button>
+            <button class="style-tag" onclick="toggleStyle(this)">Capoeira</button>
           </div>
         </div>
         <div class="form-group">
           <label class="form-label">Ta zone</label>
           <select id="signup-zone" class="form-select">
-            <option>Paris 11e</option>
-            <option>Paris 15e</option>
-            <option>Paris 18e</option>
+            <option>Bordeaux</option>
+            <option>Grenoble</option>
+            <option>Lille</option>
             <option>Lyon</option>
             <option>Marseille</option>
-            <option>Bordeaux</option>
-            <option>Toulouse</option>
             <option>Nantes</option>
+            <option>Nice</option>
+            <option>Orléans</option>
+            <option>Paris</option>
+            <option>Strasbourg</option>
+            <option>Toulouse</option>
           </select>
         </div>
         <button id="signup-btn" class="form-submit" onclick="inscrire()">Créer mon profil →</button>
@@ -1436,6 +1461,47 @@ footer{
           </div>
         </div>
 
+        <!-- STYLES DE DANSE -->
+        <div style="background:var(--card);border:1px solid var(--border);border-radius:20px;padding:24px;margin-bottom:16px;">
+          <div style="font-family:'Syne',sans-serif;font-weight:700;font-size:14px;margin-bottom:16px;">💃 Mes styles de danse</div>
+          <div class="styles-grid" id="edit-styles-grid">
+            <button class="style-tag" onclick="toggleStyle(this)">Salsa</button>
+            <button class="style-tag" onclick="toggleStyle(this)">Kizomba</button>
+            <button class="style-tag" onclick="toggleStyle(this)">Hip-Hop</button>
+            <button class="style-tag" onclick="toggleStyle(this)">Bachata</button>
+            <button class="style-tag" onclick="toggleStyle(this)">Breakdance</button>
+            <button class="style-tag" onclick="toggleStyle(this)">Afro</button>
+            <button class="style-tag" onclick="toggleStyle(this)">Zouk</button>
+            <button class="style-tag" onclick="toggleStyle(this)">Dancehall</button>
+            <button class="style-tag" onclick="toggleStyle(this)">Contemporain</button>
+            <button class="style-tag" onclick="toggleStyle(this)">Modern Jazz</button>
+            <button class="style-tag" onclick="toggleStyle(this)">Street Jazz</button>
+            <button class="style-tag" onclick="toggleStyle(this)">Reggaeton</button>
+            <button class="style-tag" onclick="toggleStyle(this)">Waacking</button>
+            <button class="style-tag" onclick="toggleStyle(this)">Popping</button>
+            <button class="style-tag" onclick="toggleStyle(this)">Locking</button>
+            <button class="style-tag" onclick="toggleStyle(this)">Litefeet</button>
+            <button class="style-tag" onclick="toggleStyle(this)">House</button>
+            <button class="style-tag" onclick="toggleStyle(this)">Samba</button>
+            <button class="style-tag" onclick="toggleStyle(this)">New Style</button>
+            <button class="style-tag" onclick="toggleStyle(this)">Krump</button>
+            <button class="style-tag" onclick="toggleStyle(this)">Commercial</button>
+            <button class="style-tag" onclick="toggleStyle(this)">Heels</button>
+            <button class="style-tag" onclick="toggleStyle(this)">Experimental</button>
+            <button class="style-tag" onclick="toggleStyle(this)">Classique</button>
+            <button class="style-tag" onclick="toggleStyle(this)">Electro</button>
+            <button class="style-tag" onclick="toggleStyle(this)">Voguing</button>
+            <button class="style-tag" onclick="toggleStyle(this)">Modern Jazz</button>
+            <button class="style-tag" onclick="toggleStyle(this)">Street Jazz</button>
+            <button class="style-tag" onclick="toggleStyle(this)">Bharata Natyam</button>
+            <button class="style-tag" onclick="toggleStyle(this)">Claquettes</button>
+            <button class="style-tag" onclick="toggleStyle(this)">Tango</button>
+            <button class="style-tag" onclick="toggleStyle(this)">Danse Orientale</button>
+            <button class="style-tag" onclick="toggleStyle(this)">Pole Dance</button>
+            <button class="style-tag" onclick="toggleStyle(this)">Capoeira</button>
+          </div>
+        </div>
+
         <!-- AFFICHAGE -->
         <div style="background:var(--card);border:1px solid var(--border);border-radius:20px;padding:24px;margin-bottom:24px;">
           <div style="font-family:'Syne',sans-serif;font-weight:700;font-size:14px;margin-bottom:16px;">👁️ Afficher sur mon profil</div>
@@ -1475,6 +1541,7 @@ footer{
           </div>
         </div>
         <button class="ph-edit" onclick="ouvrirEdition()">✏️ Modifier</button>
+        <button id="deco-btn" onclick="window.deconnecter()" style="display:none;padding:10px 16px;border-radius:10px;background:rgba(255,77,109,0.08);border:1px solid rgba(255,77,109,0.3);color:var(--red);font-weight:700;font-size:13px;cursor:pointer;font-family:'DM Sans',sans-serif;align-items:center;gap:6px;">🚪 Déco</button>
       </div>
       <div class="ph-stats">
         <div class="ph-stat"><div class="ph-stat-v">247</div><div class="ph-stat-l">ÉCHANGES</div></div>
@@ -1751,6 +1818,12 @@ function setPriv(btn, idx) {
   const grp = btn.closest('.tg');
   grp.querySelectorAll('.to').forEach(b => b.className = 'to');
   btn.classList.add(['sp','sa','sr'][idx]);
+  // Identifier le champ
+  const row   = btn.closest('.priv-row');
+  const champ = row?.querySelector('.priv-fn')?.textContent?.trim();
+  const champs = { 'Nom / Pseudo': 'nom', 'Styles': 'styles', 'Réseaux sociaux': 'reseaux', 'Playlists': 'playlists' };
+  const valeurs = ['public','amis','prive'];
+  if (champs[champ]) window.sauvegarderConf(champs[champ], valeurs[idx]);
 }
 
 // ── Zone selector ──
@@ -1765,6 +1838,8 @@ function selectZone(el) {
   const c = el.querySelector('.zo-check');
   c.classList.add('ok');
   c.innerHTML = '✓';
+  const zoneNom = el.querySelector('.zo-n')?.textContent || '';
+  window.sauvegarderZone(zoneNom);
 }
 
 // ── Dispo chips ──
@@ -1772,6 +1847,7 @@ document.querySelectorAll('.dchip').forEach(c => {
   c.addEventListener('click', function() {
     document.querySelectorAll('.dchip').forEach(x => x.classList.remove('on'));
     this.classList.add('on');
+    window.sauvegarderDispo(this.textContent.trim());
   });
 });
 
@@ -1890,7 +1966,7 @@ window.inscrire = async function() {
       createdAt: new Date().toISOString()
     });
 
-    okDiv.textContent = '✅ Compte créé ! Bienvenue sur DanceBand !';
+    okDiv.textContent = '✅ Compte créé ! Bienvenue sur HAKO !';
     okDiv.style.display = 'block';
 
     setTimeout(() => {
@@ -1972,6 +2048,10 @@ window.sauvegarderIdentite = async function() {
   const nom   = document.getElementById('profil-nom')?.value.trim()   || '';
   const blase = document.getElementById('profil-blase')?.value.trim() || '';
 
+  // Récupérer les styles sélectionnés dans la sous-page édition
+  const styles = [...document.querySelectorAll('#edit-styles-grid .style-tag.selected')]
+    .map(t => t.textContent.trim());
+
   const affichageType = document.querySelector('#show-les-deux.selected') ? 'les-deux'
                       : document.querySelector('#show-blase.selected')    ? 'blase'
                       : 'nom';
@@ -1983,6 +2063,7 @@ window.sauvegarderIdentite = async function() {
   try {
     await setDoc(doc(db, 'danseurs', user.uid), {
       nom, blase, affichageType, nomAffiche,
+      ...(styles.length > 0 ? { styles } : {}),
       ...(window._photoBase64 ? { photo: window._photoBase64 } : {})
     }, { merge: true });
 
@@ -2018,13 +2099,15 @@ window.deconnecter = async function() {
 // ════════════════════════════════
 // CHARGER LE PROFIL
 // ════════════════════════════════
+// CHARGER PROFIL COMPLET
+// ════════════════════════════════
 async function chargerProfil(uid) {
   try {
     const snap = await getDoc(doc(db, 'danseurs', uid));
     if (!snap.exists()) return;
     const d = snap.data();
 
-    // Photo de profil
+    // ── Photo ──
     if (d.photo) {
       ['ph-avatar-emoji','edit-avatar-emoji'].forEach(id => {
         const el = document.getElementById(id);
@@ -2037,31 +2120,97 @@ async function chargerProfil(uid) {
       window._photoBase64 = d.photo;
     }
 
-    // Nom affiché selon le choix
+    // ── Nom affiché ──
     const nomAffiche = d.nomAffiche || d.pseudo || d.nom || 'Mon profil';
-
-    // Mettre à jour le profil affiché
     const phName   = document.getElementById('ph-name-display');
     const phHandle = document.getElementById('ph-handle-display');
     if (phName)   phName.textContent   = nomAffiche.toUpperCase();
-    if (phHandle) phHandle.textContent = (d.zone || '');
+    if (phHandle) phHandle.textContent = d.zone || '';
 
-    // Remplir les champs édition
+    // ── Champs édition ──
     const champNom   = document.getElementById('profil-nom');
     const champBlase = document.getElementById('profil-blase');
     if (champNom)   champNom.value   = d.nom   || '';
     if (champBlase) champBlase.value = d.blase || '';
-
-    // Sélectionner le bon bouton d'affichage
     const type = d.affichageType || 'nom';
-    const btn  = document.getElementById('show-' + type);
-    if (btn) toggleAffichage(type, btn);
+    const btnAff = document.getElementById('show-' + type);
+    if (btnAff) toggleAffichage(type, btnAff);
 
-    // Stats
+    // ── Stats ──
     const stats = document.querySelectorAll('.ph-stat-v');
     if (stats[0]) stats[0].textContent = d.echanges   || 0;
     if (stats[1]) stats[1].textContent = d.evenements || 0;
-    if (stats[2]) stats[2].textContent = (d.niveau    || 1) + '/5';
+    if (stats[2]) stats[2].textContent = (d.niveau || 1) + '/5';
+    if (stats[3]) stats[3].textContent = '#' + (d.classement || '—');
+
+    // ── Zone ──
+    if (d.zone) {
+      document.querySelectorAll('.zo').forEach(zo => {
+        const zn = zo.querySelector('.zo-n');
+        const zc = zo.querySelector('.zo-check');
+        if (!zn || !zc) return;
+        const match = (d.zoneType === 'ville' && zn.textContent === 'Ville') ||
+                      (d.zoneType === 'quartier' && zn.textContent === 'Quartier') ||
+                      (!d.zoneType && zn.textContent === 'Arrondissement');
+        if (match) {
+          zo.classList.add('sel');
+          zc.classList.add('ok');
+          zc.innerHTML = '✓';
+        }
+      });
+    }
+
+    // ── Disponibilité ──
+    if (d.disponibilite) {
+      document.querySelectorAll('.dchip').forEach(chip => {
+        chip.classList.remove('on');
+        if (chip.textContent.trim() === d.disponibilite) chip.classList.add('on');
+      });
+    }
+
+    // ── Confidentialité ──
+    if (d.confidentialite) {
+      const conf = d.confidentialite;
+      const rows = document.querySelectorAll('.priv-row');
+      const champs = ['nom','styles','reseaux','playlists'];
+      rows.forEach((row, i) => {
+        const champ = champs[i];
+        if (!champ || !conf[champ]) return;
+        const tg = row.querySelector('.tg');
+        if (!tg) return;
+        tg.querySelectorAll('.to').forEach(b => b.className = 'to');
+        const val = conf[champ];
+        const cls = val === 'public' ? 'sp' : val === 'amis' ? 'sa' : 'sr';
+        const btns = tg.querySelectorAll('.to');
+        const idx  = val === 'public' ? 0 : val === 'amis' ? 1 : 2;
+        if (btns[idx]) btns[idx].classList.add(cls);
+      });
+    }
+
+    // ── Styles de danse ──
+    if (d.styles && Array.isArray(d.styles)) {
+      // Grille inscription
+      document.querySelectorAll('#styles-grid .style-tag').forEach(tag => {
+        tag.classList.toggle('selected', d.styles.includes(tag.textContent.trim()));
+      });
+      // Grille édition profil
+      document.querySelectorAll('#edit-styles-grid .style-tag').forEach(tag => {
+        tag.classList.toggle('selected', d.styles.includes(tag.textContent.trim()));
+      });
+    }
+
+    // ── Bracelet ──
+    const band = document.querySelector('.ph-band');
+    if (band) {
+      const modeTexte = d.modeBracelet === 'public' ? '🟢 Mode Public'
+                      : d.modeBracelet === 'prive'  ? '🔴 Mode Privé'
+                      : '🟡 Mode Amis';
+      band.querySelector('span') || band.appendChild(document.createElement('span'));
+      band.lastChild.textContent = ' Bracelet connecté · ' + modeTexte;
+    }
+
+    // ── Stocker uid courant ──
+    window._currentUid = uid;
 
     mettreAJourNav(d);
 
@@ -2071,17 +2220,51 @@ async function chargerProfil(uid) {
 }
 
 // ════════════════════════════════
+// SAUVEGARDER ZONE
+// ════════════════════════════════
+window.sauvegarderZone = async function(zoneType) {
+  if (!window._currentUid) return;
+  const zones = { 'Ville': 'ville', 'Arrondissement': 'arrondissement', 'Quartier': 'quartier' };
+  await setDoc(doc(db, 'danseurs', window._currentUid), { zoneType: zones[zoneType] || 'arrondissement' }, { merge: true });
+}
+
+// ════════════════════════════════
+// SAUVEGARDER DISPONIBILITÉ
+// ════════════════════════════════
+window.sauvegarderDispo = async function(dispo) {
+  if (!window._currentUid) return;
+  await setDoc(doc(db, 'danseurs', window._currentUid), { disponibilite: dispo, disponible: dispo !== 'Indisponible' }, { merge: true });
+}
+
+// ════════════════════════════════
+// SAUVEGARDER CONFIDENTIALITÉ
+// ════════════════════════════════
+window.sauvegarderConf = async function(champ, valeur) {
+  if (!window._currentUid) return;
+  await setDoc(doc(db, 'danseurs', window._currentUid), {
+    confidentialite: { [champ]: valeur }
+  }, { merge: true });
+  console.log('✅ Confidentialité mise à jour:', champ, '→', valeur);
+}
+
+// ════════════════════════════════
 // MISE À JOUR NAVIGATION
 // ════════════════════════════════
 function mettreAJourNav(user) {
   const cta = document.querySelector('.nav-cta');
   if (!cta) return;
   if (user) {
-    cta.textContent = '👤 ' + (user.pseudo || 'Profil');
+    const nomCourt = user.nomAffiche || user.pseudo || user.nom || 'Profil';
+    cta.textContent = '👤 ' + nomCourt;
     cta.onclick = () => window.showPage('profile');
+    // Bouton déconnexion dans le profil
+    const decoBtn = document.getElementById('deco-btn');
+    if (decoBtn) decoBtn.style.display = 'inline-flex';
   } else {
     cta.textContent = 'Rejoindre →';
     cta.onclick = () => window.showPage('auth');
+    const decoBtn = document.getElementById('deco-btn');
+    if (decoBtn) decoBtn.style.display = 'none';
   }
 }
 
@@ -2092,13 +2275,6 @@ onAuthStateChanged(auth, async (user) => {
   if (user) {
     console.log('✅ Connecté :', user.email);
     await chargerProfil(user.uid);
-
-    // Ajouter bouton déconnexion dans le profil
-    const editBtn = document.querySelector('.ph-edit');
-    if (editBtn) {
-      editBtn.textContent = '🚪 Déconnexion';
-      editBtn.onclick = window.deconnecter;
-    }
   } else {
     console.log('👤 Non connecté');
     mettreAJourNav(null);
