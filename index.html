@@ -4898,6 +4898,9 @@ async function chargerProfil(uid) {
     document.querySelectorAll('#edit-genres-grid .style-tag').forEach(tag => {
       tag.classList.toggle('selected', genresNorm.includes(tag.textContent.trim()));
     });
+
+    // ── Styles de danse ──
+    const stylesNorm = normaliserStyles(d.styles);
     if (stylesNorm.length > 0) {
       document.querySelectorAll('#styles-grid .style-tag').forEach(tag => {
         tag.classList.toggle('selected', stylesNorm.includes(tag.textContent.trim()));
