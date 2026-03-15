@@ -1606,70 +1606,54 @@ footer{
 <!-- ═══ PAGE: CLASSEMENT ═══ -->
 <div class="page" id="page-ranking">
   <div class="ranking-page">
-    <div class="rk-hero fade-in">
+
+    <!-- HERO MON CLASSEMENT -->
+    <div class="rk-hero fade-in" id="rk-hero">
       <div class="rk-pos-wrap">
-        <div class="rk-pos">#12</div>
-        <div class="rk-pos-label">Classement Paris</div>
+        <div class="rk-pos" id="rk-pos">—</div>
+        <div class="rk-pos-label" id="rk-pos-label">Mon classement</div>
       </div>
       <div class="rk-info">
-        <div class="rk-name">SOFIA M.</div>
-        <div class="rk-sub">Niveau 4 · Salsa & Kizomba · Paris 11e</div>
+        <div class="rk-name" id="rk-name">—</div>
+        <div class="rk-sub" id="rk-sub">Connecte-toi pour voir ton classement</div>
         <div class="xp-wrap">
-          <div class="xp-label"><span>2 340 XP actuels</span><span>3 000 XP → Niveau 5</span></div>
-          <div class="xp-bar-bg"><div class="xp-bar"></div></div>
+          <div class="xp-label">
+            <span id="rk-xp-current">0 XP</span>
+            <span id="rk-xp-next">1 000 XP → Niveau 2</span>
+          </div>
+          <div class="xp-bar-bg">
+            <div class="xp-bar" id="rk-xp-bar" style="width:0%"></div>
+          </div>
         </div>
       </div>
     </div>
 
+    <!-- MES BADGES -->
     <div class="badges-section">
       <div class="section-tag" style="margin-bottom:16px">Mes badges</div>
-      <div class="badges-grid">
-        <div class="badge-card"><div class="badge-ico">🥇</div><div class="badge-n">Connecteur</div><div class="badge-v">200+ échanges</div></div>
-        <div class="badge-card"><div class="badge-ico">🎯</div><div class="badge-n">Assidu</div><div class="badge-v">30+ events</div></div>
-        <div class="badge-card"><div class="badge-ico">⭐</div><div class="badge-n">Certifié</div><div class="badge-v">3 profs validés</div></div>
-        <div class="badge-card"><div class="badge-ico">🔥</div><div class="badge-n">En feu</div><div class="badge-v">7j consécutifs</div></div>
+      <div class="badges-grid" id="badges-grid">
+        <div class="badge-card locked"><div class="badge-ico">🥇</div><div class="badge-n">Connecteur</div><div class="badge-v">200+ échanges</div></div>
+        <div class="badge-card locked"><div class="badge-ico">🎯</div><div class="badge-n">Assidu</div><div class="badge-v">30+ events</div></div>
+        <div class="badge-card locked"><div class="badge-ico">⭐</div><div class="badge-n">Certifié</div><div class="badge-v">3 profs validés</div></div>
+        <div class="badge-card locked"><div class="badge-ico">🔥</div><div class="badge-n">En feu</div><div class="badge-v">7j consécutifs</div></div>
         <div class="badge-card locked"><div class="badge-ico">🏆</div><div class="badge-n">Champion</div><div class="badge-v">Battle gagné</div></div>
         <div class="badge-card locked"><div class="badge-ico">🌍</div><div class="badge-n">Voyageur</div><div class="badge-v">3 villes</div></div>
       </div>
     </div>
 
+    <!-- TABS -->
     <div class="rk-tabs">
-      <button class="rk-tab on">Paris · Salsa</button>
-      <button class="rk-tab">Paris · Global</button>
-      <button class="rk-tab">National</button>
+      <button class="rk-tab on" onclick="setRkTab('ville',this)">Ma ville</button>
+      <button class="rk-tab" onclick="setRkTab('national',this)">National</button>
     </div>
-    <div class="rk-list">
-      <div class="rk-row gold">
-        <div class="rk-num" style="color:var(--yellow);font-weight:800">1</div>
-        <div class="rk-av" style="background:#2b250d">🕺</div>
-        <div><div class="rk-dn" style="font-weight:800">Carlos V.</div><div class="rk-pts">4 820 XP · Niveau 5</div></div>
-        <div class="rk-badge-ico">🥇</div>
-      </div>
-      <div class="rk-row">
-        <div class="rk-num" style="color:#aaa;font-weight:800">2</div>
-        <div class="rk-av" style="background:#1a0d2b">💃</div>
-        <div><div class="rk-dn" style="font-weight:800">Nina K.</div><div class="rk-pts">4 210 XP · Niveau 5</div></div>
-        <div class="rk-badge-ico">🥈</div>
-      </div>
-      <div class="rk-row">
-        <div class="rk-num" style="color:#cd7f32;font-weight:800">3</div>
-        <div class="rk-av" style="background:#0d2b1e">🕺</div>
-        <div><div class="rk-dn" style="font-weight:800">Ahmed B.</div><div class="rk-pts">3 980 XP · Niveau 4</div></div>
-        <div class="rk-badge-ico">🥉</div>
-      </div>
-      <div class="rk-row">
-        <div class="rk-num" style="color:var(--muted2);font-weight:800">4</div>
-        <div class="rk-av" style="background:#0d1e2b">💃</div>
-        <div><div class="rk-dn" style="font-weight:800">Marie L.</div><div class="rk-pts">3 640 XP · Niveau 4</div></div>
-        <div class="rk-badge-ico">🎯</div>
-      </div>
-      <div class="rk-row me">
-        <div class="rk-num" style="color:var(--green);font-weight:800">12</div>
-        <div class="rk-av" style="background:linear-gradient(135deg,var(--green),var(--purple))">💃</div>
-        <div><div class="rk-dn" style="font-weight:800">Sofia M. <span style="color:var(--green);font-size:11px;font-weight:600">(Moi)</span></div><div class="rk-pts">2 340 XP · Niveau 4</div></div>
-        <div class="rk-badge-ico">⭐</div>
+
+    <!-- LISTE CLASSEMENT -->
+    <div class="rk-list" id="rk-list">
+      <div style="padding:20px;text-align:center;color:var(--muted);font-size:13px;">
+        ⏳ Chargement du classement...
       </div>
     </div>
+
   </div>
 </div>
 
@@ -1867,6 +1851,177 @@ document.querySelectorAll('.rk-tab').forEach(t => {
     document.querySelectorAll('.rk-tab').forEach(x => x.classList.remove('on'));
     this.classList.add('on');
   });
+});
+
+// ════════════════════════════════
+// CLASSEMENT
+// ════════════════════════════════
+
+// Seuils XP par niveau
+const NIVEAUX_XP = [0, 500, 1500, 3000, 5000, 8000, 12000];
+const NIVEAUX_LABELS = ['Débutant','Bronze','Argent','Or','Platine','Diamant','Légende'];
+
+function calculerNiveau(xp) {
+  for (let i = NIVEAUX_XP.length - 1; i >= 0; i--) {
+    if (xp >= NIVEAUX_XP[i]) return i + 1;
+  }
+  return 1;
+}
+
+function xpPourNiveauSuivant(xp) {
+  const niv = calculerNiveau(xp) - 1;
+  return NIVEAUX_XP[niv + 1] || NIVEAUX_XP[NIVEAUX_XP.length - 1];
+}
+
+function calculerBadges(d) {
+  const badges = [];
+  if ((d.echanges || 0) >= 200) badges.push('connecteur');
+  if ((d.evenements || 0) >= 30) badges.push('assidu');
+  if ((d.xp || 0) >= 1000)      badges.push('certifie');
+  if ((d.streak || 0) >= 7)     badges.push('enfeu');
+  if (d.battleGagne)             badges.push('champion');
+  if ((d.villes || []).length >= 3) badges.push('voyageur');
+  return badges;
+}
+
+function afficherBadges(badges) {
+  const grid = document.getElementById('badges-grid');
+  if (!grid) return;
+
+  const tousLesBadges = [
+    { id:'connecteur', ico:'🥇', nom:'Connecteur', desc:'200+ échanges' },
+    { id:'assidu',     ico:'🎯', nom:'Assidu',     desc:'30+ events'   },
+    { id:'certifie',   ico:'⭐', nom:'Certifié',   desc:'1000+ XP'     },
+    { id:'enfeu',      ico:'🔥', nom:'En feu',     desc:'7j consécutifs'},
+    { id:'champion',   ico:'🏆', nom:'Champion',   desc:'Battle gagné' },
+    { id:'voyageur',   ico:'🌍', nom:'Voyageur',   desc:'3 villes'     },
+  ];
+
+  grid.innerHTML = tousLesBadges.map(b => `
+    <div class="badge-card ${badges.includes(b.id) ? '' : 'locked'}">
+      <div class="badge-ico">${b.ico}</div>
+      <div class="badge-n">${b.nom}</div>
+      <div class="badge-v">${b.desc}</div>
+    </div>
+  `).join('');
+}
+
+let rkTabActif = 'ville';
+
+function setRkTab(tab, btn) {
+  document.querySelectorAll('.rk-tab').forEach(t => t.classList.remove('on'));
+  btn.classList.add('on');
+  rkTabActif = tab;
+  chargerClassement();
+}
+
+async function chargerClassement() {
+  if (!window._db) { setTimeout(chargerClassement, 500); return; }
+  const list = document.getElementById('rk-list');
+  if (list) list.innerHTML = '<div style="padding:20px;text-align:center;color:var(--muted);font-size:13px;">⏳ Chargement...</div>';
+
+  try {
+    const { collection, getDocs, query, orderBy, limit, where } = await import(
+      'https://www.gstatic.com/firebasejs/10.0.0/firebase-firestore.js'
+    );
+
+    // Récupérer le profil courant
+    const currentUid = window._currentUid;
+    let currentUser = null;
+
+    // Construire la query selon le tab
+    let q;
+    if (rkTabActif === 'ville' && currentUser?.zone) {
+      q = query(collection(window._db,'danseurs'), where('zone','==',currentUser.zone), orderBy('xp','desc'), limit(20));
+    } else {
+      q = query(collection(window._db,'danseurs'), orderBy('xp','desc'), limit(20));
+    }
+
+    const snap = await getDocs(q);
+    const danseurs = [];
+    snap.forEach(d => danseurs.push({ uid: d.id, ...d.data() }));
+
+    // Trouver position du user courant
+    let monPosition = null;
+    if (currentUid) {
+      monPosition = danseurs.findIndex(d => d.uid === currentUid) + 1;
+
+      // Mettre à jour le hero
+      const moi = danseurs.find(d => d.uid === currentUid);
+      if (moi) mettreAJourHeroClassement(moi, monPosition, danseurs.length);
+    }
+
+    afficherListeClassement(danseurs, currentUid);
+    afficherBadges(currentUid ? calculerBadges(danseurs.find(d => d.uid === currentUid) || {}) : []);
+
+  } catch(e) {
+    console.error('Erreur classement:', e);
+    if (list) list.innerHTML = '<div style="padding:20px;text-align:center;color:var(--red);font-size:13px;">❌ Erreur de chargement</div>';
+  }
+}
+
+function mettreAJourHeroClassement(d, position, total) {
+  const xp = d.xp || 0;
+  const niveau = calculerNiveau(xp);
+  const xpNext = xpPourNiveauSuivant(xp);
+  const xpPrev = NIVEAUX_XP[niveau - 1] || 0;
+  const pct = Math.min(100, Math.round((xp - xpPrev) / (xpNext - xpPrev) * 100));
+  const nom = (d.nomAffiche || d.nom || d.pseudo || 'Moi').toUpperCase();
+
+  const el = id => document.getElementById(id);
+  if (el('rk-pos'))     el('rk-pos').textContent = position ? '#' + position : '—';
+  if (el('rk-pos-label')) el('rk-pos-label').textContent = rkTabActif === 'ville' ? 'Ma ville' : 'National';
+  if (el('rk-name'))    el('rk-name').textContent = nom;
+  if (el('rk-sub'))     el('rk-sub').textContent = `Niveau ${niveau} · ${NIVEAUX_LABELS[niveau-1]} · ${d.zone || ''}`;
+  if (el('rk-xp-current')) el('rk-xp-current').textContent = xp.toLocaleString() + ' XP';
+  if (el('rk-xp-next'))    el('rk-xp-next').textContent = xpNext.toLocaleString() + ' XP → Niveau ' + (niveau + 1);
+  if (el('rk-xp-bar'))     el('rk-xp-bar').style.width = pct + '%';
+}
+
+function afficherListeClassement(danseurs, currentUid) {
+  const list = document.getElementById('rk-list');
+  if (!list) return;
+
+  if (danseurs.length === 0) {
+    list.innerHTML = '<div style="padding:20px;text-align:center;color:var(--muted);font-size:13px;">Aucun résultat</div>';
+    return;
+  }
+
+  const medailles = ['🥇','🥈','🥉'];
+  list.innerHTML = danseurs.map((d, i) => {
+    const pos = i + 1;
+    const estMoi = d.uid === currentUid;
+    const xp = d.xp || 0;
+    const niveau = calculerNiveau(xp);
+    const nom = d.nomAffiche || d.nom || d.pseudo || 'Artiste';
+    const couleurNum = pos === 1 ? 'var(--yellow)' : pos === 2 ? '#aaa' : pos === 3 ? '#cd7f32' : estMoi ? 'var(--green)' : 'var(--muted2)';
+    const badge = medailles[pos - 1] || (estMoi ? '⭐' : '');
+    const classeRow = pos === 1 ? 'gold' : estMoi ? 'me' : '';
+
+    return `
+      <div class="rk-row ${classeRow}">
+        <div class="rk-num" style="color:${couleurNum};font-weight:800">${pos}</div>
+        <div class="rk-av" style="background:#0d2b1e;overflow:hidden;position:relative;">
+          ${d.photo ? `<img src="${d.photo}" style="width:100%;height:100%;object-fit:cover;position:absolute;inset:0;border-radius:14px;">` : '💃'}
+        </div>
+        <div style="flex:1">
+          <div class="rk-dn" style="font-weight:800">
+            ${nom}${estMoi ? ' <span style="color:var(--green);font-size:11px;font-weight:600">(Moi)</span>' : ''}
+          </div>
+          <div class="rk-pts">${xp.toLocaleString()} XP · Niveau ${niveau} · ${NIVEAUX_LABELS[niveau-1]}</div>
+        </div>
+        <div class="rk-badge-ico">${badge}</div>
+      </div>
+    `;
+  }).join('');
+}
+
+// Charger classement quand on clique sur l'onglet
+document.addEventListener('click', function(e) {
+  const btn = e.target.closest('[onclick]');
+  if (btn && btn.getAttribute('onclick')?.includes("'ranking'")) {
+    setTimeout(chargerClassement, 200);
+  }
 });
 
 // ── Mobile nav sync ──
@@ -2342,8 +2497,8 @@ async function chargerProfil(uid) {
     const stats = document.querySelectorAll('.ph-stat-v');
     if (stats[0]) stats[0].textContent = d.echanges   || 0;
     if (stats[1]) stats[1].textContent = d.evenements || 0;
-    if (stats[2]) stats[2].textContent = (d.niveau || 1) + '/5';
-    if (stats[3]) stats[3].textContent = '#' + (d.classement || '—');
+    if (stats[2]) stats[2].textContent = calculerNiveau(d.xp || 0) + '/5';
+    if (stats[3]) stats[3].textContent = d.classement ? '#' + d.classement : '—';
 
     // ── Zone ──
     if (d.zone) {
