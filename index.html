@@ -3235,7 +3235,7 @@ function afficherMessages(msgs) {
     if (m.type === 'photo' && m.photoUrl) {
       contenu = `<img src="${m.photoUrl}" style="max-width:220px;border-radius:12px;cursor:pointer;display:block;" onclick="ouvrirImagePleinEcran('${m.photoUrl}')">`;
     } else if (m.type === 'audio' && m.audioUrl) {
-      contenu = `<audio controls style="max-width:220px;filter:${estMoi ? 'invert(1)' : 'none'};"><source src="${m.audioUrl}"></audio>`;
+      contenu = `<audio controls playsinline style="max-width:220px;width:100%;filter:${estMoi ? 'invert(1) hue-rotate(180deg)' : 'none'};border-radius:8px;"><source src="${m.audioUrl}">Votre navigateur ne supporte pas l'audio.</audio>`;
     } else {
       contenu = `<span style="font-size:14px;line-height:1.5;word-break:break-word;">${m.texte || ''}</span>`;
     }
@@ -3360,9 +3360,18 @@ window.demarrerEnregistrement = async function() {
   try {
     const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
     audioChunks = [];
-    mediaRecorder = new MediaRecorder(stream);
-    mediaRecorder.ondataavailable = e => audioChunks.push(e.data);
-    mediaRecorder.start();
+
+    // Détecter le format supporté — iOS Safari supporte mp4, Chrome supporte webm
+    const mimeType = MediaRecorder.isTypeSupported('audio/mp4')  ? 'audio/mp4'
+                   : MediaRecorder.isTypeSupported('audio/webm') ? 'audio/webm'
+                   : '';
+
+    mediaRecorder = mimeType
+      ? new MediaRecorder(stream, { mimeType })
+      : new MediaRecorder(stream);
+
+    mediaRecorder.ondataavailable = e => { if (e.data.size > 0) audioChunks.push(e.data); };
+    mediaRecorder.start(100); // Collecter toutes les 100ms pour iOS
     enregistrement = true;
 
     const btn = document.getElementById('btn-vocal');
@@ -3372,7 +3381,8 @@ window.demarrerEnregistrement = async function() {
       btn.textContent = '🔴';
     }
   } catch(e) {
-    alert('⚠️ Microphone non disponible');
+    console.error('Micro:', e);
+    alert('⚠️ Autorisez l\'accès au microphone dans les réglages');
   }
 }
 
@@ -3390,7 +3400,16 @@ window.arreterEnregistrement = async function() {
   mediaRecorder.stop();
   mediaRecorder.onstop = async () => {
     try {
-      const audioBlob = new Blob(audioChunks, { type: 'audio/webm' });
+      // Détecter le bon type MIME selon ce qui a été enregistré
+      const mimeType = mediaRecorder.mimeType || 'audio/webm';
+      const ext = mimeType.includes('mp4') ? 'mp4' : mimeType.includes('ogg') ? 'ogg' : 'webm';
+      const audioBlob = new Blob(audioChunks, { type: mimeType });
+
+      if (audioBlob.size < 1000) {
+        console.warn('Audio trop court');
+        if (btn) btn.textContent = '🎤';
+        return;
+      }
 
       // Upload Firebase Storage
       const { getStorage, ref, uploadBytes, getDownloadURL } = await import(
@@ -3398,7 +3417,7 @@ window.arreterEnregistrement = async function() {
       );
       const storage    = getStorage();
       const convId     = [window._currentUid, convOuverte].sort().join('_');
-      const storageRef = ref(storage, `conversations/${convId}/vocal_${Date.now()}.webm`);
+      const storageRef = ref(storage, `conversations/${convId}/vocal_${Date.now()}.${ext}`);
 
       await uploadBytes(storageRef, audioBlob);
       const audioUrl = await getDownloadURL(storageRef);
@@ -3409,6 +3428,7 @@ window.arreterEnregistrement = async function() {
       mediaRecorder.stream.getTracks().forEach(t => t.stop());
     } catch(e) {
       console.error('Erreur vocal:', e);
+      alert('❌ Erreur envoi vocal : ' + e.message);
     }
     if (btn) btn.textContent = '🎤';
   };
