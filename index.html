@@ -1011,9 +1011,12 @@ footer{
   cursor: pointer; padding: 6px 4px; border-radius: 10px;
   border: none; background: transparent; color: var(--muted);
   transition: color 0.15s, background 0.15s, transform 0.15s;
-  flex: 1; min-width: 0;
+  flex: 1; min-width: 0; max-width: 80px;
   -webkit-tap-highlight-color: transparent;
 }
+.mn-item[style*="display:none"] { display: none !important; }
+/* Quand le bouton profil est caché, les autres restent égaux */
+.mobile-nav { justify-content: space-evenly; }
 .mn-item.active { color: var(--green); background: rgba(0,245,155,0.08); }
 .mn-item:active { transform: scale(0.9); }
 .mn-ico { width: 20px; height: 20px; flex-shrink: 0; }
@@ -1054,9 +1057,7 @@ footer{
 
   /* Toutes les pages — même padding */
   .page { padding-bottom: calc(64px + env(safe-area-inset-bottom, 0px)); min-height: 100vh; }
-  /* Padding top pour la topbar connecté */
-  .mobile-nav.connected ~ .page,
-  body.mobile-connected .page { padding-top: 48px; }
+  /* padding-top géré par la nav bottom uniquement */
   .agenda-page,
   .profile-page,
   .ranking-page { padding: 20px 4% !important; }
