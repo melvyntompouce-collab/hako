@@ -1523,62 +1523,63 @@ footer{
 
     </div>
   </div>
-</div>
 
-<!-- ═══ DASHBOARD CONNECTÉ (remplace la home quand connecté) ═══ -->
-<div id="home-dashboard" style="display:none;padding:24px 5%;max-width:900px;margin:0 auto;">
+  <!-- ═══ DASHBOARD CONNECTÉ ═══ -->
+  <div id="home-dashboard" style="display:none;padding:24px 5%;max-width:900px;margin:0 auto;">
 
-  <!-- Salutation -->
-  <div style="margin-bottom:28px;">
-    <div style="font-size:13px;color:var(--muted2);margin-bottom:4px;" id="dash-heure">Bonjour</div>
-    <div style="font-family:'Big Shoulders Display',sans-serif;font-weight:900;font-size:36px;letter-spacing:-0.5px;line-height:1;" id="dash-nom">—</div>
-    <div style="font-size:13px;color:var(--muted2);margin-top:6px;" id="dash-sous-titre">Prêt à danser ?</div>
-  </div>
-
-  <!-- Stats -->
-  <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:24px;">
-    <div style="background:var(--card);border:1px solid var(--border);border-radius:16px;padding:16px;text-align:center;">
-      <div style="font-family:'Syne',sans-serif;font-weight:800;font-size:24px;color:var(--green);" id="dash-xp">—</div>
-      <div style="font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:1px;margin-top:4px;">XP</div>
+    <!-- Salutation -->
+    <div style="margin-bottom:28px;">
+      <div style="font-size:13px;color:var(--muted2);margin-bottom:4px;" id="dash-heure">Bonjour</div>
+      <div style="font-family:'Big Shoulders Display',sans-serif;font-weight:900;font-size:36px;letter-spacing:-0.5px;line-height:1;" id="dash-nom">—</div>
+      <div style="font-size:13px;color:var(--muted2);margin-top:6px;" id="dash-sous-titre">Prêt à danser ?</div>
     </div>
-    <div style="background:var(--card);border:1px solid var(--border);border-radius:16px;padding:16px;text-align:center;">
-      <div style="font-family:'Syne',sans-serif;font-weight:800;font-size:24px;color:var(--purple);" id="dash-niveau">—</div>
-      <div style="font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:1px;margin-top:4px;">Niveau</div>
-    </div>
-    <div style="background:var(--card);border:1px solid var(--border);border-radius:16px;padding:16px;text-align:center;">
-      <div style="font-family:'Syne',sans-serif;font-weight:800;font-size:24px;color:var(--yellow);" id="dash-echanges">—</div>
-      <div style="font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:1px;margin-top:4px;">Échanges</div>
-    </div>
-  </div>
 
-  <!-- 4 cards navigation -->
-  <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:24px;">
-    <button onclick="showPage('network')" style="background:var(--card);border:1px solid var(--border);border-radius:18px;padding:20px 16px;text-align:left;cursor:pointer;transition:all 0.2s;color:var(--text);" onmouseover="this.style.borderColor='rgba(0,245,155,0.3)'" onmouseout="this.style.borderColor='var(--border)'">
-      <div style="font-size:24px;margin-bottom:10px;">🌐</div>
-      <div style="font-family:'Syne',sans-serif;font-weight:800;font-size:14px;">Réseau</div>
-      <div style="font-size:11px;color:var(--muted2);margin-top:4px;">Trouve des danseurs</div>
-    </button>
-    <button onclick="showPage('agenda')" style="background:var(--card);border:1px solid var(--border);border-radius:18px;padding:20px 16px;text-align:left;cursor:pointer;transition:all 0.2s;color:var(--text);" onmouseover="this.style.borderColor='rgba(77,159,255,0.3)'" onmouseout="this.style.borderColor='var(--border)'">
-      <div style="font-size:24px;margin-bottom:10px;">📅</div>
-      <div style="font-family:'Syne',sans-serif;font-weight:800;font-size:14px;">Agenda</div>
-      <div style="font-size:11px;color:var(--muted2);margin-top:4px;">Soirées & cours</div>
-    </button>
-    <button onclick="showPage('messages')" style="background:var(--card);border:1px solid var(--border);border-radius:18px;padding:20px 16px;text-align:left;cursor:pointer;transition:all 0.2s;color:var(--text);" onmouseover="this.style.borderColor='rgba(155,93,229,0.3)'" onmouseout="this.style.borderColor='var(--border)'">
-      <div style="font-size:24px;margin-bottom:10px;">💬</div>
-      <div style="font-family:'Syne',sans-serif;font-weight:800;font-size:14px;">Messages</div>
-      <div style="font-size:11px;color:var(--muted2);margin-top:4px;" id="dash-msg-label">Tes conversations</div>
-    </button>
-    <button onclick="showPage('ranking')" style="background:var(--card);border:1px solid var(--border);border-radius:18px;padding:20px 16px;text-align:left;cursor:pointer;transition:all 0.2s;color:var(--text);" onmouseover="this.style.borderColor='rgba(255,217,61,0.3)'" onmouseout="this.style.borderColor='var(--border)'">
-      <div style="font-size:24px;margin-bottom:10px;">🏆</div>
-      <div style="font-family:'Syne',sans-serif;font-weight:800;font-size:14px;">Classement</div>
-      <div style="font-size:11px;color:var(--muted2);margin-top:4px;" id="dash-rank-label">Ton rang</div>
-    </button>
-  </div>
+    <!-- Stats -->
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:24px;">
+      <div style="background:var(--card);border:1px solid var(--border);border-radius:16px;padding:16px;text-align:center;">
+        <div style="font-family:'Syne',sans-serif;font-weight:800;font-size:24px;color:var(--green);" id="dash-xp">0</div>
+        <div style="font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:1px;margin-top:4px;">XP</div>
+      </div>
+      <div style="background:var(--card);border:1px solid var(--border);border-radius:16px;padding:16px;text-align:center;">
+        <div style="font-family:'Syne',sans-serif;font-weight:800;font-size:24px;color:var(--purple);" id="dash-niveau">1/7</div>
+        <div style="font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:1px;margin-top:4px;">Niveau</div>
+      </div>
+      <div style="background:var(--card);border:1px solid var(--border);border-radius:16px;padding:16px;text-align:center;">
+        <div style="font-family:'Syne',sans-serif;font-weight:800;font-size:24px;color:var(--yellow);" id="dash-echanges">0</div>
+        <div style="font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:1px;margin-top:4px;">Échanges</div>
+      </div>
+    </div>
 
-  <!-- Événements favoris -->
-  <div id="dash-favoris-section" style="display:none;">
-    <div style="font-family:'Syne',sans-serif;font-weight:800;font-size:13px;letter-spacing:1px;color:var(--muted2);text-transform:uppercase;margin-bottom:12px;">♥ Mes favoris</div>
-    <div id="dash-favoris-list" style="display:flex;flex-direction:column;gap:8px;"></div>
+    <!-- 4 cards navigation -->
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:24px;">
+      <button onclick="showPage('network')" style="background:var(--card);border:1px solid var(--border);border-radius:18px;padding:20px 16px;text-align:left;cursor:pointer;transition:all 0.2s;color:var(--text);" onmouseover="this.style.borderColor='rgba(0,245,155,0.3)'" onmouseout="this.style.borderColor='var(--border)'">
+        <div style="font-size:24px;margin-bottom:10px;">🌐</div>
+        <div style="font-family:'Syne',sans-serif;font-weight:800;font-size:14px;">Réseau</div>
+        <div style="font-size:11px;color:var(--muted2);margin-top:4px;">Trouve des danseurs</div>
+      </button>
+      <button onclick="showPage('agenda')" style="background:var(--card);border:1px solid var(--border);border-radius:18px;padding:20px 16px;text-align:left;cursor:pointer;transition:all 0.2s;color:var(--text);" onmouseover="this.style.borderColor='rgba(77,159,255,0.3)'" onmouseout="this.style.borderColor='var(--border)'">
+        <div style="font-size:24px;margin-bottom:10px;">📅</div>
+        <div style="font-family:'Syne',sans-serif;font-weight:800;font-size:14px;">Agenda</div>
+        <div style="font-size:11px;color:var(--muted2);margin-top:4px;">Soirées & cours</div>
+      </button>
+      <button onclick="showPage('messages')" style="background:var(--card);border:1px solid var(--border);border-radius:18px;padding:20px 16px;text-align:left;cursor:pointer;transition:all 0.2s;color:var(--text);" onmouseover="this.style.borderColor='rgba(155,93,229,0.3)'" onmouseout="this.style.borderColor='var(--border)'">
+        <div style="font-size:24px;margin-bottom:10px;">💬</div>
+        <div style="font-family:'Syne',sans-serif;font-weight:800;font-size:14px;">Messages</div>
+        <div style="font-size:11px;color:var(--muted2);margin-top:4px;" id="dash-msg-label">Tes conversations</div>
+      </button>
+      <button onclick="showPage('ranking')" style="background:var(--card);border:1px solid var(--border);border-radius:18px;padding:20px 16px;text-align:left;cursor:pointer;transition:all 0.2s;color:var(--text);" onmouseover="this.style.borderColor='rgba(255,217,61,0.3)'" onmouseout="this.style.borderColor='var(--border)'">
+        <div style="font-size:24px;margin-bottom:10px;">🏆</div>
+        <div style="font-family:'Syne',sans-serif;font-weight:800;font-size:14px;">Classement</div>
+        <div style="font-size:11px;color:var(--muted2);margin-top:4px;" id="dash-rank-label">Ton rang</div>
+      </button>
+    </div>
+
+    <!-- Événements favoris -->
+    <div id="dash-favoris-section" style="display:none;">
+      <div style="font-family:'Syne',sans-serif;font-weight:800;font-size:13px;letter-spacing:1px;color:var(--muted2);text-transform:uppercase;margin-bottom:12px;">♥ Mes favoris</div>
+      <div id="dash-favoris-list" style="display:flex;flex-direction:column;gap:8px;"></div>
+    </div>
+
   </div>
 
 </div>
@@ -2665,13 +2666,15 @@ function afficherDashboard(d) {
   const features = document.querySelector('#page-home .features');
   const how      = document.querySelector('#page-home .how');
   const footer   = document.querySelector('footer');
+  const mobileHomeNav = document.querySelector('.mobile-home-nav');
 
-  // Cacher la landing page, afficher le dashboard
-  if (hero)     hero.style.display = 'none';
-  if (features) features.style.display = 'none';
-  if (how)      how.style.display = 'none';
-  if (footer)   footer.style.display = 'none';
-  if (dash)     dash.style.display = 'block';
+  // Cacher la landing, afficher le dashboard
+  if (hero)          hero.style.display = 'none';
+  if (features)      features.style.display = 'none';
+  if (how)           how.style.display = 'none';
+  if (footer)        footer.style.display = 'none';
+  if (mobileHomeNav) mobileHomeNav.style.display = 'none';
+  if (dash)          dash.style.display = 'block';
 
   // Salutation selon l'heure
   const h = new Date().getHours();
@@ -5464,7 +5467,7 @@ function mettreAJourNav(user) {
     if (mnBtn) mnBtn.style.display = 'flex';
 
     // Afficher le dashboard connecté
-    afficherDashboard(d);
+    afficherDashboard(user);
     // Afficher bouton profil mobile
     const mnProfilBtn = document.getElementById('mn-profil-btn');
     if (mnProfilBtn) mnProfilBtn.style.display = 'flex';
