@@ -1525,6 +1525,64 @@ footer{
   </div>
 </div>
 
+<!-- ═══ DASHBOARD CONNECTÉ (remplace la home quand connecté) ═══ -->
+<div id="home-dashboard" style="display:none;padding:24px 5%;max-width:900px;margin:0 auto;">
+
+  <!-- Salutation -->
+  <div style="margin-bottom:28px;">
+    <div style="font-size:13px;color:var(--muted2);margin-bottom:4px;" id="dash-heure">Bonjour</div>
+    <div style="font-family:'Big Shoulders Display',sans-serif;font-weight:900;font-size:36px;letter-spacing:-0.5px;line-height:1;" id="dash-nom">—</div>
+    <div style="font-size:13px;color:var(--muted2);margin-top:6px;" id="dash-sous-titre">Prêt à danser ?</div>
+  </div>
+
+  <!-- Stats -->
+  <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:24px;">
+    <div style="background:var(--card);border:1px solid var(--border);border-radius:16px;padding:16px;text-align:center;">
+      <div style="font-family:'Syne',sans-serif;font-weight:800;font-size:24px;color:var(--green);" id="dash-xp">—</div>
+      <div style="font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:1px;margin-top:4px;">XP</div>
+    </div>
+    <div style="background:var(--card);border:1px solid var(--border);border-radius:16px;padding:16px;text-align:center;">
+      <div style="font-family:'Syne',sans-serif;font-weight:800;font-size:24px;color:var(--purple);" id="dash-niveau">—</div>
+      <div style="font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:1px;margin-top:4px;">Niveau</div>
+    </div>
+    <div style="background:var(--card);border:1px solid var(--border);border-radius:16px;padding:16px;text-align:center;">
+      <div style="font-family:'Syne',sans-serif;font-weight:800;font-size:24px;color:var(--yellow);" id="dash-echanges">—</div>
+      <div style="font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:1px;margin-top:4px;">Échanges</div>
+    </div>
+  </div>
+
+  <!-- 4 cards navigation -->
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:24px;">
+    <button onclick="showPage('network')" style="background:var(--card);border:1px solid var(--border);border-radius:18px;padding:20px 16px;text-align:left;cursor:pointer;transition:all 0.2s;color:var(--text);" onmouseover="this.style.borderColor='rgba(0,245,155,0.3)'" onmouseout="this.style.borderColor='var(--border)'">
+      <div style="font-size:24px;margin-bottom:10px;">🌐</div>
+      <div style="font-family:'Syne',sans-serif;font-weight:800;font-size:14px;">Réseau</div>
+      <div style="font-size:11px;color:var(--muted2);margin-top:4px;">Trouve des danseurs</div>
+    </button>
+    <button onclick="showPage('agenda')" style="background:var(--card);border:1px solid var(--border);border-radius:18px;padding:20px 16px;text-align:left;cursor:pointer;transition:all 0.2s;color:var(--text);" onmouseover="this.style.borderColor='rgba(77,159,255,0.3)'" onmouseout="this.style.borderColor='var(--border)'">
+      <div style="font-size:24px;margin-bottom:10px;">📅</div>
+      <div style="font-family:'Syne',sans-serif;font-weight:800;font-size:14px;">Agenda</div>
+      <div style="font-size:11px;color:var(--muted2);margin-top:4px;">Soirées & cours</div>
+    </button>
+    <button onclick="showPage('messages')" style="background:var(--card);border:1px solid var(--border);border-radius:18px;padding:20px 16px;text-align:left;cursor:pointer;transition:all 0.2s;color:var(--text);" onmouseover="this.style.borderColor='rgba(155,93,229,0.3)'" onmouseout="this.style.borderColor='var(--border)'">
+      <div style="font-size:24px;margin-bottom:10px;">💬</div>
+      <div style="font-family:'Syne',sans-serif;font-weight:800;font-size:14px;">Messages</div>
+      <div style="font-size:11px;color:var(--muted2);margin-top:4px;" id="dash-msg-label">Tes conversations</div>
+    </button>
+    <button onclick="showPage('ranking')" style="background:var(--card);border:1px solid var(--border);border-radius:18px;padding:20px 16px;text-align:left;cursor:pointer;transition:all 0.2s;color:var(--text);" onmouseover="this.style.borderColor='rgba(255,217,61,0.3)'" onmouseout="this.style.borderColor='var(--border)'">
+      <div style="font-size:24px;margin-bottom:10px;">🏆</div>
+      <div style="font-family:'Syne',sans-serif;font-weight:800;font-size:14px;">Classement</div>
+      <div style="font-size:11px;color:var(--muted2);margin-top:4px;" id="dash-rank-label">Ton rang</div>
+    </button>
+  </div>
+
+  <!-- Événements favoris -->
+  <div id="dash-favoris-section" style="display:none;">
+    <div style="font-family:'Syne',sans-serif;font-weight:800;font-size:13px;letter-spacing:1px;color:var(--muted2);text-transform:uppercase;margin-bottom:12px;">♥ Mes favoris</div>
+    <div id="dash-favoris-list" style="display:flex;flex-direction:column;gap:8px;"></div>
+  </div>
+
+</div>
+
 <!-- ═══ PAGE: RÉSEAU ═══ -->
 <div class="page" id="page-network">
   <div class="network-layout">
@@ -2599,8 +2657,88 @@ function toggleGenre(el) {
 }
 
 // ════════════════════════════════
-// COMPATIBILITÉ
+// DASHBOARD CONNECTÉ
 // ════════════════════════════════
+function afficherDashboard(d) {
+  const dash     = document.getElementById('home-dashboard');
+  const hero     = document.querySelector('#page-home .hero');
+  const features = document.querySelector('#page-home .features');
+  const how      = document.querySelector('#page-home .how');
+  const footer   = document.querySelector('footer');
+
+  // Cacher la landing page, afficher le dashboard
+  if (hero)     hero.style.display = 'none';
+  if (features) features.style.display = 'none';
+  if (how)      how.style.display = 'none';
+  if (footer)   footer.style.display = 'none';
+  if (dash)     dash.style.display = 'block';
+
+  // Salutation selon l'heure
+  const h = new Date().getHours();
+  const salut = h < 12 ? 'Bonjour' : h < 18 ? 'Bon après-midi' : 'Bonsoir';
+  const heureEl = document.getElementById('dash-heure');
+  if (heureEl) heureEl.textContent = salut;
+
+  // Nom
+  const nom = d?.nomAffiche || d?.pseudo || d?.nom || 'Danseur';
+  const nomEl = document.getElementById('dash-nom');
+  if (nomEl) nomEl.textContent = nom.toUpperCase();
+
+  // Sous-titre dynamique
+  const sousEl = document.getElementById('dash-sous-titre');
+  if (sousEl) {
+    const phrases = ['Prêt à danser ?', 'On danse ce soir ?', 'La scène t\'attend !', 'Move. Create. Connect.'];
+    sousEl.textContent = phrases[Math.floor(Math.random() * phrases.length)];
+  }
+
+  // Stats
+  const xp = d?.xp || 0;
+  const niveau = calculerNiveau ? calculerNiveau(xp) : '—';
+  const el = (id, val) => { const e = document.getElementById(id); if (e) e.textContent = val; };
+  el('dash-xp', xp > 0 ? xp.toLocaleString('fr') : '0');
+  el('dash-niveau', niveau + '/7');
+  el('dash-echanges', d?.echanges || 0);
+
+  // Classement
+  if (d?.classement) document.getElementById('dash-rank-label') && (document.getElementById('dash-rank-label').textContent = '#' + d.classement + ' national');
+
+  // Favoris
+  afficherFavorisDashboard();
+}
+
+async function afficherFavorisDashboard() {
+  const section = document.getElementById('dash-favoris-section');
+  const list    = document.getElementById('dash-favoris-list');
+  if (!section || !list) return;
+  if (mesFavoris.size === 0) { section.style.display = 'none'; return; }
+
+  if (tousLesEvents.length === 0 && window._db) {
+    try {
+      const { collection, getDocs, query, orderBy } = await import('https://www.gstatic.com/firebasejs/10.0.0/firebase-firestore.js');
+      const snap = await getDocs(query(collection(window._db, 'evenements'), orderBy('date','asc')));
+      snap.forEach(d => tousLesEvents.push({ id: d.id, ...d.data() }));
+    } catch(e) { return; }
+  }
+
+  const favs = tousLesEvents.filter(e => mesFavoris.has(e.id)).slice(0, 3);
+  if (!favs.length) { section.style.display = 'none'; return; }
+
+  section.style.display = 'block';
+  list.innerHTML = favs.map(ev => {
+    const cfg  = TYPE_CONFIG?.[ev.type] || { bg:'rgba(0,245,155,0.1)', label:'🎉' };
+    const date = ev.date ? new Date(ev.date).toLocaleDateString('fr-FR', { day:'numeric', month:'short' }) : '';
+    return `<div onclick="showPage('agenda');setTimeout(()=>ouvrirEvent('${ev.id}'),300)"
+      style="display:flex;align-items:center;gap:12px;padding:12px 14px;background:var(--card);border:1px solid var(--border);border-radius:14px;cursor:pointer;transition:border-color 0.2s;"
+      onmouseover="this.style.borderColor='rgba(0,245,155,0.2)'" onmouseout="this.style.borderColor='var(--border)'">
+      <div style="width:38px;height:38px;border-radius:10px;background:${cfg.bg};display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0;">${cfg.label.split(' ')[0]}</div>
+      <div style="flex:1;min-width:0;">
+        <div style="font-family:'Syne',sans-serif;font-weight:700;font-size:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${ev.titre}</div>
+        <div style="font-size:11px;color:var(--muted2);margin-top:2px;">${date}${ev.ville ? ' · ' + ev.ville : ''}</div>
+      </div>
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color:var(--muted);flex-shrink:0;"><polyline points="9 18 15 12 9 6"/></svg>
+    </div>`;
+  }).join('');
+}
 function calculerCompatibilite(moi, autre) {
   if (!moi || !autre) return null;
   let score = 0;
@@ -5324,6 +5462,9 @@ function mettreAJourNav(user) {
     // Bouton flottant mobile
     const mnBtn = document.getElementById('mn-profil-btn');
     if (mnBtn) mnBtn.style.display = 'flex';
+
+    // Afficher le dashboard connecté
+    afficherDashboard(d);
     // Afficher bouton profil mobile
     const mnProfilBtn = document.getElementById('mn-profil-btn');
     if (mnProfilBtn) mnProfilBtn.style.display = 'flex';
@@ -5377,6 +5518,17 @@ function mettreAJourNav(user) {
     document.body.style.paddingTop = '';
     const mnBtn = document.getElementById('mn-profil-btn');
     if (mnBtn) mnBtn.style.display = 'none';
+    // Cacher le dashboard
+    const dash = document.getElementById('home-dashboard');
+    const hero = document.querySelector('#page-home .hero');
+    const features = document.querySelector('#page-home .features');
+    const how = document.querySelector('#page-home .how');
+    const footer = document.querySelector('footer');
+    if (dash) dash.style.display = 'none';
+    if (hero) hero.style.display = '';
+    if (features) features.style.display = '';
+    if (how) how.style.display = '';
+    if (footer) footer.style.display = '';
 
     const mnProfilBtn = document.getElementById('mn-profil-btn');
     if (mnProfilBtn) mnProfilBtn.style.display = 'none';
