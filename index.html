@@ -359,39 +359,133 @@ nav{
    PAGE: RÉSEAU (CARTE)
 ══════════════════════════════ */
 .network-layout{
-  display:grid;
-  grid-template-columns:320px 1fr;
-  height:calc(100vh - 70px);
+  display:flex;
+  flex-direction:column;
+  min-height:calc(100vh - 70px);
+  padding:20px;
+  gap:16px;
+  max-width:1100px;
+  margin:0 auto;
 }
-.network-sidebar{
-  background:var(--card);border-right:1px solid var(--border);
-  overflow-y:auto;scrollbar-width:thin;
+
+/* ── Liste en haut sur mobile ── */
+.network-list-wrap {
+  order:1;
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:20px;
+  overflow:hidden;
+  display:flex;
+  flex-direction:column;
+  max-height:420px;
+}
+.network-list-header {
+  padding:14px 16px 10px;
+  background:var(--card);
+  border-bottom:1px solid var(--border);
+  position:sticky;top:0;z-index:10;
+}
+.network-list-title {
+  font-family:'Syne',sans-serif;font-weight:800;
+  font-size:13px;letter-spacing:1px;
+  color:var(--muted2);text-transform:uppercase;
+  margin-bottom:10px;
+}
+.dancer-list {
+  overflow-y:auto;
+  scrollbar-width:thin;
   scrollbar-color:var(--border) transparent;
+  flex:1;
+  padding:8px 12px;
 }
-.sidebar-header{
-  padding:20px;border-bottom:1px solid var(--border);
-  position:sticky;top:0;background:var(--card);z-index:10;
+
+/* ── Carte encadrée ── */
+.network-map-wrap {
+  order:2;
+  position:relative;
+  height:260px;
+  flex-shrink:0;
+  border-radius:20px;
+  overflow:hidden;
+  border:2px solid var(--green);
+  box-shadow:0 0 24px rgba(0,245,155,0.12);
 }
-.sidebar-title{
+.network-map-wrap #leaflet-map {
+  width:100%;height:100%;border-radius:18px;
+}
+
+/* Badge compteur */
+.map-badge {
+  position:absolute;top:12px;left:12px;z-index:500;
+  display:flex;align-items:center;gap:6px;
+  padding:5px 11px;border-radius:10px;
+  background:rgba(8,8,16,0.82);
+  backdrop-filter:blur(8px);
+  border:1px solid rgba(0,245,155,0.25);
+  font-family:'Syne',sans-serif;font-size:11px;font-weight:700;
+  color:var(--green);
+  pointer-events:none;
+}
+.map-badge .dot {
+  width:6px;height:6px;border-radius:50%;
+  background:var(--green);box-shadow:0 0 6px var(--green);
+  animation:blink 2s ease infinite;
+}
+
+/* Contrôles */
+.map-controls {
+  position:absolute;bottom:10px;right:10px;z-index:500;
+  display:flex;flex-direction:column;gap:4px;
+}
+.map-ctrl-btn {
+  width:30px;height:30px;border-radius:8px;
+  background:rgba(8,8,16,0.82);backdrop-filter:blur(8px);
+  border:1px solid rgba(0,245,155,0.2);
+  color:var(--green);font-size:14px;font-weight:700;
+  display:flex;align-items:center;justify-content:center;
+  cursor:pointer;transition:all 0.2s;
   font-family:'Syne',sans-serif;
-  font-size:24px;letter-spacing:2px;margin-bottom:12px;
 }
-.search-input{
-  width:100%;padding:10px 14px;border-radius:10px;
-  background:var(--bg);border:1.5px solid var(--border);
-  color:var(--text);font-size:14px;font-family:'DM Sans',sans-serif;
-  outline:none;transition:border-color 0.2s;
+.map-ctrl-btn:hover{background:rgba(0,245,155,0.1);}
+
+/* ── Desktop : liste à gauche, carte à droite ── */
+@media(min-width:769px){
+  .network-layout {
+    flex-direction:row;
+    align-items:flex-start;
+    min-height:calc(100vh - 70px);
+    padding:24px;
+    gap:20px;
+  }
+  .network-list-wrap {
+    order:1;
+    width:340px;
+    flex-shrink:0;
+    max-height:calc(100vh - 118px);
+  }
+  .network-map-wrap {
+    order:2;
+    flex:1;
+    height:calc(100vh - 118px);
+  }
 }
-.search-input:focus{border-color:var(--green);}
-.filter-row{display:flex;gap:6px;margin-top:10px;overflow-x:auto;scrollbar-width:none;padding-bottom:2px;}
-.filter-chip{
+}
+.filter-chip {
   padding:5px 12px;border-radius:20px;font-size:11px;font-weight:700;
   border:1.5px solid var(--border);background:transparent;
   color:var(--muted2);cursor:pointer;white-space:nowrap;
   transition:all 0.15s;font-family:'DM Sans',sans-serif;
 }
 .filter-chip.on{background:rgba(0,245,155,0.08);border-color:var(--green);color:var(--green);}
-.dancer-list{padding:12px;}
+.filter-row{display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;padding-bottom:2px;}
+.search-input{
+  width:100%;padding:9px 13px;border-radius:10px;
+  background:var(--bg);border:1.5px solid var(--border);
+  color:var(--text);font-size:13px;font-family:'DM Sans',sans-serif;
+  outline:none;transition:border-color 0.2s;margin-bottom:10px;
+}
+.search-input:focus{border-color:var(--green);}
+.dancer-list{padding:8px 12px;}
 .dancer-card{
   display:flex;align-items:center;gap:12px;
   padding:14px;border-radius:16px;
@@ -805,7 +899,9 @@ footer{
 }
 .footer-copy{font-size:13px;color:var(--muted);}
 
+/* Topbar mobile — cachée partout par défaut */
 #mobile-topbar { display: none !important; }
+/* Visible uniquement sur mobile ET connecté */
 @media(max-width:768px) {
   #mobile-topbar.visible { display: flex !important; }
 }
@@ -930,7 +1026,7 @@ footer{
 
 /* ── RESPONSIVE ── */
 @media(max-width:900px) {
-  .network-layout { grid-template-columns: 1fr; grid-template-rows: 45vh 45vh; }
+  .network-map-wrap { height: 200px; }
   .profile-grid { grid-template-columns: 1fr; }
   .hero-visual { display: none; }
   .nav-links { display: none; }
@@ -1002,7 +1098,7 @@ footer{
   .how { padding: 60px 5%; }
 
   /* Network */
-  .network-layout { grid-template-rows: auto; grid-template-columns: 1fr; height: auto; }
+  /* network ok */
   .network-sidebar { max-height: 50vh; }
   .map-area { height: 50vh; }
   .map-zone-selector { bottom: 10px; gap: 4px; }
@@ -1452,11 +1548,24 @@ footer{
 <div class="page" id="page-network">
   <div class="network-layout">
 
-    <!-- SIDEBAR -->
-    <div class="network-sidebar">
-      <div class="sidebar-header">
-        <div class="sidebar-title">RÉSEAU</div>
-        <input class="search-input" type="text" id="search-input" placeholder="🔍 Rechercher..." oninput="filtrerDanseurs()">
+    <!-- CARTE MINIMALISTE -->
+    <div class="network-map-wrap">
+      <div id="leaflet-map" style="width:100%;height:100%;"></div>
+      <div class="map-badge">
+        <div class="dot"></div>
+        <span id="map-count">0 artistes</span>
+      </div>
+      <div class="map-controls">
+        <div class="map-ctrl-btn" onclick="carte && carte.zoomIn()">＋</div>
+        <div class="map-ctrl-btn" onclick="carte && carte.zoomOut()">－</div>
+        <div class="map-ctrl-btn" id="btn-locate" onclick="centrerSurMoi()" title="Ma position">📍</div>
+      </div>
+    </div>
+
+    <!-- LISTE -->
+    <div class="network-list-wrap">
+      <div class="network-list-header">
+        <input class="search-input" type="text" id="search-input" placeholder="🔍 Rechercher un danseur..." oninput="filtrerDanseurs()">
         <div class="filter-row" id="filter-row">
           <button class="filter-chip on" onclick="setFiltre('tous',this)">Tous</button>
           <button class="filter-chip" onclick="setFiltre('public',this)">🟢 Public</button>
@@ -1467,24 +1576,6 @@ footer{
         <div style="padding:20px;text-align:center;color:var(--muted);font-size:13px;">
           ⏳ Chargement des danseurs...
         </div>
-      </div>
-    </div>
-
-    <!-- CARTE LEAFLET -->
-    <div class="map-area" id="map-area">
-      <div id="leaflet-map" style="width:100%;height:100%;"></div>
-
-      <!-- Info box zone -->
-      <div class="map-info-box" id="map-info-box">
-        <div class="mib-label">Danseurs visibles</div>
-        <div class="mib-value" id="map-count">0 artistes</div>
-      </div>
-
-      <!-- Contrôles -->
-      <div class="map-controls">
-        <div class="map-ctrl-btn" onclick="carte && carte.zoomIn()">＋</div>
-        <div class="map-ctrl-btn" onclick="carte && carte.zoomOut()">－</div>
-        <div class="map-ctrl-btn" id="btn-locate" onclick="centrerSurMoi()" title="Ma position">📍</div>
       </div>
     </div>
 
@@ -5390,7 +5481,7 @@ function sauvegarderConf(c,v) { _appellerQuandPret('sauvegarderConf', [c,v]); }
 </script>
 
 <!-- MOBILE TOP BAR (logo, visible uniquement connecté) -->
-<div id="mobile-topbar" style="display:none;position:fixed;top:0;left:0;right:0;height:48px;background:rgba(8,8,16,0.92);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-bottom:1px solid rgba(255,255,255,0.06);z-index:900;align-items:center;justify-content:center;">
+<div id="mobile-topbar" style="position:fixed;top:0;left:0;right:0;height:48px;background:rgba(8,8,16,0.92);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-bottom:1px solid rgba(255,255,255,0.06);z-index:900;align-items:center;justify-content:center;">
   <div style="font-family:'Syne',sans-serif;font-weight:800;font-size:18px;letter-spacing:4px;color:var(--green);">HAKO</div>
 </div>
 
