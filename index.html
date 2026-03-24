@@ -2657,6 +2657,10 @@ function toggleStyle(el) {
   el.classList.toggle('selected');
 }
 
+function toggleGenre(el) {
+  el.classList.toggle('selected');
+}
+
 function goHome() {
   if (window._monProfil) showPage('dashboard');
   else showPage('home');
@@ -2666,7 +2670,11 @@ function goHome() {
 // DASHBOARD CONNECTÉ
 // ════════════════════════════════
 function afficherDashboard(d) {
-  if (!d) return; // non connecté — rien à faire
+  if (!d) {
+    // Non connecté — s'assurer que page-home est active
+    showPage('home');
+    return;
+  }
 
   // Remplir le dashboard
   const h = new Date().getHours();
@@ -2680,8 +2688,16 @@ function afficherDashboard(d) {
   el('dash-niveau', (calculerNiveau ? calculerNiveau(d.xp || 0) : 1) + '/7');
   el('dash-echanges', d.echanges || 0);
 
-  // Naviguer vers le dashboard
-  showPage('dashboard');
+  // Forcer la désactivation de toutes les pages puis activer dashboard
+  document.querySelectorAll('.page').forEach(p => {
+    p.classList.remove('active');
+    p.style.opacity = '';
+    p.style.transform = '';
+    p.style.transition = '';
+  });
+  const dash = document.getElementById('page-dashboard');
+  if (dash) dash.classList.add('active');
+
   afficherFavorisDashboard();
 }
 
@@ -5442,12 +5458,6 @@ function mettreAJourNav(user) {
     const mnBtn = document.getElementById('mn-profil-btn');
     if (mnBtn) mnBtn.style.display = 'flex';
 
-    // Afficher le dashboard connecté
-    afficherDashboard(user);
-    // Afficher bouton profil mobile
-    const mnProfilBtn = document.getElementById('mn-profil-btn');
-    if (mnProfilBtn) mnProfilBtn.style.display = 'flex';
-
     // Cacher les boutons de la home mobile
     const mhn = document.querySelector('.mobile-home-nav');
     if (mhn) mhn.style.display = 'none';
@@ -5518,9 +5528,11 @@ function mettreAJourNav(user) {
 onAuthStateChanged(auth, async (user) => {
   if (user) {
     console.log('✅ Connecté :', user.email);
-    try { await chargerProfil(user.uid); } catch(e) { console.error('❌ chargerProfil:', e); }
-    try { await chargerAbonnements(); }    catch(e) { console.error('❌ chargerAbonnements:', e); }
-    try { await chargerFavoris(); }        catch(e) { console.error('❌ chargerFavoris:', e); }
+    try { await chargerProfil(user.uid); }   catch(e) { console.error('❌ chargerProfil:', e); }
+    try { await chargerAbonnements(); }       catch(e) { console.error('❌ chargerAbonnements:', e); }
+    try { await chargerFavoris(); }           catch(e) { console.error('❌ chargerFavoris:', e); }
+    // Dashboard affiché APRÈS que tout soit chargé
+    afficherDashboard(window._monProfil);
   } else {
     console.log('👤 Non connecté');
     mettreAJourNav(null);
