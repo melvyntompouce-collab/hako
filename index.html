@@ -92,11 +92,17 @@ body::after{
   #logo-bar{
     display:none !important;
   }
+  nav{
+    top:0;
+  }
   body.logo-bar-visible nav{
     top:0;
   }
+  .page{
+    padding-top:70px !important;
+  }
   body.logo-bar-visible .page{
-    padding-top:calc(130px + max(20px, env(safe-area-inset-top))) !important;
+    padding-top:70px !important;
   }
 }
 
