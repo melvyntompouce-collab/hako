@@ -56,6 +56,35 @@ body::after{
   pointer-events:none;z-index:0;opacity:0.4;
 }
 
+/* ── BARRE LOGO DÉCONNECTÉ ── */
+#logo-bar{
+  position:fixed;top:0;left:0;right:0;z-index:101;
+  height:60px;
+  display:flex;align-items:center;justify-content:center;
+  background:linear-gradient(135deg,rgba(0,245,155,0.1),rgba(155,93,229,0.05));
+  border-bottom:1px solid var(--border);
+  backdrop-filter:blur(20px);
+  transition:all 0.3s ease;
+}
+#logo-bar.hidden{
+  display:none;
+  opacity:0;
+}
+#logo-bar .logo-bar-content{
+  font-family:'Syne',sans-serif;
+  font-size:32px;
+  letter-spacing:3px;
+  color:var(--green);
+  font-weight:800;
+  display:flex;align-items:center;gap:12px;
+}
+#logo-bar .logo-bar-dot{
+  width:10px;height:10px;border-radius:50%;
+  background:var(--green);
+  box-shadow:0 0 12px var(--green);
+  animation:pulse-dot 2s ease infinite;
+}
+
 /* ── NAV ── */
 nav{
   position:fixed;top:0;left:0;right:0;z-index:100;
@@ -65,6 +94,10 @@ nav{
   background:rgba(8,8,16,0.85);
   backdrop-filter:blur(20px);
   border-bottom:1px solid var(--border);
+  transition:all 0.3s ease;
+}
+body.logo-bar-visible nav{
+  top:60px;
 }
 .logo{
   font-family:'Syne',sans-serif;
@@ -105,6 +138,7 @@ nav{
 /* ── PAGES ── */
 .page{display:none;min-height:100vh;padding-top:70px;position:relative;z-index:1;}
 .page.active{display:block;}
+body.logo-bar-visible .page{padding-top:130px;}
 
 /* ══════════════════════════════
    PAGE: ACCUEIL
@@ -1157,6 +1191,14 @@ footer{
 </style>
 </head>
 <body>
+
+<!-- ═══ BARRE LOGO DÉCONNECTÉ ═══ -->
+<div id="logo-bar" class="hidden">
+  <div class="logo-bar-content">
+    <div class="logo-bar-dot"></div>
+    HAKO
+  </div>
+</div>
 
 <!-- ═══ NAV ═══ -->
 <nav>
@@ -5582,9 +5624,22 @@ function mettreAJourNav(user) {
 // ════════════════════════════════
 // DÉTECTION CONNEXION AUTO
 // ════════════════════════════════
+function afficherBarreLogoDeconnecte(visible) {
+  const logoBar = document.getElementById('logo-bar');
+  if (!logoBar) return;
+  if (visible) {
+    logoBar.classList.remove('hidden');
+    document.body.classList.add('logo-bar-visible');
+  } else {
+    logoBar.classList.add('hidden');
+    document.body.classList.remove('logo-bar-visible');
+  }
+}
+
 onAuthStateChanged(auth, async (user) => {
   if (user) {
     console.log('✅ Connecté :', user.email);
+    afficherBarreLogoDeconnecte(false);
     try { await chargerProfil(user.uid); }   catch(e) { console.error('❌ chargerProfil:', e); }
     try { await chargerAbonnements(); }       catch(e) { console.error('❌ chargerAbonnements:', e); }
     try { await chargerFavoris(); }           catch(e) { console.error('❌ chargerFavoris:', e); }
@@ -5592,6 +5647,7 @@ onAuthStateChanged(auth, async (user) => {
     afficherDashboard(window._monProfil);
   } else {
     console.log('👤 Non connecté');
+    afficherBarreLogoDeconnecte(true);
     mettreAJourNav(null);
   }
 });
