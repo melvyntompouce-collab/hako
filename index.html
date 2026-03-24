@@ -61,7 +61,6 @@ body::after{
   position:fixed;top:0;left:0;right:0;z-index:101;
   height:60px;
   padding-top:max(10px, env(safe-area-inset-top));
-  padding-bottom:16px;
   display:flex;align-items:center;justify-content:center;
   background:linear-gradient(135deg,rgba(0,245,155,0.1),rgba(155,93,229,0.05));
   border-bottom:1px solid var(--border);
@@ -97,7 +96,7 @@ body::after{
     top:0;
   }
   body.logo-bar-visible .page{
-    padding-top:calc(110px + max(20px, env(safe-area-inset-top))) !important;
+    padding-top:calc(130px + max(20px, env(safe-area-inset-top))) !important;
   }
 }
 
@@ -154,9 +153,9 @@ body.logo-bar-visible nav{
 .nav-burger span{width:24px;height:2px;background:var(--text);border-radius:2px;transition:all 0.3s;}
 
 /* ── PAGES ── */
-.page{display:none;min-height:100vh;padding-top:calc(110px + max(20px, env(safe-area-inset-top)));position:relative;z-index:1;}
+.page{display:none;min-height:100vh;padding-top:calc(140px + max(20px, env(safe-area-inset-top)));position:relative;z-index:1;}
 .page.active{display:block;}
-body.logo-bar-visible .page{padding-top:calc(200px + max(20px, env(safe-area-inset-top)));}
+body.logo-bar-visible .page{padding-top:calc(250px + max(20px, env(safe-area-inset-top)));}
 
 /* ══════════════════════════════
    PAGE: ACCUEIL
@@ -335,7 +334,7 @@ body.logo-bar-visible .page{padding-top:calc(200px + max(20px, env(safe-area-ins
   min-height:calc(100vh - 70px);
   display:flex;align-items:center;justify-content:center;
   padding:40px 20px;
-  padding-top:calc(170px + max(30px, env(safe-area-inset-top)));
+  padding-top:calc(220px + max(30px, env(safe-area-inset-top)));
 }
 .auth-box{
   width:100%;max-width:480px;
@@ -429,6 +428,7 @@ body.logo-bar-visible .page{padding-top:calc(200px + max(20px, env(safe-area-ins
   flex-direction:column;
   min-height:calc(100vh - 70px);
   padding:20px;
+  padding-top:calc(60px + max(10px, env(safe-area-inset-top)));
   gap:16px;
   max-width:1100px;
   margin:0 auto;
@@ -672,7 +672,7 @@ body.logo-bar-visible .page{padding-top:calc(200px + max(20px, env(safe-area-ins
 /* ══════════════════════════════
    PAGE: AGENDA
 ══════════════════════════════ */
-.agenda-page{padding:40px 5%;}
+.agenda-page{padding:40px 5%;padding-top:calc(80px + max(10px, env(safe-area-inset-top)));}
 .agenda-header{
   display:flex;align-items:center;justify-content:space-between;
   margin-bottom:32px;flex-wrap:wrap;gap:16px;
@@ -748,7 +748,7 @@ body.logo-bar-visible .page{padding-top:calc(200px + max(20px, env(safe-area-ins
 /* ══════════════════════════════
    PAGE: PROFIL
 ══════════════════════════════ */
-.profile-page{padding:40px 5%;max-width:900px;margin:0 auto;}
+.profile-page{padding:40px 5%;padding-top:calc(80px + max(10px, env(safe-area-inset-top)));max-width:900px;margin:0 auto;}
 .profile-hero{
   border-radius:28px;overflow:hidden;
   background:linear-gradient(135deg,#0d2b1e,#1a0d2b,#0d1a2b);
@@ -884,7 +884,7 @@ body.logo-bar-visible .page{padding-top:calc(200px + max(20px, env(safe-area-ins
 /* ══════════════════════════════
    PAGE: CLASSEMENT
 ══════════════════════════════ */
-.ranking-page{padding:40px 5%;max-width:900px;margin:0 auto;}
+.ranking-page{padding:40px 5%;padding-top:calc(80px + max(10px, env(safe-area-inset-top)));max-width:900px;margin:0 auto;}
 .rk-hero{
   border-radius:28px;padding:40px;
   background:linear-gradient(135deg,#1a0d2b,#0d1a2b);
@@ -1115,8 +1115,9 @@ footer{
   /* Nav desktop cachée sur mobile */
   nav { display: none !important; }
 
-  /* Pages — pas de padding-top sur mobile */
-  .page { padding-bottom: 20px; min-height: 100vh; padding-top: 0 !important; }
+  /* Pages — padding-top adapté à mobile et Dynamic Island */
+  .page { padding-bottom: 20px; min-height: 100vh; padding-top: calc(140px + max(20px, env(safe-area-inset-top))) !important; }
+  body.logo-bar-visible .page { padding-top: calc(250px + max(20px, env(safe-area-inset-top))) !important; }
   .agenda-page,
   .profile-page,
   .ranking-page { padding: 20px 4% !important; }
@@ -2091,7 +2092,7 @@ footer{
   <div class="profile-page">
 
     <!-- ── SOUS-PAGE: ÉDITION PROFIL ── -->
-    <div id="edit-profile-page" style="display:none;position:fixed;inset:0;z-index:200;background:var(--bg);overflow-y:auto;padding-top:70px;">
+    <div id="edit-profile-page" style="display:none;position:fixed;inset:0;z-index:200;background:var(--bg);overflow-y:auto;padding-top:calc(140px + max(20px, env(safe-area-inset-top)));">
       <div style="max-width:600px;margin:0 auto;padding:24px 20px 100px;">
 
         <!-- Header sous-page -->
