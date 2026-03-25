@@ -59,7 +59,7 @@ body::after{
 /* ── BARRE LOGO DÉCONNECTÉ ── */
 #logo-bar{
   position:fixed;top:0;left:0;right:0;z-index:101;
-  height:60px;
+  height:50px;
   padding-top:max(10px, env(safe-area-inset-top));
   display:flex;align-items:center;justify-content:center;
   background:linear-gradient(135deg,rgba(0,245,155,0.1),rgba(155,93,229,0.05));
@@ -89,17 +89,14 @@ body::after{
 
 /* Cache la barre logo sur desktop */
 @media (min-width:768px) {
-  #logo-bar{
-    display:none !important;
-  }
   nav{
-    top:0;
+    top:calc(50px + max(10px, env(safe-area-inset-top)));
   }
   body.logo-bar-visible nav{
     top:0;
   }
   .page{
-    padding-top:70px !important;
+    padding-top:calc(120px + max(20px, env(safe-area-inset-top))) !important;
   }
   body.logo-bar-visible .page{
     padding-top:70px !important;
@@ -119,7 +116,7 @@ nav{
   transition:all 0.3s ease;
 }
 body.logo-bar-visible nav{
-  top:calc(60px + max(10px, env(safe-area-inset-top)));
+  top:calc(50px + max(10px, env(safe-area-inset-top)));
 }
 .logo{
   font-family:'Syne',sans-serif;
@@ -160,7 +157,7 @@ body.logo-bar-visible nav{
 /* ── PAGES ── */
 .page{display:none;min-height:100vh;padding-top:calc(100px + max(20px, env(safe-area-inset-top)));position:relative;z-index:1;}
 .page.active{display:block;}
-body.logo-bar-visible .page{padding-top:calc(140px + max(20px, env(safe-area-inset-top)));}
+body.logo-bar-visible .page{padding-top:calc(120px + max(20px, env(safe-area-inset-top)));}
 
 /* ══════════════════════════════
    PAGE: ACCUEIL
@@ -1121,7 +1118,7 @@ footer{
 
   /* Pages — padding-top adapté à mobile et Dynamic Island */
   .page { padding-bottom: 20px; min-height: 100vh; padding-top: calc(100px + max(20px, env(safe-area-inset-top))) !important; }
-  body.logo-bar-visible .page { padding-top: calc(230px + max(20px, env(safe-area-inset-top))) !important; }
+  body.logo-bar-visible .page { padding-top: calc(120px + max(20px, env(safe-area-inset-top))) !important; }
   .agenda-page,
   .profile-page,
   .ranking-page { padding: 20px 4% !important; }
