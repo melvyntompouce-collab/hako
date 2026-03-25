@@ -172,13 +172,13 @@ body.logo-bar-visible .page{padding-top:calc(120px + max(20px, env(safe-area-ins
   padding-top:max(40px, env(safe-area-inset-top));
   position:relative;overflow:hidden;
 }
-@media (max-width:767px) {
+@media (max-width:768px) {
   .hero{
-    padding-top:5px;
+    padding-top:0;
     align-items: flex-start;
   }
   body.logo-bar-visible .hero{
-    padding-top:5px;
+    padding-top:0;
     align-items: flex-start;
   }
   .hero-content {
@@ -1134,7 +1134,7 @@ footer{
 
   /* Pages — padding-top adapté à mobile et Dynamic Island */
   .page { padding-bottom: 20px; min-height: 100vh; padding-top: calc(100px + max(20px, env(safe-area-inset-top))) !important; }
-  body.logo-bar-visible .page { padding-top: calc(120px + max(20px, env(safe-area-inset-top))) !important; }
+  body.logo-bar-visible .page { padding-top: calc(50px + max(20px, env(safe-area-inset-top))) !important; }
   .agenda-page,
   .profile-page,
   .ranking-page { padding: 20px 4% !important; }
