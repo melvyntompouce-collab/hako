@@ -241,14 +241,12 @@ nav > * { margin-bottom: 6px; }
 .page.active{display:block;}
 body.logo-bar-visible .page{padding-top:calc(120px + max(20px, env(safe-area-inset-top)));}
 
-/* ── PWA STANDALONE — décaler le contenu sous la nav ── */
-@media (display-mode: standalone) {
-  nav {
-    height: calc(52px + env(safe-area-inset-top));
-  }
-  .page:not(#page-auth) {
-    padding-top: calc(52px + env(safe-area-inset-top)) !important;
-  }
+/* ── PWA STANDALONE ── */
+body.pwa .page:not(#page-auth) {
+  padding-top: calc(52px + env(safe-area-inset-top)) !important;
+}
+body.pwa nav {
+  height: calc(52px + env(safe-area-inset-top));
 }
 
 /* ══════════════════════════════
@@ -1319,6 +1317,17 @@ footer{
 .fade-in{animation:fadeIn 0.5s ease both;}
 @keyframes fadeIn{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
 </style>
+<script>
+// Détection PWA fiable (iOS + Android)
+if (
+  window.navigator.standalone === true ||
+  window.matchMedia('(display-mode: standalone)').matches ||
+  window.matchMedia('(display-mode: fullscreen)').matches
+) {
+  document.documentElement.classList.add('pwa');
+  document.body.classList.add('pwa');
+}
+</script>
 </head>
 <body>
 
