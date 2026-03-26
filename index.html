@@ -112,11 +112,12 @@ nav {
   padding-left: 20px;
   padding-right: 20px;
   padding-top: env(safe-area-inset-top);
-  padding-bottom: 10px;
-  height: calc(50px + env(safe-area-inset-top));
+  padding-bottom: 0;
+  height: calc(52px + env(safe-area-inset-top));
   display: flex !important;
   align-items: flex-end;
   justify-content: space-between;
+  padding-bottom: 12px;
   box-sizing: border-box;
   background: rgba(8,8,16,0.92);
   backdrop-filter: blur(20px);
@@ -251,7 +252,7 @@ nav {
 
 /* ── PAGES suite ── */
 /* ── PAGES ── */
-.page{display:none;min-height:100vh;padding-top:calc(50px + env(safe-area-inset-top));position:relative;z-index:1;}
+.page{display:none;min-height:100vh;padding-top:calc(52px + env(safe-area-inset-top));position:relative;z-index:1;}
 .page.active{display:block;}
 body.logo-bar-visible .page{padding-top:calc(120px + max(20px, env(safe-area-inset-top)));}
 
@@ -259,23 +260,18 @@ body.logo-bar-visible .page{padding-top:calc(120px + max(20px, env(safe-area-ins
    PAGE: ACCUEIL
 ══════════════════════════════ */
 .hero{
-  min-height:calc(100vh - 70px);
-  display:flex;align-items:center;
-  padding:0 5%;
-  padding-top:max(40px, env(safe-area-inset-top));
+  min-height:calc(100vh - 52px);
+  display:flex;align-items:flex-start;
+  padding:20px 5% 80px;
   position:relative;overflow:hidden;
 }
 @media (max-width:768px) {
   .hero{
-    padding-top:0;
-    align-items: flex-start;
-  }
-  body.logo-bar-visible .hero{
-    padding-top:0;
+    padding-top:16px;
     align-items: flex-start;
   }
   .hero-content {
-    padding-top: 2px;
+    padding-top: 0;
   }
 }
 .hero-grid{
@@ -285,7 +281,7 @@ body.logo-bar-visible .page{padding-top:calc(120px + max(20px, env(safe-area-ins
     linear-gradient(90deg,rgba(0,245,155,0.03) 1px,transparent 1px);
   background-size:60px 60px;
 }
-.hero-content{max-width:700px;position:relative;z-index:1;padding-top:16px;}
+.hero-content{max-width:700px;position:relative;z-index:1;padding-top:0;}
 .hero-badge{
   display:inline-flex;align-items:center;gap:8px;
   padding:8px 16px;border-radius:20px;
@@ -1228,7 +1224,7 @@ footer{
 
 @media(max-width:768px) {
   /* Pages — padding-top adapté au mobile */
-  .page { padding-bottom: 20px; min-height: 100vh; padding-top: calc(50px + env(safe-area-inset-top)) !important; }
+  .page { padding-bottom: 20px; min-height: 100vh; padding-top: calc(52px + env(safe-area-inset-top)) !important; }
   body.logo-bar-visible .page { padding-top: calc(50px + max(20px, env(safe-area-inset-top))) !important; }
   .agenda-page,
   .profile-page,
