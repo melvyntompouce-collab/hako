@@ -867,7 +867,7 @@ body.pwa nav {
 /* ══════════════════════════════
    PAGE: PROFIL
 ══════════════════════════════ */
-.profile-page{padding:40px 5%;padding-top:0;max-width:900px;margin:0 auto;}
+.profile-page{padding:40px 5%;padding-top:0;max-width:1200px;margin:0 auto;}
 .profile-hero{
   border-radius:28px;overflow:hidden;
   background:linear-gradient(135deg,#0d2b1e,#1a0d2b,#0d1a2b);
@@ -1003,7 +1003,7 @@ body.pwa nav {
 /* ══════════════════════════════
    PAGE: CLASSEMENT
 ══════════════════════════════ */
-.ranking-page{padding:40px 5%;padding-top:0;max-width:900px;margin:0 auto;}
+.ranking-page{padding:40px 5%;padding-top:0;max-width:1200px;margin:0 auto;}
 .rk-hero{
   border-radius:28px;padding:40px;
   background:linear-gradient(135deg,#1a0d2b,#0d1a2b);
@@ -1331,6 +1331,37 @@ footer{
   .btn-primary, .btn-secondary { width: 100%; text-align: center; }
   .badges-grid { grid-template-columns: repeat(2, 1fr); }
   .ph-stat { min-width: 50%; }
+}
+
+/* ── DESKTOP LAYOUT ── */
+@media(min-width:900px) {
+
+  /* Dashboard — 2 colonnes pour les sections du bas */
+  #page-dashboard > div { max-width:1200px !important; }
+  .dash-desktop-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    align-items: start;
+  }
+
+  /* Profil — hero pleine largeur + grid 3 colonnes */
+  .profile-page { max-width:1200px !important; }
+  .profile-grid { grid-template-columns:1fr 1fr 1fr !important; }
+
+  /* Classement */
+  .ranking-page { max-width:1200px !important; }
+  .rk-list { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+
+  /* Messages */
+  #page-messages > div { max-width:800px !important; }
+
+  /* Agenda — plus de colonnes */
+  .agenda-grid { grid-template-columns:repeat(auto-fill,minmax(320px,1fr)) !important; }
+  .agenda-page { max-width:1200px; margin:0 auto; }
+
+  /* Réseau */
+  .network-layout { max-width:1400px !important; }
 }
 
 /* ── ANIMATIONS ── */
@@ -1786,7 +1817,7 @@ if (isPWA) {
 
 <!-- ═══ PAGE: DASHBOARD (connecté) ═══ -->
 <div class="page" id="page-dashboard">
-  <div style="padding:16px 5% 100px;max-width:900px;margin:0 auto;">
+  <div style="padding:16px 5% 100px;max-width:1200px;margin:0 auto;">
 
     <!-- Salutation + Photo + Dispo -->
     <div style="display:flex;align-items:center;gap:16px;margin-bottom:20px;">
@@ -1854,36 +1885,47 @@ if (isPWA) {
       </button>
     </div>
 
-    <!-- Activité récente -->
-    <div id="dash-activite-section" style="display:none;margin-bottom:20px;">
-      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;">
-        <div style="font-family:'Syne',sans-serif;font-weight:800;font-size:12px;letter-spacing:1px;color:var(--muted2);text-transform:uppercase;">🔔 Activité récente</div>
-      </div>
-      <div id="dash-activite-list" style="display:flex;flex-direction:column;gap:6px;"></div>
-    </div>
+    <!-- Sections enrichies — 2 colonnes sur desktop -->
+    <div class="dash-desktop-grid">
 
-    <!-- Prochains événements -->
-    <div id="dash-events-section" style="display:none;margin-bottom:20px;">
-      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;">
-        <div style="font-family:'Syne',sans-serif;font-weight:800;font-size:12px;letter-spacing:1px;color:var(--muted2);text-transform:uppercase;">📅 Prochains événements</div>
-        <button onclick="showPage('agenda')" style="background:none;border:none;color:var(--green);font-size:11px;font-weight:700;cursor:pointer;font-family:'Syne',sans-serif;">Voir tout →</button>
-      </div>
-      <div id="dash-events-list" style="display:flex;flex-direction:column;gap:8px;"></div>
-    </div>
+      <!-- Colonne gauche -->
+      <div>
+        <!-- Activité récente -->
+        <div id="dash-activite-section" style="display:none;margin-bottom:20px;">
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;">
+            <div style="font-family:'Syne',sans-serif;font-weight:800;font-size:12px;letter-spacing:1px;color:var(--muted2);text-transform:uppercase;">🔔 Activité récente</div>
+          </div>
+          <div id="dash-activite-list" style="display:flex;flex-direction:column;gap:6px;"></div>
+        </div>
 
-    <!-- Danseurs compatibles -->
-    <div id="dash-compat-section" style="display:none;margin-bottom:20px;">
-      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;">
-        <div style="font-family:'Syne',sans-serif;font-weight:800;font-size:12px;letter-spacing:1px;color:var(--muted2);text-transform:uppercase;">⚡ Compatibles près de toi</div>
-        <button onclick="showPage('network')" style="background:none;border:none;color:var(--green);font-size:11px;font-weight:700;cursor:pointer;font-family:'Syne',sans-serif;">Voir tout →</button>
+        <!-- Prochains événements -->
+        <div id="dash-events-section" style="display:none;margin-bottom:20px;">
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;">
+            <div style="font-family:'Syne',sans-serif;font-weight:800;font-size:12px;letter-spacing:1px;color:var(--muted2);text-transform:uppercase;">📅 Prochains événements</div>
+            <button onclick="showPage('agenda')" style="background:none;border:none;color:var(--green);font-size:11px;font-weight:700;cursor:pointer;font-family:'Syne',sans-serif;">Voir tout →</button>
+          </div>
+          <div id="dash-events-list" style="display:flex;flex-direction:column;gap:8px;"></div>
+        </div>
       </div>
-      <div id="dash-compat-list" style="display:flex;flex-direction:column;gap:8px;"></div>
-    </div>
 
-    <!-- Favoris -->
-    <div id="dash-favoris-section" style="display:none;margin-bottom:20px;">
-      <div style="font-family:'Syne',sans-serif;font-weight:800;font-size:12px;letter-spacing:1px;color:var(--muted2);text-transform:uppercase;margin-bottom:10px;">♥ Mes favoris</div>
-      <div id="dash-favoris-list" style="display:flex;flex-direction:column;gap:8px;"></div>
+      <!-- Colonne droite -->
+      <div>
+        <!-- Danseurs compatibles -->
+        <div id="dash-compat-section" style="display:none;margin-bottom:20px;">
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;">
+            <div style="font-family:'Syne',sans-serif;font-weight:800;font-size:12px;letter-spacing:1px;color:var(--muted2);text-transform:uppercase;">⚡ Compatibles près de toi</div>
+            <button onclick="showPage('network')" style="background:none;border:none;color:var(--green);font-size:11px;font-weight:700;cursor:pointer;font-family:'Syne',sans-serif;">Voir tout →</button>
+          </div>
+          <div id="dash-compat-list" style="display:flex;flex-direction:column;gap:8px;"></div>
+        </div>
+
+        <!-- Favoris -->
+        <div id="dash-favoris-section" style="display:none;margin-bottom:20px;">
+          <div style="font-family:'Syne',sans-serif;font-weight:800;font-size:12px;letter-spacing:1px;color:var(--muted2);text-transform:uppercase;margin-bottom:10px;">♥ Mes favoris</div>
+          <div id="dash-favoris-list" style="display:flex;flex-direction:column;gap:8px;"></div>
+        </div>
+      </div>
+
     </div>
 
   </div>
