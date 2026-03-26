@@ -109,11 +109,13 @@ body::after{
 /* ── TOPBAR MINIMALISTE ── */
 nav {
   position: fixed; top: 0; left: 0; right: 0; z-index: 100;
-  height: 60px;
   padding: 0 20px;
+  padding-top: env(safe-area-inset-top);
+  height: calc(60px + env(safe-area-inset-top));
   display: flex !important;
-  align-items: center;
+  align-items: flex-end;
   justify-content: space-between;
+  padding-bottom: 10px;
   background: rgba(8,8,16,0.92);
   backdrop-filter: blur(20px);
   border-bottom: 1px solid var(--border);
@@ -225,7 +227,9 @@ nav {
 /* ── BOUTON RETOUR ── */
 .back-btn {
   display: none;
-  position: fixed; top: 10px; left: 12px; z-index: 99;
+  position: fixed;
+  top: calc(env(safe-area-inset-top) + 10px);
+  left: 12px; z-index: 99;
   width: 40px; height: 40px; border-radius: 12px;
   background: rgba(8,8,16,0.9);
   border: 1px solid var(--border);
@@ -237,7 +241,7 @@ nav {
 .back-btn.visible { display: flex; }
 
 /* ── PAGES ── */
-.page{display:none;min-height:100vh;padding-top:70px;position:relative;z-index:1;}
+.page{display:none;min-height:100vh;padding-top:calc(60px + env(safe-area-inset-top));position:relative;z-index:1;}
 .page.active{display:block;}
 body.logo-bar-visible .page{padding-top:calc(120px + max(20px, env(safe-area-inset-top)));}
 
@@ -1214,7 +1218,7 @@ footer{
 
 @media(max-width:768px) {
   /* Pages — padding-top adapté au mobile */
-  .page { padding-bottom: 20px; min-height: 100vh; padding-top: 60px !important; }
+  .page { padding-bottom: 20px; min-height: 100vh; padding-top: calc(60px + env(safe-area-inset-top)) !important; }
   body.logo-bar-visible .page { padding-top: calc(50px + max(20px, env(safe-area-inset-top))) !important; }
   .agenda-page,
   .profile-page,
