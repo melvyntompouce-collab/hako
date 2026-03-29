@@ -1929,16 +1929,16 @@ footer{
   border: 1px solid rgba(255,255,255,0.08);
   display: flex; align-items: center; justify-content: center;
   gap: 6px;
-  transition: transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+  transition: transform 0.55s cubic-bezier(0.34, 1.2, 0.64, 1);
 }
 .brct-wrist .w-led {
   width: 7px; height: 7px;
   border-radius: 50%;
 }
-.brct-wrist-left  { transform: translateX(20px); }
-.brct-wrist-right { transform: translateX(-20px); }
-.brct-wrist-left.contact  { transform: translateX(4px);  }
-.brct-wrist-right.contact { transform: translateX(-4px); }
+.brct-wrist-left  { transform: translateX(-60px); }
+.brct-wrist-right { transform: translateX(60px); }
+.brct-wrist-left.contact  { transform: translateX(2px);  }
+.brct-wrist-right.contact { transform: translateX(-2px); }
 .brct-contact-flash {
   position: absolute;
   width: 24px; height: 24px;
@@ -2012,6 +2012,101 @@ footer{
   .brct-specs { grid-template-columns: repeat(4, 1fr); }
   .brct-visual { width: 360px; height: 120px; }
   .brct-title { font-size: 100px; }
+}
+
+/* ══════════════════════════════
+   TRANSITIONS DE PAGES
+══════════════════════════════ */
+
+/* Base — toutes les pages sont en position relative */
+.page {
+  will-change: opacity, transform;
+}
+
+/* Classes d'animation OUT (page qui part) */
+.page-exit-left {
+  animation: pageExitLeft 0.22s cubic-bezier(0.4, 0, 1, 1) forwards;
+}
+.page-exit-right {
+  animation: pageExitRight 0.22s cubic-bezier(0.4, 0, 1, 1) forwards;
+}
+.page-exit-up {
+  animation: pageExitUp 0.2s cubic-bezier(0.4, 0, 1, 1) forwards;
+}
+.page-exit-down {
+  animation: pageExitDown 0.22s cubic-bezier(0.4, 0, 1, 1) forwards;
+}
+.page-exit-fade {
+  animation: pageExitFade 0.18s ease forwards;
+}
+
+/* Classes d'animation IN (page qui arrive) */
+.page-enter-left {
+  animation: pageEnterLeft 0.28s cubic-bezier(0, 0, 0.2, 1) forwards;
+}
+.page-enter-right {
+  animation: pageEnterRight 0.28s cubic-bezier(0, 0, 0.2, 1) forwards;
+}
+.page-enter-up {
+  animation: pageEnterUp 0.26s cubic-bezier(0, 0, 0.2, 1) forwards;
+}
+.page-enter-down {
+  animation: pageEnterDown 0.28s cubic-bezier(0, 0, 0.2, 1) forwards;
+}
+.page-enter-fade {
+  animation: pageEnterFade 0.22s ease forwards;
+}
+
+/* Keyframes OUT */
+@keyframes pageExitLeft {
+  from { opacity: 1; transform: translateX(0); }
+  to   { opacity: 0; transform: translateX(-28px); }
+}
+@keyframes pageExitRight {
+  from { opacity: 1; transform: translateX(0); }
+  to   { opacity: 0; transform: translateX(28px); }
+}
+@keyframes pageExitUp {
+  from { opacity: 1; transform: translateY(0); }
+  to   { opacity: 0; transform: translateY(-20px); }
+}
+@keyframes pageExitDown {
+  from { opacity: 1; transform: translateY(0); }
+  to   { opacity: 0; transform: translateY(20px); }
+}
+@keyframes pageExitFade {
+  from { opacity: 1; }
+  to   { opacity: 0; }
+}
+
+/* Keyframes IN */
+@keyframes pageEnterLeft {
+  from { opacity: 0; transform: translateX(32px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+@keyframes pageEnterRight {
+  from { opacity: 0; transform: translateX(-32px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+@keyframes pageEnterUp {
+  from { opacity: 0; transform: translateY(24px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes pageEnterDown {
+  from { opacity: 0; transform: translateY(-24px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes pageEnterFade {
+  from { opacity: 0; transform: scale(0.98); }
+  to   { opacity: 1; transform: scale(1); }
+}
+
+/* Réduire les animations pour les utilisateurs qui le préfèrent */
+@media (prefers-reduced-motion: reduce) {
+  .page-exit-left, .page-exit-right, .page-exit-up, .page-exit-down, .page-exit-fade,
+  .page-enter-left, .page-enter-right, .page-enter-up, .page-enter-down, .page-enter-fade {
+    animation-duration: 0.01ms !important;
+  }
 }
 
 </style>
@@ -3177,8 +3272,13 @@ if (isPWA) {
         <div class="brct-led green" id="brct-led-1"></div>
         <div class="brct-led green" id="brct-led-2"></div>
         <div class="brct-led green" id="brct-led-3"></div>
-        <div class="brct-led off"   id="brct-led-4"></div>
-        <div class="brct-led off"   id="brct-led-5"></div>
+        <!-- Séparateur + LED batterie -->
+        <div style="display:flex;align-items:center;gap:5px;margin-left:6px;padding-left:8px;border-left:1px solid rgba(255,255,255,0.08);">
+          <svg width="7" height="10" viewBox="0 0 7 10" fill="none" style="opacity:0.45;flex-shrink:0;">
+            <path d="M4.5 0L0 5.5h3L2.5 10L7 4.5H4L4.5 0z" fill="rgba(255,255,255,0.6)"/>
+          </svg>
+          <div class="brct-led green" id="brct-led-bat" style="width:9px;height:9px;opacity:0.8;"></div>
+        </div>
       </div>
     </div>
 
@@ -4480,63 +4580,104 @@ if (isPWA) {
 // ── Navigation avec animations ──
 let pageHistory = [];
 let currentPage = 'home';
+let _transitionLock = false;
 
-function showPage(id) {
-  const pages = document.querySelectorAll('.page');
+// Ordre des pages pour déterminer la direction gauche/droite
+const PAGE_ORDER = ['home', 'network', 'agenda', 'messages', 'profile', 'ranking', 'bracelet', 'notifs', 'privacy', 'cgu', 'mentions'];
+
+// Pages "profondes" — arrivent par le bas (slide up)
+const DEEP_PAGES = ['privacy', 'cgu', 'mentions', 'notifs', 'bracelet'];
+
+// Pages "légères" — fade uniquement
+const FADE_PAGES = ['auth'];
+
+function getTransitionPair(fromId, toId, isBack) {
+  // Retour → toujours slide down
+  if (isBack) return { exit: 'page-exit-down', enter: 'page-enter-down' };
+
+  // Fade pour pages auth
+  if (FADE_PAGES.includes(toId) || FADE_PAGES.includes(fromId)) {
+    return { exit: 'page-exit-fade', enter: 'page-enter-fade' };
+  }
+
+  // Page profonde → slide up
+  if (DEEP_PAGES.includes(toId) && !DEEP_PAGES.includes(fromId)) {
+    return { exit: 'page-exit-up', enter: 'page-enter-up' };
+  }
+  // Retour depuis page profonde → slide down
+  if (DEEP_PAGES.includes(fromId) && !DEEP_PAGES.includes(toId)) {
+    return { exit: 'page-exit-down', enter: 'page-enter-down' };
+  }
+
+  // Navigation latérale — basée sur l'ordre des pages
+  const fromIdx = PAGE_ORDER.indexOf(fromId);
+  const toIdx   = PAGE_ORDER.indexOf(toId);
+
+  if (fromIdx !== -1 && toIdx !== -1) {
+    if (toIdx > fromIdx) return { exit: 'page-exit-left',  enter: 'page-enter-left' };
+    if (toIdx < fromIdx) return { exit: 'page-exit-right', enter: 'page-enter-right' };
+  }
+
+  // Fallback fade
+  return { exit: 'page-exit-fade', enter: 'page-enter-fade' };
+}
+
+function showPage(id, isBack = false) {
   const next = document.getElementById('page-' + id);
-  if (!next) return;
+  if (!next || _transitionLock) return;
 
-  // Historique pour bouton retour
-  if (id !== currentPage) {
+  const fromId   = currentPage;
+  const fromPage = document.querySelector('.page.active');
+
+  // Historique
+  if (!isBack && id !== currentPage) {
     pageHistory.push(currentPage);
-    if (pageHistory.length > 10) pageHistory.shift();
+    if (pageHistory.length > 15) pageHistory.shift();
   }
   currentPage = id;
 
-
-  // Drawer items actifs
+  // Drawer actif
   document.querySelectorAll('.drawer-item').forEach(i => i.classList.remove('active'));
   const activeItem = document.getElementById('di-' + id);
   if (activeItem) activeItem.classList.add('active');
 
-  // Cacher toutes les pages avec fondu
-  pages.forEach(p => {
-    if (p.classList.contains('active')) {
-      p.style.transition = 'opacity 0.15s ease';
-      p.style.opacity = '0';
-      setTimeout(() => {
-        p.classList.remove('active');
-        p.style.opacity = '';
-        p.style.transition = '';
-      }, 150);
-    }
-  });
+  // Transition pair
+  const { exit: exitClass, enter: enterClass } = getTransitionPair(fromId, id, isBack);
+  const DURATION = 280; // ms — durée max entre exit et enter
 
-  // Afficher la nouvelle page
+  _transitionLock = true;
+
+  // — EXIT page courante —
+  if (fromPage && fromPage !== next) {
+    fromPage.classList.add(exitClass);
+    setTimeout(() => {
+      fromPage.classList.remove('active', exitClass);
+      fromPage.style.opacity  = '';
+      fromPage.style.transform = '';
+    }, 220);
+  }
+
+  // — ENTER nouvelle page —
   setTimeout(() => {
-    next.classList.add('active');
-    next.style.opacity = '0';
-    next.style.transform = 'translateY(10px)';
-    next.style.transition = 'opacity 0.25s ease, transform 0.25s ease';
-    requestAnimationFrame(() => {
-      requestAnimationFrame(() => {
-        next.style.opacity = '1';
-        next.style.transform = 'translateY(0)';
-        setTimeout(() => {
-          next.style.transition = '';
-          next.style.opacity = '';
-          next.style.transform = '';
-        }, 250);
-      });
-    });
-  }, 150);
+    next.classList.add('active', enterClass);
+    // Nettoyer après animation
+    const cleanup = () => {
+      next.classList.remove(enterClass);
+      next.style.opacity  = '';
+      next.style.transform = '';
+      _transitionLock = false;
+    };
+    next.addEventListener('animationend', cleanup, { once: true });
+    // Fallback si animationend ne fire pas
+    setTimeout(cleanup, DURATION + 50);
+  }, fromPage && fromPage !== next ? 140 : 0);
 
   window.scrollTo(0, 0);
 
   // Actions spécifiques par page
-  if (id === 'notifs')    setTimeout(afficherPageNotifs, 160);
-  if (id === 'messages')  setTimeout(chargerMessages, 160);
-  if (id === 'bracelet')  setTimeout(initPageBracelet, 160);
+  if (id === 'notifs')    setTimeout(afficherPageNotifs, DURATION);
+  if (id === 'messages')  setTimeout(chargerMessages,   DURATION);
+  if (id === 'bracelet')  setTimeout(initPageBracelet,  DURATION);
 
   // Sync mobile nav
   document.querySelectorAll('.mn-item').forEach(i => i.classList.remove('active'));
@@ -4553,23 +4694,7 @@ function showPage(id) {
 function goBack() {
   if (pageHistory.length > 0) {
     const prev = pageHistory.pop();
-    currentPage = prev;
-    const pages = document.querySelectorAll('.page');
-    const next = document.getElementById('page-' + prev);
-    if (!next) { goHome(); return; }
-
-    const backBtn = document.getElementById('back-btn');
-    if (backBtn) {
-      backBtn.classList.toggle('visible', prev !== 'home' && prev !== 'dashboard');
-    }
-
-    pages.forEach(p => {
-      if (p.classList.contains('active')) {
-        p.classList.remove('active');
-      }
-    });
-    next.classList.add('active');
-    window.scrollTo(0, 0);
+    showPage(prev, true);
   } else {
     goHome();
   }
@@ -7937,17 +8062,17 @@ document.dispatchEvent(new Event('firebase-ready'));
 
 const BRCT_MODES = {
   public: {
-    leds: ['green','green','green','off','off'],
+    leds: ['green','green','green'],
     desc: 'Tout le monde peut voir ton profil complet en approchant son bracelet du tien. Idéal pour les soirées et events.',
     btnClass: 'active-public'
   },
   amis: {
-    leds: ['yellow','yellow','off','off','off'],
+    leds: ['yellow','yellow','off'],
     desc: 'Seuls tes abonnés mutuels ont accès à ton profil complet. Les autres voient uniquement ton nom et style.',
     btnClass: 'active-amis'
   },
   prive: {
-    leds: ['red','off','off','off','off'],
+    leds: ['red','off','off'],
     desc: "Ton profil est masqué. Les échanges ne s'activent que si tu acceptes manuellement la connexion dans l'app.",
     btnClass: 'active-prive'
   }
@@ -7988,40 +8113,55 @@ window.brctAnimerGeste = function brctAnimerGeste() {
   const wR    = document.getElementById('brct-w-right');
   const flash = document.getElementById('brct-flash');
   const label = document.getElementById('brct-geste-label');
-  const leds  = document.querySelectorAll('#brct-geste-zone .w-led');
+  const leds  = document.querySelectorAll('#brct-led-1, #brct-led-2, #brct-led-3');
   if (!wL || !wR) return;
 
-  // Reset
+  // Reset — bracelets éloignés
   wL.classList.remove('contact'); wR.classList.remove('contact');
   flash.classList.remove('visible');
-  if (label) { label.textContent = 'Approche...'; label.style.color = 'var(--muted2)'; }
+  if (label) { label.textContent = ''; label.style.color = 'var(--muted2)'; }
 
-  // Phase 1 — approche
+  // Phase 1 — approche (après 300ms)
   setTimeout(() => {
     wL.classList.add('contact');
     wR.classList.add('contact');
-  }, 500);
+  }, 300);
 
-  // Phase 2 — contact + flash + pulse LEDs
+  // Phase 2 — contact : LEDs mode s'éteignent + flash (après 900ms)
+  setTimeout(() => {
+    // Éteindre les 3 LEDs mode
+    leds.forEach(led => {
+      led.classList.add('off');
+      led.style.background = '';
+      led.style.boxShadow = '';
+    });
+  }, 880);
+
   setTimeout(() => {
     flash.classList.add('visible');
     if (label) { label.textContent = '✓ Profil échangé !'; label.style.color = 'var(--green)'; }
-    // Pulse LEDs
-    leds.forEach(led => {
-      led.style.transform = 'scale(1.6)';
-      led.style.transition = 'transform 0.15s ease';
-    });
-    setTimeout(() => {
-      leds.forEach(led => { led.style.transform = 'scale(1)'; });
-    }, 200);
-  }, 1000);
+    // Pulse LEDs batterie
+    const bat = document.getElementById('brct-led-bat');
+    if (bat) {
+      bat.style.transform = 'scale(1.8)';
+      bat.style.transition = 'transform 0.15s ease';
+      setTimeout(() => { bat.style.transform = 'scale(1)'; }, 200);
+    }
+  }, 950);
 
-  // Phase 3 — écartement + reset
+  // Phase 3 — rallumer les LEDs mode + reset (après 1800ms)
+  setTimeout(() => {
+    const cfg = BRCT_MODES[brctModeActuel];
+    leds.forEach((led, i) => {
+      led.className = 'brct-led ' + cfg.leds[i];
+    });
+    if (label) { label.textContent = ''; }
+  }, 1800);
+
   setTimeout(() => {
     flash.classList.remove('visible');
     wL.classList.remove('contact');
     wR.classList.remove('contact');
-    if (label) { label.textContent = ''; }
     brctGesteEnCours = false;
   }, 2400);
 }
