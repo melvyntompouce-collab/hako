@@ -1561,6 +1561,94 @@ footer{
   .privacy-rights-grid { grid-template-columns: repeat(3, 1fr); }
 }
 
+/* ── Style filter chips (réseau) ── */
+.style-fchip {
+  -webkit-appearance: none;
+  appearance: none;
+  display: inline-flex;
+  align-items: center;
+  height: 26px;
+  padding: 0 10px;
+  border-radius: 6px;
+  font-size: 11px;
+  font-weight: 700;
+  border: 1.5px solid var(--border);
+  background: var(--bg2);
+  color: var(--muted2);
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 0.2s;
+  font-family: 'Syne', sans-serif;
+  -webkit-tap-highlight-color: transparent;
+}
+.style-fchip:hover { border-color: rgba(155,93,229,0.3); color: var(--text); }
+.style-fchip.on {
+  background: rgba(155,93,229,0.12);
+  border-color: var(--purple);
+  color: var(--purple);
+}
+
+/* ── Badge notif topbar ── */
+#nav-notif-btn {
+  display: none;
+  position: relative;
+  width: 32px; height: 32px;
+  border-radius: 8px;
+  background: rgba(255,255,255,0.06);
+  border: 1px solid var(--border);
+  align-items: center; justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s;
+  flex-shrink: 0;
+}
+#nav-notif-btn.visible { display: flex; }
+#nav-notif-btn:hover { background: rgba(0,245,155,0.08); border-color: rgba(0,245,155,0.2); }
+#nav-notif-badge {
+  display: none;
+  position: absolute;
+  top: -5px; right: -5px;
+  min-width: 16px; height: 16px;
+  border-radius: 8px;
+  background: var(--red);
+  border: 2px solid var(--bg);
+  font-size: 9px; font-weight: 800;
+  color: #fff;
+  align-items: center; justify-content: center;
+  font-family: 'Syne', sans-serif;
+  padding: 0 3px;
+}
+#nav-notif-badge.visible { display: flex; }
+
+/* ── Notif card ── */
+.notif-card {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  cursor: pointer;
+  transition: all 0.2s;
+  position: relative;
+}
+.notif-card:hover { border-color: rgba(0,245,155,0.2); background: var(--card2); }
+.notif-card.non-lu { border-left: 3px solid var(--green); }
+.notif-icon {
+  width: 40px; height: 40px;
+  border-radius: 12px;
+  background: rgba(255,255,255,0.05);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 18px; flex-shrink: 0;
+}
+.notif-dot {
+  width: 7px; height: 7px;
+  border-radius: 50%;
+  background: var(--green);
+  flex-shrink: 0;
+  box-shadow: 0 0 6px var(--green);
+}
+
 </style>
 </head>
 <body>
@@ -1588,6 +1676,11 @@ if (isPWA) {
       style="height:32px;padding:0 12px;border-radius:8px;background:rgba(0,245,155,0.12);border:1px solid rgba(0,245,155,0.3);color:var(--green);font-weight:700;font-size:12px;text-decoration:none;font-family:'Syne',sans-serif;letter-spacing:0.3px;white-space:nowrap;display:flex;align-items:center;">
       Connexion
     </a>
+    <!-- Cloche notifs (connecté uniquement) -->
+    <div id="nav-notif-btn" style="display:none;position:relative;width:32px;height:32px;border-radius:8px;background:rgba(255,255,255,0.06);border:1px solid var(--border);display:none;align-items:center;justify-content:center;cursor:pointer;transition:all 0.2s;flex-shrink:0;" onclick="showPage('notifs')" title="Notifications">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+      <div id="nav-notif-badge" style="display:none;position:absolute;top:-4px;right:-4px;width:16px;height:16px;border-radius:50%;background:var(--red);border:2px solid var(--bg);font-size:9px;font-weight:800;color:#fff;display:none;align-items:center;justify-content:center;font-family:'Syne',sans-serif;"></div>
+    </div>
     <!-- Hamburger -->
     <div class="hamburger-btn" id="hamburger-btn" onclick="toggleDrawer()">
       <span></span><span></span><span></span>
@@ -1642,6 +1735,11 @@ if (isPWA) {
       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>
       Classement
     </button>
+    <button class="drawer-item" id="di-notifs" onclick="showPage('notifs');closeDrawer();" style="display:none;">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+      Notifications
+      <span id="drawer-notif-badge" style="display:none;margin-left:auto;background:var(--red);color:#fff;font-size:10px;font-weight:800;padding:1px 6px;border-radius:20px;font-family:'Syne',sans-serif;"></span>
+    </button>
 
     <!-- Section légal -->
     <div class="drawer-section-title" style="margin-top:8px;">Légal</div>
@@ -1652,6 +1750,10 @@ if (isPWA) {
     <button class="drawer-item" onclick="showPage('cgu');closeDrawer();" id="di-cgu">
       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
       Conditions générales d'utilisation
+    </button>
+    <button class="drawer-item" onclick="showPage('mentions');closeDrawer();" id="di-mentions">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+      Mentions légales
     </button>
 
     <!-- Section compte (connecté) -->
@@ -1903,7 +2005,7 @@ if (isPWA) {
       <div class="footer-links">
         <a class="footer-link" href="#" onclick="showPage('privacy')">Confidentialité</a>
         <a class="footer-link" href="#" onclick="showPage('cgu')">CGU</a>
-        <a class="footer-link" href="#" onclick="showPage('privacy')">RGPD</a>
+        <a class="footer-link" href="#" onclick="showPage('mentions')">Mentions légales</a>
       </div>
     </div>
   </footer>
@@ -2044,7 +2146,7 @@ if (isPWA) {
             Le responsable du traitement est <strong>HAKO</strong>, réseau social
             dédié aux artistes et danseurs. Pour toute question relative à tes
             données personnelles, tu peux nous contacter à l'adresse :
-            <a href="mailto:hakoagency@gmail.com" class="privacy-link">hakoagency@gmail.com</a>
+            <a href="/cdn-cgi/l/email-protection#0f676e64606e686a616c764f68626e6663216c6062" class="privacy-link"><span class="__cf_email__" data-cfemail="4921282226282e2c272a30092e24282025672a2624">[email&#160;protected]</span></a>
           </p>
         </div>
       </section>
@@ -2220,7 +2322,7 @@ if (isPWA) {
           </div>
           <p>
             Pour exercer ces droits, contacte-nous à
-            <a href="mailto:hakoagency@gmail.com" class="privacy-link">hakoagency@gmail.com</a>.
+            <a href="/cdn-cgi/l/email-protection#cda5aca6a2acaaa8a3aeb48daaa0aca4a1e3aea2a0" class="privacy-link"><span class="__cf_email__" data-cfemail="355d545e5a5452505b564c755258545c591b565a58">[email&#160;protected]</span></a>.
             Tu as également le droit d'introduire une réclamation auprès de la
             <a href="https://www.cnil.fr" target="_blank" class="privacy-link">CNIL</a>.
           </p>
@@ -2293,7 +2395,7 @@ if (isPWA) {
           </p>
           <p>
             L'éditeur du service est HAKO. Pour tout contact :
-            <a href="mailto:hakoagency@gmail.com" class="privacy-link">hakoagency@gmail.com</a>
+            <a href="/cdn-cgi/l/email-protection#92faf3f9fdf3f5f7fcf1ebd2f5fff3fbfebcf1fdff" class="privacy-link"><span class="__cf_email__" data-cfemail="1870797377797f7d767b61587f75797174367b7775">[email&#160;protected]</span></a>
           </p>
         </div>
       </section>
@@ -2452,7 +2554,7 @@ if (isPWA) {
               <span class="privacy-bullet"></span>
               <div>
                 <strong>Par l'utilisateur</strong>
-                <span>Tu peux supprimer ton compte à tout moment en nous contactant à <a href="mailto:hakoagency@gmail.com" class="privacy-link">hakoagency@gmail.com</a>. Tes données seront effacées dans un délai de 30 jours.</span>
+                <span>Tu peux supprimer ton compte à tout moment en nous contactant à <a href="/cdn-cgi/l/email-protection#6008010b0f0107050e031920070d01090c4e030f0d" class="privacy-link"><span class="__cf_email__" data-cfemail="6a020b01050b0d0f0409132a0d070b030644090507">[email&#160;protected]</span></a>. Tes données seront effacées dans un délai de 30 jours.</span>
               </div>
             </li>
             <li>
@@ -2493,7 +2595,184 @@ if (isPWA) {
           </p>
           <p>
             Pour toute réclamation ou question, contacte-nous à
-            <a href="mailto:hakoagency@gmail.com" class="privacy-link">hakoagency@gmail.com</a>.
+            <a href="/cdn-cgi/l/email-protection#3159505a5e5056545f524871565c50585d1f525e5c" class="privacy-link"><span class="__cf_email__" data-cfemail="f991989296989e9c979a80b99e94989095d79a9694">[email&#160;protected]</span></a>.
+          </p>
+        </div>
+      </section>
+
+    </div>
+
+    <div class="privacy-footer-nav">
+      <button class="privacy-back-btn" onclick="goBack()">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+        Retour
+      </button>
+    </div>
+
+  </div>
+</div>
+
+<!-- ═══ PAGE: MENTIONS LÉGALES ═══ -->
+<div class="page" id="page-mentions">
+  <div class="privacy-container">
+
+    <div class="privacy-header">
+      <div class="privacy-tag">Légal · Dernière mise à jour : mars 2025</div>
+      <h1 class="privacy-title">Mentions<br>légales</h1>
+      <p class="privacy-intro">
+        Conformément aux dispositions de la loi n° 2004-575 du 21 juin 2004
+        pour la confiance en l'économie numérique (LCEN), voici les informations
+        légales relatives au service HAKO.
+      </p>
+    </div>
+
+    <div class="privacy-body">
+
+      <section class="privacy-section">
+        <div class="privacy-section-number">01</div>
+        <div class="privacy-section-content">
+          <h2>Éditeur du service</h2>
+          <ul class="privacy-list">
+            <li>
+              <span class="privacy-bullet"></span>
+              <div>
+                <strong>Nom du service</strong>
+                <span>HAKO</span>
+              </div>
+            </li>
+            <li>
+              <span class="privacy-bullet"></span>
+              <div>
+                <strong>Nature juridique</strong>
+                <span>Projet en cours de structuration juridique</span>
+              </div>
+            </li>
+            <li>
+              <span class="privacy-bullet"></span>
+              <div>
+                <strong>Contact</strong>
+                <span><a href="mailto:hakoagency@gmail.com" class="privacy-link">hakoagency@gmail.com</a></span>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </section>
+
+      <section class="privacy-section">
+        <div class="privacy-section-number">02</div>
+        <div class="privacy-section-content">
+          <h2>Hébergement</h2>
+          <ul class="privacy-list">
+            <li>
+              <span class="privacy-bullet"></span>
+              <div>
+                <strong>Hébergeur de l'application</strong>
+                <span>Vercel Inc. — 340 Pine Street, Suite 701, San Francisco, CA 94104, États-Unis — <a href="https://vercel.com" target="_blank" class="privacy-link">vercel.com</a></span>
+              </div>
+            </li>
+            <li>
+              <span class="privacy-bullet"></span>
+              <div>
+                <strong>Base de données et authentification</strong>
+                <span>Google Firebase (Google LLC) — 1600 Amphitheatre Parkway, Mountain View, CA 94043, États-Unis — <a href="https://firebase.google.com" target="_blank" class="privacy-link">firebase.google.com</a></span>
+              </div>
+            </li>
+          </ul>
+          <p class="privacy-note">
+            Les données des utilisateurs européens sont traitées conformément au RGPD.
+            Firebase et Vercel sont soumis aux clauses contractuelles types de la Commission européenne.
+          </p>
+        </div>
+      </section>
+
+      <section class="privacy-section">
+        <div class="privacy-section-number">03</div>
+        <div class="privacy-section-content">
+          <h2>Propriété intellectuelle</h2>
+          <p>
+            L'ensemble des éléments constituant HAKO — nom, logo, design, code source,
+            architecture du service, contenus éditoriaux — est la propriété exclusive
+            de HAKO et est protégé par les lois françaises et internationales relatives
+            à la propriété intellectuelle.
+          </p>
+          <p>
+            Le concept du bracelet connecté HAKO et son geste signature (contact
+            bracelet-à-bracelet pour échanger des profils) font l'objet d'une
+            protection par enveloppe Soleau déposée auprès de l'INPI.
+          </p>
+          <p>
+            Toute reproduction, représentation, modification, publication ou
+            transmission de tout ou partie du service, sans autorisation préalable
+            écrite de HAKO, est strictement interdite.
+          </p>
+        </div>
+      </section>
+
+      <section class="privacy-section">
+        <div class="privacy-section-number">04</div>
+        <div class="privacy-section-content">
+          <h2>Données personnelles</h2>
+          <p>
+            Le traitement des données personnelles des utilisateurs est détaillé
+            dans notre <a href="#" onclick="showPage('privacy')" class="privacy-link">Politique de confidentialité</a>.
+            Conformément au RGPD et à la loi Informatique et Libertés, tu disposes
+            d'un droit d'accès, de rectification, d'effacement et de portabilité
+            de tes données.
+          </p>
+          <p>
+            Pour exercer ces droits : <a href="mailto:hakoagency@gmail.com" class="privacy-link">hakoagency@gmail.com</a>
+          </p>
+          <p>
+            Tu peux également introduire une réclamation auprès de la
+            <a href="https://www.cnil.fr" target="_blank" class="privacy-link">CNIL</a>
+            (Commission Nationale de l'Informatique et des Libertés).
+          </p>
+        </div>
+      </section>
+
+      <section class="privacy-section">
+        <div class="privacy-section-number">05</div>
+        <div class="privacy-section-content">
+          <h2>Cookies</h2>
+          <p>
+            HAKO n'utilise pas de cookies publicitaires ni de traceurs tiers
+            à des fins de ciblage. Seuls des cookies techniques strictement
+            nécessaires au fonctionnement du service (session, authentification)
+            peuvent être déposés. Ils ne nécessitent pas de consentement préalable
+            au sens de la directive ePrivacy.
+          </p>
+        </div>
+      </section>
+
+      <section class="privacy-section">
+        <div class="privacy-section-number">06</div>
+        <div class="privacy-section-content">
+          <h2>Limitation de responsabilité</h2>
+          <p>
+            HAKO s'efforce d'assurer l'exactitude et la mise à jour des informations
+            diffusées sur le service. Cependant, HAKO ne peut garantir l'exactitude,
+            la complétude ou l'actualité de ces informations.
+          </p>
+          <p>
+            HAKO décline toute responsabilité pour les dommages directs ou indirects
+            pouvant résulter de l'accès au service ou de l'utilisation des informations
+            qu'il contient, ainsi que des contenus publiés par les utilisateurs.
+          </p>
+        </div>
+      </section>
+
+      <section class="privacy-section">
+        <div class="privacy-section-number">07</div>
+        <div class="privacy-section-content">
+          <h2>Droit applicable et juridiction</h2>
+          <p>
+            Les présentes mentions légales sont soumises au droit français.
+            En cas de litige, et à défaut de résolution amiable, les tribunaux
+            français seront seuls compétents.
+          </p>
+          <p>
+            Pour tout contact ou réclamation :
+            <a href="mailto:hakoagency@gmail.com" class="privacy-link">hakoagency@gmail.com</a>
           </p>
         </div>
       </section>
@@ -2627,10 +2906,38 @@ if (isPWA) {
 </div>
 
 <!-- ═══ PAGE: RÉSEAU ═══ -->
+<!-- ═══ PAGE: NOTIFICATIONS ═══ -->
+<div class="page" id="page-notifs">
+  <div style="max-width:680px;margin:0 auto;padding:0 16px 100px;">
+
+    <div style="padding:28px 0 20px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;">
+      <div>
+        <div style="font-size:10px;font-weight:800;letter-spacing:2px;text-transform:uppercase;color:var(--muted2);margin-bottom:6px;">ACTIVITÉ</div>
+        <h1 style="font-family:'Big Shoulders Display',sans-serif;font-weight:900;font-size:36px;letter-spacing:-0.5px;line-height:1;">Notifications</h1>
+      </div>
+      <button onclick="marquerToutLu()" style="background:none;border:1px solid var(--border);color:var(--muted2);font-size:12px;font-weight:700;padding:7px 14px;border-radius:8px;cursor:pointer;font-family:'Syne',sans-serif;transition:all 0.2s;" onmouseover="this.style.borderColor='rgba(0,245,155,0.3)';this.style.color='var(--text)';" onmouseout="this.style.borderColor='var(--border)';this.style.color='var(--muted2)';">
+        Tout marquer lu
+      </button>
+    </div>
+
+    <div style="display:flex;gap:6px;margin-bottom:16px;overflow-x:auto;scrollbar-width:none;padding-bottom:2px;">
+      <button class="filter-chip on" onclick="setNotifFiltre('tous',this)">Toutes</button>
+      <button class="filter-chip" onclick="setNotifFiltre('nouveau_abonne',this)">Abonnements</button>
+      <button class="filter-chip" onclick="setNotifFiltre('nouveau_message',this)">Messages</button>
+      <button class="filter-chip" onclick="setNotifFiltre('non_lu',this)">Non lues</button>
+    </div>
+
+    <div id="notifs-list" style="display:flex;flex-direction:column;gap:8px;">
+      <div style="text-align:center;padding:40px 20px;color:var(--muted);font-size:14px;">Aucune notification</div>
+    </div>
+
+  </div>
+</div>
+
 <div class="page" id="page-network">
   <div class="network-layout">
 
-    <!-- CARTE MINIMALISTE -->
+    <!-- CARTE -->
     <div class="network-map-wrap">
       <div id="leaflet-map" style="width:100%;height:100%;"></div>
       <div class="map-badge">
@@ -2647,12 +2954,52 @@ if (isPWA) {
     <!-- LISTE -->
     <div class="network-list-wrap">
       <div class="network-list-header">
-        <input class="search-input" type="text" id="search-input" placeholder="🔍 Rechercher un danseur..." oninput="filtrerDanseurs()">
-        <div class="filter-row" id="filter-row">
+        <input class="search-input" type="text" id="search-input" placeholder="🔍 Nom, style, ville..." oninput="filtrerDanseurs()">
+
+        <div class="filter-row" id="filter-row" style="margin-bottom:6px;">
           <button class="filter-chip on" onclick="setFiltre('tous',this)">Tous</button>
-          <button class="filter-chip" onclick="setFiltre('public',this)">Public</button>
           <button class="filter-chip" onclick="setFiltre('disponible',this)">Disponibles</button>
+          <button class="filter-chip" onclick="setFiltre('compatible',this)">⚡ Compatibles</button>
+          <button class="filter-chip" onclick="setFiltre('public',this)">Public</button>
         </div>
+
+        <div style="display:flex;gap:6px;align-items:center;margin-bottom:8px;">
+          <select id="filtre-zone" onchange="filtrerDanseurs()" style="-webkit-appearance:none;appearance:none;flex:1;padding:7px 12px;border-radius:8px;background:var(--bg);border:1.5px solid var(--border);color:var(--muted2);font-size:12px;font-family:'Syne',sans-serif;font-weight:700;outline:none;cursor:pointer;transition:border-color 0.2s;" onfocus="this.style.borderColor='var(--green)'" onblur="this.style.borderColor='var(--border)'">
+            <option value="">📍 Toutes les villes</option>
+            <option>Bordeaux</option><option>Grenoble</option><option>Lille</option>
+            <option>Lyon</option><option>Marseille</option><option>Nantes</option>
+            <option>Nice</option><option>Orléans</option><option>Paris</option>
+            <option>Strasbourg</option><option>Toulouse</option>
+          </select>
+          <button onclick="resetFiltres()" style="height:34px;padding:0 12px;border-radius:8px;background:none;border:1.5px solid var(--border);color:var(--muted2);font-size:11px;font-weight:700;cursor:pointer;font-family:'Syne',sans-serif;white-space:nowrap;transition:all 0.2s;flex-shrink:0;" onmouseover="this.style.borderColor='rgba(255,77,109,0.4)';this.style.color='var(--red)';" onmouseout="this.style.borderColor='var(--border)';this.style.color='var(--muted2)';">
+            ✕ Reset
+          </button>
+        </div>
+
+        <div style="margin-bottom:4px;">
+          <div style="font-size:10px;font-weight:800;letter-spacing:1.5px;color:var(--muted);text-transform:uppercase;margin-bottom:5px;">Style de danse</div>
+          <div style="display:flex;gap:5px;overflow-x:auto;scrollbar-width:none;padding-bottom:4px;" id="style-filter-row">
+            <button class="style-fchip on" onclick="setStyleFiltre('',this)">Tous</button>
+            <button class="style-fchip" onclick="setStyleFiltre('Salsa',this)">Salsa</button>
+            <button class="style-fchip" onclick="setStyleFiltre('Kizomba',this)">Kizomba</button>
+            <button class="style-fchip" onclick="setStyleFiltre('Hip-Hop',this)">Hip-Hop</button>
+            <button class="style-fchip" onclick="setStyleFiltre('Bachata',this)">Bachata</button>
+            <button class="style-fchip" onclick="setStyleFiltre('Breakdance',this)">Breakdance</button>
+            <button class="style-fchip" onclick="setStyleFiltre('Afro',this)">Afro</button>
+            <button class="style-fchip" onclick="setStyleFiltre('Zouk',this)">Zouk</button>
+            <button class="style-fchip" onclick="setStyleFiltre('Dancehall',this)">Dancehall</button>
+            <button class="style-fchip" onclick="setStyleFiltre('Popping',this)">Popping</button>
+            <button class="style-fchip" onclick="setStyleFiltre('House',this)">House</button>
+            <button class="style-fchip" onclick="setStyleFiltre('Litefeet',this)">Litefeet</button>
+            <button class="style-fchip" onclick="setStyleFiltre('Krump',this)">Krump</button>
+            <button class="style-fchip" onclick="setStyleFiltre('Voguing',this)">Voguing</button>
+            <button class="style-fchip" onclick="setStyleFiltre('Locking',this)">Locking</button>
+            <button class="style-fchip" onclick="setStyleFiltre('Heels',this)">Heels</button>
+            <button class="style-fchip" onclick="setStyleFiltre('Classique',this)">Classique</button>
+            <button class="style-fchip" onclick="setStyleFiltre('Tango',this)">Tango</button>
+          </div>
+        </div>
+
       </div>
       <div class="dancer-list" id="dancer-list">
         <div style="padding:20px;text-align:center;color:var(--muted);font-size:13px;">
@@ -3558,7 +3905,7 @@ if (isPWA) {
   </div>
 </div>
 
-<script>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
 // ── Navigation avec animations ──
 let pageHistory = [];
 let currentPage = 'home';
@@ -3614,6 +3961,9 @@ function showPage(id) {
   }, 150);
 
   window.scrollTo(0, 0);
+
+  // Actions spécifiques par page
+  if (id === 'notifs') setTimeout(afficherPageNotifs, 160);
 
   // Sync mobile nav
   document.querySelectorAll('.mn-item').forEach(i => i.classList.remove('active'));
@@ -3918,28 +4268,111 @@ async function afficherActiviteDashboard() {
   const list    = document.getElementById('dash-activite-list');
   if (!section || !list || !window._monProfil) return;
 
-  const notifs = (window._monProfil.notifications || [])
-    .slice(-5).reverse();
+  const notifs = (window._monProfil.notifications || []).slice(-5).reverse();
+  mettreAJourBadgeNotif(window._monProfil.notifications || []);
 
   if (notifs.length === 0) { section.style.display = 'none'; return; }
   section.style.display = 'block';
 
   list.innerHTML = notifs.map(n => {
-    const ico  = n.type === 'nouveau_abonne' ? '👤' : n.type === 'nouveau_message' ? '💬' : '🔔';
-    const txt  = n.type === 'nouveau_abonne' ? 'Quelqu\'un te suit maintenant'
-               : n.type === 'nouveau_message' ? 'Tu as reçu un nouveau message'
-               : 'Nouvelle notification';
+    const cfg  = getNotifConfig(n);
     const date = n.date ? new Date(n.date).toLocaleDateString('fr-FR', { day:'numeric', month:'short' }) : '';
-    return `<div style="display:flex;align-items:center;gap:12px;padding:10px 14px;background:var(--card);border:1px solid var(--border);border-radius:12px;">
-      <div style="width:34px;height:34px;border-radius:10px;background:rgba(255,255,255,0.05);display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0;">${ico}</div>
+    return `<div style="display:flex;align-items:center;gap:12px;padding:10px 14px;background:var(--card);border:1px solid ${n.lu ? 'var(--border)' : 'rgba(0,245,155,0.2)'};border-radius:12px;cursor:pointer;" onclick="showPage('notifs')">
+      <div style="width:34px;height:34px;border-radius:10px;background:${cfg.bg};display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0;">${cfg.ico}</div>
       <div style="flex:1;min-width:0;">
-        <div style="font-size:13px;font-weight:600;">${txt}</div>
+        <div style="font-size:13px;font-weight:${n.lu ? '500' : '700'};">${cfg.txt}</div>
         <div style="font-size:11px;color:var(--muted2);margin-top:2px;">${date}</div>
       </div>
-      ${!n.lu ? '<div style="width:7px;height:7px;border-radius:50%;background:var(--green);flex-shrink:0;"></div>' : ''}
+      ${!n.lu ? '<div style="width:7px;height:7px;border-radius:50%;background:var(--green);flex-shrink:0;box-shadow:0 0 6px var(--green);"></div>' : ''}
     </div>`;
   }).join('');
 }
+
+function getNotifConfig(n) {
+  const map = {
+    nouveau_abonne:  { ico:'👤', txt:"Quelqu'un te suit maintenant",    bg:'rgba(0,245,155,0.08)' },
+    nouveau_message: { ico:'💬', txt:"Tu as reçu un nouveau message",    bg:'rgba(155,93,229,0.08)' },
+    favori:          { ico:'♥',  txt:"Quelqu'un t'a ajouté en favori",  bg:'rgba(255,77,109,0.08)' },
+    badge:           { ico:'🏆', txt:"Tu as débloqué un nouveau badge", bg:'rgba(255,217,61,0.08)' },
+  };
+  return map[n.type] || { ico:'🔔', txt: n.texte || 'Nouvelle notification', bg:'rgba(255,255,255,0.05)' };
+}
+
+function mettreAJourBadgeNotif(notifs) {
+  const nonLues = (notifs || []).filter(n => !n.lu).length;
+  const btn     = document.getElementById('nav-notif-btn');
+  const badge   = document.getElementById('nav-notif-badge');
+  const diBtn   = document.getElementById('di-notifs');
+  const diBadge = document.getElementById('drawer-notif-badge');
+  if (btn)   { btn.classList.add('visible'); }
+  if (badge) { if (nonLues > 0) { badge.classList.add('visible'); badge.textContent = nonLues > 9 ? '9+' : nonLues; } else badge.classList.remove('visible'); }
+  if (diBtn)   diBtn.style.display = 'flex';
+  if (diBadge) { if (nonLues > 0) { diBadge.style.display = 'inline-block'; diBadge.textContent = nonLues > 9 ? '9+' : nonLues; } else diBadge.style.display = 'none'; }
+}
+
+let notifFiltreActif = 'tous';
+
+window.setNotifFiltre = function(type, btn) {
+  document.querySelectorAll('#page-notifs .filter-chip').forEach(c => c.classList.remove('on'));
+  btn.classList.add('on');
+  notifFiltreActif = type;
+  afficherPageNotifs();
+};
+
+function afficherPageNotifs() {
+  const list = document.getElementById('notifs-list');
+  if (!list || !window._monProfil) return;
+  let notifs = [...(window._monProfil.notifications || [])].reverse();
+  if (notifFiltreActif === 'non_lu')   notifs = notifs.filter(n => !n.lu);
+  else if (notifFiltreActif !== 'tous') notifs = notifs.filter(n => n.type === notifFiltreActif);
+  if (notifs.length === 0) {
+    list.innerHTML = `<div style="text-align:center;padding:60px 20px;"><div style="font-size:40px;margin-bottom:16px;">🔔</div><div style="font-size:15px;font-weight:600;color:var(--text);margin-bottom:8px;">Aucune notification</div><div style="font-size:13px;color:var(--muted2);">${notifFiltreActif === 'non_lu' ? 'Tout est lu !' : 'Reviens plus tard.'}</div></div>`;
+    return;
+  }
+  const allNotifs = window._monProfil.notifications || [];
+  list.innerHTML = notifs.map((n) => {
+    const cfg  = getNotifConfig(n);
+    const date = n.date ? new Date(n.date).toLocaleDateString('fr-FR', { day:'numeric', month:'long', hour:'2-digit', minute:'2-digit' }) : '';
+    const realIdx = allNotifs.length - 1 - allNotifs.slice().reverse().findIndex(x => x === n || (x.date === n.date && x.type === n.type));
+    return `<div class="notif-card ${n.lu ? '' : 'non-lu'}" onclick="clicNotif(${realIdx})">
+      <div class="notif-icon" style="background:${cfg.bg};">${cfg.ico}</div>
+      <div style="flex:1;min-width:0;">
+        <div style="font-size:13px;font-weight:${n.lu ? '500' : '700'};color:var(--text);margin-bottom:3px;">${cfg.txt}</div>
+        <div style="font-size:11px;color:var(--muted2);">${date}</div>
+      </div>
+      ${!n.lu ? '<div class="notif-dot"></div>' : ''}
+    </div>`;
+  }).join('');
+}
+
+window.clicNotif = async function(index) {
+  if (!window._monProfil || !window._db || !window._currentUid) return;
+  const allNotifs = window._monProfil.notifications || [];
+  if (!allNotifs[index] || allNotifs[index].lu) return;
+  allNotifs[index].lu = true;
+  window._monProfil.notifications = allNotifs;
+  mettreAJourBadgeNotif(allNotifs);
+  afficherPageNotifs();
+  try {
+    const { doc, updateDoc } = await import('https://www.gstatic.com/firebasejs/10.0.0/firebase-firestore.js');
+    await updateDoc(doc(window._db, 'danseurs', window._currentUid), { notifications: allNotifs });
+  } catch(e) { console.error('Erreur marquage lu:', e); }
+  const n = allNotifs[index];
+  if (n.type === 'nouveau_message') showPage('messages');
+};
+
+window.marquerToutLu = async function() {
+  if (!window._monProfil || !window._db || !window._currentUid) return;
+  const allNotifs = (window._monProfil.notifications || []).map(n => ({ ...n, lu: true }));
+  window._monProfil.notifications = allNotifs;
+  mettreAJourBadgeNotif(allNotifs);
+  afficherPageNotifs();
+  try {
+    const { doc, updateDoc } = await import('https://www.gstatic.com/firebasejs/10.0.0/firebase-firestore.js');
+    await updateDoc(doc(window._db, 'danseurs', window._currentUid), { notifications: allNotifs });
+  } catch(e) { console.error('Erreur tout lu:', e); }
+};
+
 
 // ── Prochains événements ──
 async function afficherEventsDashboard() {
@@ -6174,23 +6607,54 @@ function setFiltre(type, btn) {
   filtrerDanseurs();
 }
 
+let filtreStyleActif = '';
+
+function setStyleFiltre(style, btn) {
+  document.querySelectorAll('.style-fchip').forEach(c => c.classList.remove('on'));
+  btn.classList.add('on');
+  filtreStyleActif = style;
+  filtrerDanseurs();
+}
+
+function resetFiltres() {
+  filtreActif = 'tous';
+  filtreStyleActif = '';
+  document.querySelectorAll('.filter-chip').forEach((c,i) => c.classList.toggle('on', i===0));
+  document.querySelectorAll('.style-fchip').forEach((c,i) => c.classList.toggle('on', i===0));
+  const zi = document.getElementById('filtre-zone');
+  if (zi) zi.value = '';
+  const si = document.getElementById('search-input');
+  if (si) si.value = '';
+  filtrerDanseurs();
+}
+
 function filtrerDanseurs() {
   const search = document.getElementById('search-input')?.value.toLowerCase() || '';
-  let filtrés = tousLesDanseurs;
+  const zone   = document.getElementById('filtre-zone')?.value || '';
+  let filtrés  = tousLesDanseurs;
 
-  if (filtreActif === 'public')    filtrés = filtrés.filter(d => d.visibilite === 'public');
+  if (filtreActif === 'public')     filtrés = filtrés.filter(d => d.visibilite === 'public');
   if (filtreActif === 'disponible') filtrés = filtrés.filter(d => d.disponible);
+  if (filtreActif === 'compatible') {
+    filtrés = filtrés
+      .filter(d => d.uid !== window._currentUid)
+      .map(d => ({ ...d, _score: calculerCompatibilite(d) }))
+      .filter(d => d._score >= 25)
+      .sort((a,b) => b._score - a._score);
+  }
+
+  if (zone)            filtrés = filtrés.filter(d => (d.zone || '').toLowerCase() === zone.toLowerCase());
+  if (filtreStyleActif) filtrés = filtrés.filter(d => normaliserStyles(d.styles).some(s => s.toLowerCase() === filtreStyleActif.toLowerCase()));
 
   if (search) {
     filtrés = filtrés.filter(d => {
-      const nom = (d.nomAffiche || d.nom || d.pseudo || '').toLowerCase();
+      const nom    = (d.nomAffiche || d.nom || d.pseudo || '').toLowerCase();
       const styles = normaliserStyles(d.styles).join(' ').toLowerCase();
-      const zone = (d.zone || '').toLowerCase();
-      return nom.includes(search) || styles.includes(search) || zone.includes(search);
+      const z      = (d.zone || '').toLowerCase();
+      return nom.includes(search) || styles.includes(search) || z.includes(search);
     });
   }
 
-  // Mettre à jour marqueurs visibles
   Object.entries(markersMap).forEach(([uid, marker]) => {
     const visible = filtrés.some(d => d.uid === uid);
     if (visible) { if (!carte.hasLayer(marker)) marker.addTo(carte); }
@@ -6198,8 +6662,14 @@ function filtrerDanseurs() {
   });
 
   afficherListeDanseurs(filtrés);
-  document.getElementById('map-count').textContent = filtrés.length + ' artistes';
+
+  const count = filtrés.length;
+  const label = filtreActif === 'compatible'
+    ? count + ' compatible' + (count > 1 ? 's' : '')
+    : count + ' artiste' + (count > 1 ? 's' : '');
+  document.getElementById('map-count').textContent = label;
 }
+
 
 function centrerSurMoi() {
   if (!navigator.geolocation) { alert('Géolocalisation non supportée'); return; }
@@ -6903,24 +7373,4 @@ function _appellerQuandPret(fn, args) {
 // Wrappers globaux accessibles depuis onclick=
 function inscrire()           { _appellerQuandPret('inscrire', []); }
 function connecter()          { _appellerQuandPret('connecter', []); }
-function motDePasseOublie()   { _appellerQuandPret('motDePasseOublie', []); }
-function sauvegarderIdentite(){ _appellerQuandPret('sauvegarderIdentite', []); }
-function deconnecter()        { _appellerQuandPret('deconnecter', []); }
-function sauvegarderZone(z)   { _appellerQuandPret('sauvegarderZone', [z]); }
-function sauvegarderDispo(d)  { _appellerQuandPret('sauvegarderDispo', [d]); }
-function sauvegarderConf(c,v) { _appellerQuandPret('sauvegarderConf', [c,v]); }
-</script>
-
-<!-- BOUTON FLOTTANT MOBILE (connecté uniquement) -->
-
-<script>
-if ('serviceWorker' in navigator) {
-  window.addEventListener('load', () => {
-    navigator.serviceWorker.register('/service-worker.js')
-      .then(() => console.log('✅ Service Worker enregistré'))
-      .catch(e => console.log('❌ Service Worker:', e));
-  });
-}
-</script>
-</body>
-</html>
+function motDePasseOublie()   { _appellerQuand
