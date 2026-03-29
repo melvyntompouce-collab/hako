@@ -3302,6 +3302,12 @@ if (isPWA) {
     <div id="brct-mode-desc" style="font-size:13px;color:var(--muted2);max-width:380px;margin:0 auto;line-height:1.6;padding:0 20px;"></div>
   </div>
 
+  <!-- Contenu flou (geste + specs + waitlist) -->
+  <div id="brct-blur-wrap" style="position:relative;">
+
+    <!-- Contenu flouté -->
+    <div id="brct-blurred-content" style="filter:blur(6px);pointer-events:none;user-select:none;-webkit-user-select:none;mask-image:linear-gradient(to bottom, rgba(0,0,0,0.6) 0%, rgba(0,0,0,0.15) 40%, transparent 100%);-webkit-mask-image:linear-gradient(to bottom, rgba(0,0,0,0.6) 0%, rgba(0,0,0,0.15) 40%, transparent 100%);">
+
   <!-- Geste signature -->
   <div class="brct-section">
     <div class="brct-section-label">Le geste signature</div>
@@ -3443,6 +3449,25 @@ if (isPWA) {
       <div style="font-size:11px;color:var(--muted);margin-top:12px;">Déjà <span id="brct-waitlist-count" style="color:var(--green);font-weight:700;">—</span> personnes sur la liste</div>
     </div>
   </div>
+
+    </div><!-- /brct-blurred-content -->
+
+    <!-- Overlay CTA -->
+    <div style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:24px;text-align:center;background:linear-gradient(to bottom, transparent 0%, rgba(8,8,16,0.7) 30%, rgba(8,8,16,0.97) 60%, var(--bg) 100%);">
+      <div style="font-size:11px;font-weight:800;letter-spacing:2px;text-transform:uppercase;color:var(--green);margin-bottom:12px;font-family:'Syne',sans-serif;">Accès anticipé</div>
+      <div style="font-family:'Big Shoulders Display',sans-serif;font-weight:900;font-size:32px;letter-spacing:-0.5px;line-height:1.05;margin-bottom:10px;">Rejoins la liste<br>d'attente KIMA</div>
+      <div style="font-size:13px;color:var(--muted2);line-height:1.6;max-width:320px;margin-bottom:24px;">Inscris-toi pour découvrir les specs complètes, le geste signature et réserver ton bracelet en avant-première.</div>
+      <div style="display:flex;flex-direction:column;gap:10px;width:100%;max-width:340px;">
+        <button onclick="showPage('auth')" style="width:100%;padding:14px;border-radius:14px;background:var(--green);color:#080810;font-family:'Syne',sans-serif;font-weight:800;font-size:14px;border:none;cursor:pointer;transition:all 0.2s;" onmouseover="this.style.background='#00d485'" onmouseout="this.style.background='var(--green)'">
+          Créer mon profil →
+        </button>
+        <button onclick="brctUnlock()" style="width:100%;padding:13px;border-radius:14px;background:transparent;color:var(--muted2);font-family:'Syne',sans-serif;font-weight:700;font-size:13px;border:1.5px solid var(--border);cursor:pointer;transition:all 0.2s;" onmouseover="this.style.borderColor='rgba(255,255,255,0.2)';this.style.color='var(--text)'" onmouseout="this.style.borderColor='var(--border)';this.style.color='var(--muted2)'">
+          Déjà membre ? Se connecter
+        </button>
+      </div>
+    </div>
+
+  </div><!-- /brct-blur-wrap -->
 
 </div>
 
@@ -8206,7 +8231,27 @@ function initPageBracelet() {
   brctChargerCountWaitlist();
   const input = document.getElementById('brct-waitlist-email');
   if (input && window._monProfil?.email) input.value = window._monProfil.email;
+
+  // Si connecté → lever le blur
+  const wrap = document.getElementById('brct-blur-wrap');
+  if (wrap) {
+    if (window._currentUid) {
+      // Connecté : contenu visible, pas d'overlay
+      const blurred = document.getElementById('brct-blurred-content');
+      const overlay = wrap.querySelector('[style*="position:absolute"]');
+      if (blurred) { blurred.style.filter = 'none'; blurred.style.pointerEvents = ''; blurred.style.maskImage = 'none'; blurred.style.webkitMaskImage = 'none'; }
+      if (overlay) overlay.style.display = 'none';
+    }
+  }
 }
+
+window.brctUnlock = function() {
+  showPage('auth');
+  setTimeout(() => {
+    const loginTab = document.querySelector('.auth-tab:last-child');
+    if (loginTab) switchTab(loginTab, 'tab-login');
+  }, 200);
+};
 
 </script>
 
