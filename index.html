@@ -3788,7 +3788,7 @@ if (isPWA) {
 
 <!-- ═══ PROFIL ARTISTE (overlay) ═══ -->
 <div id="artiste-overlay" style="display:none;position:fixed;inset:0;z-index:250;background:var(--bg);overflow-y:auto;padding-top:70px;">
-  <div style="max-width:600px;margin:0 auto;padding:24px 20px 100px;">
+  <div style="position:absolute;inset:0;overflow-y:auto;-webkit-overflow-scrolling:touch;padding-top:calc(60px + max(20px, env(safe-area-inset-top)));"><div style="max-width:600px;margin:0 auto;padding:24px 20px 120px;">
 
     <!-- Header -->
     <div style="display:flex;align-items:center;gap:16px;margin-bottom:24px;">
@@ -4116,8 +4116,8 @@ if (isPWA) {
   <div class="profile-page">
 
     <!-- ── SOUS-PAGE: ÉDITION PROFIL ── -->
-    <div id="edit-profile-page" style="display:none;position:fixed;inset:0;z-index:200;background:var(--bg);overflow-y:auto;-webkit-overflow-scrolling:touch;padding-top:calc(100px + max(20px, env(safe-area-inset-top)));">
-      <div style="max-width:600px;margin:0 auto;padding:24px 20px 100px;">
+    <div id="edit-profile-page" style="display:none;position:fixed;inset:0;z-index:200;background:var(--bg);">
+      <div style="position:absolute;inset:0;overflow-y:auto;-webkit-overflow-scrolling:touch;padding-top:calc(60px + max(20px, env(safe-area-inset-top)));"><div style="max-width:600px;margin:0 auto;padding:24px 20px 120px;">
 
         <!-- Header sous-page -->
         <div style="display:flex;align-items:center;gap:16px;margin-bottom:28px;">
@@ -4577,6 +4577,7 @@ if (isPWA) {
 
     </div>
   </div>
+  </div>
 </div>
 
 <!-- ═══ PAGE: CLASSEMENT ═══ -->
@@ -4843,8 +4844,10 @@ function switchTab(btn, tabId) {
 
 // ── Ouvrir / fermer sous-page édition ──
 function ouvrirEdition() {
-  document.getElementById('edit-profile-page').style.display = 'block';
-  window.scrollTo(0,0);
+  const page = document.getElementById('edit-profile-page');
+  page.style.display = 'block';
+  const inner = page.querySelector('[style*="overflow-y:auto"]');
+  if (inner) inner.scrollTop = 0;
 }
 function fermerEdition() {
   document.getElementById('edit-profile-page').style.display = 'none';
