@@ -4712,6 +4712,9 @@ function showPage(id, isBack = false) {
     if (pageHistory.length > 15) pageHistory.shift();
   }
   currentPage = id;
+  // Pages à ne pas persister (auth, modales, etc.)
+  const _noSave = ['home','auth','privacy','cgu','mentions'];
+  if (!_noSave.includes(id)) localStorage.setItem('hako_last_page', id);
 
   // Drawer actif
   document.querySelectorAll('.drawer-item').forEach(i => i.classList.remove('active'));
@@ -4981,6 +4984,13 @@ function afficherDashboard(d) {
   afficherEventsDashboard();
   afficherCompatiblesDashboard();
   afficherFavorisDashboard();
+
+  // Restaurer la dernière page visitée si dispo
+  const _lastPage = localStorage.getItem('hako_last_page');
+  const _pagesValides = ['dashboard','agenda','network','profile','ranking','messages','bracelet','notifs'];
+  if (_lastPage && _pagesValides.includes(_lastPage) && _lastPage !== 'dashboard') {
+    setTimeout(() => showPage(_lastPage), 50);
+  }
 
   // Afficher l'état vide si aucune section enrichie n'est visible après chargement
   setTimeout(() => {
@@ -5729,7 +5739,8 @@ function ouvrirEvent(id) {
     dateLine = `📅 Choisissez votre date${ev.heure ? ' · ' + ev.heure : ''}`;
   } else {
     const d = _getDatePrincipale(ev);
-    dateLine = `📅 ${d ? new Date(d).toLocaleDateString('fr-FR', { weekday:'long', day:'numeric', month:'long', year:'numeric' }) : ''}${ev.heure ? ' · ' + ev.heure : ''}`;
+    const dateObj = _toDate(d);
+    dateLine = `📅 ${dateObj ? dateObj.toLocaleDateString('fr-FR', { weekday:'long', day:'numeric', month:'long', year:'numeric' }) : ''}${ev.heure ? ' · ' + ev.heure : ''}`;
   }
 
   document.getElementById('modal-banner-bg').style.background = cfg.bg;
@@ -5795,8 +5806,25 @@ function ouvrirEvent(id) {
 
   if (multiDates) highlightDateOpt();
 
+  const passe = _estPasse(ev);
   const btn = document.getElementById('modal-btn');
-  btn.textContent = ev.type === 'cours' ? "✅ S'inscrire" : '🎟️ Réserver';
+  if (passe) {
+    btn.textContent = '❌ Événement terminé';
+    btn.disabled = true;
+    btn.style.background = 'var(--card2)';
+    btn.style.color = 'var(--muted)';
+    btn.style.border = '1px solid var(--border)';
+    btn.style.cursor = 'not-allowed';
+    btn.onclick = null;
+  } else {
+    btn.textContent = ev.type === 'cours' ? "✅ S'inscrire" : '🎟️ Réserver';
+    btn.disabled = false;
+    btn.style.background = 'var(--green)';
+    btn.style.color = '#080810';
+    btn.style.border = 'none';
+    btn.style.cursor = 'pointer';
+    btn.onclick = sInscrire;
+  }
 
   // Bouton favori dans le modal
   const favBtn = document.getElementById('modal-fav-btn');
@@ -5807,6 +5835,8 @@ function ouvrirEvent(id) {
   }
 
   document.getElementById('event-modal').style.display = 'block';
+  const modalInner = document.querySelector('#event-modal > div');
+  if (modalInner) modalInner.scrollTop = 0;
   document.body.style.overflow = 'hidden';
 }
 
