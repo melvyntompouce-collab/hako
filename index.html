@@ -5182,14 +5182,14 @@ async function afficherEventsDashboard() {
 
   try {
     if (tousLesEvents.length === 0) {
-      const { collection, getDocs, query, orderBy } = await import('https://www.gstatic.com/firebasejs/10.0.0/firebase-firestore.js');
-      const snap = await getDocs(query(collection(window._db, 'evenements'), orderBy('date','asc')));
+      const { collection, getDocs } = await import('https://www.gstatic.com/firebasejs/10.0.0/firebase-firestore.js');
+      const snap = await getDocs(collection(window._db, 'evenements'));
       snap.forEach(d => tousLesEvents.push({ id: d.id, ...d.data() }));
     }
 
     const today = new Date().toISOString().split('T')[0];
     const events = tousLesEvents
-      .filter(e => e.date >= today)
+      .filter(e => !_estPasse(e))
       .slice(0, 3);
 
     if (events.length === 0) { section.style.display = 'none'; return; }
@@ -5270,8 +5270,8 @@ async function afficherFavorisDashboard() {
 
   if (tousLesEvents.length === 0 && window._db) {
     try {
-      const { collection, getDocs, query, orderBy } = await import('https://www.gstatic.com/firebasejs/10.0.0/firebase-firestore.js');
-      const snap = await getDocs(query(collection(window._db, 'evenements'), orderBy('date','asc')));
+      const { collection, getDocs } = await import('https://www.gstatic.com/firebasejs/10.0.0/firebase-firestore.js');
+      const snap = await getDocs(collection(window._db, 'evenements'));
       snap.forEach(d => tousLesEvents.push({ id: d.id, ...d.data() }));
     } catch(e) { return; }
   }
@@ -5552,13 +5552,18 @@ async function chargerAgenda() {
       'https://www.gstatic.com/firebasejs/10.0.0/firebase-firestore.js'
     );
 
-    const snap = await getDocs(query(
-      collection(window._db, 'evenements'),
-      orderBy('date', 'asc')
-    ));
+    const snap = await getDocs(collection(window._db, 'evenements'));
 
     tousLesEvents = [];
     snap.forEach(d => tousLesEvents.push({ id: d.id, ...d.data() }));
+    tousLesEvents.sort((a, b) => {
+      const da = _toDate(_getDatePrincipale(a));
+      const db2 = _toDate(_getDatePrincipale(b));
+      if (!da && !db2) return 0;
+      if (!da) return 1;
+      if (!db2) return -1;
+      return da - db2;
+    });
 
     // Si aucun event en base, afficher message
     if (tousLesEvents.length === 0) {
@@ -6536,10 +6541,10 @@ async function afficherFavorisProfile() {
   // Charger les events si pas encore chargés
   if (tousLesEvents.length === 0 && window._db) {
     try {
-      const { collection, getDocs, query, orderBy } = await import(
+      const { collection, getDocs } = await import(
         'https://www.gstatic.com/firebasejs/10.0.0/firebase-firestore.js'
       );
-      const snap = await getDocs(query(collection(window._db, 'evenements'), orderBy('date','asc')));
+      const snap = await getDocs(collection(window._db, 'evenements'));
       snap.forEach(d => tousLesEvents.push({ id: d.id, ...d.data() }));
     } catch(e) { console.error(e); return; }
   }
