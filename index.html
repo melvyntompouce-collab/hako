@@ -3773,9 +3773,9 @@ if (isPWA) {
     </div>
 
     <!-- MODAL DÉTAIL EVENT -->
-    <div id="event-modal" style="display:none;position:fixed;inset:0;z-index:300;background:rgba(0,0,0,0.8);backdrop-filter:blur(10px);" onclick="if(event.target===this)fermerModal()">
-      <div style="position:absolute;inset:0;overflow-y:auto;-webkit-overflow-scrolling:touch;padding:20px 20px 100px;">
-      <div style="max-width:500px;margin:60px auto;background:var(--card);border:1px solid var(--border);border-radius:24px;overflow:hidden;">
+    <div id="event-modal" style="display:none;position:fixed;inset:0;z-index:10000;background:rgba(0,0,0,0.8);backdrop-filter:blur(10px);" onclick="if(event.target===this)fermerModal()">
+      <div id="event-modal-scroll" style="position:absolute;inset:0;overflow-y:auto;-webkit-overflow-scrolling:touch;padding:20px 20px 40px;">
+      <div style="max-width:500px;margin:0 auto;background:var(--card);border:1px solid var(--border);border-radius:24px;overflow:hidden;">
         <div id="modal-banner" style="height:140px;position:relative;display:flex;align-items:flex-end;padding:16px;">
           <div id="modal-banner-bg" style="position:absolute;inset:0;"></div>
           <button onclick="fermerModal()" style="position:absolute;top:12px;right:12px;width:36px;height:36px;border-radius:10px;background:rgba(0,0,0,0.5);border:1px solid rgba(255,255,255,0.1);color:white;font-size:18px;cursor:pointer;">✕</button>
@@ -5835,8 +5835,15 @@ function ouvrirEvent(id) {
   }
 
   document.getElementById('event-modal').style.display = 'block';
-  const modalInner = document.querySelector('#event-modal > div');
-  if (modalInner) modalInner.scrollTop = 0;
+  const modalScroll = document.getElementById('event-modal-scroll');
+  if (modalScroll) {
+    const nav = document.querySelector('nav');
+    const logoBar = document.getElementById('logo-bar');
+    let topOffset = nav ? nav.getBoundingClientRect().bottom : 44;
+    if (logoBar && logoBar.offsetParent !== null) topOffset = logoBar.getBoundingClientRect().bottom + nav.offsetHeight;
+    modalScroll.style.paddingTop = (topOffset + 16) + 'px';
+    modalScroll.scrollTop = 0;
+  }
   document.body.style.overflow = 'hidden';
 }
 
