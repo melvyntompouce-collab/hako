@@ -6728,8 +6728,8 @@ window.sauvegarderEvent = async function() {
     fermerFormEvent();
     if (!window._adminEditMode) await chargerMesEvents();
     else {
-      // En mode admin : rester sur le dashboard admin après sauvegarde
       window._adminEditMode = false;
+      tousLesEvents = [];
       document.getElementById('orga-form').style.display = 'none';
       document.getElementById('admin-dashboard').style.display = 'block';
       await chargerDashboardAdmin();
