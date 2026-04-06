@@ -6427,12 +6427,11 @@ async function chargerDashboardAdmin() {
 }
 
 window.adminModifierEvent = async function(id) {
-  // Basculer vers le formulaire de modification (réutilise modifierEvent)
-  document.getElementById('admin-dashboard').style.display = 'none';
-  document.getElementById('orga-form').style.display = 'block';
-  await window.modifierEvent(id);
-  // Patch : au retour du formulaire, revenir au dashboard admin
   window._adminEditMode = true;
+  document.getElementById('admin-dashboard').style.display = 'none';
+  await window.modifierEvent(id);
+  document.getElementById('orga-form').style.display = 'block';
+  document.getElementById('orga-dashboard').style.display = 'none';
 }
 
 window.adminSupprimerEvent = async function(id) {
