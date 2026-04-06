@@ -3784,6 +3784,7 @@ if (isPWA) {
           <div id="modal-title" style="font-family:'Syne',sans-serif;font-weight:800;font-size:22px;margin-bottom:16px;"></div>
           <div id="modal-meta" style="display:flex;flex-direction:column;gap:8px;margin-bottom:20px;"></div>
           <div id="modal-desc" style="font-size:14px;color:var(--muted2);line-height:1.7;margin-bottom:20px;"></div>
+          <div id="modal-map-wrap" style="display:none;margin-bottom:20px;"></div>
           <div style="display:flex;align-items:center;justify-content:space-between;">
             <div>
               <div id="modal-price" style="font-family:'Syne',sans-serif;font-weight:800;font-size:28px;"></div>
@@ -5647,7 +5648,7 @@ function _renderEventCard(ev, passe) {
         <div class="ec-title">${ev.titre || 'Événement'}</div>
         <div class="ec-meta">
           <div class="ec-mi">${dateLine}</div>
-          <div class="ec-mi">📍 ${ev.ville || ''} ${ev.lieu ? '· ' + ev.lieu : ''}</div>
+          <div class="ec-mi">${ev.geopoint ? `<a href="https://maps.google.com/?q=${ev.geopoint.latitude},${ev.geopoint.longitude}" target="_blank" onclick="event.stopPropagation()" style="color:inherit;text-decoration:none;">📍 ${ev.ville || ''} ${ev.lieu ? '· ' + ev.lieu : ''} <span style="font-size:10px;color:var(--green);font-weight:700;">↗</span></a>` : `📍 ${ev.ville || ''} ${ev.lieu ? '· ' + ev.lieu : ''}`}</div>
           ${ev.styles ? `<div class="ec-mi">💃 ${ev.styles}</div>` : ''}
           ${ev.niveau ? `<div class="ec-mi">⭐ ${ev.niveau}</div>` : ''}
         </div>
@@ -5758,6 +5759,38 @@ function ouvrirEvent(id) {
     ${ev.organisateur ? `<div class="ec-mi">👤 Organisé par ${ev.organisateur}</div>` : ''}
   `;
 
+  // Mini-carte si geopoint disponible
+  const mapWrap = document.getElementById('modal-map-wrap');
+  if (mapWrap) {
+    if (ev.geopoint && ev.geopoint.latitude && ev.geopoint.longitude) {
+      const lat = ev.geopoint.latitude;
+      const lng = ev.geopoint.longitude;
+      mapWrap.style.display = 'block';
+      mapWrap.innerHTML = `
+        <div id="modal-leaflet-map" style="width:100%;height:180px;border-radius:16px;overflow:hidden;position:relative;"></div>
+        <a href="https://maps.google.com/?q=${lat},${lng}" target="_blank"
+          style="display:flex;align-items:center;justify-content:center;gap:6px;margin-top:10px;padding:10px;border-radius:12px;background:rgba(0,245,155,0.07);border:1px solid rgba(0,245,155,0.2);color:var(--green);font-family:'Syne',sans-serif;font-weight:700;font-size:13px;text-decoration:none;transition:all 0.2s;">
+          🗺️ Ouvrir dans Google Maps ↗
+        </a>
+      `;
+      setTimeout(() => {
+        if (window._modalMap) { window._modalMap.remove(); window._modalMap = null; }
+        const mapEl = document.getElementById('modal-leaflet-map');
+        if (mapEl && window.L) {
+          const m = L.map('modal-leaflet-map', { zoomControl:false, attributionControl:false, dragging:false, scrollWheelZoom:false, doubleClickZoom:false }).setView([lat, lng], 15);
+          L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(m);
+          const pin = L.divIcon({ className:'', html:`<div style="width:18px;height:18px;border-radius:50%;background:var(--green);border:3px solid #080810;box-shadow:0 0 16px rgba(0,245,155,0.7);"></div>`, iconSize:[18,18], iconAnchor:[9,9] });
+          L.marker([lat, lng], { icon: pin }).addTo(m);
+          window._modalMap = m;
+        }
+      }, 100);
+    } else {
+      mapWrap.style.display = 'none';
+      mapWrap.innerHTML = '';
+      if (window._modalMap) { window._modalMap.remove(); window._modalMap = null; }
+    }
+  }
+
   if (multiDates) highlightDateOpt();
 
   const btn = document.getElementById('modal-btn');
@@ -5786,6 +5819,9 @@ window.highlightDateOpt = function() {
 function fermerModal() {
   document.getElementById('event-modal').style.display = 'none';
   document.body.style.overflow = '';
+  if (window._modalMap) { window._modalMap.remove(); window._modalMap = null; }
+  const mapWrap = document.getElementById('modal-map-wrap');
+  if (mapWrap) { mapWrap.style.display = 'none'; mapWrap.innerHTML = ''; }
 }
 
 window.sInscrire = async function() {
