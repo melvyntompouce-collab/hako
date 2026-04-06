@@ -4045,21 +4045,70 @@ if (isPWA) {
     </div>
 
     <!-- Demande accès organisateur (si pas encore organisateur) -->
+    <!-- Saisie code d'invitation -->
     <div id="orga-demande" style="display:none;background:var(--card);border:1px solid var(--border);border-radius:20px;padding:28px;text-align:center;margin-bottom:20px;">
       <div style="font-size:40px;margin-bottom:12px;">🎪</div>
-      <div style="font-family:'Syne',sans-serif;font-weight:800;font-size:18px;margin-bottom:8px;">Devenir organisateur</div>
-      <div style="font-size:13px;color:var(--muted2);line-height:1.7;margin-bottom:20px;">Créez et gérez vos événements sur HAKO. Votre demande sera examinée par l'équipe HAKO.</div>
-      <button onclick="demanderAccesOrga()" style="padding:14px 28px;border-radius:14px;background:var(--blue);color:#fff;font-family:'Syne',sans-serif;font-weight:800;font-size:14px;border:none;cursor:pointer;">Faire une demande →</button>
-      <div id="orga-demande-msg" style="display:none;margin-top:12px;font-size:13px;color:var(--green);font-weight:700;">✅ Demande envoyée ! Vous serez notifié par email.</div>
+      <div style="font-family:'Syne',sans-serif;font-weight:800;font-size:18px;margin-bottom:8px;">Espace réservé</div>
+      <div style="font-size:13px;color:var(--muted2);line-height:1.7;margin-bottom:20px;">Saisis ton code d'invitation pour accéder à l'espace organisateur.</div>
+      <input id="orga-code-input" type="text" placeholder="Code d'invitation" style="width:100%;padding:14px;border-radius:12px;border:1.5px solid var(--border);background:var(--bg2);color:var(--text);font-family:'DM Sans',sans-serif;font-size:15px;text-align:center;letter-spacing:2px;text-transform:uppercase;margin-bottom:12px;box-sizing:border-box;">
+      <button onclick="validerCodeInvitation()" style="width:100%;padding:14px 28px;border-radius:14px;background:var(--green);color:#080810;font-family:'Syne',sans-serif;font-weight:800;font-size:14px;border:none;cursor:pointer;">Valider le code →</button>
+      <div id="orga-demande-msg" style="display:none;margin-top:12px;font-size:13px;font-weight:700;"></div>
     </div>
 
-    <!-- En attente de validation -->
-    <div id="orga-attente" style="display:none;background:rgba(255,217,61,0.06);border:1px solid rgba(255,217,61,0.2);border-radius:20px;padding:20px;margin-bottom:20px;text-align:center;">
-      <div style="font-size:13px;color:var(--yellow);font-weight:700;">⏳ Votre demande est en cours de validation par l'équipe HAKO</div>
+    <!-- En attente (conservé pour rétrocompat) -->
+    <div id="orga-attente" style="display:none;"></div>
+
+    <!-- Dashboard admin -->
+    <div id="admin-dashboard" style="display:none;">
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:20px;">
+        <span style="background:rgba(255,77,109,0.15);border:1px solid rgba(255,77,109,0.4);color:var(--red);font-family:'Syne',sans-serif;font-weight:800;font-size:11px;letter-spacing:2px;padding:4px 12px;border-radius:8px;text-transform:uppercase;">Admin</span>
+        <span style="font-family:'Syne',sans-serif;font-weight:700;font-size:14px;color:var(--muted2);">Panneau de contrôle</span>
+      </div>
+
+      <!-- Stats globales -->
+      <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-bottom:24px;">
+        <div style="background:var(--card);border:1px solid var(--border);border-radius:16px;padding:16px;text-align:center;">
+          <div id="admin-stat-users" style="font-family:'Syne',sans-serif;font-weight:800;font-size:28px;color:var(--green);">—</div>
+          <div style="font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:1px;margin-top:4px;">Utilisateurs</div>
+        </div>
+        <div style="background:var(--card);border:1px solid var(--border);border-radius:16px;padding:16px;text-align:center;">
+          <div id="admin-stat-events" style="font-family:'Syne',sans-serif;font-weight:800;font-size:28px;color:var(--blue);">—</div>
+          <div style="font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:1px;margin-top:4px;">Événements</div>
+        </div>
+        <div style="background:var(--card);border:1px solid var(--border);border-radius:16px;padding:16px;text-align:center;">
+          <div id="admin-stat-inscrits" style="font-family:'Syne',sans-serif;font-weight:800;font-size:28px;color:var(--yellow);">—</div>
+          <div style="font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:1px;margin-top:4px;">Inscrits total</div>
+        </div>
+        <div style="background:var(--card);border:1px solid var(--border);border-radius:16px;padding:16px;text-align:center;">
+          <div id="admin-stat-codes" style="font-family:'Syne',sans-serif;font-weight:800;font-size:28px;color:var(--red);">—</div>
+          <div style="font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:1px;margin-top:4px;">Codes utilisés</div>
+        </div>
+      </div>
+
+      <!-- Notification broadcast -->
+      <div style="background:var(--card);border:1px solid var(--border);border-radius:16px;padding:20px;margin-bottom:20px;">
+        <div style="font-family:'Syne',sans-serif;font-weight:800;font-size:13px;letter-spacing:1px;text-transform:uppercase;margin-bottom:12px;">📣 Notification globale</div>
+        <input id="admin-notif-input" type="text" placeholder="Message à envoyer à tous les utilisateurs..." style="width:100%;padding:12px;border-radius:10px;border:1px solid var(--border);background:var(--bg2);color:var(--text);font-family:'DM Sans',sans-serif;font-size:14px;margin-bottom:10px;box-sizing:border-box;">
+        <button onclick="envoyerNotifGlobale()" style="width:100%;padding:12px;border-radius:10px;background:var(--red);color:#fff;font-family:'Syne',sans-serif;font-weight:800;font-size:13px;border:none;cursor:pointer;">Envoyer à tous →</button>
+        <div id="admin-notif-msg" style="display:none;margin-top:8px;font-size:12px;color:var(--green);font-weight:700;"></div>
+      </div>
+
+      <!-- Tous les événements -->
+      <div style="font-family:'Syne',sans-serif;font-size:11px;font-weight:700;color:var(--muted);letter-spacing:2px;text-transform:uppercase;margin-bottom:12px;">Tous les événements</div>
+      <div id="admin-events-list" style="margin-bottom:24px;display:flex;flex-direction:column;gap:8px;">
+        <div style="text-align:center;padding:20px;color:var(--muted);font-size:13px;">⏳ Chargement...</div>
+      </div>
+
+      <!-- Tous les utilisateurs -->
+      <div style="font-family:'Syne',sans-serif;font-size:11px;font-weight:700;color:var(--muted);letter-spacing:2px;text-transform:uppercase;margin-bottom:12px;">Tous les utilisateurs</div>
+      <div id="admin-users-list" style="display:flex;flex-direction:column;gap:8px;">
+        <div style="text-align:center;padding:20px;color:var(--muted);font-size:13px;">⏳ Chargement...</div>
+      </div>
     </div>
 
     <!-- Dashboard organisateur -->
     <div id="orga-dashboard" style="display:none;">
+
 
       <!-- Stats rapides -->
       <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:24px;">
@@ -4148,6 +4197,18 @@ if (isPWA) {
             <option>Intermédiaire</option>
             <option>Avancé</option>
           </select>
+        </div>
+        <div class="form-group" style="margin:0">
+          <label class="form-label">Photo de couverture <span style="color:var(--muted);font-weight:400;">(optionnel)</span></label>
+          <div id="ev-photo-preview-wrap" style="display:none;position:relative;margin-bottom:10px;border-radius:12px;overflow:hidden;height:120px;">
+            <img id="ev-photo-preview" src="" alt="" style="width:100%;height:100%;object-fit:cover;">
+            <button type="button" onclick="supprimerPhotoEvent()" style="position:absolute;top:8px;right:8px;width:28px;height:28px;border-radius:50%;background:rgba(0,0,0,0.7);border:1px solid rgba(255,255,255,0.2);color:#fff;font-size:14px;cursor:pointer;display:flex;align-items:center;justify-content:center;line-height:1;">✕</button>
+          </div>
+          <label id="ev-photo-label" for="ev-photo" style="display:flex;align-items:center;gap:10px;padding:14px;border-radius:12px;border:1.5px dashed var(--border);background:var(--bg2);cursor:pointer;transition:border-color 0.2s;">
+            <span style="font-size:20px;">🖼️</span>
+            <span id="ev-photo-label-text" style="font-size:13px;color:var(--muted2);">Choisir une image JPG ou PNG</span>
+          </label>
+          <input id="ev-photo" type="file" accept="image/*" style="display:none;" onchange="previewPhotoEvent(this)">
         </div>
         <div class="form-group" style="margin:0">
           <label class="form-label">Description</label>
@@ -5706,7 +5767,8 @@ function _renderEventCard(ev, passe) {
   return `
     <div class="event-card" onclick="ouvrirEvent('${ev.id}')" style="${opacityStyle}">
       <div class="ec-banner">
-        <div class="ec-banner-bg" style="background:${cfg.bg}"></div>
+        <div class="ec-banner-bg" style="${ev.photoUrl ? `background:url('${ev.photoUrl}') center/cover no-repeat` : `background:${cfg.bg}`}"></div>
+        ${ev.photoUrl ? `<div style="position:absolute;inset:0;background:linear-gradient(to bottom, rgba(0,0,0,0.15) 0%, rgba(0,0,0,0.55) 100%);"></div>` : ''}
         <span class="ec-type">${cfg.label}</span>
         ${passeTag}
         <button id="fav-${ev.id}" onclick="event.stopPropagation();toggleFavori('${ev.id}')"
@@ -5801,7 +5863,20 @@ function ouvrirEvent(id) {
     dateLine = `📅 ${dateObj ? dateObj.toLocaleDateString('fr-FR', { weekday:'long', day:'numeric', month:'long', year:'numeric' }) : ''}${ev.heure ? ' · ' + ev.heure : ''}`;
   }
 
-  document.getElementById('modal-banner-bg').style.background = cfg.bg;
+  document.getElementById('modal-banner-bg').style.background = ev.photoUrl
+    ? `url('${ev.photoUrl}') center/cover no-repeat`
+    : cfg.bg;
+  // Overlay sombre si photo présente
+  let modalOverlay = document.getElementById('modal-banner-overlay');
+  if (!modalOverlay) {
+    modalOverlay = document.createElement('div');
+    modalOverlay.id = 'modal-banner-overlay';
+    modalOverlay.style.cssText = 'position:absolute;inset:0;';
+    document.getElementById('modal-banner-bg').insertAdjacentElement('afterend', modalOverlay);
+  }
+  modalOverlay.style.background = ev.photoUrl
+    ? 'linear-gradient(to bottom, rgba(0,0,0,0.15) 0%, rgba(0,0,0,0.6) 100%)'
+    : 'none';
   document.getElementById('modal-type').textContent = cfg.label;
   document.getElementById('modal-title').textContent = ev.titre || '';
   document.getElementById('modal-price').textContent = prix;
@@ -6181,46 +6256,218 @@ window.fermerOrganisateur = function() {
 async function chargerDashboardOrga() {
   if (!window._currentUid || !window._db) return;
   try {
-    const { getDoc, doc, collection, getDocs, query, where } = await import(
+    const { getDoc, doc } = await import(
       'https://www.gstatic.com/firebasejs/10.0.0/firebase-firestore.js'
     );
 
     const snap = await getDoc(doc(window._db, 'danseurs', window._currentUid));
     if (!snap.exists()) return;
     const d = snap.data();
+    window._monRole = d.role || null;
 
-    // Afficher la bonne section selon le statut
-    document.getElementById('orga-demande').style.display    = 'none';
-    document.getElementById('orga-attente').style.display    = 'none';
-    document.getElementById('orga-dashboard').style.display  = 'none';
+    // Cacher toutes les sections
+    document.getElementById('orga-demande').style.display       = 'none';
+    document.getElementById('orga-attente').style.display       = 'none';
+    document.getElementById('orga-dashboard').style.display     = 'none';
+    document.getElementById('admin-dashboard').style.display    = 'none';
 
-    if (d.organisateur === 'valide') {
+    if (d.role === 'admin') {
+      document.getElementById('admin-dashboard').style.display = 'block';
+      await chargerDashboardAdmin();
+    } else if (d.role === 'organisateur') {
       document.getElementById('orga-dashboard').style.display = 'block';
       await chargerMesEvents();
-    } else if (d.organisateur === 'attente') {
-      document.getElementById('orga-attente').style.display = 'block';
     } else {
       document.getElementById('orga-demande').style.display = 'block';
     }
   } catch(e) { console.error(e); }
 }
 
-window.demanderAccesOrga = async function() {
+window.validerCodeInvitation = async function() {
+  const input = document.getElementById('orga-code-input');
+  const msg   = document.getElementById('orga-demande-msg');
+  const code  = input.value.trim().toUpperCase();
+  if (!code) return;
   if (!window._currentUid || !window._db) return;
+
+  msg.style.display = 'none';
+
   try {
-    const { doc, updateDoc } = await import(
+    const { collection, getDocs, query, where, doc, updateDoc, getDoc } = await import(
       'https://www.gstatic.com/firebasejs/10.0.0/firebase-firestore.js'
     );
-    await updateDoc(doc(window._db, 'danseurs', window._currentUid), {
-      organisateur: 'attente',
-      demandeOrgaDate: new Date().toISOString()
+
+    const q = query(
+      collection(window._db, 'inviteCodes'),
+      where('code', '==', code)
+    );
+    const snap = await getDocs(q);
+
+    if (snap.empty) {
+      msg.textContent = '❌ Code invalide.';
+      msg.style.color = 'var(--red)';
+      msg.style.display = 'block';
+      return;
+    }
+
+    const codeDoc = snap.docs[0];
+    const codeData = codeDoc.data();
+
+    if (codeData.usedBy && codeData.usedBy !== window._currentUid) {
+      msg.textContent = '❌ Ce code a déjà été utilisé.';
+      msg.style.color = 'var(--red)';
+      msg.style.display = 'block';
+      return;
+    }
+
+    const role = codeData.type === 'admin' ? 'admin' : 'organisateur';
+
+    // Marquer le code comme utilisé
+    await updateDoc(doc(window._db, 'inviteCodes', codeDoc.id), {
+      usedBy: window._currentUid,
+      usedAt: new Date().toISOString()
     });
-    document.getElementById('orga-demande-msg').style.display = 'block';
-    setTimeout(() => {
-      document.getElementById('orga-demande').style.display   = 'none';
-      document.getElementById('orga-attente').style.display   = 'block';
-    }, 2000);
-  } catch(e) { console.error(e); }
+
+    // Mettre à jour le profil
+    await updateDoc(doc(window._db, 'danseurs', window._currentUid), {
+      role,
+      organisateur: 'valide'
+    });
+
+    window._monRole = role;
+    msg.textContent = role === 'admin' ? '✅ Accès admin activé !' : '✅ Accès organisateur activé !';
+    msg.style.color = 'var(--green)';
+    msg.style.display = 'block';
+
+    setTimeout(() => chargerDashboardOrga(), 1200);
+
+  } catch(e) {
+    msg.textContent = '❌ Erreur : ' + e.message;
+    msg.style.color = 'var(--red)';
+    msg.style.display = 'block';
+  }
+}
+
+async function chargerDashboardAdmin() {
+  if (!window._db) return;
+  try {
+    const { collection, getDocs } = await import(
+      'https://www.gstatic.com/firebasejs/10.0.0/firebase-firestore.js'
+    );
+
+    const [usersSnap, eventsSnap, codesSnap] = await Promise.all([
+      getDocs(collection(window._db, 'danseurs')),
+      getDocs(collection(window._db, 'evenements')),
+      getDocs(collection(window._db, 'inviteCodes'))
+    ]);
+
+    const users  = usersSnap.docs.map(d => ({ id: d.id, ...d.data() }));
+    const events = eventsSnap.docs.map(d => ({ id: d.id, ...d.data() }));
+    const codes  = codesSnap.docs.map(d => d.data());
+
+    const totalInscrits = events.reduce((s, e) => s + (e.inscrits || 0), 0);
+    const codesUsed     = codes.filter(c => c.usedBy).length;
+
+    document.getElementById('admin-stat-users').textContent   = users.length;
+    document.getElementById('admin-stat-events').textContent  = events.length;
+    document.getElementById('admin-stat-inscrits').textContent = totalInscrits;
+    document.getElementById('admin-stat-codes').textContent   = codesUsed + '/' + codes.length;
+
+    // Liste événements
+    const evList = document.getElementById('admin-events-list');
+    if (events.length === 0) {
+      evList.innerHTML = '<div style="text-align:center;padding:20px;color:var(--muted);font-size:13px;">Aucun événement</div>';
+    } else {
+      evList.innerHTML = events.map(ev => `
+        <div style="display:flex;align-items:center;justify-content:space-between;background:var(--card);border:1px solid var(--border);border-radius:12px;padding:12px 16px;gap:12px;">
+          <div style="flex:1;min-width:0;">
+            <div style="font-family:'Syne',sans-serif;font-weight:700;font-size:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${ev.titre || 'Sans titre'}</div>
+            <div style="font-size:11px;color:var(--muted);margin-top:2px;">${ev.ville || ''} · ${ev.date || ''} · ${ev.inscrits || 0} inscrits</div>
+          </div>
+          <button onclick="adminSupprimerEvent('${ev.id}')" style="padding:6px 12px;border-radius:8px;background:rgba(255,77,109,0.1);border:1px solid rgba(255,77,109,0.3);color:var(--red);font-family:'Syne',sans-serif;font-weight:700;font-size:11px;cursor:pointer;white-space:nowrap;">Supprimer</button>
+        </div>
+      `).join('');
+    }
+
+    // Liste utilisateurs
+    const uList = document.getElementById('admin-users-list');
+    if (users.length === 0) {
+      uList.innerHTML = '<div style="text-align:center;padding:20px;color:var(--muted);font-size:13px;">Aucun utilisateur</div>';
+    } else {
+      uList.innerHTML = users.map(u => `
+        <div style="display:flex;align-items:center;justify-content:space-between;background:var(--card);border:1px solid var(--border);border-radius:12px;padding:12px 16px;gap:12px;">
+          <div style="flex:1;min-width:0;">
+            <div style="font-family:'Syne',sans-serif;font-weight:700;font-size:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${u.prenom || ''} ${u.nom || ''} <span style="color:var(--muted);font-weight:400;">${u.email || ''}</span></div>
+            <div style="font-size:11px;color:var(--muted);margin-top:2px;">${u.role ? '🔑 ' + u.role : 'Artiste'} · ${u.ville || ''}</div>
+          </div>
+          <div style="display:flex;gap:6px;">
+            <button onclick="adminSupprimerCompte('${u.id}')" style="padding:6px 10px;border-radius:8px;background:rgba(255,77,109,0.1);border:1px solid rgba(255,77,109,0.3);color:var(--red);font-family:'Syne',sans-serif;font-weight:700;font-size:11px;cursor:pointer;">Suppr.</button>
+          </div>
+        </div>
+      `).join('');
+    }
+
+  } catch(e) { console.error('Admin dashboard:', e); }
+}
+
+window.adminSupprimerEvent = async function(id) {
+  if (!confirm('Supprimer cet événement définitivement ?')) return;
+  try {
+    const { doc, deleteDoc } = await import(
+      'https://www.gstatic.com/firebasejs/10.0.0/firebase-firestore.js'
+    );
+    await deleteDoc(doc(window._db, 'evenements', id));
+    await chargerDashboardAdmin();
+  } catch(e) { alert('Erreur : ' + e.message); }
+}
+
+window.adminSupprimerCompte = async function(uid) {
+  if (uid === window._currentUid) { alert('Tu ne peux pas supprimer ton propre compte depuis ici.'); return; }
+  if (!confirm('Supprimer ce compte définitivement ? Cette action est irréversible.')) return;
+  try {
+    const { doc, deleteDoc } = await import(
+      'https://www.gstatic.com/firebasejs/10.0.0/firebase-firestore.js'
+    );
+    await deleteDoc(doc(window._db, 'danseurs', uid));
+    await chargerDashboardAdmin();
+  } catch(e) { alert('Erreur : ' + e.message); }
+}
+
+window.envoyerNotifGlobale = async function() {
+  const msg   = document.getElementById('admin-notif-input').value.trim();
+  const retour = document.getElementById('admin-notif-msg');
+  if (!msg) return;
+  retour.style.display = 'none';
+
+  try {
+    const { collection, getDocs, doc, updateDoc, arrayUnion } = await import(
+      'https://www.gstatic.com/firebasejs/10.0.0/firebase-firestore.js'
+    );
+
+    const snap = await getDocs(collection(window._db, 'danseurs'));
+    const notif = {
+      id:      Date.now().toString(),
+      type:    'broadcast',
+      message: msg,
+      date:    new Date().toISOString(),
+      lu:      false
+    };
+
+    const promises = snap.docs.map(d =>
+      updateDoc(doc(window._db, 'danseurs', d.id), {
+        notifications: arrayUnion(notif)
+      })
+    );
+    await Promise.all(promises);
+
+    document.getElementById('admin-notif-input').value = '';
+    retour.textContent = '✅ Notification envoyée à ' + snap.docs.length + ' utilisateurs.';
+    retour.style.display = 'block';
+  } catch(e) {
+    retour.textContent = '❌ Erreur : ' + e.message;
+    retour.style.color = 'var(--red)';
+    retour.style.display = 'block';
+  }
 }
 
 async function chargerMesEvents() {
@@ -6288,6 +6535,27 @@ async function chargerMesEvents() {
 }
 
 // ── Formulaire événement ──
+window.previewPhotoEvent = function(input) {
+  const file = input.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = function(e) {
+    document.getElementById('ev-photo-preview').src = e.target.result;
+    document.getElementById('ev-photo-preview-wrap').style.display = 'block';
+    document.getElementById('ev-photo-label').style.display = 'none';
+  };
+  reader.readAsDataURL(file);
+}
+
+window.supprimerPhotoEvent = function() {
+  document.getElementById('ev-photo').value = '';
+  document.getElementById('ev-photo-preview').src = '';
+  document.getElementById('ev-photo-preview-wrap').style.display = 'none';
+  document.getElementById('ev-photo-label').style.display = 'flex';
+  document.getElementById('ev-photo-label-text').textContent = 'Choisir une image JPG ou PNG';
+  window._evPhotoUrl = null;
+}
+
 window.ouvrirFormEvent = function() {
   eventEnEdition = null;
   document.getElementById('orga-form-title').textContent = 'CRÉER UN ÉVÉNEMENT';
@@ -6297,6 +6565,12 @@ window.ouvrirFormEvent = function() {
     if (el) el.value = '';
   });
   document.getElementById('ev-prix').value = '0';
+  document.getElementById('ev-photo').value = '';
+  document.getElementById('ev-photo-preview').src = '';
+  document.getElementById('ev-photo-preview-wrap').style.display = 'none';
+  document.getElementById('ev-photo-label').style.display = 'flex';
+  document.getElementById('ev-photo-label-text').textContent = 'Choisir une image JPG ou PNG';
+  window._evPhotoUrl = null;
   document.getElementById('orga-form').style.display = 'block';
   document.getElementById('orga-dashboard').style.display = 'none';
   document.getElementById('orga-form').scrollIntoView({ behavior: 'smooth' });
@@ -6331,6 +6605,19 @@ window.modifierEvent = async function(id) {
     document.getElementById('ev-niveau').value = ev.niveau  || 'Tous niveaux';
     document.getElementById('ev-desc').value   = ev.description || '';
 
+    // Photo de couverture
+    window._evPhotoUrl = ev.photoUrl || null;
+    if (ev.photoUrl) {
+      document.getElementById('ev-photo-preview').src = ev.photoUrl;
+      document.getElementById('ev-photo-preview-wrap').style.display = 'block';
+      document.getElementById('ev-photo-label').style.display = 'none';
+    } else {
+      document.getElementById('ev-photo-preview-wrap').style.display = 'none';
+      document.getElementById('ev-photo-label').style.display = 'flex';
+      document.getElementById('ev-photo-label-text').textContent = 'Choisir une image JPG ou PNG';
+      window._evPhotoUrl = null;
+    }
+
     document.getElementById('orga-form-title').textContent = 'MODIFIER L\'ÉVÉNEMENT';
     document.getElementById('ev-submit-btn').textContent = 'Enregistrer les modifications →';
     document.getElementById('orga-form').style.display = 'block';
@@ -6349,6 +6636,29 @@ window.sauvegarderEvent = async function() {
   btn.textContent = '⏳ Publication...';
   btn.disabled = true;
 
+  // Upload photo si nouvelle sélection
+  let photoUrl = window._evPhotoUrl || null;
+  const photoFile = document.getElementById('ev-photo').files[0];
+  if (photoFile) {
+    try {
+      btn.textContent = '⏳ Upload photo...';
+      const { getStorage, ref, uploadBytes, getDownloadURL } = await import(
+        'https://www.gstatic.com/firebasejs/10.0.0/firebase-storage.js'
+      );
+      const storage = getStorage();
+      const storageRef = ref(storage, `events/${window._currentUid}/${Date.now()}_${photoFile.name}`);
+      const snap = await uploadBytes(storageRef, photoFile);
+      photoUrl = await getDownloadURL(snap.ref);
+      btn.textContent = '⏳ Publication...';
+    } catch(e) {
+      document.getElementById('orga-form-err').textContent = '❌ Erreur upload photo : ' + e.message;
+      document.getElementById('orga-form-err').style.display = 'block';
+      btn.textContent = eventEnEdition ? 'Enregistrer →' : 'Publier →';
+      btn.disabled = false;
+      return;
+    }
+  }
+
   const data = {
     titre,
     type:          document.getElementById('ev-type').value,
@@ -6360,6 +6670,7 @@ window.sauvegarderEvent = async function() {
     styles:        document.getElementById('ev-styles').value,
     niveau:        document.getElementById('ev-niveau').value,
     description:   document.getElementById('ev-desc').value,
+    photoUrl:      photoUrl || null,
     organisateurUid: window._currentUid,
     updatedAt:     new Date().toISOString(),
   };
@@ -8237,7 +8548,8 @@ async function chargerProfil(uid) {
 
     // ── Stocker uid courant EN PREMIER ──
     window._currentUid = uid;
-    window._monProfil = { ...d, uid };
+    window._monProfil  = { ...d, uid };
+    window._monRole    = d.role || null;
 
     mettreAJourNav(d);
 
@@ -8386,7 +8698,20 @@ function mettreAJourNav(user) {
     }
 
     const orgaBtn = document.getElementById('orga-btn');
-    if (orgaBtn) orgaBtn.style.display = 'inline-flex';
+    if (orgaBtn) {
+      orgaBtn.style.display = 'inline-flex';
+      if (window._monRole === 'admin') {
+        orgaBtn.textContent = '⚙️ Admin';
+        orgaBtn.style.background = 'rgba(255,77,109,0.1)';
+        orgaBtn.style.borderColor = 'var(--red)';
+        orgaBtn.style.color = 'var(--red)';
+      } else {
+        orgaBtn.textContent = '🎪 Organisateur';
+        orgaBtn.style.background = 'rgba(77,159,255,0.1)';
+        orgaBtn.style.borderColor = 'var(--blue)';
+        orgaBtn.style.color = 'var(--blue)';
+      }
+    }
 
   } else {
     // Non connecté
