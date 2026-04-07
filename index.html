@@ -2414,7 +2414,7 @@ if (isPWA) {
           <button class="mhn-card" onclick="showPage('agenda')">
             <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
             <div class="mhn-card-name">Agenda</div>
-            <div class="mhn-card-desc">Soirées, cours & battles</div>
+            <div class="mhn-card-desc">Soirées & battles</div>
           </button>
           <button class="mhn-card" onclick="showPage('auth')">
             <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
@@ -2463,7 +2463,7 @@ if (isPWA) {
       <div class="feature-card" onclick="showPage('agenda')" style="cursor:pointer;" title="Voir l'agenda">
         <div class="feature-icon" style="background:rgba(77,159,255,0.1)">📅</div>
         <div class="feature-title">Agenda & billetterie</div>
-        <p class="feature-desc">Soirées, cours, battles — tout est là. Réservez vos places directement depuis la plateforme.</p>
+        <p class="feature-desc">Soirées, battles, workshops — tout est là. Réservez vos places directement depuis la plateforme.</p>
         <div style="margin-top:12px;font-size:12px;color:var(--blue);font-weight:700;display:flex;align-items:center;gap:4px;">Voir l'agenda <span>→</span></div>
       </div>
       <div class="feature-card" onclick="showPage('profile')" style="cursor:pointer;" title="Voir mon profil">
@@ -2547,7 +2547,7 @@ if (isPWA) {
       <div class="step">
         <div class="step-num">02</div>
         <div class="step-title">Explorez le réseau</div>
-        <p class="step-desc">Trouvez des danseurs, découvrez des événements et cours près de chez vous.</p>
+        <p class="step-desc">Trouvez des danseurs, découvrez des événements près de chez vous.</p>
       </div>
       <div class="step">
         <div class="step-num">03</div>
@@ -3633,7 +3633,7 @@ if (isPWA) {
       <button onclick="showPage('agenda')" class="dash-nav-card">
         <div style="font-size:20px;margin-bottom:8px;">📅</div>
         <div style="font-family:'Syne',sans-serif;font-weight:800;font-size:13px;">Agenda</div>
-        <div style="font-size:10px;color:var(--muted2);margin-top:3px;">Soirées & cours</div>
+        <div style="font-size:10px;color:var(--muted2);margin-top:3px;">Soirées & workshops</div>
       </button>
       <button onclick="showPage('messages')" class="dash-nav-card">
         <div style="font-size:20px;margin-bottom:8px;">💬</div>
@@ -3822,14 +3822,13 @@ if (isPWA) {
     <!-- HEADER -->
     <div class="agenda-header">
       <div>
-        <div class="section-tag">Événements & cours</div>
+        <div class="section-tag">Événements & workshops</div>
         <h1 style="font-family:'Syne',sans-serif;font-size:48px;letter-spacing:2px;font-weight:800;">AGENDA</h1>
       </div>
       <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center;">
         <div class="agenda-filters" id="agenda-filters">
           <button class="agenda-filter on" onclick="setAgendaFiltre('tous',this)">Tous</button>
           <button class="agenda-filter" onclick="setAgendaFiltre('soiree',this)">Soirées</button>
-          <button class="agenda-filter" onclick="setAgendaFiltre('cours',this)">Cours</button>
           <button class="agenda-filter" onclick="setAgendaFiltre('battle',this)">Battles</button>
           <button class="agenda-filter" onclick="setAgendaFiltre('workshop',this)">Workshops</button>
         </div>
@@ -4175,7 +4174,6 @@ if (isPWA) {
           <label class="form-label">Type</label>
           <select id="ev-type" class="form-select">
             <option value="soiree">🎉 Soirée</option>
-            <option value="cours">📚 Cours</option>
             <option value="battle">🏆 Battle</option>
             <option value="workshop">🎓 Workshop</option>
           </select>
@@ -5412,7 +5410,7 @@ async function afficherEventsDashboard() {
 
     const TYPE_CFG = {
       soiree:   { emoji:'🎉', color:'var(--purple)' },
-      cours:    { emoji:'📚', color:'var(--blue)'   },
+      
       battle:   { emoji:'🏆', color:'var(--yellow)' },
       workshop: { emoji:'🎓', color:'var(--green)'  },
     };
@@ -5745,7 +5743,7 @@ let eventCourant = null;
 
 const TYPE_CONFIG = {
   soiree:   { label:'🎉 SOIRÉE',   bg:'linear-gradient(135deg,#1a0526,#260d1a)', couleur:'var(--purple)' },
-  cours:    { label:'📚 COURS',    bg:'linear-gradient(135deg,#0a1a2b,#0d2215)', couleur:'var(--blue)'   },
+  
   battle:   { label:'🏆 BATTLE',   bg:'linear-gradient(135deg,#2b1a0a,#1a0d0d)', couleur:'var(--yellow)' },
   workshop: { label:'🎓 WORKSHOP', bg:'linear-gradient(135deg,#1a2b0d,#0d2b1e)', couleur:'var(--green)'  },
 };
@@ -5831,8 +5829,8 @@ function _renderEventCard(ev, passe) {
   const cfg = TYPE_CONFIG[ev.type] || TYPE_CONFIG.soiree;
   const prix = ev.prix === 0 ? 'Gratuit' : (ev.prix || '?') + '€';
   const couleurPrix = ev.prix === 0 ? 'var(--green)' : cfg.couleur;
-  const btnClass = ev.prix === 0 ? 'ec-btn-green' : ev.type === 'cours' ? 'ec-btn-blue' : ev.type === 'battle' ? 'ec-btn-yellow' : 'ec-btn-green';
-  const btnLabel = ev.type === 'cours' ? "S'inscrire" : 'Réserver';
+  const btnClass = ev.prix === 0 ? 'ec-btn-green' : ev.type === 'battle' ? 'ec-btn-yellow' : 'ec-btn-green';
+  const btnLabel = 'Réserver';
   const inscrits = ev.inscrits || 0;
   const estFavori = mesFavoris.has(ev.id);
   const opacityStyle = passe ? 'opacity:0.5;filter:grayscale(0.4);' : '';
@@ -6037,7 +6035,7 @@ function ouvrirEvent(id) {
     btn.style.fontSize = '12px';
     btn.onclick = null;
   } else {
-    btn.textContent = ev.type === 'cours' ? "S'inscrire" : 'Réserver';
+    btn.textContent = 'Réserver';
     btn.disabled = false;
     btn.style.background = 'var(--green)';
     btn.style.color = '#080810';
@@ -6604,7 +6602,7 @@ async function chargerMesEvents() {
 
     const typeConfig = {
       soiree: { label:'🎉', couleur:'var(--purple)' },
-      cours:  { label:'📚', couleur:'var(--blue)'   },
+      
       battle: { label:'🏆', couleur:'var(--yellow)'  },
       workshop:{ label:'🎓', couleur:'var(--green)'  },
     };
