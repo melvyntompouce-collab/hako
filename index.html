@@ -3426,7 +3426,7 @@ if (isPWA) {
     </div>
 
     <!-- Description du mode actif -->
-    <div id="brct-mode-desc" style="font-size:13px;color:var(--muted2);max-width:380px;margin:0 auto;line-height:1.6;padding:0 20px;"></div>
+    <div id="brct-mode-desc" style="font-size:13px;color:var(--muted2);max-width:380px;margin:0 auto;line-height:1.6;padding:0 20px;min-height:44px;"></div>
   </div>
 
   <!-- Contenu flou (geste + specs + waitlist) -->
@@ -8781,7 +8781,6 @@ function mettreAJourBandeBracelet(mode) {
   btn.className = 'ph-band ' + cfg.classe;
   if (text) text.textContent = cfg.texte;
   if (led)  { led.style.background = cfg.led; led.style.boxShadow = `0 0 8px ${cfg.led}`; }
-  if (typeof brctSetMode === 'function') brctSetMode(mode);
 }
 
 let lienVisible = true;
@@ -9000,7 +8999,6 @@ window.brctSetMode = function brctSetMode(mode) {
     import('https://www.gstatic.com/firebasejs/10.0.0/firebase-firestore.js').then(({ doc, setDoc }) => {
       setDoc(doc(window._db, 'danseurs', window._currentUid), { modeBracelet: mode }, { merge: true });
       if (window._monProfil) window._monProfil.modeBracelet = mode;
-      mettreAJourBandeBracelet(mode);
     }).catch(() => {});
   }
 }
