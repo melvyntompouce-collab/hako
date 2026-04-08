@@ -1919,10 +1919,10 @@ footer{
   flex-shrink: 0;
   transition: box-shadow 0.3s;
 }
-.brct-mode-btn.active-public     { border-color: rgba(79,159,255,0.4);  background: rgba(79,159,255,0.06); color: #4F9FFF; }
-.brct-mode-btn.active-communaute { border-color: rgba(123,79,255,0.4); background: rgba(123,79,255,0.06); color: #7B4FFF; }
-.brct-mode-btn.active-amis       { border-color: rgba(255,170,0,0.4);  background: rgba(255,170,0,0.06);  color: #FFAA00; }
-.brct-mode-btn.active-prive      { border-color: rgba(255,77,109,0.4); background: rgba(255,77,109,0.06); color: var(--red); }
+.brct-mode-btn.active-public     { border-color: rgba(79,159,255,0.4);  background: rgba(79,159,255,0.06);  color: #4F9FFF; }
+.brct-mode-btn.active-communaute { border-color: rgba(123,79,255,0.4);  background: rgba(123,79,255,0.06);  color: #7B4FFF; }
+.brct-mode-btn.active-amis       { border-color: rgba(255,170,0,0.4);   background: rgba(255,170,0,0.06);   color: #FFAA00; }
+.brct-mode-btn.active-prive      { border-color: rgba(255,77,109,0.4);  background: rgba(255,77,109,0.06);  color: var(--red); }
 
 /* Sections contenu */
 .brct-section {
@@ -3407,11 +3407,11 @@ if (isPWA) {
 
     <!-- Sélecteur de mode -->
     <div class="brct-mode-selector">
-      <button class="brct-mode-btn" id="brct-btn-public" onclick="brctSetMode('public')">
+      <button class="brct-mode-btn active-public" id="brct-btn-public" onclick="brctSetMode('public')">
         <span class="brct-led-dot" style="background:#4F9FFF;box-shadow:0 0 6px #4F9FFF;"></span>
         Public
       </button>
-      <button class="brct-mode-btn active-communaute" id="brct-btn-communaute" onclick="brctSetMode('communaute')">
+      <button class="brct-mode-btn" id="brct-btn-communaute" onclick="brctSetMode('communaute')">
         <span class="brct-led-dot" style="background:#7B4FFF;box-shadow:0 0 6px #7B4FFF;"></span>
         Communauté
       </button>
@@ -4684,11 +4684,11 @@ if (isPWA) {
           <div style="display:flex;gap:6px;width:100%;">
             <button id="mode-public" onclick="setModeGlobal('public')"
               style="flex:1;padding:8px 4px;border-radius:10px;font-family:'Syne',sans-serif;font-size:11px;font-weight:800;border:1.5px solid var(--border);background:transparent;color:var(--muted2);cursor:pointer;transition:all 0.2s;">
-              🔵 PUBLIC
+              🔵 PUB
             </button>
             <button id="mode-communaute" onclick="setModeGlobal('communaute')"
               style="flex:1;padding:8px 4px;border-radius:10px;font-family:'Syne',sans-serif;font-size:11px;font-weight:800;border:1.5px solid var(--border);background:transparent;color:var(--muted2);cursor:pointer;transition:all 0.2s;">
-              🟣 COMM.
+              🟣 COMM
             </button>
             <button id="mode-amis" onclick="setModeGlobal('amis')"
               style="flex:1;padding:8px 4px;border-radius:10px;font-family:'Syne',sans-serif;font-size:11px;font-weight:800;border:1.5px solid var(--border);background:transparent;color:var(--muted2);cursor:pointer;transition:all 0.2s;">
@@ -5609,12 +5609,11 @@ document.addEventListener('input', function(e) {
 // ── Mode global confidentialité ──
 function mettreAJourBoutonsModeGlobal(mode) {
   const cfg = {
-    public:     { border:'#4F9FFF',    bg:'rgba(79,159,255,0.1)',  color:'#4F9FFF'       },
-    communaute: { border:'#7B4FFF',    bg:'rgba(123,79,255,0.1)',  color:'#7B4FFF'       },
-    amis:       { border:'#FFAA00',    bg:'rgba(255,170,0,0.1)',   color:'#FFAA00'       },
-    prive:      { border:'var(--red)', bg:'rgba(255,77,109,0.1)',  color:'var(--red)'    },
+    public:     { border:'#4F9FFF',    bg:'rgba(79,159,255,0.1)',  color:'#4F9FFF'      },
+    communaute: { border:'#7B4FFF',    bg:'rgba(123,79,255,0.1)',  color:'#7B4FFF'      },
+    amis:       { border:'#FFAA00',    bg:'rgba(255,170,0,0.1)',   color:'#FFAA00'      },
+    prive:      { border:'var(--red)', bg:'rgba(255,77,109,0.1)',  color:'var(--red)'   },
   };
-
   ['public','communaute','amis','prive'].forEach(m => {
     const b = document.getElementById('mode-' + m);
     if (!b) return;
@@ -5631,7 +5630,7 @@ function detecterModeDepuisItems() {
     if (tg.querySelector('.sa')) return 'amis';
     return 'public';
   });
-  if (actifs.length === 0) return 'communaute';
+  if (actifs.length === 0) return 'public';
   return new Set(actifs).size === 1 ? actifs[0] : 'mix';
 }
 
@@ -8664,7 +8663,7 @@ async function chargerProfil(uid) {
       setTimeout(() => mettreAJourBoutonsModeGlobal(calculerModeGlobalActuel()), 50);
     } else {
       // Aucune conf → mode amis par défaut
-      setTimeout(() => mettreAJourBoutonsModeGlobal('communaute'), 50);
+      setTimeout(() => mettreAJourBoutonsModeGlobal('public'), 50);
     }
 
     // ── Genres musicaux ──
@@ -8685,7 +8684,7 @@ async function chargerProfil(uid) {
     }
 
     // ── Bracelet ──
-    mettreAJourBandeBracelet(d.modeBracelet || 'communaute');
+    mettreAJourBandeBracelet(d.modeBracelet || 'public');
 
     // ── Abonnements / Abonnés ──
     const abonnements = d.abonnements || [];
@@ -8757,8 +8756,8 @@ function chargerTogglePlateforme(id, value) {
 // ── Cycle mode bracelet ──
 window.cyclerModeBracelet = async function() {
   if (!window._currentUid || !window._db) return;
-  const modes   = ['public', 'communaute', 'amis', 'prive'];
-  const actuel  = window._monProfil?.modeBracelet || 'communaute';
+  const modes  = ['public','communaute','amis','prive'];
+  const actuel = window._monProfil?.modeBracelet || 'public';
   const suivant = modes[(modes.indexOf(actuel) + 1) % modes.length];
   mettreAJourBandeBracelet(suivant);
   if (window._monProfil) window._monProfil.modeBracelet = suivant;
@@ -8774,15 +8773,14 @@ function mettreAJourBandeBracelet(mode) {
   const text = document.getElementById('ph-band-text');
   if (!btn) return;
   const cfg = {
-    public:     { texte:'Mode Public',     classe:'mode-public',     led:'#4F9FFF'      },
-    communaute: { texte:'Mode Communauté', classe:'mode-communaute', led:'#7B4FFF'      },
-    amis:       { texte:'Mode Amis',       classe:'mode-amis',       led:'#FFAA00'      },
-    prive:      { texte:'Mode Privé',      classe:'mode-prive',      led:'var(--red)'   },
-  }[mode] || { texte:'Mode Communauté', classe:'mode-communaute', led:'#7B4FFF' };
+    public:     { texte:'Mode Public',     classe:'mode-public',     led:'#4F9FFF'     },
+    communaute: { texte:'Mode Communauté', classe:'mode-communaute', led:'#7B4FFF'     },
+    amis:       { texte:'Mode Amis',       classe:'mode-amis',       led:'#FFAA00'     },
+    prive:      { texte:'Mode Privé',      classe:'mode-prive',      led:'var(--red)'  },
+  }[mode] || { texte:'Mode Public', classe:'mode-public', led:'#4F9FFF' };
   btn.className = 'ph-band ' + cfg.classe;
   if (text) text.textContent = cfg.texte;
   if (led)  { led.style.background = cfg.led; led.style.boxShadow = `0 0 8px ${cfg.led}`; }
-  // Sync page bracelet si ouverte
   if (typeof brctSetMode === 'function') brctSetMode(mode);
 }
 
@@ -8963,25 +8961,26 @@ const BRCT_MODES = {
     btnClass: 'active-public'
   },
   communaute: {
-    leds: ['off','communaute','communaute','communaute'],
+    leds: ['communaute','communaute','communaute','off'],
     desc: 'Visible uniquement par les membres de la communauté HAKO. Ton profil complet est accessible aux autres artistes connectés.',
     btnClass: 'active-communaute'
   },
   amis: {
-    leds: ['off','off','amis','amis'],
+    leds: ['amis','amis','off','off'],
     desc: 'Seuls tes abonnés mutuels ont accès à ton profil complet. Les autres voient uniquement ton nom et ta discipline.',
     btnClass: 'active-amis'
   },
   prive: {
-    leds: ['off','off','off','red'],
+    leds: ['red','off','off','off'],
     desc: "Ton profil est masqué. Les échanges ne s'activent que si tu acceptes manuellement la connexion dans l'app.",
     btnClass: 'active-prive'
   }
 };
 
-let brctModeActuel = 'communaute';
+let brctModeActuel = 'public';
 
 window.brctSetMode = function brctSetMode(mode) {
+  if (!BRCT_MODES[mode]) return;
   brctModeActuel = mode;
   const cfg = BRCT_MODES[mode];
   cfg.leds.forEach((color, i) => {
@@ -9118,7 +9117,7 @@ function brctLeverBlur() {
 }
 
 function initPageBracelet() {
-  brctSetMode(window._monProfil?.modeBracelet || 'communaute');
+  brctSetMode(window._monProfil?.modeBracelet || 'public');
   brctChargerCountWaitlist();
   const input = document.getElementById('brct-waitlist-email');
   if (input && window._monProfil?.email) input.value = window._monProfil.email;
