@@ -8982,7 +8982,7 @@ const BRCT_MODES = {
 
 let brctModeActuel = 'public';
 
-window.brctSetMode = function brctSetMode(mode) {
+window.brctSetMode = function brctSetMode(mode, immediat) {
   if (!BRCT_MODES[mode]) return;
   brctModeActuel = mode;
   const cfg = BRCT_MODES[mode];
@@ -8996,8 +8996,13 @@ window.brctSetMode = function brctSetMode(mode) {
   });
   const desc = document.getElementById('brct-mode-desc');
   if (desc) {
-    desc.style.opacity = '0';
-    setTimeout(() => { desc.textContent = cfg.desc; desc.style.transition = 'opacity 0.3s'; desc.style.opacity = '1'; }, 150);
+    if (immediat) {
+      desc.textContent = cfg.desc;
+      desc.style.opacity = '1';
+    } else {
+      desc.style.opacity = '0';
+      setTimeout(() => { desc.textContent = cfg.desc; desc.style.transition = 'opacity 0.3s'; desc.style.opacity = '1'; }, 150);
+    }
   }
   if (window._currentUid && window._db) {
     import('https://www.gstatic.com/firebasejs/10.0.0/firebase-firestore.js').then(({ doc, setDoc }) => {
@@ -9120,13 +9125,7 @@ function brctLeverBlur() {
 
 function initPageBracelet() {
   const mode = window._monProfil?.modeBracelet || 'public';
-  brctSetMode(mode);
-  // Affichage immédiat du texte sans attendre la transition
-  const desc = document.getElementById('brct-mode-desc');
-  if (desc && BRCT_MODES[mode]) {
-    desc.textContent = BRCT_MODES[mode].desc;
-    desc.style.opacity = '1';
-  }
+  brctSetMode(mode, true);
   brctChargerCountWaitlist();
   const input = document.getElementById('brct-waitlist-email');
   if (input && window._monProfil?.email) input.value = window._monProfil.email;
