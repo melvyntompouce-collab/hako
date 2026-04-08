@@ -921,6 +921,8 @@ body.pwa #agenda-passes-toggle {
 .ph-band:hover{background:rgba(0,245,155,0.14);border-color:rgba(0,245,155,0.35);}
 .ph-band.mode-prive{background:rgba(255,77,109,0.08);border-color:rgba(255,77,109,0.2);color:var(--red);}
 .ph-band.mode-prive:hover{background:rgba(255,77,109,0.14);}
+.ph-band.mode-public{background:rgba(79,159,255,0.08);border-color:rgba(79,159,255,0.2);color:#4F9FFF;}
+.ph-band.mode-public:hover{background:rgba(79,159,255,0.14);}
 .ph-band.mode-communaute{background:rgba(123,79,255,0.08);border-color:rgba(123,79,255,0.2);color:#7B4FFF;}
 .ph-band.mode-communaute:hover{background:rgba(123,79,255,0.14);}
 .ph-band.mode-amis{background:rgba(255,170,0,0.08);border-color:rgba(255,170,0,0.2);color:#FFAA00;}
@@ -1857,6 +1859,12 @@ footer{
 }
 .brct-led.green::after { background: radial-gradient(var(--green), transparent); opacity: 0.3; }
 
+.brct-led.blue {
+  background: #4F9FFF;
+  box-shadow: 0 0 12px #4F9FFF, 0 0 24px rgba(79,159,255,0.4);
+}
+.brct-led.blue::after { background: radial-gradient(#4F9FFF, transparent); opacity: 0.3; }
+
 .brct-led.communaute {
   background: #7B4FFF;
   box-shadow: 0 0 12px #7B4FFF, 0 0 24px rgba(123,79,255,0.4);
@@ -1911,6 +1919,7 @@ footer{
   flex-shrink: 0;
   transition: box-shadow 0.3s;
 }
+.brct-mode-btn.active-public     { border-color: rgba(79,159,255,0.4);  background: rgba(79,159,255,0.06); color: #4F9FFF; }
 .brct-mode-btn.active-communaute { border-color: rgba(123,79,255,0.4); background: rgba(123,79,255,0.06); color: #7B4FFF; }
 .brct-mode-btn.active-amis       { border-color: rgba(255,170,0,0.4);  background: rgba(255,170,0,0.06);  color: #FFAA00; }
 .brct-mode-btn.active-prive      { border-color: rgba(255,77,109,0.4); background: rgba(255,77,109,0.06); color: var(--red); }
@@ -3398,6 +3407,10 @@ if (isPWA) {
 
     <!-- Sélecteur de mode -->
     <div class="brct-mode-selector">
+      <button class="brct-mode-btn" id="brct-btn-public" onclick="brctSetMode('public')">
+        <span class="brct-led-dot" style="background:#4F9FFF;box-shadow:0 0 6px #4F9FFF;"></span>
+        Public
+      </button>
       <button class="brct-mode-btn active-communaute" id="brct-btn-communaute" onclick="brctSetMode('communaute')">
         <span class="brct-led-dot" style="background:#7B4FFF;box-shadow:0 0 6px #7B4FFF;"></span>
         Communauté
@@ -4669,6 +4682,10 @@ if (isPWA) {
           <div class="pc-title">Confidentialité</div>
           <!-- Boutons mode global -->
           <div style="display:flex;gap:6px;width:100%;">
+            <button id="mode-public" onclick="setModeGlobal('public')"
+              style="flex:1;padding:8px 4px;border-radius:10px;font-family:'Syne',sans-serif;font-size:11px;font-weight:800;border:1.5px solid var(--border);background:transparent;color:var(--muted2);cursor:pointer;transition:all 0.2s;">
+              🔵 PUBLIC
+            </button>
             <button id="mode-communaute" onclick="setModeGlobal('communaute')"
               style="flex:1;padding:8px 4px;border-radius:10px;font-family:'Syne',sans-serif;font-size:11px;font-weight:800;border:1.5px solid var(--border);background:transparent;color:var(--muted2);cursor:pointer;transition:all 0.2s;">
               🟣 COMM.
@@ -5592,12 +5609,13 @@ document.addEventListener('input', function(e) {
 // ── Mode global confidentialité ──
 function mettreAJourBoutonsModeGlobal(mode) {
   const cfg = {
+    public:     { border:'#4F9FFF',    bg:'rgba(79,159,255,0.1)',  color:'#4F9FFF'       },
     communaute: { border:'#7B4FFF',    bg:'rgba(123,79,255,0.1)',  color:'#7B4FFF'       },
     amis:       { border:'#FFAA00',    bg:'rgba(255,170,0,0.1)',   color:'#FFAA00'       },
     prive:      { border:'var(--red)', bg:'rgba(255,77,109,0.1)',  color:'var(--red)'    },
   };
 
-  ['communaute','amis','prive'].forEach(m => {
+  ['public','communaute','amis','prive'].forEach(m => {
     const b = document.getElementById('mode-' + m);
     if (!b) return;
     const active = m === mode && cfg[m];
@@ -5611,14 +5629,14 @@ function detecterModeDepuisItems() {
   const actifs = [...document.querySelectorAll('.priv-row .tg')].map(tg => {
     if (tg.querySelector('.sr')) return 'prive';
     if (tg.querySelector('.sa')) return 'amis';
-    return 'communaute';
+    return 'public';
   });
   if (actifs.length === 0) return 'communaute';
   return new Set(actifs).size === 1 ? actifs[0] : 'mix';
 }
 
 window.setModeGlobal = async function(mode) {
-  const idx = { communaute:0, amis:1, prive:2 }[mode];
+  const idx = { public:0, communaute:0, amis:1, prive:2 }[mode];
   const cls = ['sp','sa','sr'][idx];
 
   // Tout passer au même niveau
@@ -8739,7 +8757,7 @@ function chargerTogglePlateforme(id, value) {
 // ── Cycle mode bracelet ──
 window.cyclerModeBracelet = async function() {
   if (!window._currentUid || !window._db) return;
-  const modes   = ['communaute', 'amis', 'prive'];
+  const modes   = ['public', 'communaute', 'amis', 'prive'];
   const actuel  = window._monProfil?.modeBracelet || 'communaute';
   const suivant = modes[(modes.indexOf(actuel) + 1) % modes.length];
   mettreAJourBandeBracelet(suivant);
@@ -8756,6 +8774,7 @@ function mettreAJourBandeBracelet(mode) {
   const text = document.getElementById('ph-band-text');
   if (!btn) return;
   const cfg = {
+    public:     { texte:'Mode Public',     classe:'mode-public',     led:'#4F9FFF'      },
     communaute: { texte:'Mode Communauté', classe:'mode-communaute', led:'#7B4FFF'      },
     amis:       { texte:'Mode Amis',       classe:'mode-amis',       led:'#FFAA00'      },
     prive:      { texte:'Mode Privé',      classe:'mode-prive',      led:'var(--red)'   },
@@ -8890,6 +8909,7 @@ onAuthStateChanged(auth, async (user) => {
     try { await chargerAbonnements(); }       catch(e) { console.error('❌ chargerAbonnements:', e); }
     try { await chargerFavoris(); }           catch(e) { console.error('❌ chargerFavoris:', e); }
     afficherDashboard(window._monProfil);
+    mettreAJourNav(window._monProfil || user);
     // Lever le blur KIMA si la page est déjà ouverte
     brctLeverBlur();
   } else {
@@ -8937,6 +8957,11 @@ document.dispatchEvent(new Event('firebase-ready'));
 // ════════════════════════════════
 
 const BRCT_MODES = {
+  public: {
+    leds: ['blue','blue','blue'],
+    desc: 'Tout le monde peut voir ton profil complet en approchant son bracelet du tien. Idéal pour les soirées et events.',
+    btnClass: 'active-public'
+  },
   communaute: {
     leds: ['communaute','communaute','communaute'],
     desc: 'Visible uniquement par les membres de la communauté HAKO. Ton profil complet est accessible aux autres artistes connectés.',
@@ -8963,7 +8988,7 @@ window.brctSetMode = function brctSetMode(mode) {
     const led = document.getElementById('brct-led-' + (i + 1));
     if (led) led.className = 'brct-led ' + color;
   });
-  ['communaute','amis','prive'].forEach(m => {
+  ['public','communaute','amis','prive'].forEach(m => {
     const btn = document.getElementById('brct-btn-' + m);
     if (btn) btn.className = 'brct-mode-btn' + (m === mode ? ' ' + BRCT_MODES[m].btnClass : '');
   });
