@@ -2293,7 +2293,7 @@ if (isPWA) {
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
         Mon profil
       </button>
-      <button class="drawer-item" onclick="showPage('profile');ouvrirEdition();closeDrawer();">
+      <button class="drawer-item" id="di-edit-profile" onclick="showPage('profile');ouvrirEdition();closeDrawer();">
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
         Modifier le profil
       </button>
@@ -4813,10 +4813,10 @@ if (isPWA) {
   <div class="ranking-page">
 
     <!-- HERO MON CLASSEMENT -->
-    <div style="padding:0 20px 0;margin-top:-34px;display:flex;align-items:center;gap:14px;">
+    <div style="padding:0 20px 0;margin-top:-14px;display:flex;align-items:center;gap:14px;">
       <button onclick="goBack()" style="width:40px;height:40px;border-radius:12px;background:var(--card);border:1px solid var(--border);color:var(--text);font-size:20px;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;">←</button>
     </div>
-    <div class="rk-hero fade-in" id="rk-hero">
+    <div class="rk-hero fade-in" id="rk-hero" style="margin-top:8px;">
       <div class="rk-pos-wrap">
         <div class="rk-pos" id="rk-pos">—</div>
         <div class="rk-pos-label" id="rk-pos-label">Mon classement</div>
@@ -5061,6 +5061,9 @@ function switchTab(btn, tabId) {
 function ouvrirEdition() {
   document.getElementById('edit-profile-page').style.display = 'block';
   window.scrollTo(0,0);
+  document.querySelectorAll('.drawer-item').forEach(i => i.classList.remove('active'));
+  const btn = document.getElementById('di-edit-profile');
+  if (btn) btn.classList.add('active');
 }
 function fermerEdition() {
   document.getElementById('edit-profile-page').style.display = 'none';
