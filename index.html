@@ -6834,18 +6834,43 @@ window.sauvegarderEvent = async function() {
       await addDoc(collection(window._db, 'evenements'), data);
     }
 
+    tousLesEvents = [];
+    const estEdition = !!eventEnEdition;
     const retour = window._formRetour || 'orga';
+    eventEnEdition = null;
     window._formRetour = null;
     window._adminEditMode = false;
-    tousLesEvents = [];
-    document.getElementById('orga-form').style.display = 'none';
-    eventEnEdition = null;
-    if (retour === 'admin') {
-      document.getElementById('admin-dashboard').style.display = 'block';
-      await chargerDashboardAdmin();
+    btn.disabled = false;
+
+    if (estEdition) {
+      btn.textContent = 'Publier l\'événement →';
+      document.getElementById('orga-form').style.display = 'none';
+      if (retour === 'admin') {
+        document.getElementById('admin-dashboard').style.display = 'block';
+        await chargerDashboardAdmin();
+      } else {
+        document.getElementById('orga-dashboard').style.display = 'block';
+        await chargerMesEvents();
+      }
     } else {
-      document.getElementById('orga-dashboard').style.display = 'block';
-      await chargerMesEvents();
+      errDiv.textContent = '✅ Événement publié !';
+      errDiv.style.color = 'var(--green)';
+      errDiv.style.display = 'block';
+      setTimeout(() => { errDiv.style.display = 'none'; errDiv.style.color = ''; }, 3000);
+      btn.textContent = 'Publier l\'événement →';
+      document.getElementById('orga-form-title').textContent = 'CRÉER UN ÉVÉNEMENT';
+      ['ev-titre','ev-heure','ev-lieu','ev-styles','ev-desc'].forEach(id => {
+        const el = document.getElementById(id); if (el) el.value = '';
+      });
+      document.getElementById('ev-prix').value = '0';
+      document.getElementById('ev-photo').value = '';
+      document.getElementById('ev-photo-preview').src = '';
+      document.getElementById('ev-photo-preview-wrap').style.display = 'none';
+      document.getElementById('ev-photo-label').style.display = 'flex';
+      document.getElementById('ev-photo-label-text').textContent = 'Choisir une image JPG ou PNG';
+      window._evPhotoUrl = null;
+      setVibeChips('');
+      document.getElementById('orga-form').scrollIntoView({ behavior: 'smooth' });
     }
   } catch(e) {
     errDiv.textContent = '❌ Erreur : ' + e.message;
