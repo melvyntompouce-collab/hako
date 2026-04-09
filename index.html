@@ -4971,6 +4971,7 @@ function showPage(id, isBack = false) {
   if (id === 'notifs')    setTimeout(afficherPageNotifs, DURATION);
   if (id === 'messages')  setTimeout(chargerMessages,   DURATION);
   if (id === 'bracelet')  setTimeout(initPageBracelet,  DURATION);
+  if (id === 'profile')   { const ep = document.getElementById('edit-profile-page'); if (ep) ep.style.display = 'none'; }
 
   // Sync mobile nav
   document.querySelectorAll('.mn-item').forEach(i => i.classList.remove('active'));
