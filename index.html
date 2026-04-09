@@ -390,7 +390,7 @@ body.pwa #agenda-passes-toggle {
   font-family:'Syne',sans-serif;
   font-size:12px;font-weight:700;
   letter-spacing:3px;text-transform:uppercase;
-  color:var(--green);margin-bottom:16px;
+  color:var(--muted);margin-bottom:16px;
 }
 .section-title{
   font-family:'Syne',sans-serif;
@@ -547,7 +547,7 @@ body.pwa #agenda-passes-toggle {
   flex-direction:column;
   min-height:calc(100vh - 70px);
   padding:20px;
-  padding-top:60px;
+  padding-top:80px;
   gap:16px;
   max-width:1100px;
   margin:0 auto;
@@ -1315,6 +1315,7 @@ footer{
   .profile-page,
   .ranking-page { padding: 20px 4% !important; }
   .network-layout { min-height: calc(100vh - 134px); }
+  body.pwa .network-layout { padding-top: 60px; }
 
   /* Hide desktop nav completely on small screens */
   nav { padding: 0 4%; }
@@ -3752,7 +3753,7 @@ if (isPWA) {
         <button onclick="goBack()" style="width:40px;height:40px;border-radius:12px;background:var(--card);border:1px solid var(--border);color:var(--text);font-size:20px;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;">←</button>
         <div>
           <div style="font-size:10px;font-weight:800;letter-spacing:2px;text-transform:uppercase;color:var(--muted2);margin-bottom:6px;">ACTIVITÉ</div>
-          <h1 style="font-family:'Big Shoulders Display',sans-serif;font-weight:900;font-size:36px;letter-spacing:-0.5px;line-height:1;">Notifications</h1>
+          <h1 style="font-family:'Big Shoulders Display',sans-serif;font-weight:900;font-size:36px;letter-spacing:-0.5px;line-height:1;">NOTIFICATIONS</h1>
         </div>
       </div>
       <div style="display:flex;gap:8px;flex-wrap:wrap;">
@@ -3780,7 +3781,7 @@ if (isPWA) {
 </div>
 
 <div class="page" id="page-network">
-  <div style="position:absolute;top:calc(50px + max(0px,env(safe-area-inset-top)));left:16px;z-index:500;display:flex;align-items:center;gap:12px;"><button onclick="goBack()" style="width:40px;height:40px;border-radius:12px;background:var(--card);border:1px solid var(--border);color:var(--text);font-size:20px;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;">←</button><span style="font-family:'Syne',sans-serif;font-size:18px;letter-spacing:2px;font-weight:800;">RÉSEAU</span></div>
+  <div style="position:absolute;top:calc(50px + max(0px,env(safe-area-inset-top)));left:16px;z-index:500;display:flex;align-items:center;gap:12px;"><button onclick="goBack()" style="width:40px;height:40px;border-radius:12px;background:var(--card);border:1px solid var(--border);color:var(--text);font-size:20px;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;">←</button><div><div style="font-family:'Syne',sans-serif;font-size:11px;font-weight:700;color:var(--muted);letter-spacing:2px;text-transform:uppercase;margin-bottom:4px;">Communauté</div><span style="font-family:'Big Shoulders Display',sans-serif;font-weight:900;font-size:26px;letter-spacing:-1px;line-height:1;">RÉSEAU</span></div></div>
   <div class="network-layout">
 
     <!-- CARTE -->
@@ -3866,8 +3867,8 @@ if (isPWA) {
       <div style="display:flex;align-items:center;gap:14px;">
         <button onclick="goBack()" style="width:40px;height:40px;border-radius:12px;background:var(--card);border:1px solid var(--border);color:var(--text);font-size:20px;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;">←</button>
         <div>
-          <div class="section-tag">Événements & workshops</div>
-          <h1 style="font-family:'Syne',sans-serif;font-size:23px;letter-spacing:2px;font-weight:800;">AGENDA</h1>
+          <div class="section-tag" style="margin-bottom:4px;">Événements & workshops</div>
+          <h1 style="font-family:'Big Shoulders Display',sans-serif;font-weight:900;font-size:26px;letter-spacing:-1px;line-height:1;">AGENDA</h1>
         </div>
       </div>
       <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center;">
@@ -4352,7 +4353,7 @@ if (isPWA) {
         <!-- Header sous-page -->
         <div style="display:flex;align-items:center;gap:16px;margin-bottom:28px;">
           <button onclick="fermerEdition()" style="width:40px;height:40px;border-radius:12px;background:var(--card);border:1px solid var(--border);color:var(--text);font-size:20px;cursor:pointer;display:flex;align-items:center;justify-content:center;">←</button>
-          <div style="font-family:'Syne',sans-serif;font-size:22px;font-weight:800;">MODIFIER MON PROFIL</div>
+          <div style="font-family:'Big Shoulders Display',sans-serif;font-weight:900;font-size:26px;letter-spacing:-1px;line-height:1;">MODIFIER MON PROFIL</div>
         </div>
 
         <!-- PHOTO DE PROFIL -->
@@ -4822,7 +4823,7 @@ if (isPWA) {
 
     <!-- HERO MON CLASSEMENT -->
     <div style="padding:0 20px 0;margin-top:-14px;display:flex;align-items:center;gap:14px;">
-      <button onclick="goBack()" style="width:40px;height:40px;border-radius:12px;background:var(--card);border:1px solid var(--border);color:var(--text);font-size:20px;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;">←</button><span style="font-family:'Syne',sans-serif;font-size:18px;letter-spacing:2px;font-weight:800;">CLASSEMENT</span>
+      <button onclick="goBack()" style="width:40px;height:40px;border-radius:12px;background:var(--card);border:1px solid var(--border);color:var(--text);font-size:20px;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;">←</button><div><div style="font-family:'Syne',sans-serif;font-size:11px;font-weight:700;color:var(--muted);letter-spacing:2px;text-transform:uppercase;margin-bottom:4px;">Top danseurs</div><span style="font-family:'Big Shoulders Display',sans-serif;font-weight:900;font-size:26px;letter-spacing:-1px;line-height:1;">CLASSEMENT</span></div>
     </div>
     <div class="rk-hero fade-in" id="rk-hero" style="margin-top:8px;">
       <div class="rk-pos-wrap">
