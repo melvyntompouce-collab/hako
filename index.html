@@ -249,6 +249,7 @@ nav > * { margin-bottom: 6px; }
 body.logo-bar-visible .page{padding-top:calc(120px + max(20px, env(safe-area-inset-top)));}
 
 /* ── PWA STANDALONE ── */
+body.pwa #page-agenda .agenda-header h1 { margin-top: -6px; }
 body.pwa .hero {
   padding-top: 8px;
 }
@@ -3866,7 +3867,7 @@ if (isPWA) {
         <button onclick="goBack()" style="width:40px;height:40px;border-radius:12px;background:var(--card);border:1px solid var(--border);color:var(--text);font-size:20px;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;">←</button>
         <div>
           <div class="section-tag">Événements & workshops</div>
-          <h1 style="font-family:'Syne',sans-serif;font-size:38px;letter-spacing:2px;font-weight:800;">AGENDA</h1>
+          <h1 style="font-family:'Syne',sans-serif;font-size:23px;letter-spacing:2px;font-weight:800;">AGENDA</h1>
         </div>
       </div>
       <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center;">
@@ -4000,7 +4001,7 @@ if (isPWA) {
 
 <!-- ═══ PAGE: MESSAGES ═══ -->
 <div class="page" id="page-messages">
-  <div style="max-width:700px;margin:-6px auto 0;padding:12px 20px 100px;">
+  <div style="max-width:700px;margin:-12px auto 0;padding:12px 20px 100px;">
 
     <!-- Header -->
     <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:24px;">
