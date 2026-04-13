@@ -5038,6 +5038,7 @@ function showPage(id, isBack = false) {
   if (id === 'notifs')    setTimeout(afficherPageNotifs, DURATION);
   if (id === 'messages')  setTimeout(chargerMessages,   DURATION);
   if (id === 'bracelet')  setTimeout(initPageBracelet,  DURATION);
+  if (id === 'ranking')   setTimeout(chargerClassement, DURATION);
   if (id === 'profile')   { const ep = document.getElementById('edit-profile-page'); if (ep) ep.style.display = 'none'; }
 
   // Sync mobile nav
@@ -6395,7 +6396,7 @@ async function chargerClassement() {
 
     // Récupérer le profil courant
     const currentUid = window._currentUid;
-    let currentUser = null;
+    let currentUser = window._monProfil || null;
 
     // Construire la query selon le tab
     let q;
