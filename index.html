@@ -2309,8 +2309,7 @@ body.pwa .page { padding-bottom: calc(60px + max(4px, env(safe-area-inset-bottom
 }
 /* Afficher quand connecté */
 body.has-bottomnav #bottom-nav,
-body #bottom-nav { display: flex !important; }
-@media(min-width:769px) { #bottom-nav { display: none !important; } }
+@media(max-width:768px) { body #bottom-nav { display: flex !important; } }
 body.pwa #bottom-nav { height: 87px; }
 body.pwa #bottom-nav .mn-item { padding-top: 24px; }
 body.pwa #bottom-nav .mn-item.mn-center { padding-top: 16px; }
