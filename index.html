@@ -3855,7 +3855,7 @@ if (isPWA) {
         <div class="dot"></div>
         <span id="map-fs-count">0 artistes</span>
       </div>
-      <button onclick="closeMapFullscreen()" style="position:fixed;top:16px;right:16px;z-index:10002;width:38px;height:38px;border-radius:10px;background:rgba(8,8,16,0.88);backdrop-filter:blur(8px);border:1px solid rgba(0,245,155,0.25);color:var(--green);font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center;line-height:1;">✕</button>
+      <button onclick="closeMapFullscreen()" style="position:fixed;top:41px;right:16px;z-index:10002;width:38px;height:38px;border-radius:10px;background:rgba(8,8,16,0.88);backdrop-filter:blur(8px);border:1px solid rgba(0,245,155,0.25);color:var(--green);font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center;line-height:1;">✕</button>
     </div>
 
     <!-- LISTE -->
@@ -7962,7 +7962,7 @@ function ajouterMarqueur(danseur, uid) {
     popupAnchor: [0, -26]
   });
 
-  const marker = L.marker([lat, lng], { icon })
+  const marker = L.marker([lat, lng], { icon, hakoUid: uid })
     .bindPopup(`
       <div style="min-width:160px;padding:4px">
         <div class="popup-name">${nom}</div>
@@ -7971,7 +7971,8 @@ function ajouterMarqueur(danseur, uid) {
         </div>
         <div class="popup-zone">📍 ${danseur.zone || 'Zone non définie'}</div>
         ${danseur.disponible ? '<div class="popup-dispo">✅ Disponible</div>' : ''}
-        ${danseur.tel ? `<a href="sms:${danseur.tel}" style="display:inline-flex;align-items:center;gap:6px;margin-top:8px;padding:7px 12px;border-radius:10px;background:rgba(0,245,155,0.1);border:1px solid rgba(0,245,155,0.3);color:#00f59b;font-size:12px;font-weight:700;text-decoration:none;">💬 Envoyer un message</a>` : ''}
+        <button onclick="closeMapFullscreen();ouvrirProfilArtiste('${uid}')" style="display:inline-flex;align-items:center;gap:6px;margin-top:8px;padding:7px 12px;border-radius:10px;background:rgba(0,245,155,0.1);border:1px solid rgba(0,245,155,0.3);color:#00f59b;font-size:12px;font-weight:700;cursor:pointer;font-family:'Syne',sans-serif;width:100%;justify-content:center;">👤 Voir le profil</button>
+        ${danseur.tel ? `<a href="sms:${danseur.tel}" style="display:inline-flex;align-items:center;gap:6px;margin-top:6px;padding:7px 12px;border-radius:10px;background:rgba(0,245,155,0.05);border:1px solid rgba(0,245,155,0.15);color:#00f59b;font-size:12px;font-weight:700;text-decoration:none;width:100%;justify-content:center;box-sizing:border-box;">💬 Envoyer un message</a>` : ''}
       </div>
     `)
     .addTo(carte);
@@ -8416,13 +8417,13 @@ function openMapFullscreen() {
     // Copier les marqueurs existants
     if (carte) {
       carte.eachLayer(layer => {
-        if (layer instanceof L.CircleMarker || layer instanceof L.Marker) {
+        if (layer instanceof L.Marker) {
           const latlng = layer.getLatLng();
           const opts = layer.options;
-          const clone = layer instanceof L.CircleMarker
-            ? L.circleMarker(latlng, opts)
-            : L.marker(latlng, opts);
-          if (layer.getPopup()) clone.bindPopup(layer.getPopup().getContent());
+          const clone = L.marker(latlng, { icon: opts.icon });
+          if (layer.getPopup()) {
+            clone.bindPopup(layer.getPopup().getContent(), { maxWidth: 280, closeButton: true });
+          }
           clone.addTo(carteFS);
         }
       });
