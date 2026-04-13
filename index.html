@@ -2385,7 +2385,7 @@ body.has-bottomnav #nav-login-btn { display: none !important; }
   box-shadow: 0 8px 32px rgba(0,0,0,0.4);
 }
 #nav-profile-menu.open { display: block; }
-/* Avatar profil uniquement sur PWA */
+/* Avatar profil sur mobile uniquement */
 @media(min-width:769px) { #nav-profile-btn { display: none !important; } }
 .npm-item {
   display: flex; align-items: center; gap: 10px;
@@ -9358,7 +9358,10 @@ function mettreAJourNav(user) {
 
     // Avatar nav profil — PWA uniquement
     const navProfileBtn = document.getElementById('nav-profile-btn');
-    if (navProfileBtn && document.body.classList.contains('pwa')) navProfileBtn.style.display = 'block';
+    if (navProfileBtn) {
+      // Afficher sur mobile uniquement — le CSS masque sur desktop
+      navProfileBtn.style.display = 'block';
+    }
     const navMenuNom = document.getElementById('nav-profile-menu-nom');
     if (navMenuNom) navMenuNom.textContent = nomCourt;
     const navInitiale = document.getElementById('nav-profile-initiale');
