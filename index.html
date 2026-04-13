@@ -98,10 +98,10 @@ body::after{
   #logo-bar{
     display:none !important;
   }
-  nav{
+  #main-nav{
     top:0;
   }
-  body.logo-bar-visible nav{
+  body.logo-bar-visible #main-nav{
     top:0;
   }
   .page{
@@ -113,7 +113,7 @@ body::after{
 }
 
 /* ── TOPBAR MINIMALISTE ── */
-nav {
+#main-nav {
   position: fixed; top: 0; left: 0; right: 0; z-index: 100;
   padding-left: 16px;
   padding-right: 16px;
@@ -128,7 +128,7 @@ nav {
   backdrop-filter: blur(20px);
   border-bottom: 1px solid var(--border);
 }
-nav > * { margin-bottom: 6px; }
+#main-nav > * { margin-bottom: 6px; }
 
 /* ── PAGES ── */
 .page.active{display:block;}
@@ -256,7 +256,7 @@ body.pwa .hero {
 body.pwa .page:not(#page-auth) {
   padding-top: calc(42px + env(safe-area-inset-top)) !important;
 }
-body.pwa nav {
+body.pwa #main-nav {
   height: calc(42px + env(safe-area-inset-top));
 }
 body.pwa #agenda-passes-toggle {
@@ -1363,7 +1363,7 @@ body.pwa .page { padding-bottom: calc(60px + max(4px, env(safe-area-inset-bottom
 
 /* Nav toujours visible */
 @media(min-width:769px) {
-  nav { display: flex !important; }
+  #main-nav { display: flex !important; }
 }
 
 
@@ -1379,7 +1379,7 @@ body.pwa .page { padding-bottom: calc(60px + max(4px, env(safe-area-inset-bottom
   body.pwa .network-layout { padding-top: 60px; }
 
   /* Hide desktop nav completely on small screens */
-  nav { padding: 0 4%; }
+  #main-nav { padding: 0 4%; }
   nav > * { margin-bottom: 11px; }
   .logo { font-size: 27px; letter-spacing: 2px; }
 
@@ -2307,7 +2307,9 @@ body.pwa .page { padding-bottom: calc(60px + max(4px, env(safe-area-inset-bottom
   align-items: center;
   justify-content: space-around;
 }
-body.has-bottomnav #bottom-nav { display: flex !important; }
+/* Afficher quand connecté */
+body.has-bottomnav #bottom-nav,
+body #bottom-nav { display: flex !important; }
 #bottom-nav .mn-item {
   display: flex; flex-direction: column; align-items: center; gap: 2px;
   cursor: pointer; padding: 6px 4px; border-radius: 10px;
@@ -9792,3 +9794,23 @@ window.gainXP = async function(montant, type, labelOverride) {
 </div>
 
 <!-- Wrapper pour les boutons HTML — appelle les fonctions window quand
+<!-- BOTTOM NAV -->
+<nav id="bottom-nav">
+  <button class="mn-item" id="bn-messages" onclick="showPage('messages')" aria-label="Messages">
+    <svg class="mn-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+  </button>
+  <button class="mn-item" id="bn-network" onclick="showPage('network')" aria-label="Réseau">
+    <svg class="mn-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+  </button>
+  <button class="mn-item mn-center" id="bn-dashboard" onclick="showPage('dashboard')" aria-label="Dashboard">
+    <div class="mn-center-ico">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+    </div>
+  </button>
+  <button class="mn-item" id="bn-agenda" onclick="showPage('agenda')" aria-label="Agenda">
+    <svg class="mn-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+  </button>
+  <button class="mn-item" id="bn-ranking" onclick="showPage('ranking')" aria-label="Classement">
+    <svg class="mn-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>
+  </button>
+</nav>
