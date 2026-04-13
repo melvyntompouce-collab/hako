@@ -2310,6 +2310,7 @@ body.pwa .page { padding-bottom: calc(60px + max(4px, env(safe-area-inset-bottom
 /* Afficher quand connecté */
 body.has-bottomnav #bottom-nav,
 body #bottom-nav { display: flex !important; }
+@media(min-width:769px) { #bottom-nav { display: none !important; } }
 body.pwa #bottom-nav { height: 87px; }
 body.pwa #bottom-nav .mn-item { padding-top: 24px; }
 body.pwa #bottom-nav .mn-item.mn-center { padding-top: 16px; }
@@ -2346,6 +2347,7 @@ body.pwa #bottom-nav .mn-item.mn-center { padding-top: 16px; }
 /* Quand bottom nav visible : padding bas des pages + cacher hamburger */
 body.has-bottomnav .page { padding-bottom: calc(72px + env(safe-area-inset-bottom)) !important; }
 body.has-bottomnav #hamburger-btn { display: none !important; }
+@media(min-width:769px) { body.has-bottomnav #hamburger-btn { display: flex !important; } }
 body.has-bottomnav #nav-login-btn { display: none !important; }
 </style>
 
@@ -3806,7 +3808,7 @@ if (isPWA) {
     </div>
 
     <!-- 4 cards navigation -->
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:20px;">
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:8px;">
       <button onclick="showPage('network')" class="dash-nav-card">
         <div style="font-size:20px;margin-bottom:8px;">🌐</div>
         <div style="font-family:'Syne',sans-serif;font-weight:800;font-size:13px;">Réseau</div>
@@ -3828,6 +3830,17 @@ if (isPWA) {
         <div style="font-size:10px;color:var(--muted2);margin-top:3px;" id="dash-rank-label">Ton rang</div>
       </button>
     </div>
+    <!-- Bulle KIMA pleine largeur -->
+    <button onclick="showPage('bracelet')" class="dash-nav-card" style="width:100%;margin-bottom:20px;display:flex;flex-direction:row;align-items:center;justify-content:space-between;padding:14px 20px;border-color:rgba(0,245,155,0.2);background:linear-gradient(135deg,rgba(0,245,155,0.06),rgba(123,79,255,0.06));">
+      <div style="display:flex;align-items:center;gap:14px;">
+        <div style="font-size:22px;">⌚</div>
+        <div style="text-align:left;">
+          <div style="font-family:'Syne',sans-serif;font-weight:800;font-size:13px;">KIMA</div>
+          <div style="font-size:10px;color:var(--muted2);margin-top:3px;">Ton bracelet connecté</div>
+        </div>
+      </div>
+      <div style="font-size:11px;color:var(--green);font-weight:700;font-family:'Syne',sans-serif;">Découvrir →</div>
+    </button>
 
     <!-- Sections enrichies — 2 colonnes sur desktop -->
     <div class="dash-desktop-grid">
