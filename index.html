@@ -2925,6 +2925,7 @@ if (isPWA) {
         <div class="form-group">
           <label class="form-label">Ta zone</label>
           <select id="signup-zone" class="form-select">
+            <option>Angoulême</option>
             <option>Bordeaux</option>
             <option>Grenoble</option>
             <option>Lille</option>
@@ -4077,7 +4078,7 @@ if (isPWA) {
         <div style="display:flex;gap:6px;align-items:center;margin-bottom:8px;">
           <select id="filtre-zone" onchange="filtrerDanseurs()" style="-webkit-appearance:none;appearance:none;flex:1;padding:7px 12px;border-radius:8px;background:var(--bg);border:1.5px solid var(--border);color:var(--muted2);font-size:12px;font-family:'Syne',sans-serif;font-weight:700;outline:none;cursor:pointer;transition:border-color 0.2s;" onfocus="this.style.borderColor='var(--green)'" onblur="this.style.borderColor='var(--border)'">
             <option value="">📍 Toutes les villes</option>
-            <option>Bordeaux</option><option>Grenoble</option><option>Lille</option>
+            <option>Angoulême</option><option>Bordeaux</option><option>Grenoble</option><option>Lille</option>
             <option>Lyon</option><option>Marseille</option><option>Nantes</option>
             <option>Nice</option><option>Orléans</option><option>Paris</option>
             <option>Strasbourg</option><option>Toulouse</option>
@@ -4504,7 +4505,7 @@ if (isPWA) {
           <div class="form-group" style="margin:0">
             <label class="form-label">Ville</label>
             <select id="ev-ville" class="form-select">
-              <option>Bordeaux</option><option>Grenoble</option><option>Lille</option>
+              <option>Angoulême</option><option>Bordeaux</option><option>Grenoble</option><option>Lille</option>
               <option>Lyon</option><option>Marseille</option><option>Nantes</option>
               <option>Nice</option><option>Orléans</option><option selected>Paris</option>
               <option>Strasbourg</option><option>Toulouse</option>
@@ -4671,6 +4672,7 @@ if (isPWA) {
               <label class="form-label">Ville <span style="color:var(--muted);font-weight:400">(optionnel)</span></label>
               <select id="profil-ville" class="form-select" style="background:var(--bg2)">
                 <option value="">— Choisir une ville —</option>
+                <option>Angoulême</option>
                 <option>Bordeaux</option>
                 <option>Grenoble</option>
                 <option>Lille</option>
@@ -8162,6 +8164,7 @@ function normaliserStyles(styles) {
   return [];
 }
 const VILLES_COORDS = {
+  'Angoulême':  [45.6497, 0.1561],
   'Paris':      [48.8566, 2.3522],
   'Lyon':       [45.7640, 4.8357],
   'Marseille':  [43.2965, 5.3698],
