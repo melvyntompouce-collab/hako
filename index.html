@@ -6713,9 +6713,15 @@ function setMobileActive(el) {
 let eventEnEdition = null;
 
 window.ouvrirOrganisateur = async function() {
-  document.getElementById('organisateur-overlay').style.display = 'block';
+  closeDrawer();
+  closeNavProfileMenu();
+  await new Promise(r => setTimeout(r, 50));
+  const overlay = document.getElementById('organisateur-overlay');
+  overlay.style.display = 'block';
+  const inner = overlay.querySelector('div[style*="overflow-y"]');
+  if (inner) inner.scrollTop = 0;
   document.body.classList.add('hide-bottomnav');
-  window.scrollTo(0, 0);
+  document.body.style.overflow = 'hidden';
   await chargerDashboardOrga();
 }
 
@@ -6723,6 +6729,7 @@ window.fermerOrganisateur = function() {
   document.getElementById('organisateur-overlay').style.display = 'none';
   fermerFormEvent();
   document.body.classList.remove('hide-bottomnav');
+  document.body.style.overflow = '';
 }
 
 async function chargerDashboardOrga() {
