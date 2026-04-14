@@ -1586,7 +1586,7 @@ body.pwa .page:not(#page-network) { padding-bottom: calc(60px + max(4px, env(saf
 
 /* ── PAGE SALLES ── */
 .salles-page { padding: 0 16px 24px; max-width: 800px; margin: 0 auto; }
-.salles-header { padding: 0 0 16px; margin-top: -4px; }
+.salles-header { padding: 0 0 16px; margin-top: 4px; }
 .salles-header-title { font-family: 'Syne', sans-serif; font-weight: 900; font-size: 20px; letter-spacing: -1px; line-height: 1; }
 .salles-header-sub { font-size: 11px; font-weight: 700; color: var(--muted); letter-spacing: 2px; text-transform: uppercase; margin-bottom: 4px; }
 
@@ -2481,6 +2481,7 @@ body.pwa #bottom-nav .mn-item.mn-center { padding-top: 8px; }
 }
 #bottom-nav .mn-item.mn-center { padding-top: 6px; }
 #bottom-nav .mn-item.active { color: var(--green); }
+#bottom-nav .mn-item.on { color: var(--green); }
 #bottom-nav .mn-item:active { transform: scale(0.9); }
 #bottom-nav .mn-ico { width: 22px; height: 22px; flex-shrink: 0; }
 #bottom-nav .mn-lbl { font-size: 9px; font-weight: 800; font-family: 'Syne', sans-serif; letter-spacing: 0.3px; text-transform: uppercase; white-space: nowrap; }
@@ -5681,11 +5682,11 @@ function showPage(id, isBack = false) {
 
   // Sync bottom nav
   const bnMap = { messages:'bn-messages', network:'bn-network', dashboard:'bn-dashboard', agenda:'bn-agenda', salles:'bn-salles' };
-  document.querySelectorAll('#bottom-nav .mn-item').forEach(i => i.classList.remove('on'));
+  document.querySelectorAll('#bottom-nav .mn-item').forEach(i => { i.classList.remove('on'); i.classList.remove('active'); });
   const bnId = bnMap[id];
   if (bnId) {
     const bnBtn = document.getElementById(bnId);
-    if (bnBtn) bnBtn.classList.add('on');
+    if (bnBtn) { bnBtn.classList.add('on'); bnBtn.classList.add('active'); }
   }
 }
 
