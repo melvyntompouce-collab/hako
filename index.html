@@ -546,9 +546,17 @@ body.pwa #agenda-passes-toggle {
 ══════════════════════════════ */
 /* ── Réseau plein écran ── */
 /* ── Réseau plein écran ── */
-#page-network { padding:0 !important; overflow:hidden; }
-.network-layout { position:fixed; inset:0; z-index:1; pointer-events:none; }
-.network-map-wrap { position:fixed; inset:0; z-index:1; pointer-events:all; }
+#page-network {
+  padding:0 !important;
+  margin:0 !important;
+  min-height:0 !important;
+  position:fixed !important;
+  inset:0 !important;
+  z-index:2 !important;
+  overflow:hidden !important;
+}
+.network-layout { width:100%; height:100%; position:relative; }
+.network-map-wrap { position:absolute; inset:0; }
 .network-map-wrap #leaflet-map { width:100%; height:100%; }
 .dancer-list { display:none; }
 
@@ -1349,10 +1357,10 @@ footer{
 @media(max-width:768px) {
   .mobile-nav { display: flex !important; }
   body.pwa .mobile-nav { display: flex !important; }
-  .page { padding-bottom: calc(60px + max(4px, env(safe-area-inset-bottom))) !important; }
+  .page:not(#page-network) { padding-bottom: calc(60px + max(4px, env(safe-area-inset-bottom))) !important; }
 }
 body.pwa .mobile-nav { display: flex !important; }
-body.pwa .page { padding-bottom: calc(60px + max(4px, env(safe-area-inset-bottom))) !important; }
+body.pwa .page:not(#page-network) { padding-bottom: calc(60px + max(4px, env(safe-area-inset-bottom))) !important; }
 .mn-item {
   display: flex; flex-direction: column; align-items: center; gap: 3px;
   cursor: pointer; padding: 6px 4px; border-radius: 10px;
@@ -1391,7 +1399,7 @@ body.pwa .page { padding-bottom: calc(60px + max(4px, env(safe-area-inset-bottom
 
 @media(max-width:768px) {
   /* Pages — padding-top adapté au mobile */
-  .page { padding-bottom: 20px; min-height: 100vh; padding-top: 44px !important; }
+  .page:not(#page-network) { padding-bottom: 20px; min-height: 100vh; padding-top: 44px !important; }
   body.logo-bar-visible .page { padding-top: calc(50px + max(20px, env(safe-area-inset-top))) !important; }
   .agenda-page,
   .profile-page,
@@ -2373,7 +2381,7 @@ body.pwa #bottom-nav .mn-item.mn-center { padding-top: 16px; }
 .mn-center.active .mn-center-ico { box-shadow: 0 4px 24px rgba(0,245,155,0.55); }
 .mn-center .mn-lbl { color: var(--green); }
 /* Quand bottom nav visible : padding bas des pages + cacher hamburger */
-body.has-bottomnav .page { padding-bottom: calc(72px + env(safe-area-inset-bottom)) !important; }
+body.has-bottomnav .page:not(#page-network) { padding-bottom: calc(72px + env(safe-area-inset-bottom)) !important; }
 body.has-bottomnav #hamburger-btn { display: none !important; }
 @media(min-width:769px) { body.has-bottomnav #hamburger-btn { display: flex !important; } }
 body.has-bottomnav #nav-login-btn { display: none !important; }
@@ -5243,6 +5251,10 @@ function showPage(id, isBack = false) {
   }
   currentPage = id;
   if (window.majSearchbarReseau) majSearchbarReseau(id);
+  if (id === 'network') {
+    setTimeout(() => { if (window.carte) window.carte.invalidateSize(); }, 100);
+    setTimeout(() => { if (window.carte) window.carte.invalidateSize(); }, 400);
+  }
   // Pages à ne pas persister (auth, modales, etc.)
   const _noSave = ['home','auth','privacy','cgu','mentions'];
   if (!_noSave.includes(id)) localStorage.setItem('hako_last_page', id);
