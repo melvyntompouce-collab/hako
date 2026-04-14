@@ -4073,7 +4073,7 @@ if (isPWA) {
         <div class="dot"></div>
         <span id="map-fs-count">0 artistes</span>
       </div>
-      <button onclick="closeMapFullscreen()" id="btn-map-fs-close" style="position:fixed;top:calc(56px + env(safe-area-inset-top));right:16px;z-index:10002;width:38px;height:38px;border-radius:10px;background:rgba(8,8,16,0.88);backdrop-filter:blur(8px);border:1px solid rgba(0,245,155,0.25);color:var(--green);font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center;line-height:1;">✕</button>
+      <button onclick="closeMapFullscreen()" id="btn-map-fs-close" style="position:fixed;top:calc(16px + env(safe-area-inset-top));right:16px;z-index:10002;width:42px;height:42px;border-radius:12px;background:rgba(8,8,16,0.92);backdrop-filter:blur(12px);border:1.5px solid rgba(0,245,155,0.4);color:var(--green);font-size:20px;cursor:pointer;display:flex;align-items:center;justify-content:center;line-height:1;box-shadow:0 4px 16px rgba(0,0,0,0.4);">✕</button>
     </div>
 
     <!-- LISTE -->
@@ -4336,6 +4336,9 @@ if (isPWA) {
           <canvas id="waveform-canvas" style="flex:1;height:40px;border-radius:8px;background:rgba(255,77,109,0.06);"></canvas>
           <button onclick="annulerEnregistrement()" style="width:32px;height:32px;border-radius:50%;background:rgba(255,77,109,0.1);border:1px solid rgba(255,77,109,0.3);color:var(--red);cursor:pointer;flex-shrink:0;display:flex;align-items:center;justify-content:center;">
             <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+          </button>
+          <button onclick="arreterEnregistrement()" style="width:32px;height:32px;border-radius:50%;background:var(--green);border:none;cursor:pointer;flex-shrink:0;display:flex;align-items:center;justify-content:center;">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#080810" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
           </button>
         </div>
 
@@ -8746,6 +8749,8 @@ function openMapFullscreen() {
   const inner = document.getElementById('map-fullscreen-inner');
   overlay.style.display = 'block';
   document.body.style.overflow = 'hidden';
+  const closeBtn = document.getElementById('btn-map-fs-close');
+  if (closeBtn) closeBtn.style.display = 'flex';
 
   // Sync compteur
   const count = document.getElementById('map-count');
