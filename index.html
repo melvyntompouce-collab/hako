@@ -2348,6 +2348,7 @@ body.has-bottomnav .page { padding-bottom: calc(72px + env(safe-area-inset-botto
 body.has-bottomnav #hamburger-btn { display: none !important; }
 @media(min-width:769px) { body.has-bottomnav #hamburger-btn { display: flex !important; } }
 body.has-bottomnav #nav-login-btn { display: none !important; }
+
 </style>
 
 <style>
@@ -2936,21 +2937,9 @@ if (isPWA) {
           </div>
         </div>
         <div class="form-group">
-          <label class="form-label">Ta zone</label>
-          <select id="signup-zone" class="form-select">
-            <option>Angoulême</option>
-            <option>Bordeaux</option>
-            <option>Grenoble</option>
-            <option>Lille</option>
-            <option>Lyon</option>
-            <option>Marseille</option>
-            <option>Nantes</option>
-            <option>Nice</option>
-            <option>Orléans</option>
-            <option>Paris</option>
-            <option>Strasbourg</option>
-            <option>Toulouse</option>
-          </select>
+          <label class="form-label">Ta ville</label>
+          <input id="signup-zone" class="form-input" type="text" list="villes-datalist" placeholder="Ex: Paris, Lyon, Montpellier..." autocomplete="off">
+          <datalist id="villes-datalist"></datalist>
         </div>
         <button id="signup-btn" class="form-submit" onclick="inscrire()">Créer mon profil →</button>
       </div>
@@ -4089,13 +4078,7 @@ if (isPWA) {
         </div>
 
         <div style="display:flex;gap:6px;align-items:center;margin-bottom:8px;">
-          <select id="filtre-zone" onchange="filtrerDanseurs()" style="-webkit-appearance:none;appearance:none;flex:1;padding:7px 12px;border-radius:8px;background:var(--bg);border:1.5px solid var(--border);color:var(--muted2);font-size:12px;font-family:'Syne',sans-serif;font-weight:700;outline:none;cursor:pointer;transition:border-color 0.2s;" onfocus="this.style.borderColor='var(--green)'" onblur="this.style.borderColor='var(--border)'">
-            <option value="">📍 Toutes les villes</option>
-            <option>Angoulême</option><option>Bordeaux</option><option>Grenoble</option><option>Lille</option>
-            <option>Lyon</option><option>Marseille</option><option>Nantes</option>
-            <option>Nice</option><option>Orléans</option><option>Paris</option>
-            <option>Strasbourg</option><option>Toulouse</option>
-          </select>
+          <input id="filtre-zone" type="text" list="villes-datalist" placeholder="📍 Filtrer par ville..." oninput="filtrerDanseurs()" autocomplete="off" style="flex:1;padding:7px 12px;border-radius:8px;background:var(--bg);border:1.5px solid var(--border);color:var(--muted2);font-size:12px;font-family:'Syne',sans-serif;font-weight:700;outline:none;transition:border-color 0.2s;" onfocus="this.style.borderColor='var(--green)'" onblur="this.style.borderColor='var(--border)'">
           <button onclick="resetFiltres()" style="height:34px;padding:0 12px;border-radius:8px;background:none;border:1.5px solid var(--border);color:var(--muted2);font-size:11px;font-weight:700;cursor:pointer;font-family:'Syne',sans-serif;white-space:nowrap;transition:all 0.2s;flex-shrink:0;" onmouseover="this.style.borderColor='rgba(255,77,109,0.4)';this.style.color='var(--red)';" onmouseout="this.style.borderColor='var(--border)';this.style.color='var(--muted2)';">
             ✕ Reset
           </button>
@@ -4218,7 +4201,7 @@ if (isPWA) {
 
     <!-- Header -->
     <div style="display:flex;align-items:center;gap:16px;margin-bottom:24px;">
-      
+      <button onclick="document.getElementById('artiste-overlay').style.display='none'" style="width:36px;height:36px;border-radius:50%;background:rgba(255,255,255,0.06);border:1px solid var(--border);color:var(--text);font-size:18px;display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0;line-height:1;">←</button>
       <div style="font-family:'Syne',sans-serif;font-size:16px;font-weight:800;">PROFIL</div>
     </div>
 
@@ -4380,12 +4363,13 @@ if (isPWA) {
 </div>
 
 <!-- ═══ ESPACE ORGANISATEUR (overlay) ═══ -->
-<div id="organisateur-overlay" style="display:none;position:fixed;inset:0;z-index:9990;background:var(--bg);overflow-y:auto;padding-top:calc(70px + env(safe-area-inset-top));">
+<div id="organisateur-overlay" style="display:none;position:fixed;inset:0;z-index:9990;background:var(--bg);">
+  <div style="position:absolute;inset:0;overflow-y:auto;-webkit-overflow-scrolling:touch;padding-top:calc(70px + env(safe-area-inset-top));">
   <div style="max-width:700px;margin:0 auto;padding:24px 20px 100px;">
 
     <!-- Header -->
     <div style="display:flex;align-items:center;gap:16px;margin-bottom:28px;">
-      
+      <button onclick="fermerOrganisateur()" style="width:36px;height:36px;border-radius:50%;background:rgba(255,255,255,0.06);border:1px solid var(--border);color:var(--text);font-size:18px;display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0;line-height:1;">←</button>
       <div>
         <div style="font-family:'Syne',sans-serif;font-size:11px;color:var(--muted);letter-spacing:2px;text-transform:uppercase;">Espace</div>
         <div style="font-family:'Big Shoulders Display',sans-serif;font-weight:900;font-size:32px;letter-spacing:-1px;">ORGANISATEUR</div>
@@ -4517,12 +4501,7 @@ if (isPWA) {
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
           <div class="form-group" style="margin:0">
             <label class="form-label">Ville</label>
-            <select id="ev-ville" class="form-select">
-              <option>Angoulême</option><option>Bordeaux</option><option>Grenoble</option><option>Lille</option>
-              <option>Lyon</option><option>Marseille</option><option>Nantes</option>
-              <option>Nice</option><option>Orléans</option><option selected>Paris</option>
-              <option>Strasbourg</option><option>Toulouse</option>
-            </select>
+            <input id="ev-ville" class="form-input" type="text" list="villes-datalist" placeholder="Ex: Paris, Lyon..." autocomplete="off" style="background:var(--bg2)">
           </div>
           <div class="form-group" style="margin:0">
             <label class="form-label">Prix (€)</label>
@@ -4617,6 +4596,7 @@ if (isPWA) {
     </div>
 
   </div>
+  </div>
 </div>
 
 <!-- ═══ PAGE: PROFIL ═══ -->
@@ -4683,21 +4663,7 @@ if (isPWA) {
             </div>
             <div class="form-group" style="margin:0">
               <label class="form-label">Ville <span style="color:var(--muted);font-weight:400">(optionnel)</span></label>
-              <select id="profil-ville" class="form-select" style="background:var(--bg2)">
-                <option value="">— Choisir une ville —</option>
-                <option>Angoulême</option>
-                <option>Bordeaux</option>
-                <option>Grenoble</option>
-                <option>Lille</option>
-                <option>Lyon</option>
-                <option>Marseille</option>
-                <option>Nantes</option>
-                <option>Nice</option>
-                <option>Orléans</option>
-                <option>Paris</option>
-                <option>Strasbourg</option>
-                <option>Toulouse</option>
-              </select>
+              <input id="profil-ville" class="form-input" type="text" list="villes-datalist" placeholder="Ex: Paris, Lyon, Montpellier..." autocomplete="off" style="background:var(--bg2)">
               <div style="font-size:11px;color:var(--muted2);margin-top:6px;">Utilisée pour le score de compatibilité et la carte du réseau</div>
             </div>
           </div>
@@ -5199,6 +5165,12 @@ function getTransitionPair(fromId, toId, isBack) {
 function showPage(id, isBack = false) {
   const next = document.getElementById('page-' + id);
   if (!next || _transitionLock) return;
+  // Fermer l'overlay organisateur s'il est ouvert
+  const orgaOverlay = document.getElementById('organisateur-overlay');
+  if (orgaOverlay && orgaOverlay.style.display !== 'none') {
+    orgaOverlay.style.display = 'none';
+    document.body.style.overflow = '';
+  }
 
   const fromId   = currentPage;
   const fromPage = document.querySelector('.page.active');
@@ -6748,16 +6720,21 @@ function setMobileActive(el) {
 let eventEnEdition = null;
 
 window.ouvrirOrganisateur = async function() {
-  document.getElementById('organisateur-overlay').style.display = 'block';
-  document.body.classList.add('hide-bottomnav');
-  window.scrollTo(0, 0);
+  closeDrawer();
+  closeNavProfileMenu();
+  await new Promise(r => setTimeout(r, 50));
+  const overlay = document.getElementById('organisateur-overlay');
+  overlay.style.display = 'block';
+  const inner = overlay.querySelector('div[style*="overflow-y"]');
+  if (inner) inner.scrollTop = 0;
+  document.body.style.overflow = 'hidden';
   await chargerDashboardOrga();
 }
 
 window.fermerOrganisateur = function() {
   document.getElementById('organisateur-overlay').style.display = 'none';
   fermerFormEvent();
-  document.body.classList.remove('hide-bottomnav');
+  document.body.style.overflow = '';
 }
 
 async function chargerDashboardOrga() {
@@ -8192,6 +8169,8 @@ const VILLES_COORDS = {
 
 function initCarte() {
   if (carte) return;
+  // Pré-remplir le datalist avec les villes connues
+  mettreAJourDatalistVilles();
   carte = L.map('leaflet-map', {
     center: [46.8, 2.3],
     zoom: 6,
@@ -8210,18 +8189,48 @@ function initCarte() {
     .addTo(carte);
 }
 
-function coordsVille(zone) {
-  // Cherche la ville dans le nom de zone
+// Cache geocodage pour éviter requêtes répétées
+const _geocodeCache = {};
+
+async function coordsVille(zone) {
+  if (!zone) return [46.8, 2.3];
+  // Cherche d'abord dans le dict statique
   for (const [ville, coords] of Object.entries(VILLES_COORDS)) {
-    if (zone && zone.includes(ville)) return coords;
+    if (zone.includes(ville)) return coords;
   }
-  return [46.8, 2.3]; // France par défaut
+  // Fallback : Nominatim (OpenStreetMap)
+  const key = zone.trim().toLowerCase();
+  if (_geocodeCache[key]) return _geocodeCache[key];
+  try {
+    const url = `https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(zone)}&format=json&limit=1&countrycodes=fr,be,ch`;
+    const res = await fetch(url, { headers: { 'Accept-Language': 'fr' } });
+    const data = await res.json();
+    if (data && data[0]) {
+      const coords = [parseFloat(data[0].lat), parseFloat(data[0].lon)];
+      _geocodeCache[key] = coords;
+      return coords;
+    }
+  } catch(e) { /* silencieux */ }
+  return [46.8, 2.3];
 }
 
-function ajouterMarqueur(danseur, uid) {
+// Remplir le datalist avec les villes connues + les villes des artistes chargés
+function mettreAJourDatalistVilles() {
+  const dl = document.getElementById('villes-datalist');
+  if (!dl) return;
+  const villesConnues = Object.keys(VILLES_COORDS);
+  // Ajouter les villes présentes dans les profils chargés
+  const villesProfils = [...new Set(
+    tousLesDanseurs.map(d => d.zone || '').filter(Boolean)
+  )];
+  const toutes = [...new Set([...villesConnues, ...villesProfils])].sort();
+  dl.innerHTML = toutes.map(v => `<option value="${v}">`).join('');
+}
+
+async function ajouterMarqueur(danseur, uid) {
   if (!carte) return;
 
-  const coords = coordsVille(danseur.zone || '');
+  const coords = await coordsVille(danseur.zone || '');
   // Décalage aléatoire pour éviter superposition + respecter vie privée
   const lat = coords[0] + (Math.random() - 0.5) * 0.04;
   const lng = coords[1] + (Math.random() - 0.5) * 0.04;
@@ -8286,6 +8295,7 @@ async function chargerCarte() {
 
     afficherListeDanseurs(tousLesDanseurs);
     document.getElementById('map-count').textContent = tousLesDanseurs.length + ' artistes';
+    mettreAJourDatalistVilles();
 
   } catch(e) {
     console.error('Erreur chargement carte:', e);
@@ -8632,7 +8642,7 @@ function filtrerDanseurs() {
     filtrés = temp;
   }
 
-  if (zone)            filtrés = filtrés.filter(d => (d.zone || '').toLowerCase() === zone.toLowerCase());
+  if (zone)            filtrés = filtrés.filter(d => (d.zone || '').toLowerCase().includes(zone.toLowerCase()));
   if (filtresStyleActifs.size > 0) filtrés = filtrés.filter(d => normaliserStyles(d.styles).some(s => filtresStyleActifs.has(s)));
 
   if (search) {
@@ -8763,7 +8773,7 @@ window.inscrire = async function() {
   const pseudo   = document.getElementById('signup-pseudo').value.trim();
   const email    = document.getElementById('signup-email').value.trim();
   const password = document.getElementById('signup-password').value;
-  const zone     = document.getElementById('signup-zone').value;
+  const zone     = (document.getElementById('signup-zone').value || '').trim();
   const errDiv   = document.getElementById('signup-error');
   const okDiv    = document.getElementById('signup-success');
   const btn      = document.getElementById('signup-btn');
@@ -9055,11 +9065,7 @@ async function chargerProfil(uid) {
     if (champBlase)       champBlase.value       = d.blase      || '';
     if (champTel)         champTel.value         = d.tel        || '';
     if (champVille) {
-      const v = d.ville || d.zone || '';
-      // Sélectionner l'option correspondante
-      [...champVille.options].forEach(opt => {
-        opt.selected = opt.value === v || opt.text === v;
-      });
+      champVille.value = d.ville || d.zone || '';
     }
     if (champInsta)       champInsta.value       = d.instagram  || '';
     if (champTiktok)      champTiktok.value      = d.tiktok     || '';
@@ -9428,8 +9434,15 @@ function mettreAJourNav(user) {
     // Onglets conditionnels dans le drawer
     const diOrga  = document.getElementById('di-organisateur');
     const diAdmin = document.getElementById('di-admin');
-    if (diOrga)  diOrga.style.display  = window._monRole === 'organisateur' ? 'flex' : 'none';
-    if (diAdmin) diAdmin.style.display = window._monRole === 'admin'         ? 'flex' : 'none';
+    // di-organisateur visible pour tous les connectés (pas seulement orga)
+    if (diOrga) {
+      diOrga.style.display = window._monRole === 'admin' ? 'none' : 'flex';
+      const textNode = [...diOrga.childNodes].find(n => n.nodeType === 3 && n.textContent.trim());
+      if (textNode) {
+        textNode.textContent = window._monRole === 'organisateur' ? ' Espace organisateur ' : ' Devenir organisateur ';
+      }
+    }
+    if (diAdmin) diAdmin.style.display = window._monRole === 'admin' ? 'flex' : 'none';
 
   } else {
     // Non connecté
