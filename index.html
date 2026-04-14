@@ -2312,19 +2312,21 @@ body.pwa .page { padding-bottom: calc(60px + max(4px, env(safe-area-inset-bottom
 @media(max-width:768px) { body #bottom-nav { display: flex !important; } }
 body.pwa #bottom-nav { display: flex !important; height: 87px; }
 body.hide-bottomnav #bottom-nav { display: none !important; }
-body.pwa /* Barre input messages : décalée au-dessus de la bottom nav */
+body.pwa /* Conversation : bottom ajusté pour la bottom nav */
 @media(max-width:768px) {
-  #msg-input-bar { padding-bottom: calc(62px + max(10px, env(safe-area-inset-bottom))) !important; }
+  body.has-bottomnav #msg-conversation { bottom: 62px !important; }
 }
-body.pwa #msg-input-bar { padding-bottom: calc(87px + env(safe-area-inset-bottom)) !important; }
+body.pwa #msg-conversation { bottom: 87px !important; }
+#msg-input-bar { padding-bottom: max(10px, env(safe-area-inset-bottom)); }
 
 #bottom-nav .mn-item { padding-top: 24px; }
 body.pwa #bottom-nav .mn-item.mn-center { padding-top: 16px; }
-/* Barre input messages : décalée au-dessus de la bottom nav */
+/* Conversation : bottom ajusté pour la bottom nav */
 @media(max-width:768px) {
-  #msg-input-bar { padding-bottom: calc(62px + max(10px, env(safe-area-inset-bottom))) !important; }
+  body.has-bottomnav #msg-conversation { bottom: 62px !important; }
 }
-body.pwa #msg-input-bar { padding-bottom: calc(87px + env(safe-area-inset-bottom)) !important; }
+body.pwa #msg-conversation { bottom: 87px !important; }
+#msg-input-bar { padding-bottom: max(10px, env(safe-area-inset-bottom)); }
 
 #bottom-nav .mn-item {
   display: flex; flex-direction: column; align-items: center; gap: 2px;
@@ -4304,7 +4306,7 @@ if (isPWA) {
     </div>
 
     <!-- Fenêtre de conversation -->
-    <div id="msg-conversation" style="display:none;position:fixed;inset:0;z-index:300;background:var(--bg);padding-top:max(70px, calc(50px + env(safe-area-inset-top)));display:none;flex-direction:column;">
+    <div id="msg-conversation" style="display:none;position:fixed;top:0;left:0;right:0;bottom:0;z-index:300;background:var(--bg);padding-top:max(70px, calc(50px + env(safe-area-inset-top)));display:none;flex-direction:column;">
 
       <!-- Header conversation -->
       <div style="padding:16px 20px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:12px;flex-shrink:0;">
@@ -4329,7 +4331,7 @@ if (isPWA) {
       </div>
 
       <!-- Input zone -->
-      <div style="padding:10px 12px;border-top:1px solid var(--border);flex-shrink:0;background:var(--bg);padding-bottom:max(10px, env(safe-area-inset-bottom));" id="msg-input-bar">
+      <div style="padding:10px 12px;border-top:1px solid var(--border);flex-shrink:0;background:var(--bg);" id="msg-input-bar">
 
         <!-- Waveform enregistrement -->
         <div id="waveform-zone" style="display:none;align-items:center;gap:12px;padding:8px 4px;margin-bottom:8px;">
