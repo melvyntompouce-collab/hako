@@ -4230,7 +4230,7 @@ if (isPWA) {
       <div style="width:36px;height:4px;border-radius:2px;background:rgba(255,255,255,0.15);margin:0 auto 12px;"></div>
       <div style="display:flex;align-items:center;gap:8px;background:var(--card);border:1.5px solid var(--border);border-radius:12px;padding:0 12px;height:42px;margin-bottom:12px;">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" style="color:var(--muted2);flex-shrink:0;"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-        <input type="text" id="search-input-mobile" placeholder="Nom, style, ville..." oninput="syncSearchMobile(this.value)" autocomplete="off" style="flex:1;background:none;border:none;outline:none;color:var(--text);font-family:'DM Sans',sans-serif;font-size:14px;">
+        <input type="text" id="search-input-mobile" placeholder="Rechercher par nom..." oninput="syncSearchMobile(this.value)" autocomplete="off" style="flex:1;background:none;border:none;outline:none;color:var(--text);font-family:'DM Sans',sans-serif;font-size:14px;">
         <button onclick="syncSearchMobile('');document.getElementById('search-input-mobile').value=''" style="background:none;border:none;color:var(--muted);cursor:pointer;padding:0;display:flex;align-items:center;">
           <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
         </button>
@@ -4284,7 +4284,7 @@ if (isPWA) {
 <div id="network-mobile-bar" style="display:none;position:fixed;left:12px;right:12px;z-index:500;bottom:calc(62px + env(safe-area-inset-bottom) + 12px);">
   <button onclick="ouvrirDrawerReseau()" style="width:100%;height:40px;border-radius:12px;background:rgba(20,20,36,0.95);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border:1px solid rgba(255,255,255,0.08);display:flex;align-items:center;gap:10px;padding:0 14px;cursor:pointer;box-shadow:0 2px 12px rgba(0,0,0,0.3);">
     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" style="color:var(--muted2);flex-shrink:0;"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-    <span id="network-bar-label" style="flex:1;text-align:left;font-family:'DM Sans',sans-serif;font-size:14px;color:var(--muted2);">Rechercher un artiste...</span>
+    <span id="network-bar-label" style="flex:1;text-align:left;font-family:'DM Sans',sans-serif;font-size:14px;color:var(--muted2);">Rechercher par nom...</span>
     <div id="network-bar-dot" style="display:none;width:7px;height:7px;border-radius:50%;background:var(--green);flex-shrink:0;"></div>
     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color:var(--muted);flex-shrink:0;"><line x1="4" y1="6" x2="20" y2="6"/><line x1="8" y1="12" x2="16" y2="12"/><line x1="11" y1="18" x2="13" y2="18"/></svg>
   </button>
@@ -8589,6 +8589,8 @@ function afficherListeDanseurs(danseurs) {
 let artisteCourant = null;
 
 window.ouvrirProfilArtiste = async function(uid) {
+  // Fermer le drawer réseau si ouvert
+  if (window.fermerDrawerReseau) fermerDrawerReseau();
   artisteCourant = uid;
   document.getElementById('artiste-overlay').style.display = 'block';
   window.scrollTo(0, 0);
@@ -8924,7 +8926,7 @@ function majBarreReseau() {
   const ville = document.getElementById('filtre-zone-mobile')?.value || '';
   const actif = filtresEtatActifs.size > 0 || filtresStyleActifs.size > 0 || search || ville;
   if (dot) dot.style.display = actif ? 'block' : 'none';
-  if (label) label.textContent = actif ? 'Filtres actifs — voir résultats' : 'Rechercher un artiste...';
+  if (label) label.textContent = actif ? 'Filtres actifs — voir résultats' : 'Rechercher par nom...';
 }
 window.majBarreReseau = majBarreReseau;
 
