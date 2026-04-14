@@ -4129,7 +4129,7 @@ if (isPWA) {
         <div class="dot"></div>
         <span id="map-fs-count">0 artistes</span>
       </div>
-      <button onclick="closeMapFullscreen()" id="btn-map-fs-close" style="position:fixed;top:calc(16px + env(safe-area-inset-top));right:16px;z-index:10002;width:42px;height:42px;border-radius:12px;background:rgba(8,8,16,0.92);backdrop-filter:blur(12px);border:1.5px solid rgba(0,245,155,0.4);color:var(--green);font-size:20px;cursor:pointer;display:flex;align-items:center;justify-content:center;line-height:1;box-shadow:0 4px 16px rgba(0,0,0,0.4);">✕</button>
+      <button onclick="closeMapFullscreen()" id="btn-map-fs-close" style="position:fixed;top:calc(44px + env(safe-area-inset-top) + 15px);right:16px;z-index:10002;width:38px;height:38px;border-radius:10px;background:rgba(8,8,16,0.92);backdrop-filter:blur(12px);border:1.5px solid rgba(0,245,155,0.4);color:var(--green);font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center;line-height:1;box-shadow:0 4px 16px rgba(0,0,0,0.4);">✕</button>
     </div>
 
     <!-- LISTE (desktop) -->
@@ -8362,15 +8362,15 @@ async function ajouterMarqueur(danseur, uid) {
   const uidHash = uid.split('').reduce((acc, c) => acc + c.charCodeAt(0), 0);
   const couleur = MARKER_COLORS[uidHash % MARKER_COLORS.length];
 
-  // Contenu : photo si disponible, sinon initiale
-  const innerHtml = danseur.photo
-    ? `<img src="${danseur.photo}" alt="${nom}" loading="lazy">`
-    : `<span class="hako-marker-fallback">${(nom[0] || '?').toUpperCase()}</span>`;
+  // Icône custom — background-image pour remplir tout le cadre sans débordement
+  const bgStyle = danseur.photo
+    ? `background-image:url('${danseur.photo}');background-size:cover;background-position:center;`
+    : '';
+  const fallback = danseur.photo ? '' : `<span class="hako-marker-fallback">${(nom[0] || '?').toUpperCase()}</span>`;
 
-  // Icône custom
   const icon = L.divIcon({
     className: '',
-    html: `<div class="hako-marker" style="border-color:${couleur};box-shadow:0 4px 20px ${couleur}44;">${innerHtml}</div>`,
+    html: `<div class="hako-marker" style="border-color:${couleur};box-shadow:0 4px 20px ${couleur}44;${bgStyle}">${fallback}</div>`,
     iconSize: [42, 42],
     iconAnchor: [21, 21],
     popupAnchor: [0, -25]
