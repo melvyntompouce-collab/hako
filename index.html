@@ -4778,7 +4778,8 @@ if (isPWA) {
   <div class="profile-page">
 
     <!-- ── SOUS-PAGE: ÉDITION PROFIL ── -->
-    <div id="edit-profile-page" style="display:none;position:fixed;inset:0;z-index:200;background:var(--bg);overflow-y:scroll;-webkit-overflow-scrolling:touch;">
+    <div id="edit-profile-page" style="display:none;position:fixed;inset:0;z-index:200;background:var(--bg);">
+      <div style="position:absolute;inset:0;overflow-y:auto;-webkit-overflow-scrolling:touch;">
       <div style="max-width:600px;margin:0 auto;padding:calc(50px + max(10px, env(safe-area-inset-top)) + 5px) 20px 120px;">
 
         <!-- Header sous-page -->
@@ -5035,6 +5036,7 @@ if (isPWA) {
         </button>
         <div id="edit-save-msg" style="display:none;text-align:center;margin-top:12px;font-size:13px;color:var(--green);font-weight:700;">✅ Profil mis à jour !</div>
 
+      </div>
       </div>
     </div>
 
