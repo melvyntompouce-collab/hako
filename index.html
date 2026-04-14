@@ -132,6 +132,7 @@ body::after{
 
 /* ── PAGES ── */
 .page.active{display:block;}
+#page-network.active { overflow: hidden; padding: 0 !important; }
 .logo {
   font-family: 'Drowner', sans-serif;
   font-size: 31px;
@@ -543,62 +544,51 @@ body.pwa #agenda-passes-toggle {
 /* ══════════════════════════════
    PAGE: RÉSEAU (CARTE)
 ══════════════════════════════ */
-.network-layout{
-  display:flex;
-  flex-direction:column;
-  min-height:calc(100vh - 70px);
-  padding:20px;
-  padding-top:80px;
-  gap:16px;
-  max-width:1100px;
-  margin:0 auto;
+/* ── Réseau plein écran ── */
+.network-layout {
+  position:fixed;
+  inset:0;
+  z-index:1;
 }
-
-/* ── Liste en haut sur mobile ── */
-.network-list-wrap {
-  order:1;
-  background:var(--card);
-  border:1px solid var(--border);
-  border-radius:20px;
-  overflow:hidden;
-  display:flex;
-  flex-direction:column;
-  max-height:420px;
-}
-.network-list-header {
-  padding:14px 16px 10px;
-  background:var(--card);
-  border-bottom:1px solid var(--border);
-  position:sticky;top:0;z-index:10;
-}
-.network-list-title {
-  font-family:'Syne',sans-serif;font-weight:800;
-  font-size:13px;letter-spacing:1px;
-  color:var(--muted2);text-transform:uppercase;
-  margin-bottom:10px;
-}
-.dancer-list {
-  overflow-y:auto;
-  scrollbar-width:thin;
-  scrollbar-color:var(--border) transparent;
-  flex:1;
-  padding:8px 12px;
-}
-
-/* ── Carte encadrée ── */
 .network-map-wrap {
-  order:2;
-  position:relative;
-  height:260px;
-  flex-shrink:0;
-  border-radius:20px;
-  overflow:hidden;
-  border:2px solid var(--green);
-  box-shadow:0 0 24px rgba(0,245,155,0.12);
+  position:absolute;
+  inset:0;
 }
 .network-map-wrap #leaflet-map {
-  width:100%;height:100%;border-radius:18px;
+  width:100%;height:100%;
 }
+/* Panel bottom : padding pour la bottom nav */
+@media(max-width:768px) {
+  body.has-bottomnav .network-list-wrap.collapsed { transform: translateY(calc(100% - 72px - 62px)); }
+  body.has-bottomnav .network-list-wrap { padding-bottom: 62px; }
+}
+body.pwa .network-list-wrap.collapsed { transform: translateY(calc(100% - 72px - 87px)) !important; }
+body.pwa .network-list-wrap { padding-bottom: 87px; }
+/* Panel bas */
+.network-list-wrap {
+  position:absolute;
+  left:0;right:0;bottom:0;
+  z-index:10;
+  background:var(--bg);
+  border-radius:24px 24px 0 0;
+  border-top:1px solid var(--border);
+  transition:transform 0.35s cubic-bezier(0.32,0.72,0,1);
+  transform:translateY(0);
+}
+.network-list-wrap.collapsed {
+  transform:translateY(calc(100% - 72px));
+}
+.network-panel-handle {
+  width:36px;height:4px;border-radius:2px;
+  background:rgba(255,255,255,0.15);
+  margin:10px auto 0;
+  cursor:pointer;
+  flex-shrink:0;
+}
+.network-list-header {
+  padding:10px 16px 12px;
+}
+.dancer-list { display:none; }
 
 /* Badge compteur */
 .map-badge {
@@ -1290,16 +1280,18 @@ footer{
 .leaflet-popup-tip { background: var(--card) !important; }
 .leaflet-popup-close-button { color: var(--muted) !important; }
 .hako-marker {
-  width: 44px; height: 44px; border-radius: 14px;
+  width: 40px; height: 40px; border-radius: 50%;
   display: flex; align-items: center; justify-content: center;
-  font-size: 20px; border: 2px solid;
-  box-shadow: 0 4px 16px rgba(0,0,0,0.4);
+  font-size: 0; border: 3px solid;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.5);
   transition: transform 0.2s;
   cursor: pointer;
+  overflow: hidden;
+  background: #181828;
 }
-.hako-marker:hover { transform: scale(1.15); }
-.hako-marker.public  { background: #0d2b1e; border-color: #00f59b; }
-.hako-marker.amis    { background: #2b250d; border-color: #ffd93d; }
+.hako-marker:hover { transform: scale(1.12); }
+.hako-marker img { width: 100%; height: 100%; object-fit: cover; border-radius: 50%; display: block; }
+.hako-marker .hako-marker-fallback { font-size: 18px; line-height: 1; }
 .popup-name { font-family:'Syne',sans-serif; font-weight:800; font-size:15px; margin-bottom:6px; }
 .popup-styles { display:flex; gap:4px; flex-wrap:wrap; margin-bottom:8px; }
 .popup-tag { font-size:10px; padding:3px 8px; border-radius:6px; background:rgba(255,255,255,0.06); color:#8a8aa2; }
@@ -4048,54 +4040,49 @@ if (isPWA) {
 </div>
 
 <div class="page" id="page-network">
-  <div style="position:absolute;top:calc(50px + max(0px,env(safe-area-inset-top)));left:16px;z-index:500;display:flex;align-items:center;gap:12px;"><div><div style="font-family:'Syne',sans-serif;font-size:11px;font-weight:700;color:var(--muted);letter-spacing:2px;text-transform:uppercase;margin-bottom:4px;">Communauté</div><span style="font-family:'Big Shoulders Display',sans-serif;font-weight:900;font-size:26px;letter-spacing:-1px;line-height:1;">RÉSEAU</span></div></div>
   <div class="network-layout">
 
-    <!-- CARTE -->
+    <!-- CARTE PLEIN ÉCRAN -->
     <div class="network-map-wrap">
       <div id="leaflet-map" style="width:100%;height:100%;"></div>
-      <div class="map-badge">
+
+      <!-- Badge compteur -->
+      <div class="map-badge" style="position:absolute;top:calc(16px + env(safe-area-inset-top));left:16px;z-index:500;">
         <div class="dot"></div>
         <span id="map-count">0 artistes</span>
       </div>
-      <div class="map-controls">
+
+      <!-- Contrôles carte -->
+      <div class="map-controls" style="position:absolute;right:16px;top:calc(16px + env(safe-area-inset-top));z-index:500;">
         <div class="map-ctrl-btn" onclick="carte && carte.zoomIn()">＋</div>
         <div class="map-ctrl-btn" onclick="carte && carte.zoomOut()">－</div>
         <div class="map-ctrl-btn" id="btn-locate" onclick="centrerSurMoi()" title="Ma position">📍</div>
-        <div class="map-ctrl-btn" onclick="openMapFullscreen()" title="Plein écran" id="btn-map-fs">⛶</div>
       </div>
     </div>
 
-    <!-- MAP FULLSCREEN OVERLAY -->
-    <div id="map-fullscreen-overlay" style="display:none;position:fixed;inset:0;z-index:9999;background:#080810;">
-      <div id="map-fullscreen-inner" style="width:100%;height:100%;"></div>
-      <div class="map-badge" style="position:fixed;top:16px;left:16px;z-index:10002;">
-        <div class="dot"></div>
-        <span id="map-fs-count">0 artistes</span>
+    <!-- PANEL BAS -->
+    <div class="network-list-wrap collapsed" id="network-panel" onclick="toggleNetworkPanel(event)">
+      <!-- Handle -->
+      <div class="network-panel-handle"></div>
+
+      <!-- Ligne résumé (état réduit) -->
+      <div style="display:flex;align-items:center;gap:10px;padding:8px 16px 0;">
+        <input class="search-input" type="text" id="search-input" placeholder="🔍 Nom, style, ville..." oninput="filtrerDanseurs()" onclick="event.stopPropagation();expandNetworkPanel()" style="flex:1;margin:0;">
+        <button onclick="event.stopPropagation();resetFiltres()" style="height:34px;padding:0 12px;border-radius:8px;background:none;border:1.5px solid var(--border);color:var(--muted2);font-size:11px;font-weight:700;cursor:pointer;font-family:'Syne',sans-serif;white-space:nowrap;flex-shrink:0;" onmouseover="this.style.borderColor='rgba(255,77,109,0.4)';this.style.color='var(--red)';" onmouseout="this.style.borderColor='var(--border)';this.style.color='var(--muted2)';">✕</button>
       </div>
-      <button onclick="closeMapFullscreen()" id="btn-map-fs-close" style="position:fixed;top:calc(16px + env(safe-area-inset-top));right:16px;z-index:10002;width:42px;height:42px;border-radius:12px;background:rgba(8,8,16,0.92);backdrop-filter:blur(12px);border:1.5px solid rgba(0,245,155,0.4);color:var(--green);font-size:20px;cursor:pointer;display:flex;align-items:center;justify-content:center;line-height:1;box-shadow:0 4px 16px rgba(0,0,0,0.4);">✕</button>
-    </div>
 
-    <!-- LISTE -->
-    <div class="network-list-wrap">
-      <div class="network-list-header">
-        <input class="search-input" type="text" id="search-input" placeholder="🔍 Nom, style, ville..." oninput="filtrerDanseurs()">
-
-        <div class="filter-row" id="filter-row" style="margin-bottom:6px;">
+      <!-- Filtres (état étendu) -->
+      <div id="network-filters-expanded" style="padding:10px 16px 20px;display:flex;flex-direction:column;gap:10px;" onclick="event.stopPropagation()">
+        <div class="filter-row" id="filter-row">
           <button class="style-fchip on" onclick="setFiltre('tous',this)">Tous</button>
           <button class="style-fchip" onclick="setFiltre('enligne',this)"><span style="display:inline-block;width:7px;height:7px;border-radius:50%;background:#00f59b;box-shadow:0 0 6px #00f59b;margin-right:5px;flex-shrink:0;"></span>En ligne</button>
           <button class="style-fchip" onclick="setFiltre('compatible',this)">⚡ Compatible</button>
         </div>
 
-        <div style="display:flex;gap:6px;align-items:center;margin-bottom:8px;">
-          <input id="filtre-zone" type="text" list="villes-datalist" placeholder="📍 Filtrer par ville..." oninput="filtrerDanseurs()" autocomplete="off" style="flex:1;padding:7px 12px;border-radius:8px;background:var(--bg);border:1.5px solid var(--border);color:var(--muted2);font-size:12px;font-family:'Syne',sans-serif;font-weight:700;outline:none;transition:border-color 0.2s;" onfocus="this.style.borderColor='var(--green)'" onblur="this.style.borderColor='var(--border)'">
-          <button onclick="resetFiltres()" style="height:34px;padding:0 12px;border-radius:8px;background:none;border:1.5px solid var(--border);color:var(--muted2);font-size:11px;font-weight:700;cursor:pointer;font-family:'Syne',sans-serif;white-space:nowrap;transition:all 0.2s;flex-shrink:0;" onmouseover="this.style.borderColor='rgba(255,77,109,0.4)';this.style.color='var(--red)';" onmouseout="this.style.borderColor='var(--border)';this.style.color='var(--muted2)';">
-            ✕ Reset
-          </button>
-        </div>
+        <input id="filtre-zone" type="text" list="villes-datalist" placeholder="📍 Filtrer par ville..." oninput="filtrerDanseurs()" autocomplete="off" style="width:100%;box-sizing:border-box;padding:7px 12px;border-radius:8px;background:var(--bg);border:1.5px solid var(--border);color:var(--muted2);font-size:12px;font-family:'Syne',sans-serif;font-weight:700;outline:none;" onfocus="this.style.borderColor='var(--green)'" onblur="this.style.borderColor='var(--border)'">
 
-        <div style="margin-bottom:4px;">
-          <div style="font-size:10px;font-weight:800;letter-spacing:1.5px;color:var(--muted);text-transform:uppercase;margin-bottom:5px;">Style de danse</div>
+        <div>
+          <div style="font-size:10px;font-weight:800;letter-spacing:1.5px;color:var(--muted);text-transform:uppercase;margin-bottom:6px;">Style de danse</div>
           <div style="display:flex;gap:5px;overflow-x:auto;scrollbar-width:none;padding-bottom:4px;" id="style-filter-row">
             <button class="style-fchip" onclick="setStyleFiltre('Salsa',this)">Salsa</button>
             <button class="style-fchip" onclick="setStyleFiltre('Kizomba',this)">Kizomba</button>
@@ -4116,13 +4103,11 @@ if (isPWA) {
             <button class="style-fchip" onclick="setStyleFiltre('Tango',this)">Tango</button>
           </div>
         </div>
+      </div>
+    </div>
 
-      </div>
-      <div class="dancer-list" id="dancer-list">
-        <div style="padding:20px;text-align:center;color:var(--muted);font-size:13px;">
-          ⏳ Chargement des danseurs...
-        </div>
-      </div>
+    <!-- Dancer list cachée (nécessaire pour la logique JS) -->
+    <div class="dancer-list" id="dancer-list" style="display:none;">
     </div>
 
   </div>
@@ -8300,16 +8285,24 @@ async function ajouterMarqueur(danseur, uid) {
 
   const nom = danseur.nomAffiche || danseur.nom || danseur.pseudo || 'Artiste';
   const styles = normaliserStyles(danseur.styles).slice(0, 3);
-  const estPublic = danseur.visibilite === 'public';
-  const emoji = estPublic ? '💃' : '🕺';
+
+  // Couleur dérivée de l'UID — toujours la même pour le même utilisateur
+  const MARKER_COLORS = ['#00f59b','#4f9fff','#9b4fff','#ff2d5e','#e8ff00'];
+  const uidHash = uid.split('').reduce((acc, c) => acc + c.charCodeAt(0), 0);
+  const couleur = MARKER_COLORS[uidHash % MARKER_COLORS.length];
+
+  // Contenu : photo si disponible, sinon initiale
+  const innerHtml = danseur.photo
+    ? `<img src="${danseur.photo}" alt="${nom}" loading="lazy">`
+    : `<span class="hako-marker-fallback">${(nom[0] || '?').toUpperCase()}</span>`;
 
   // Icône custom
   const icon = L.divIcon({
     className: '',
-    html: `<div class="hako-marker ${estPublic ? 'public' : 'amis'}">${emoji}</div>`,
-    iconSize: [44, 44],
-    iconAnchor: [22, 22],
-    popupAnchor: [0, -26]
+    html: `<div class="hako-marker" style="border-color:${couleur};box-shadow:0 4px 20px ${couleur}44;">${innerHtml}</div>`,
+    iconSize: [40, 40],
+    iconAnchor: [20, 20],
+    popupAnchor: [0, -24]
   });
 
   const marker = L.marker([lat, lng], { icon, hakoUid: uid })
@@ -8675,6 +8668,29 @@ function setFiltre(type, btn) {
   }
   filtrerDanseurs();
 }
+
+// ── Panel réseau ──
+function toggleNetworkPanel(e) {
+  const panel = document.getElementById('network-panel');
+  if (!panel) return;
+  if (panel.classList.contains('collapsed')) {
+    expandNetworkPanel();
+  } else {
+    collapseNetworkPanel();
+  }
+}
+function expandNetworkPanel() {
+  const panel = document.getElementById('network-panel');
+  if (panel) panel.classList.remove('collapsed');
+  setTimeout(() => { if (carte) carte.invalidateSize(); }, 360);
+}
+function collapseNetworkPanel() {
+  const panel = document.getElementById('network-panel');
+  if (panel) panel.classList.add('collapsed');
+  setTimeout(() => { if (carte) carte.invalidateSize(); }, 360);
+}
+window.expandNetworkPanel = expandNetworkPanel;
+window.collapseNetworkPanel = collapseNetworkPanel;
 
 function resetFiltres() {
   filtresEtatActifs.clear();
