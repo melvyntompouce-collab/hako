@@ -1587,7 +1587,7 @@ body.pwa .page:not(#page-network) { padding-bottom: calc(60px + max(4px, env(saf
 /* ── PAGE SALLES ── */
 .salles-page { padding: 0 16px 24px; max-width: 800px; margin: 0 auto; }
 .salles-header { padding: 0 0 16px; margin-top: -14px; }
-.salles-header-title { font-family: 'Syne', sans-serif; font-weight: 900; font-size: 26px; letter-spacing: -1px; line-height: 1; }
+.salles-header-title { font-family: 'Syne', sans-serif; font-weight: 900; font-size: 20px; letter-spacing: -1px; line-height: 1; }
 .salles-header-sub { font-size: 11px; font-weight: 700; color: var(--muted); letter-spacing: 2px; text-transform: uppercase; margin-bottom: 4px; }
 
 .salles-filters { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 4px; margin-bottom: 20px; scrollbar-width: none; }
@@ -2786,7 +2786,7 @@ if (isPWA) {
     </button>
     <button class="drawer-item" onclick="showPage('salles');closeDrawer();" id="di-salles">
       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
-      Salles à louer
+      Workshops & Studios
     </button>
     <button class="drawer-item" onclick="closeDrawer();setTimeout(()=>showPage('bracelet'),150);" id="di-bracelet">
       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="10" rx="5"/><circle cx="7" cy="12" r="1.5" fill="currentColor"/><circle cx="12" cy="12" r="1.5" fill="currentColor"/><circle cx="17" cy="12" r="1.5" fill="currentColor"/></svg>
@@ -4397,7 +4397,7 @@ if (isPWA) {
       <div style="display:flex;align-items:center;gap:14px;">
         
         <div>
-          <div class="section-tag" style="margin-bottom:8px;">Événements & workshops</div>
+          <div class="section-tag" style="margin-bottom:8px;">Événements permanents</div>
           <h1 style="font-family:'Big Shoulders Display',sans-serif;font-weight:900;font-size:26px;letter-spacing:-1px;line-height:1;">AGENDA</h1>
         </div>
       </div>
@@ -4406,7 +4406,6 @@ if (isPWA) {
           <button class="agenda-filter on" onclick="setAgendaFiltre('tous',this)">Tous</button>
           <button class="agenda-filter" onclick="setAgendaFiltre('soiree',this)">Soirées</button>
           <button class="agenda-filter" onclick="setAgendaFiltre('battle',this)">Battles</button>
-          <button class="agenda-filter" onclick="setAgendaFiltre('workshop',this)">Workshops</button>
         </div>
       </div>
     </div>
@@ -7012,6 +7011,31 @@ document.addEventListener('click', function(e) {
 });
 
 // ════════════════════════════════
+async function afficherWorkshopsPage() {
+  const grid = document.getElementById('workshops-grid');
+  if (!grid) return;
+
+  // Si tousLesEvents pas encore chargé, charger depuis Firestore
+  let workshops = [];
+  if (tousLesEvents.length > 0) {
+    workshops = tousLesEvents.filter(e => e.type === 'workshop' && !_estPasse(e));
+  } else if (window._db) {
+    try {
+      const { collection, getDocs } = await import('https://www.gstatic.com/firebasejs/10.0.0/firebase-firestore.js');
+      const snap = await getDocs(collection(window._db, 'evenements'));
+      const evs = [];
+      snap.forEach(d => evs.push({ id: d.id, ...d.data() }));
+      workshops = evs.filter(e => e.type === 'workshop' && !_estPasse(e));
+    } catch(e) { console.error('Erreur workshops:', e); }
+  }
+
+  if (workshops.length === 0) {
+    grid.innerHTML = '<div style="grid-column:1/-1;padding:30px;text-align:center;color:var(--muted);font-size:13px;">Aucun workshop à venir pour le moment</div>';
+    return;
+  }
+  grid.innerHTML = workshops.map(ev => _renderEventCard(ev, false)).join('');
+}
+
 // PAGE SALLES
 // ════════════════════════════════
 
@@ -7024,6 +7048,9 @@ async function chargerSalles() {
   // Afficher bouton admin si admin
   const addBtn = document.getElementById('salle-add-btn');
   if (addBtn && window._isAdmin) addBtn.style.display = 'flex';
+
+  // Charger les workshops depuis tousLesEvents (déjà en mémoire ou Firestore)
+  afficherWorkshopsPage();
 
   const grid = document.getElementById('salles-grid');
   if (!grid) return;
@@ -10758,8 +10785,8 @@ window.gainXP = async function(montant, type, labelOverride) {
 <div class="page" id="page-salles">
   <div class="salles-page">
     <div class="salles-header">
-      <div class="salles-header-sub">Espaces & studios</div>
-      <span class="salles-header-title">SALLES & STUDIOS</span>
+      <div class="salles-header-sub">Événements temporaires</div>
+      <span class="salles-header-title">WORKSHOPS & STUDIOS</span>
     </div>
 
     <!-- Admin : bouton ajout -->
@@ -10775,6 +10802,20 @@ window.gainXP = async function(montant, type, labelOverride) {
       <button class="style-fchip" onclick="filtrerSalles('prix-asc',this)">Prix croissant</button>
       <button class="style-fchip" onclick="filtrerSalles('prix-desc',this)">Prix décroissant</button>
     </div>
+
+    <!-- Section Workshops -->
+    <div style="margin-bottom:24px;">
+      <div style="font-family:'Syne',sans-serif;font-weight:800;font-size:13px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:12px;">🎓 Workshops à venir</div>
+      <div id="workshops-grid" class="agenda-grid" style="margin-bottom:0;">
+        <div style="grid-column:1/-1;padding:30px;text-align:center;color:var(--muted);font-size:13px;">⏳ Chargement...</div>
+      </div>
+    </div>
+
+    <!-- Séparateur -->
+    <div style="border-top:1px solid var(--border);margin:8px 0 24px;"></div>
+
+    <!-- Section Studios -->
+    <div style="font-family:'Syne',sans-serif;font-weight:800;font-size:13px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:12px;">🏢 Studios à louer</div>
 
     <!-- Liste salles -->
     <div id="salles-grid" class="salles-grid">
