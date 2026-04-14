@@ -5165,6 +5165,12 @@ function getTransitionPair(fromId, toId, isBack) {
 function showPage(id, isBack = false) {
   const next = document.getElementById('page-' + id);
   if (!next || _transitionLock) return;
+  // Fermer l'overlay organisateur s'il est ouvert
+  const orgaOverlay = document.getElementById('organisateur-overlay');
+  if (orgaOverlay && orgaOverlay.style.display !== 'none') {
+    orgaOverlay.style.display = 'none';
+    document.body.style.overflow = '';
+  }
 
   const fromId   = currentPage;
   const fromPage = document.querySelector('.page.active');
