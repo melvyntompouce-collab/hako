@@ -4299,8 +4299,11 @@ if (isPWA) {
       <div style="width:36px;height:4px;border-radius:2px;background:rgba(255,255,255,0.15);margin:0 auto 12px;"></div>
       <div style="display:flex;align-items:center;gap:8px;background:var(--card);border:1.5px solid var(--border);border-radius:12px;padding:0 12px;height:42px;margin-bottom:12px;">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" style="color:var(--muted2);flex-shrink:0;"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-        <input type="text" id="search-input-mobile" placeholder="Rechercher par nom..." oninput="syncSearchMobile(this.value)" autocomplete="off" style="flex:1;background:none;border:none;outline:none;color:var(--text);font-family:'DM Sans',sans-serif;font-size:14px;">
-        <button onclick="syncSearchMobile('');document.getElementById('search-input-mobile').value=''" style="background:none;border:none;color:var(--muted);cursor:pointer;padding:0;display:flex;align-items:center;">
+        <input type="text" id="search-input-mobile" placeholder="Rechercher par nom..." oninput="syncSearchMobile(this.value)" onkeydown="if(event.key==='Enter'){syncSearchMobile(this.value);this.blur();}" autocomplete="off" style="flex:1;background:none;border:none;outline:none;color:var(--text);font-family:'DM Sans',sans-serif;font-size:14px;">
+        <button onclick="syncSearchMobile(document.getElementById('search-input-mobile').value)" style="background:rgba(0,245,155,0.1);border:1px solid rgba(0,245,155,0.25);border-radius:8px;color:var(--green);cursor:pointer;padding:4px 8px;display:flex;align-items:center;margin-right:4px;" title="Rechercher">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        </button>
+        <button onclick="syncSearchMobile('');document.getElementById('search-input-mobile').value=''" style="background:none;border:none;color:var(--muted);cursor:pointer;padding:0;display:flex;align-items:center;" title="Effacer">
           <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
         </button>
       </div>
@@ -9511,7 +9514,7 @@ function syncDancerListMobile() {
   const dst = document.getElementById('dancer-list-mobile');
   if (!dst) return;
   // Utiliser directement tousLesDanseurs pour ne pas dépendre du DOM caché
-  const danseurs = tousLesDanseurs || [];
+  const danseurs = window._danseursFiltres || tousLesDanseurs || [];
   if (danseurs.length === 0) {
     dst.innerHTML = '<div style="padding:20px;text-align:center;color:var(--muted);font-size:13px;">Aucun artiste trouvé</div>';
     return;
@@ -9661,6 +9664,7 @@ function filtrerDanseurs() {
   });
 
   afficherListeDanseurs(filtrés);
+  window._danseursFiltres = filtrés;
 
   const count = filtrés.length;
   const label = filtresEtatActifs.has('compatible') && filtresEtatActifs.size === 1
