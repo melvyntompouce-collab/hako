@@ -6721,7 +6721,6 @@ window.ouvrirOrganisateur = async function() {
   overlay.style.display = 'block';
   const inner = overlay.querySelector('div[style*="overflow-y"]');
   if (inner) inner.scrollTop = 0;
-  document.body.classList.add('hide-bottomnav');
   document.body.style.overflow = 'hidden';
   await chargerDashboardOrga();
 }
@@ -6729,7 +6728,6 @@ window.ouvrirOrganisateur = async function() {
 window.fermerOrganisateur = function() {
   document.getElementById('organisateur-overlay').style.display = 'none';
   fermerFormEvent();
-  document.body.classList.remove('hide-bottomnav');
   document.body.style.overflow = '';
 }
 
@@ -9433,15 +9431,9 @@ function mettreAJourNav(user) {
     // di-organisateur visible pour tous les connectés (pas seulement orga)
     if (diOrga) {
       diOrga.style.display = window._monRole === 'admin' ? 'none' : 'flex';
-      const diOrgaLabel = diOrga.querySelector('span') || diOrga.childNodes[diOrga.childNodes.length - 1];
-      // Mettre à jour le texte selon le rôle
       const textNode = [...diOrga.childNodes].find(n => n.nodeType === 3 && n.textContent.trim());
       if (textNode) {
-        textNode.textContent = window._monRole === 'organisateur' ? '
-        Espace organisateur
-      ' : '
-        Devenir organisateur
-      ';
+        textNode.textContent = window._monRole === 'organisateur' ? ' Espace organisateur ' : ' Devenir organisateur ';
       }
     }
     if (diAdmin) diAdmin.style.display = window._monRole === 'admin' ? 'flex' : 'none';
