@@ -1343,7 +1343,7 @@ footer{
 .leaflet-popup-tip { background: var(--card) !important; }
 .leaflet-popup-close-button { color: var(--muted) !important; }
 .hako-marker {
-  width: 40px; height: 40px; border-radius: 50%;
+  width: 42px; height: 42px; border-radius: 14px;
   display: flex; align-items: center; justify-content: center;
   font-size: 0; border: 3px solid;
   box-shadow: 0 4px 16px rgba(0,0,0,0.5);
@@ -1351,10 +1351,11 @@ footer{
   cursor: pointer;
   overflow: hidden;
   background: #181828;
+  position: relative;
 }
-.hako-marker:hover { transform: scale(1.12); }
-.hako-marker img { width: 100%; height: 100%; object-fit: cover; border-radius: 50%; display: block; }
-.hako-marker .hako-marker-fallback { font-size: 18px; line-height: 1; }
+.hako-marker:hover { transform: scale(1.1); }
+.hako-marker img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: block; border-radius: 0; }
+.hako-marker .hako-marker-fallback { font-size: 18px; line-height: 42px; display: block; text-align: center; width: 100%; position: relative; z-index: 1; }
 .popup-name { font-family:'Syne',sans-serif; font-weight:800; font-size:15px; margin-bottom:6px; }
 .popup-styles { display:flex; gap:4px; flex-wrap:wrap; margin-bottom:8px; }
 .popup-tag { font-size:10px; padding:3px 8px; border-radius:6px; background:rgba(255,255,255,0.06); color:#8a8aa2; }
@@ -4144,26 +4145,32 @@ if (isPWA) {
           <input id="filtre-zone" type="text" list="villes-datalist" placeholder="📍 Filtrer par ville..." oninput="filtrerDanseurs()" autocomplete="off" style="flex:1;padding:7px 12px;border-radius:8px;background:var(--bg);border:1.5px solid var(--border);color:var(--muted2);font-size:12px;font-family:'Syne',sans-serif;font-weight:700;outline:none;transition:border-color 0.2s;" onfocus="this.style.borderColor='var(--green)'" onblur="this.style.borderColor='var(--border)'">
           <button onclick="resetFiltres()" style="height:34px;padding:0 12px;border-radius:8px;background:none;border:1.5px solid var(--border);color:var(--muted2);font-size:11px;font-weight:700;cursor:pointer;font-family:'Syne',sans-serif;white-space:nowrap;transition:all 0.2s;flex-shrink:0;" onmouseover="this.style.borderColor='rgba(255,77,109,0.4)';this.style.color='var(--red)';" onmouseout="this.style.borderColor='var(--border)';this.style.color='var(--muted2)';">✕ Reset</button>
         </div>
-        <div style="margin-bottom:4px;">
-          <div style="font-size:10px;font-weight:800;letter-spacing:1.5px;color:var(--muted);text-transform:uppercase;margin-bottom:5px;">Style de danse</div>
-          <div style="display:flex;gap:5px;overflow-x:auto;scrollbar-width:none;padding-bottom:4px;" id="style-filter-row">
-            <button class="style-fchip" onclick="setStyleFiltre('Salsa',this)">Salsa</button>
-            <button class="style-fchip" onclick="setStyleFiltre('Kizomba',this)">Kizomba</button>
-            <button class="style-fchip" onclick="setStyleFiltre('Hip-Hop',this)">Hip-Hop</button>
-            <button class="style-fchip" onclick="setStyleFiltre('Bachata',this)">Bachata</button>
-            <button class="style-fchip" onclick="setStyleFiltre('Breakdance',this)">Breakdance</button>
-            <button class="style-fchip" onclick="setStyleFiltre('Afro',this)">Afro</button>
-            <button class="style-fchip" onclick="setStyleFiltre('Zouk',this)">Zouk</button>
-            <button class="style-fchip" onclick="setStyleFiltre('Dancehall',this)">Dancehall</button>
-            <button class="style-fchip" onclick="setStyleFiltre('Popping',this)">Popping</button>
-            <button class="style-fchip" onclick="setStyleFiltre('House',this)">House</button>
-            <button class="style-fchip" onclick="setStyleFiltre('Litefeet',this)">Litefeet</button>
-            <button class="style-fchip" onclick="setStyleFiltre('Krump',this)">Krump</button>
-            <button class="style-fchip" onclick="setStyleFiltre('Voguing',this)">Voguing</button>
-            <button class="style-fchip" onclick="setStyleFiltre('Locking',this)">Locking</button>
-            <button class="style-fchip" onclick="setStyleFiltre('Heels',this)">Heels</button>
-            <button class="style-fchip" onclick="setStyleFiltre('Classique',this)">Classique</button>
-            <button class="style-fchip" onclick="setStyleFiltre('Tango',this)">Tango</button>
+        <!-- Dropdown styles -->
+        <div style="position:relative;margin-bottom:4px;">
+          <button onclick="toggleStyleDropdown()" id="style-dropdown-btn" style="width:100%;padding:8px 12px;border-radius:8px;background:var(--bg);border:1.5px solid var(--border);color:var(--muted2);font-size:12px;font-family:'Syne',sans-serif;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:space-between;transition:border-color 0.2s;">
+            <span id="style-dropdown-label">💃 Style de danse</span>
+            <svg id="style-dropdown-arrow" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="transition:transform 0.2s;"><polyline points="6 9 12 15 18 9"/></svg>
+          </button>
+          <div id="style-dropdown-menu" style="display:none;position:absolute;top:calc(100% + 4px);left:0;right:0;z-index:50;background:var(--card);border:1px solid var(--border);border-radius:12px;padding:10px;display:none;flex-wrap:wrap;gap:5px;max-height:160px;overflow-y:auto;scrollbar-width:none;box-shadow:0 8px 24px rgba(0,0,0,0.4);">
+            <div id="style-filter-row" style="display:contents;">
+              <button class="style-fchip" onclick="setStyleFiltre('Salsa',this);majStyleLabel()">Salsa</button>
+              <button class="style-fchip" onclick="setStyleFiltre('Kizomba',this);majStyleLabel()">Kizomba</button>
+              <button class="style-fchip" onclick="setStyleFiltre('Hip-Hop',this);majStyleLabel()">Hip-Hop</button>
+              <button class="style-fchip" onclick="setStyleFiltre('Bachata',this);majStyleLabel()">Bachata</button>
+              <button class="style-fchip" onclick="setStyleFiltre('Breakdance',this);majStyleLabel()">Breakdance</button>
+              <button class="style-fchip" onclick="setStyleFiltre('Afro',this);majStyleLabel()">Afro</button>
+              <button class="style-fchip" onclick="setStyleFiltre('Zouk',this);majStyleLabel()">Zouk</button>
+              <button class="style-fchip" onclick="setStyleFiltre('Dancehall',this);majStyleLabel()">Dancehall</button>
+              <button class="style-fchip" onclick="setStyleFiltre('Popping',this);majStyleLabel()">Popping</button>
+              <button class="style-fchip" onclick="setStyleFiltre('House',this);majStyleLabel()">House</button>
+              <button class="style-fchip" onclick="setStyleFiltre('Litefeet',this);majStyleLabel()">Litefeet</button>
+              <button class="style-fchip" onclick="setStyleFiltre('Krump',this);majStyleLabel()">Krump</button>
+              <button class="style-fchip" onclick="setStyleFiltre('Voguing',this);majStyleLabel()">Voguing</button>
+              <button class="style-fchip" onclick="setStyleFiltre('Locking',this);majStyleLabel()">Locking</button>
+              <button class="style-fchip" onclick="setStyleFiltre('Heels',this);majStyleLabel()">Heels</button>
+              <button class="style-fchip" onclick="setStyleFiltre('Classique',this);majStyleLabel()">Classique</button>
+              <button class="style-fchip" onclick="setStyleFiltre('Tango',this);majStyleLabel()">Tango</button>
+            </div>
           </div>
         </div>
       </div>
@@ -8364,9 +8371,9 @@ async function ajouterMarqueur(danseur, uid) {
   const icon = L.divIcon({
     className: '',
     html: `<div class="hako-marker" style="border-color:${couleur};box-shadow:0 4px 20px ${couleur}44;">${innerHtml}</div>`,
-    iconSize: [40, 40],
-    iconAnchor: [20, 20],
-    popupAnchor: [0, -24]
+    iconSize: [42, 42],
+    iconAnchor: [21, 21],
+    popupAnchor: [0, -25]
   });
 
   const marker = L.marker([lat, lng], { icon, hakoUid: uid })
@@ -8437,24 +8444,21 @@ function afficherListeDanseurs(danseurs) {
 
   list.innerHTML = danseurs.map(d => {
     const nom = d.nomAffiche || d.nom || d.pseudo || 'Artiste';
-    const styles = normaliserStyles(d.styles).slice(0, 2);
+    const style1 = normaliserStyles(d.styles)[0] || '';
     const dotColor = d.visibilite === 'public' ? 'var(--green)' : 'var(--yellow)';
     return `
-      <div class="dancer-card">
-        <div class="dc-avatar" style="background:#0d2b1e;position:relative;cursor:pointer;" onclick="focusDanseur('${d.uid}')">
-          ${d.photo ? `<img src="${d.photo}" style="width:100%;height:100%;object-fit:cover;border-radius:14px;position:absolute;inset:0;">` : '💃'}
-          <div class="dc-dot" style="background:${dotColor}"></div>
+      <div class="dancer-card" onclick="ouvrirProfilArtiste('${d.uid}')" style="padding:10px 12px;cursor:pointer;">
+        <div class="dc-avatar" style="background:#0d2b1e;position:relative;width:38px;height:38px;border-radius:12px;flex-shrink:0;">
+          ${d.photo ? `<img src="${d.photo}" style="width:100%;height:100%;object-fit:cover;border-radius:12px;position:absolute;inset:0;">` : '<span style="font-size:16px;line-height:38px;display:block;text-align:center;">💃</span>'}
+          <div class="dc-dot" style="background:${dotColor};width:8px;height:8px;"></div>
         </div>
-        <div class="dc-info" style="cursor:pointer;" onclick="ouvrirProfilArtiste('${d.uid}')">
-          <div class="dc-name" style="text-decoration:underline;text-decoration-color:rgba(255,255,255,0.2);">${nom}</div>
-          <div class="dc-tags">${styles.map(s => `<span class="dc-tag">${s}</span>`).join('')}</div>
-          <div class="dc-zone">📍 ${d.zone || 'Zone non définie'}</div>
-          ${window._monProfil && d.uid !== window._currentUid ? badgeCompatibilite(calculerCompatibilite(window._monProfil, d)) : ''}
+        <div class="dc-info" style="min-width:0;flex:1;">
+          <div class="dc-name" style="font-size:13px;">${nom}</div>
+          <div style="font-size:11px;color:var(--muted);margin-top:1px;">
+            ${style1 ? `<span style="color:var(--muted2);">${style1}</span>${d.zone ? ' · ' : ''}` : ''}${d.zone ? `📍 ${d.zone}` : ''}
+          </div>
         </div>
-        <button onclick="toggleSuivre('${d.uid}')" id="btn-suivre-${d.uid}"
-          style="padding:6px 12px;border-radius:10px;font-size:11px;font-weight:800;font-family:'Syne',sans-serif;border:1.5px solid var(--border);background:transparent;color:var(--muted2);cursor:pointer;transition:all 0.2s;white-space:nowrap;">
-          + Suivre
-        </button>
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color:var(--muted);flex-shrink:0;"><polyline points="9 18 15 12 9 6"/></svg>
       </div>
     `;
   }).join('');
@@ -8734,6 +8738,40 @@ function setFiltre(type, btn) {
 }
 
 
+
+// ── Style dropdown réseau ──
+function toggleStyleDropdown() {
+  const menu = document.getElementById('style-dropdown-menu');
+  const arrow = document.getElementById('style-dropdown-arrow');
+  const btn = document.getElementById('style-dropdown-btn');
+  if (!menu) return;
+  const open = menu.style.display === 'flex';
+  menu.style.display = open ? 'none' : 'flex';
+  if (arrow) arrow.style.transform = open ? '' : 'rotate(180deg)';
+  if (btn) btn.style.borderColor = open ? 'var(--border)' : 'var(--green)';
+}
+window.toggleStyleDropdown = toggleStyleDropdown;
+
+function majStyleLabel() {
+  const label = document.getElementById('style-dropdown-label');
+  if (!label) return;
+  const actifs = [...filtresStyleActifs];
+  label.textContent = actifs.length === 0 ? '💃 Style de danse' : '💃 ' + actifs.join(', ');
+}
+window.majStyleLabel = majStyleLabel;
+
+// Fermer dropdown si clic dehors
+document.addEventListener('click', function(e) {
+  const menu = document.getElementById('style-dropdown-menu');
+  const btn = document.getElementById('style-dropdown-btn');
+  if (!menu || menu.style.display === 'none') return;
+  if (!menu.contains(e.target) && !btn?.contains(e.target)) {
+    menu.style.display = 'none';
+    const arrow = document.getElementById('style-dropdown-arrow');
+    if (arrow) arrow.style.transform = '';
+    if (btn) btn.style.borderColor = 'var(--border)';
+  }
+});
 
 function resetFiltres() {
   filtresEtatActifs.clear();
