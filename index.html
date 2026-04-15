@@ -1005,7 +1005,7 @@ body.pwa #network-mobile-bar {
   background:radial-gradient(circle,rgba(0,245,155,0.1) 0%,transparent 70%);
   border-radius:50%;
 }
-.ph-top{display:flex;align-items:flex-start;gap:24px;position:relative;flex-wrap:wrap;}
+.ph-top{display:flex;align-items:center;gap:20px;position:relative;}
 .ph-avatar{
   width:90px;height:90px;border-radius:24px;
   background:linear-gradient(135deg,var(--green),var(--purple));
@@ -1013,7 +1013,8 @@ body.pwa #network-mobile-bar {
   font-size:40px;flex-shrink:0;
   box-shadow:0 12px 40px rgba(0,245,155,0.3);
 }
-.ph-info{flex:1;display:flex;flex-direction:column;justify-content:flex-start;}
+.ph-info{flex:1;display:flex;flex-direction:column;gap:4px;}
+.ph-actions{display:flex;flex-direction:column;gap:10px;margin-top:20px;}
 .ph-meta-row{display:flex;align-items:center;flex-wrap:wrap;gap:10px;margin-top:14px;}
 .ph-name{
   font-family:'Syne',sans-serif;
@@ -1049,7 +1050,7 @@ body.pwa #network-mobile-bar {
   background:rgba(255,255,255,0.05);border:1px solid var(--border);
   color:var(--text);font-weight:700;font-size:13px;
   cursor:pointer;font-family:'DM Sans',sans-serif;transition:all 0.2s;
-  align-self:flex-start;margin-top:10px;
+  width:100%;
 }
 .ph-edit:hover{background:rgba(255,255,255,0.08);}
 .ph-stats{
@@ -1057,8 +1058,9 @@ body.pwa #network-mobile-bar {
   background:rgba(255,255,255,0.03);border-radius:16px;overflow:hidden;
   flex-wrap:wrap;
 }
-.ph-stat{flex:1;padding:16px;text-align:center;}
-.ph-stat+.ph-stat{border-left:1px solid var(--border);}
+.ph-stat{flex:0 0 50%;padding:16px;text-align:center;box-sizing:border-box;}
+.ph-stat:nth-child(even){border-left:1px solid var(--border);}
+.ph-stat:nth-child(-n+4){border-bottom:1px solid var(--border);}
 .ph-stat-v{
   font-family:'Syne',sans-serif;
   font-size:32px;color:var(--green);letter-spacing:1px;
@@ -1538,17 +1540,14 @@ body.pwa .page:not(#page-network) { padding-bottom: calc(60px + max(4px, env(saf
   /* Profile */
   .profile-page { padding: 24px 4%; }
   .profile-hero { padding: 24px; }
-  .ph-top { flex-wrap: wrap; gap: 16px; }
+  .ph-top { gap: 14px; }
   .ph-avatar { width: 64px; height: 64px; font-size: 28px; border-radius: 18px; }
   .ph-name { font-size: 22px; letter-spacing: 0px; }
   .ph-handle { font-size: 13px; }
   .ph-band { font-size: 10px; padding: 5px 10px; margin-top: 8px; }
   .ph-led { width: 6px; height: 6px; }
-  .ph-stats { flex-wrap: wrap; margin-top: 12px; }
-  .ph-stat { min-width: 33.33%; border-bottom: 1px solid var(--border); }
-  .ph-stat:nth-last-child(-n+3) { border-bottom: none; }
-  .ph-edit { width: 100%; margin-top: 12px; align-self: auto; }
-  .ph-meta-row { flex-direction: column; align-items: flex-start; gap: 4px; margin-top: 10px; }
+  .ph-actions { margin-top: 16px; }
+  .ph-stats { margin-top: 12px; }
   .profile-grid { grid-template-columns: 1fr; gap: 14px; }
 
   /* Ranking */
@@ -1580,7 +1579,6 @@ body.pwa .page:not(#page-network) { padding-bottom: calc(60px + max(4px, env(saf
   .hero-actions { flex-direction: column; }
   .btn-primary, .btn-secondary { width: 100%; text-align: center; }
   .badges-grid { grid-template-columns: repeat(2, 1fr); }
-  .ph-stat { min-width: 33.33%; }
 }
 
 /* ── DESKTOP LAYOUT ── */
@@ -5199,18 +5197,25 @@ if (isPWA) {
           <div style="position:absolute;inset:0;background:rgba(0,0,0,0);border-radius:24px;display:flex;align-items:center;justify-content:center;transition:all 0.2s;font-size:24px;opacity:0;" id="ph-avatar-overlay">✏️</div>
         </div>
         <div class="ph-info">
-          <div class="ph-meta-row">
-            <div class="ph-name" id="ph-name-display">SOFIA M.</div>
-            <div class="ph-handle" id="ph-handle-display">Paris 11e</div>
-            <div id="ph-admin-badge" style="display:none;">
-              <span style="background:rgba(255,77,109,0.15);border:1px solid rgba(255,77,109,0.45);color:#ff4d6d;font-family:'Syne',sans-serif;font-weight:800;font-size:10px;letter-spacing:2px;padding:3px 10px;border-radius:6px;text-transform:uppercase;">⚡ Admin HAKO</span>
-            </div>
+          <div class="ph-name" id="ph-name-display">SOFIA M.</div>
+          <div class="ph-handle" id="ph-handle-display">Paris 11e</div>
+          <div id="ph-admin-badge" style="display:none;">
+            <span style="background:rgba(255,77,109,0.15);border:1px solid rgba(255,77,109,0.45);color:#ff4d6d;font-family:'Syne',sans-serif;font-weight:800;font-size:10px;letter-spacing:2px;padding:3px 10px;border-radius:6px;text-transform:uppercase;">⚡ Admin HAKO</span>
           </div>
-          <button class="ph-edit" onclick="ouvrirEdition()" style="display:flex;align-items:center;gap:7px;">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
-            Modifier
-          </button>
-          <div class="ph-stats">
+        </div>
+      </div>
+
+      <div class="ph-actions">
+        <button class="ph-edit" onclick="ouvrirEdition()" style="display:flex;align-items:center;justify-content:center;gap:7px;width:100%;">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+          Modifier le profil
+        </button>
+        <button id="orga-btn" onclick="ouvrirOrganisateur()" style="display:none;width:100%;padding:10px 20px;border-radius:10px;background:rgba(77,159,255,0.1);border:1px solid var(--blue);color:var(--blue);font-weight:700;font-size:13px;cursor:pointer;font-family:'DM Sans',sans-serif;transition:all 0.2s;align-items:center;justify-content:center;gap:7px;">
+          🎪 Devenir organisateur
+        </button>
+      </div>
+
+      <div class="ph-stats">
             <div class="ph-stat"><div class="ph-stat-v">247</div><div class="ph-stat-l">ÉCHANGES</div></div>
             <div class="ph-stat"><div class="ph-stat-v">32</div><div class="ph-stat-l">ÉVÉNEMENTS</div></div>
             <div class="ph-stat"><div class="ph-stat-v">4/5</div><div class="ph-stat-l">NIVEAU</div></div>
@@ -5224,7 +5229,6 @@ if (isPWA) {
               <div class="ph-stat-l">ABONNÉS</div>
             </div>
           </div>
-        </div>
       </div>
     </div>
 
