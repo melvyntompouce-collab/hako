@@ -1060,25 +1060,28 @@ body.pwa #network-mobile-bar {
 .pcb-amis{background:rgba(255,217,61,0.1);color:var(--yellow);}
 .pcb-pub{background:rgba(0,245,155,0.1);color:var(--green);}
 .priv-row{
-  padding:14px 20px;display:flex;align-items:center;justify-content:space-between;
-  border-bottom:1px solid rgba(255,255,255,0.03);
+  padding:12px 20px;display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;
+  border-bottom:1px solid rgba(255,255,255,0.03);gap:6px;
 }
 .priv-row:last-child{border-bottom:none;}
-.priv-desc{font-size:11px;color:var(--muted);margin-top:8px;padding:7px 10px;background:var(--bg2);border-radius:8px;line-height:1.5;display:none;}
-.priv-left{display:flex;align-items:center;gap:12px;}
+.priv-desc{font-size:11px;color:var(--muted);padding:6px 10px;background:var(--bg2);border-radius:8px;line-height:1.5;display:none;width:100%;margin-top:0;}
+.priv-left{display:flex;align-items:center;gap:12px;flex:1;min-width:0;}
 .priv-ico{font-size:18px;width:24px;text-align:center;}
 .priv-fn{font-size:14px;font-weight:600;}
 .priv-fv{font-size:12px;color:var(--muted2);margin-top:1px;}
-.tg{display:flex;gap:4px;}
+.tg{display:flex;gap:3px;flex-shrink:0;}
 .to{
-  padding:5px 10px;border-radius:7px;font-size:10px;font-weight:800;
+  padding:4px 7px;border-radius:6px;font-size:9px;font-weight:800;
   font-family:'Syne',sans-serif;letter-spacing:0.5px;
   border:1.5px solid var(--border);background:transparent;
-  color:var(--muted);cursor:pointer;transition:all 0.15s;
+  color:var(--muted);cursor:pointer;transition:all 0.15s;white-space:nowrap;
 }
 .to.sp{background:rgba(0,245,155,0.1);border-color:var(--green);color:var(--green);}
+.to.sc{background:rgba(123,79,255,0.1);border-color:var(--purple);color:var(--purple);}
 .to.sa{background:rgba(255,217,61,0.1);border-color:var(--yellow);color:var(--yellow);}
 .to.sr{background:rgba(255,77,109,0.1);border-color:var(--red);color:var(--red);}
+/* Boutons présence événements — version élargie */
+#pe-pub,#pe-com,#pe-ami,#pe-priv{flex:1;padding:8px 4px;border-radius:10px;font-size:10px;}
 
 .zone-opts{padding:16px 20px;display:flex;flex-direction:column;gap:8px;}
 .zo{
@@ -5267,15 +5270,6 @@ if (isPWA) {
             <div class="zo-check"></div>
           </div>
         </div>
-        <div class="dispo-wrap">
-          <div class="dispo-label">Disponibilité</div>
-          <div class="dispo-chips">
-            <button class="dchip on">Maintenant</button>
-            <button class="dchip">Ce soir</button>
-            <button class="dchip">Week-end</button>
-            <button class="dchip">Perso</button>
-          </div>
-        </div>
       </div>
 
       <div class="profile-card" style="margin-top:12px;">
@@ -5368,10 +5362,10 @@ if (isPWA) {
           <div style="font-size:12px;color:var(--muted2);">Choisis qui te vois</div>
         </div>
         <div style="display:flex;gap:6px;width:100%;margin-top:14px;">
-          <button class="to" id="pe-pub" onclick="setPresenceEvenements('public',this)" style="flex:1;padding:10px 4px;border-radius:10px;font-family:'Syne',sans-serif;font-size:11px;font-weight:800;">🌍 PUB</button>
-          <button class="to sc" id="pe-com" onclick="setPresenceEvenements('communaute',this)" style="flex:1;padding:10px 4px;border-radius:10px;font-family:'Syne',sans-serif;font-size:11px;font-weight:800;">💜 COM</button>
-          <button class="to" id="pe-ami" onclick="setPresenceEvenements('amis',this)" style="flex:1;padding:10px 4px;border-radius:10px;font-family:'Syne',sans-serif;font-size:11px;font-weight:800;">🤝 AMI</button>
-          <button class="to" id="pe-priv" onclick="setPresenceEvenements('prive',this)" style="flex:1;padding:10px 4px;border-radius:10px;font-family:'Syne',sans-serif;font-size:11px;font-weight:800;">🔒 PRIV</button>
+          <button class="to" id="pe-pub" onclick="setPresenceEvenements('public',this)">PUB</button>
+          <button class="to sc" id="pe-com" onclick="setPresenceEvenements('communaute',this)">COMMU</button>
+          <button class="to" id="pe-ami" onclick="setPresenceEvenements('amis',this)">AMIS</button>
+          <button class="to" id="pe-priv" onclick="setPresenceEvenements('prive',this)">PRIV</button>
         </div>
         <div id="pe-desc" style="font-size:11px;color:var(--muted);margin-top:10px;padding:8px 10px;background:var(--bg2);border-radius:8px;line-height:1.5;"></div>
       </div>
@@ -5391,7 +5385,7 @@ if (isPWA) {
         <div class="pc-header">
           <div class="pc-title">Mes réseaux & liens</div>
         </div>
-        <div id="profil-reseaux-list" style="display:flex;flex-wrap:wrap;gap:6px;padding-top:8px;"></div>
+        <div id="profil-reseaux-list" style="display:flex;flex-wrap:wrap;gap:6px;padding-top:8px;padding-left:4px;"></div>
       </div>
 
     </div>
@@ -6443,7 +6437,7 @@ window.setPresenceEvenements = async function(valeur, btn) {
   const cls = { public:'sp', communaute:'sc', amis:'sa', prive:'sr' };
   Object.values(ids).forEach(id => {
     const b = document.getElementById(id);
-    if (b) b.className = 'to';
+    if (b) { b.classList.remove('sp','sc','sa','sr'); }
   });
   const target = document.getElementById(ids[valeur]);
   if (target) target.classList.add(cls[valeur]);
@@ -6453,12 +6447,12 @@ window.setPresenceEvenements = async function(valeur, btn) {
 };
 
 window.chargerPresenceEvenements = function(valeur) {
-  const v = valeur || 'communaute';
+  const v = valeur || 'public';
   const ids = { public:'pe-pub', communaute:'pe-com', amis:'pe-ami', prive:'pe-priv' };
   const cls = { public:'sp', communaute:'sc', amis:'sa', prive:'sr' };
   Object.values(ids).forEach(id => {
     const b = document.getElementById(id);
-    if (b) b.className = 'to';
+    if (b) b.classList.remove('sp','sc','sa','sr');
   });
   const target = document.getElementById(ids[v]);
   if (target) target.classList.add(cls[v]);
@@ -6867,14 +6861,11 @@ function ouvrirEvent(id) {
   }
 
   document.getElementById('event-modal').style.display = 'block';
-  const modalScroll = document.getElementById('event-modal-scroll');
-  if (modalScroll) {
-    const nav = document.querySelector('nav');
-    const logoBar = document.getElementById('logo-bar');
-    let topOffset = nav ? nav.getBoundingClientRect().bottom : 44;
-    if (logoBar && logoBar.offsetParent !== null) topOffset = logoBar.getBoundingClientRect().bottom + nav.offsetHeight;
-    modalScroll.scrollTop = 0;
-  }
+  // Forcer le scroll au top après rendu
+  requestAnimationFrame(() => {
+    const modalScroll = document.getElementById('event-modal-scroll');
+    if (modalScroll) modalScroll.scrollTop = 0;
+  });
 
   // Charger les avatars participants
   chargerAvatarsParticipants(ev);
@@ -10849,10 +10840,10 @@ async function chargerProfil(uid) {
     // ── Confidentialité ──
     const conf = d.confidentialite || {};
     _initPrivRow('privrow-nom',      'nom',      conf.nom      || 'public');
-    _initPrivRow('privrow-styles',   'styles',   conf.styles   || 'communaute');
-    _initPrivRow('privrow-reseaux',  'reseaux',  conf.reseaux  || 'amis');
-    _initPrivRow('privrow-tel',      'tel',      conf.tel      || 'amis');
-    _initPrivRow('privrow-playlists','playlists',conf.playlists|| 'communaute');
+    _initPrivRow('privrow-styles',   'styles',   conf.styles   || 'public');
+    _initPrivRow('privrow-reseaux',  'reseaux',  conf.reseaux  || 'public');
+    _initPrivRow('privrow-tel',      'tel',      conf.tel      || 'public');
+    _initPrivRow('privrow-playlists','playlists',conf.playlists|| 'public');
 
     // ── Genres musicaux ──
     const genresNorm = window.normaliserStyles(d.genres);
@@ -10873,7 +10864,7 @@ async function chargerProfil(uid) {
 
     // ── Bracelet ──
     mettreAJourBandeBracelet(d.modeBracelet || 'public');
-    chargerPresenceEvenements(d.confidentialite?.presenceEvenements || 'communaute');
+    chargerPresenceEvenements(d.confidentialite?.presenceEvenements || 'public');
 
     // ── Abonnements / Abonnés ──
     const abonnements = d.abonnements || [];
