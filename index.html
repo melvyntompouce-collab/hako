@@ -5553,7 +5553,7 @@ function showPage(id, isBack = false) {
   if (id === 'bracelet')  setTimeout(initPageBracelet,  DURATION);
   if (id === 'ranking')   setTimeout(chargerClassement, DURATION);
   if (id === 'salles')    setTimeout(chargerSalles,     DURATION);
-  if (id === 'profile')   { const ep = document.getElementById('edit-profile-page'); if (ep) ep.style.display = 'none'; }
+  if (id === 'profile')   { const ep = document.getElementById('edit-profile-page'); if (ep) ep.style.display = 'none'; setTimeout(afficherFavorisProfile, DURATION); }
 
   // Sync mobile nav (drawer)
   document.querySelectorAll('.mn-item').forEach(i => i.classList.remove('on'));
@@ -6703,7 +6703,17 @@ function ouvrirEvent(id) {
   const bannerEl = document.getElementById('ev-detail-banner');
   if (bannerEl) bannerEl.style.height = ev.photoUrl ? '220px' : '140px';
   const typeEl = document.getElementById('ev-detail-type');
-  if (typeEl) { typeEl.textContent = cfg.label; typeEl.style.color = cfg.couleur; }
+  if (typeEl) {
+    typeEl.textContent = cfg.label;
+    typeEl.style.color = cfg.couleur;
+    if (ev.photoUrl) {
+      typeEl.style.bottom = '14px';
+      typeEl.style.top = '';
+    } else {
+      typeEl.style.bottom = '';
+      typeEl.style.top = 'calc(31px + env(safe-area-inset-top))';
+    }
+  }
   const titleEl = document.getElementById('ev-detail-title');
   if (titleEl) titleEl.textContent = ev.titre || '';
 
