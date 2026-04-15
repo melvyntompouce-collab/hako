@@ -2469,6 +2469,8 @@ body.hide-bottomnav #bottom-nav { display: none !important; }
 }
 body.pwa #msg-conversation { bottom: 87px !important; }
 #msg-input-bar { padding-bottom: max(10px, env(safe-area-inset-bottom)); }
+#msg-conversation { bottom: 0 !important; }
+body.keyboard-open #bottom-nav { display: none !important; }
 
 body.pwa #bottom-nav .mn-item { padding-top: 10px; }
 body.pwa #bottom-nav .mn-item.mn-center { padding-top: 8px; }
@@ -4628,7 +4630,7 @@ if (isPWA) {
     </div>
 
     <!-- Fenêtre de conversation -->
-    <div id="msg-conversation" style="display:none;position:fixed;top:0;left:0;right:0;z-index:300;background:var(--bg);padding-top:max(70px, calc(50px + env(safe-area-inset-top)));display:none;flex-direction:column;">
+    <div id="msg-conversation" style="display:none;position:fixed;top:0;left:0;right:0;z-index:300;background:var(--bg);padding-top:max(65px, calc(45px + env(safe-area-inset-top)));display:none;flex-direction:column;">
 
       <!-- Header conversation -->
       <div style="padding:16px 20px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:12px;flex-shrink:0;">
@@ -8714,11 +8716,33 @@ async function ouvrirConversation(uid, nom, photo) {
   document.getElementById('conv-name').textContent = nom;
 
   const convEl = document.getElementById('msg-conversation');
-  // Positionner au-dessus de la bottom nav
-  const bnav = document.getElementById('bottom-nav');
-  const bnavH = bnav ? bnav.offsetHeight : 0;
-  convEl.style.bottom = bnavH + 'px';
+  convEl.style.bottom = '0';
   convEl.style.display = 'flex';
+
+  // Détecter ouverture/fermeture clavier via visualViewport
+  if (window.visualViewport && !window._vpListener) {
+    window._vpListener = () => {
+      const conv = document.getElementById('msg-conversation');
+      if (!conv || conv.style.display === 'none') return;
+      const vvH = window.visualViewport.height;
+      const wH  = window.innerHeight;
+      const keyboardOpen = wH - vvH > 100;
+      if (keyboardOpen) {
+        document.body.classList.add('keyboard-open');
+        // Ajuster la conversation pour remplir le viewport visible
+        const offsetY = wH - vvH;
+        conv.style.bottom = '0';
+        conv.style.top    = window.visualViewport.offsetTop + 'px';
+        conv.style.height = vvH + 'px';
+      } else {
+        document.body.classList.remove('keyboard-open');
+        conv.style.top    = '0';
+        conv.style.height = '';
+      }
+    };
+    window.visualViewport.addEventListener('resize', window._vpListener);
+    window.visualViewport.addEventListener('scroll', window._vpListener);
+  }
 
   // Charger les messages
   await chargerMessagesConv(uid);
@@ -8737,7 +8761,17 @@ async function ouvrirConversation(uid, nom, photo) {
 }
 
 function fermerConversation() {
-  document.getElementById('msg-conversation').style.display = 'none';
+  const conv = document.getElementById('msg-conversation');
+  conv.style.display = 'none';
+  conv.style.top    = '0';
+  conv.style.height = '';
+  document.body.classList.remove('keyboard-open');
+  // Nettoyer le listener viewport
+  if (window._vpListener && window.visualViewport) {
+    window.visualViewport.removeEventListener('resize', window._vpListener);
+    window.visualViewport.removeEventListener('scroll', window._vpListener);
+    window._vpListener = null;
+  }
   convOuverte = null;
   if (window._msgListener) { window._msgListener(); window._msgListener = null; }
 }
