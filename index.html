@@ -1157,7 +1157,7 @@ body.pwa #network-mobile-bar {
 #kima-pair-modal{
   position:fixed;inset:0;z-index:10000;
   background:rgba(0,0,0,0.75);backdrop-filter:blur(10px);
-  display:flex;align-items:flex-end;justify-content:center;
+  display:flex;align-items:center;justify-content:center;padding:20px;
   opacity:0;pointer-events:none;transition:opacity 0.3s;
 }
 #kima-pair-modal.visible{opacity:1;pointer-events:auto;}
@@ -1207,7 +1207,7 @@ body.pwa #network-mobile-bar {
 #xp-history-modal{
   position:fixed;inset:0;z-index:10000;
   background:rgba(0,0,0,0.7);backdrop-filter:blur(8px);
-  display:flex;align-items:flex-end;justify-content:center;
+  display:flex;align-items:center;justify-content:center;padding:20px;
   opacity:0;pointer-events:none;transition:opacity 0.3s;
 }
 #xp-history-modal.visible{opacity:1;pointer-events:auto;}
@@ -11214,8 +11214,8 @@ window.gainXP = async function(montant, type, labelOverride) {
 </div>
 
 <!-- MODALE MESSAGE HAKO (broadcast) -->
-<div id="modal-hako-msg" onclick="if(event.target===this)fermerMessageHako()" style="display:none;position:fixed;inset:0;z-index:500;background:rgba(0,0,0,0.85);backdrop-filter:blur(12px);align-items:flex-end;justify-content:center;">
-  <div style="background:var(--card2);border-radius:24px 24px 0 0;width:100%;max-width:600px;max-height:88vh;overflow-y:auto;padding:24px 20px 40px;border:1px solid var(--border);border-bottom:none;margin-bottom:60px;">
+<div id="modal-hako-msg" onclick="if(event.target===this)fermerMessageHako()" style="display:none;position:fixed;inset:0;z-index:500;background:rgba(0,0,0,0.85);backdrop-filter:blur(12px);align-items:center;justify-content:center;padding:20px;">
+  <div style="background:var(--card2);border-radius:24px;width:100%;max-width:500px;max-height:80vh;overflow-y:auto;padding:24px 20px 32px;border:1px solid var(--border);">
     <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;">
       <div style="display:flex;align-items:center;gap:10px;">
         <div style="width:36px;height:36px;border-radius:10px;background:rgba(0,245,155,0.1);border:1px solid rgba(0,245,155,0.2);display:flex;align-items:center;justify-content:center;font-size:18px;">📣</div>
