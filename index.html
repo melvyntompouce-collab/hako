@@ -1013,7 +1013,8 @@ body.pwa #network-mobile-bar {
   font-size:40px;flex-shrink:0;
   box-shadow:0 12px 40px rgba(0,245,155,0.3);
 }
-.ph-info{flex:1;}
+.ph-info{flex:1;display:flex;flex-direction:column;justify-content:flex-start;}
+.ph-meta-row{display:flex;align-items:center;flex-wrap:wrap;gap:10px;margin-top:14px;}
 .ph-name{
   font-family:'Syne',sans-serif;
   font-size:42px;letter-spacing:2px;line-height:1;
@@ -1048,6 +1049,7 @@ body.pwa #network-mobile-bar {
   background:rgba(255,255,255,0.05);border:1px solid var(--border);
   color:var(--text);font-weight:700;font-size:13px;
   cursor:pointer;font-family:'DM Sans',sans-serif;transition:all 0.2s;
+  align-self:flex-start;margin-top:10px;
 }
 .ph-edit:hover{background:rgba(255,255,255,0.08);}
 .ph-stats{
@@ -1544,7 +1546,8 @@ body.pwa .page:not(#page-network) { padding-bottom: calc(60px + max(4px, env(saf
   .ph-stats { flex-wrap: wrap; }
   .ph-stat { min-width: 50%; border-bottom: 1px solid var(--border); }
   .ph-stat:last-child, .ph-stat:nth-last-child(2) { border-bottom: none; }
-  .ph-edit { width: 100%; margin-top: 8px; }
+  .ph-edit { width: 100%; margin-top: 10px; align-self: auto; }
+  .ph-meta-row { flex-direction: column; align-items: flex-start; gap: 4px; margin-top: 10px; }
   .profile-grid { grid-template-columns: 1fr; gap: 14px; }
 
   /* Ranking */
@@ -4557,7 +4560,7 @@ if (isPWA) {
       <div style="position:absolute;inset:0;background:linear-gradient(to bottom,rgba(0,0,0,0.1) 0%,rgba(0,0,0,0.6) 100%);"></div>
       <button onclick="fermerDetailEvent()" style="position:absolute;top:calc(16px + env(safe-area-inset-top));left:16px;width:36px;height:36px;border-radius:50%;background:rgba(0,0,0,0.5);border:1px solid rgba(255,255,255,0.15);color:white;font-size:18px;display:flex;align-items:center;justify-content:center;cursor:pointer;z-index:2;line-height:1;">←</button>
       <span id="ev-detail-type" style="position:absolute;bottom:14px;left:16px;z-index:2;padding:4px 12px;border-radius:8px;font-size:11px;font-weight:700;font-family:'Syne',sans-serif;background:rgba(0,0,0,0.5);backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,0.1);"></span>
-      <button id="ev-detail-fav-btn" onclick="toggleFavoriDetail()" style="position:absolute;top:calc(16px + env(safe-area-inset-top));right:16px;width:36px;height:36px;border-radius:50%;background:rgba(0,0,0,0.5);border:1px solid rgba(255,255,255,0.15);color:white;font-size:18px;display:flex;align-items:center;justify-content:center;cursor:pointer;z-index:2;">♡</button>
+      <button id="ev-detail-fav-btn" onclick="toggleFavoriDetail()" style="position:absolute;top:calc(16px + env(safe-area-inset-top));right:16px;width:36px;height:36px;border-radius:50%;background:rgba(0,0,0,0.5);border:1px solid rgba(255,255,255,0.15);color:white;display:flex;align-items:center;justify-content:center;cursor:pointer;z-index:2;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg></button>
     </div>
     <!-- TITRE -->
     <div style="padding:16px 20px 0;">
@@ -5195,16 +5198,17 @@ if (isPWA) {
           <div style="position:absolute;inset:0;background:rgba(0,0,0,0);border-radius:24px;display:flex;align-items:center;justify-content:center;transition:all 0.2s;font-size:24px;opacity:0;" id="ph-avatar-overlay">✏️</div>
         </div>
         <div class="ph-info">
-          <div class="ph-name" id="ph-name-display">SOFIA M.</div>
-          <div class="ph-handle" id="ph-handle-display">Paris 11e</div>
-          <div id="ph-admin-badge" style="display:none;margin-top:6px;">
-            <span style="background:rgba(255,77,109,0.15);border:1px solid rgba(255,77,109,0.45);color:#ff4d6d;font-family:'Syne',sans-serif;font-weight:800;font-size:10px;letter-spacing:2px;padding:3px 10px;border-radius:6px;text-transform:uppercase;">⚡ Admin HAKO</span>
-          </div>
           <button class="ph-edit" onclick="ouvrirEdition()" style="display:flex;align-items:center;gap:7px;">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
           Modifier
         </button>
-
+          <div class="ph-meta-row">
+            <div class="ph-name" id="ph-name-display">SOFIA M.</div>
+            <div class="ph-handle" id="ph-handle-display">Paris 11e</div>
+            <div id="ph-admin-badge" style="display:none;">
+              <span style="background:rgba(255,77,109,0.15);border:1px solid rgba(255,77,109,0.45);color:#ff4d6d;font-family:'Syne',sans-serif;font-weight:800;font-size:10px;letter-spacing:2px;padding:3px 10px;border-radius:6px;text-transform:uppercase;">⚡ Admin HAKO</span>
+            </div>
+          </div>
       </div>
       <div class="ph-stats">
         <div class="ph-stat"><div class="ph-stat-v">247</div><div class="ph-stat-l">ÉCHANGES</div></div>
@@ -6711,8 +6715,9 @@ function ouvrirEvent(id) {
   const favBtn = document.getElementById('ev-detail-fav-btn');
   if (favBtn) {
     const estFav = mesFavoris.has(ev.id);
-    favBtn.textContent = estFav ? '♥' : '♡';
-    favBtn.style.color = estFav ? 'var(--red)' : 'white';
+    favBtn.style.color = estFav ? 'var(--green)' : 'white';
+    const svgPath = favBtn.querySelector('svg path');
+    if (svgPath) svgPath.setAttribute('fill', estFav ? 'currentColor' : 'none');
   }
 
   // Date
@@ -6798,7 +6803,11 @@ window.toggleFavoriDetail = async function() {
   await toggleFavori(eventCourant.id);
   const estFav = mesFavoris.has(eventCourant.id);
   const btn = document.getElementById('ev-detail-fav-btn');
-  if (btn) { btn.textContent = estFav ? '♥' : '♡'; btn.style.color = estFav ? 'var(--red)' : 'white'; }
+  if (btn) {
+    btn.style.color = estFav ? 'var(--green)' : 'white';
+    const svg = btn.querySelector('svg path') || btn.querySelector('svg');
+    if (svg && svg.tagName === 'path') svg.setAttribute('fill', estFav ? 'currentColor' : 'none');
+  }
 };
 
 // ── Participants événement ──
@@ -8710,8 +8719,10 @@ window.toggleFavori = async function(eventId) {
     // Mettre à jour le modal si ouvert
     const detailFav = document.getElementById('ev-detail-fav-btn');
     if (detailFav && eventCourant?.id === eventId) {
-      detailFav.textContent = mesFavoris.has(eventId) ? '♥' : '♡';
-      detailFav.style.color = mesFavoris.has(eventId) ? 'var(--red)' : 'white';
+      const saved2 = mesFavoris.has(eventId);
+      detailFav.style.color = saved2 ? 'var(--green)' : 'white';
+      const svgPath2 = detailFav.querySelector('svg path');
+      if (svgPath2) svgPath2.setAttribute('fill', saved2 ? 'currentColor' : 'none');
     }
     // Rafraîchir section favoris du profil
     afficherFavorisProfile();
