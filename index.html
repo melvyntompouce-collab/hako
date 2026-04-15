@@ -956,16 +956,16 @@ body.pwa #network-mobile-bar {
   font-weight:800;white-space:nowrap;
 }
 .ec-actions{display:flex;align-items:center;gap:6px;flex-shrink:0;}
-.ec-btn-save{
-  width:32px;height:32px;border-radius:9px;
+.ec-icon-save{
+  width:32px;height:32px;border-radius:9px;flex-shrink:0;
   background:rgba(255,255,255,0.05);
   border:1px solid var(--border);
-  color:var(--text);font-size:15px;
+  color:var(--muted2);
   display:flex;align-items:center;justify-content:center;
-  cursor:pointer;transition:all 0.2s;flex-shrink:0;
+  cursor:pointer;transition:all 0.2s;
 }
-.ec-btn-save:hover{background:rgba(255,255,255,0.1);}
-.ec-btn-save.saved{color:var(--red);border-color:rgba(255,77,109,0.35);background:rgba(255,77,109,0.08);}
+.ec-icon-save:hover{border-color:rgba(0,245,155,0.4);color:var(--green);}
+.ec-icon-save.saved{color:var(--green);border-color:rgba(0,245,155,0.3);background:rgba(0,245,155,0.08);}
 .ec-btn{
   padding:7px 14px;border-radius:9px;
   font-weight:700;font-size:11px;border:none;cursor:pointer;
@@ -4283,7 +4283,7 @@ if (isPWA) {
 
         <!-- Favoris -->
         <div id="dash-favoris-section" style="display:none;margin-bottom:20px;">
-          <div style="font-family:'Syne',sans-serif;font-weight:800;font-size:12px;letter-spacing:1px;color:var(--muted2);text-transform:uppercase;margin-bottom:10px;">♥ Mes favoris</div>
+          <div style="font-family:'Syne',sans-serif;font-weight:800;font-size:12px;letter-spacing:1px;color:var(--muted2);text-transform:uppercase;margin-bottom:10px;">📌 Événements enregistrés</div>
           <div id="dash-favoris-list" style="display:flex;flex-direction:column;gap:8px;"></div>
         </div>
       </div>
@@ -5352,8 +5352,8 @@ if (isPWA) {
       <!-- SECTION FAVORIS (privé — visible uniquement par soi) -->
       <div class="profile-card" id="profil-favoris-section" style="display:none;margin-top:12px;">
         <div class="pc-header">
-          <div class="pc-title">Événements favoris</div>
-          <div class="pc-badge" style="background:rgba(255,77,109,0.08);color:var(--red);border:1px solid rgba(255,77,109,0.2);font-size:10px;padding:3px 8px;border-radius:6px;">Privé</div>
+          <div class="pc-title">Événements enregistrés</div>
+          <div class="pc-badge" style="background:rgba(255,255,255,0.04);color:var(--muted2);border:1px solid var(--border);font-size:10px;padding:3px 8px;border-radius:6px;">Privé</div>
         </div>
         <div style="font-size:11px;color:var(--muted);margin-bottom:10px;">Visible uniquement par vous</div>
         <div id="profil-favoris-list"></div>
@@ -6609,11 +6609,7 @@ function _renderEventCard(ev, passe) {
 
   const locLine = [ev.ville, ev.lieu].filter(Boolean).join(' · ');
 
-  const btnHtml = !passe
-    ? ev.lienResa
-      ? `<a href="${ev.lienResa}" target="_blank" rel="noopener" class="ec-btn ${btnClass}" onclick="event.stopPropagation()" style="text-decoration:none;">Réserver ↗</a>`
-      : `<button class="ec-btn ${btnClass}" onclick="event.stopPropagation();ouvrirEvent('${ev.id}')">En savoir plus</button>`
-    : `<button class="ec-btn" onclick="event.stopPropagation();ouvrirEvent('${ev.id}')" style="background:rgba(255,255,255,0.06);border:1px solid var(--border);color:var(--muted2);">Voir</button>`;
+  const btnHtml = `<button class="ec-btn ec-btn-green" onclick="event.stopPropagation();ouvrirEvent('${ev.id}')">En savoir plus</button>`;
 
   return `
     <div class="event-card${passeClass}">
@@ -6635,10 +6631,9 @@ function _renderEventCard(ev, passe) {
         <div class="ec-foot-row">
           <span class="ec-price" style="color:${couleurPrix}">${prix}</span>
           <div class="ec-actions">
-            <button id="fav-${ev.id}" class="ec-btn-save${estFavori ? ' saved' : ''}"
-              onclick="event.stopPropagation();toggleFavori('${ev.id}')"
-              title="${estFavori ? 'Retirer des favoris' : 'Enregistrer'}">
-              ${estFavori ? '♥' : '♡'}
+            <button id="fav-${ev.id}" class="ec-icon-save${estFavori ? ' saved' : ''}"
+              onclick="event.stopPropagation();toggleFavori('${ev.id}')" title="${estFavori ? 'Enregistré' : 'Enregistrer'}">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="${estFavori ? 'currentColor' : 'none'}" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg>
             </button>
             ${btnHtml}
           </div>
@@ -8708,8 +8703,9 @@ window.toggleFavori = async function(eventId) {
     // Mettre à jour le bouton sur la card
     const btn = document.getElementById('fav-' + eventId);
     if (btn) {
-      btn.textContent = mesFavoris.has(eventId) ? '♥' : '♡';
-      btn.style.color = mesFavoris.has(eventId) ? 'var(--red)' : '';
+      const saved = mesFavoris.has(eventId);
+      btn.className = 'ec-icon-save' + (saved ? ' saved' : '');
+      btn.innerHTML = `<svg width="15" height="15" viewBox="0 0 24 24" fill="${saved ? 'currentColor' : 'none'}" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg>`;
     }
     // Mettre à jour le modal si ouvert
     const detailFav = document.getElementById('ev-detail-fav-btn');
