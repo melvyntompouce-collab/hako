@@ -4550,14 +4550,14 @@ if (isPWA) {
 
 <!-- ═══ OVERLAY DÉTAIL ÉVÉNEMENT ═══ -->
 <div id="event-detail-overlay" style="display:none;position:fixed;inset:0;z-index:300;background:var(--bg);overflow-y:auto;-webkit-overflow-scrolling:touch;">
-  <div style="max-width:600px;margin:0 auto;padding:calc(50px + max(10px, env(safe-area-inset-top)) + 5px) 0 calc(120px + env(safe-area-inset-bottom));">
+  <div style="max-width:600px;margin:0 auto;padding:0 0 calc(120px + env(safe-area-inset-bottom));">
     <!-- PHOTO HEADER -->
-    <div id="ev-detail-banner" style="height:220px;position:relative;width:100%;">
+    <div id="ev-detail-banner" style="height:calc(220px + env(safe-area-inset-top));position:relative;width:100%;">
       <div id="ev-detail-banner-bg" style="position:absolute;inset:0;background:#1a0d2b;"></div>
       <div style="position:absolute;inset:0;background:linear-gradient(to bottom,rgba(0,0,0,0.1) 0%,rgba(0,0,0,0.6) 100%);"></div>
-      <button onclick="fermerDetailEvent()" style="position:absolute;top:16px;left:16px;width:36px;height:36px;border-radius:50%;background:rgba(0,0,0,0.5);border:1px solid rgba(255,255,255,0.15);color:white;font-size:18px;display:flex;align-items:center;justify-content:center;cursor:pointer;z-index:2;line-height:1;">←</button>
+      <button onclick="fermerDetailEvent()" style="position:absolute;top:calc(16px + env(safe-area-inset-top));left:16px;width:36px;height:36px;border-radius:50%;background:rgba(0,0,0,0.5);border:1px solid rgba(255,255,255,0.15);color:white;font-size:18px;display:flex;align-items:center;justify-content:center;cursor:pointer;z-index:2;line-height:1;">←</button>
       <span id="ev-detail-type" style="position:absolute;bottom:14px;left:16px;z-index:2;padding:4px 12px;border-radius:8px;font-size:11px;font-weight:700;font-family:'Syne',sans-serif;background:rgba(0,0,0,0.5);backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,0.1);"></span>
-      <button id="ev-detail-fav-btn" onclick="toggleFavoriDetail()" style="position:absolute;top:16px;right:16px;width:36px;height:36px;border-radius:50%;background:rgba(0,0,0,0.5);border:1px solid rgba(255,255,255,0.15);color:white;font-size:18px;display:flex;align-items:center;justify-content:center;cursor:pointer;z-index:2;">♡</button>
+      <button id="ev-detail-fav-btn" onclick="toggleFavoriDetail()" style="position:absolute;top:calc(16px + env(safe-area-inset-top));right:16px;width:36px;height:36px;border-radius:50%;background:rgba(0,0,0,0.5);border:1px solid rgba(255,255,255,0.15);color:white;font-size:18px;display:flex;align-items:center;justify-content:center;cursor:pointer;z-index:2;">♡</button>
     </div>
     <!-- TITRE -->
     <div style="padding:16px 20px 0;">
