@@ -1060,19 +1060,19 @@ body.pwa #network-mobile-bar {
 .pcb-amis{background:rgba(255,217,61,0.1);color:var(--yellow);}
 .pcb-pub{background:rgba(0,245,155,0.1);color:var(--green);}
 .priv-row{
-  padding:12px 20px;display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;
+  padding:12px 20px;display:flex;flex-direction:column;
   border-bottom:1px solid rgba(255,255,255,0.03);gap:6px;
 }
 .priv-row:last-child{border-bottom:none;}
-.priv-desc{font-size:11px;color:var(--muted);padding:6px 10px;background:var(--bg2);border-radius:8px;line-height:1.5;display:none;width:100%;margin-top:0;}
-.priv-left{display:flex;align-items:center;gap:12px;flex:1;min-width:0;}
+.priv-desc{font-size:11px;color:var(--muted);padding:6px 10px;background:var(--bg2);border-radius:8px;line-height:1.5;display:none;}
+.priv-left{display:flex;align-items:center;gap:10px;}
 .priv-ico{font-size:18px;width:24px;text-align:center;}
-.priv-fn{font-size:14px;font-weight:600;}
-.priv-fv{font-size:12px;color:var(--muted2);margin-top:1px;}
-.tg{display:flex;gap:3px;flex-shrink:0;}
+.priv-fn{font-size:13px;font-weight:600;}
+.priv-fv{font-size:11px;color:var(--muted2);margin-top:1px;}
+.tg{display:flex;gap:4px;width:100%;padding-left:26px;}
 .to{
-  padding:4px 7px;border-radius:6px;font-size:9px;font-weight:800;
-  font-family:'Syne',sans-serif;letter-spacing:0.5px;
+  flex:1;padding:5px 2px;border-radius:7px;font-size:9px;font-weight:800;
+  font-family:'Syne',sans-serif;letter-spacing:0.3px;text-align:center;
   border:1.5px solid var(--border);background:transparent;
   color:var(--muted);cursor:pointer;transition:all 0.15s;white-space:nowrap;
 }
@@ -1080,7 +1080,6 @@ body.pwa #network-mobile-bar {
 .to.sc{background:rgba(123,79,255,0.1);border-color:var(--purple);color:var(--purple);}
 .to.sa{background:rgba(255,217,61,0.1);border-color:var(--yellow);color:var(--yellow);}
 .to.sr{background:rgba(255,77,109,0.1);border-color:var(--red);color:var(--red);}
-/* Boutons présence événements — version élargie */
 #pe-pub,#pe-com,#pe-ami,#pe-priv{flex:1;padding:8px 4px;border-radius:10px;font-size:10px;}
 
 .zone-opts{padding:16px 20px;display:flex;flex-direction:column;gap:8px;}
@@ -4528,7 +4527,7 @@ if (isPWA) {
 
     <!-- MODAL DÉTAIL EVENT -->
     <div id="event-modal" style="display:none;position:fixed;inset:0;z-index:10000;background:rgba(0,0,0,0.8);backdrop-filter:blur(10px);">
-      <div id="event-modal-scroll" style="position:absolute;top:calc(44px + env(safe-area-inset-top));left:0;right:0;bottom:0;overflow-y:auto;-webkit-overflow-scrolling:touch;padding:16px 16px 80px;">
+      <div id="event-modal-scroll" style="position:absolute;inset:0;overflow-y:auto;-webkit-overflow-scrolling:touch;padding:calc(16px + env(safe-area-inset-top)) 16px calc(80px + env(safe-area-inset-bottom));">
       <div style="max-width:500px;margin:0 auto;background:var(--card);border:1px solid var(--border);border-radius:24px;overflow:hidden;">
         <!-- PHOTO PLEINE LARGEUR -->
         <div id="modal-banner" style="height:220px;position:relative;">
@@ -5280,6 +5279,7 @@ if (isPWA) {
 
         <!-- NOM / PSEUDO -->
         <div class="priv-row" id="privrow-nom">
+          <div class="priv-row-top">
           <div class="priv-left">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;color:var(--muted2);"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
             <div><div class="priv-fn">Nom / Pseudo</div><div class="priv-fv" id="priv-val-nom">—</div></div>
@@ -5290,11 +5290,13 @@ if (isPWA) {
             <button class="to" onclick="setPriv(this,2)">AMIS</button>
             <button class="to" onclick="setPriv(this,3)">PRIV</button>
           </div>
+          </div>
           <div class="priv-desc" id="privdesc-nom"></div>
         </div>
 
         <!-- STYLES -->
         <div class="priv-row" id="privrow-styles">
+          <div class="priv-row-top">
           <div class="priv-left">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;color:var(--muted2);"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>
             <div><div class="priv-fn">Styles de danse</div><div class="priv-fv" id="priv-val-styles">—</div></div>
@@ -5305,11 +5307,13 @@ if (isPWA) {
             <button class="to" onclick="setPriv(this,2)">AMIS</button>
             <button class="to" onclick="setPriv(this,3)">PRIV</button>
           </div>
+          </div>
           <div class="priv-desc" id="privdesc-styles"></div>
         </div>
 
         <!-- RÉSEAUX SOCIAUX -->
         <div class="priv-row" id="privrow-reseaux">
+          <div class="priv-row-top">
           <div class="priv-left">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;color:var(--muted2);"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.16 13a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 21 16.92z"/></svg>
             <div><div class="priv-fn">Réseaux sociaux</div><div class="priv-fv" id="priv-val-reseaux">Non renseigné</div></div>
@@ -5320,11 +5324,13 @@ if (isPWA) {
             <button class="to sa" onclick="setPriv(this,2)">AMIS</button>
             <button class="to" onclick="setPriv(this,3)">PRIV</button>
           </div>
+          </div>
           <div class="priv-desc" id="privdesc-reseaux"></div>
         </div>
 
         <!-- TÉLÉPHONE -->
         <div class="priv-row" id="privrow-tel">
+          <div class="priv-row-top">
           <div class="priv-left">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;color:var(--muted2);"><rect x="5" y="2" width="14" height="20" rx="2" ry="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg>
             <div><div class="priv-fn">Téléphone</div><div class="priv-fv" id="tel-display-priv">Non renseigné</div></div>
@@ -5335,11 +5341,13 @@ if (isPWA) {
             <button class="to sa" onclick="setPriv(this,2)">AMIS</button>
             <button class="to" onclick="setPriv(this,3)">PRIV</button>
           </div>
+          </div>
           <div class="priv-desc" id="privdesc-tel"></div>
         </div>
 
         <!-- PLAYLISTS -->
         <div class="priv-row" id="privrow-playlists">
+          <div class="priv-row-top">
           <div class="priv-left">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;color:var(--muted2);"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>
             <div><div class="priv-fn">Playlists</div><div class="priv-fv" id="priv-val-playlists">Non renseigné</div></div>
@@ -5349,6 +5357,7 @@ if (isPWA) {
             <button class="to sc" onclick="setPriv(this,1)">COMMU</button>
             <button class="to" onclick="setPriv(this,2)">AMIS</button>
             <button class="to" onclick="setPriv(this,3)">PRIV</button>
+          </div>
           </div>
           <div class="priv-desc" id="privdesc-playlists"></div>
         </div>
@@ -5385,7 +5394,7 @@ if (isPWA) {
         <div class="pc-header">
           <div class="pc-title">Mes réseaux & liens</div>
         </div>
-        <div id="profil-reseaux-list" style="display:flex;flex-wrap:wrap;gap:6px;padding-top:8px;padding-left:4px;"></div>
+        <div id="profil-reseaux-list" style="display:flex;flex-wrap:wrap;gap:6px;padding-top:8px;padding-left:8px;"></div>
       </div>
 
     </div>
@@ -6377,11 +6386,11 @@ document.addEventListener('input', function(e) {
 // ── Privacy toggles ──
 // ── Mode global confidentialité ──
 const PRIV_LABELS = {
-  nom:     { pub:'Ton nom est visible par tout le monde.', communaute:'Visible uniquement par les membres compatibles à 50%+.', amis:'Visible uniquement par tes amis mutuels.', prive:'Ton nom est masqué pour tout le monde.' },
-  styles:  { pub:'Tes styles sont visibles par tout le monde.', communaute:'Visibles uniquement par les membres compatibles à 50%+.', amis:'Visibles uniquement par tes amis mutuels.', prive:'Tes styles sont masqués pour tout le monde.' },
-  reseaux: { pub:'Tes réseaux sont visibles par tout le monde.', communaute:'Visibles uniquement par les membres compatibles à 50%+.', amis:'Visibles uniquement par tes amis mutuels.', prive:'Tes réseaux sont masqués pour tout le monde.' },
-  tel:     { pub:'Ton numéro est visible par tout le monde.', communaute:'Visible uniquement par les membres compatibles à 50%+.', amis:'Visible uniquement par tes amis mutuels.', prive:'Ton numéro est masqué pour tout le monde.' },
-  playlists:{ pub:'Tes playlists sont visibles par tout le monde.', communaute:'Visibles uniquement par les membres compatibles à 50%+.', amis:'Visibles uniquement par tes amis mutuels.', prive:'Tes playlists sont masquées pour tout le monde.' },
+  nom:     { public:'Ton nom est visible par tout le monde.', communaute:'Visible uniquement par les membres compatibles à 50%+.', amis:'Visible uniquement par tes amis mutuels.', prive:'Ton nom est masqué pour tout le monde.' },
+  styles:  { public:'Tes styles sont visibles par tout le monde.', communaute:'Visibles uniquement par les membres compatibles à 50%+.', amis:'Visibles uniquement par tes amis mutuels.', prive:'Tes styles sont masqués pour tout le monde.' },
+  reseaux: { public:'Tes réseaux sont visibles par tout le monde.', communaute:'Visibles uniquement par les membres compatibles à 50%+.', amis:'Visibles uniquement par tes amis mutuels.', prive:'Tes réseaux sont masqués pour tout le monde.' },
+  tel:     { public:'Ton numéro est visible par tout le monde.', communaute:'Visible uniquement par les membres compatibles à 50%+.', amis:'Visible uniquement par tes amis mutuels.', prive:'Ton numéro est masqué pour tout le monde.' },
+  playlists:{ public:'Tes playlists sont visibles par tout le monde.', communaute:'Visibles uniquement par les membres compatibles à 50%+.', amis:'Visibles uniquement par tes amis mutuels.', prive:'Tes playlists sont masquées pour tout le monde.' },
 };
 
 const PRIV_CHAMPS = { 'Nom / Pseudo':'nom', 'Styles de danse':'styles', 'Réseaux sociaux':'reseaux', 'Téléphone':'tel', 'Playlists':'playlists' };
@@ -6861,7 +6870,6 @@ function ouvrirEvent(id) {
   }
 
   document.getElementById('event-modal').style.display = 'block';
-  // Forcer le scroll au top après rendu
   requestAnimationFrame(() => {
     const modalScroll = document.getElementById('event-modal-scroll');
     if (modalScroll) modalScroll.scrollTop = 0;
