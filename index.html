@@ -682,6 +682,44 @@ body.pwa #network-mobile-bar {
 
 
 
+/* Leaflet popup dark theme */
+.leaflet-popup-dark .leaflet-popup-content-wrapper {
+  background:rgba(8,8,16,0.95);
+  border:1px solid rgba(0,245,155,0.2);
+  border-radius:12px;
+  box-shadow:0 8px 24px rgba(0,0,0,0.5);
+  color:#fff;
+}
+.leaflet-popup-dark .leaflet-popup-tip { background:rgba(8,8,16,0.95); }
+.leaflet-popup-dark .leaflet-popup-content { margin:10px 14px; }
+
+/* Network panels events/lieux */
+#network-panel-evenements,
+#network-panel-lieux {
+  display:none;
+  flex-direction:column;
+  gap:12px;
+  flex:1;
+  min-height:0;
+}
+@media(max-width:768px) {
+  #network-panel-evenements,
+  #network-panel-lieux {
+    position:absolute;
+    top:0;left:0;right:0;bottom:0;
+    padding:12px;
+    padding-top:calc(44px + env(safe-area-inset-top) + 12px);
+    padding-bottom:calc(62px + env(safe-area-inset-bottom) + 16px);
+    box-sizing:border-box;
+    overflow:hidden;
+  }
+}
+body.pwa #network-panel-evenements,
+body.pwa #network-panel-lieux {
+  padding-top:calc(42px + env(safe-area-inset-top) + 10px) !important;
+  padding-bottom:calc(87px + env(safe-area-inset-bottom) + 16px) !important;
+}
+
 /* Badge compteur */
 .map-badge {
   position:absolute;top:12px;left:12px;z-index:500;
@@ -4349,12 +4387,22 @@ if (isPWA) {
   <div class="network-layout">
 
     <!-- Titre réseau -->
-    <div id="network-titre-mobile" style="flex-shrink:0;padding:0 4px 10px;display:flex;flex-direction:column;">
+    <div id="network-titre-mobile" style="flex-shrink:0;padding:0 4px 6px;display:flex;flex-direction:column;">
       <div style="font-family:'Syne',sans-serif;font-size:11px;font-weight:700;color:var(--muted);letter-spacing:2px;text-transform:uppercase;margin-bottom:2px;">Communauté</div>
       <span style="font-family:'Big Shoulders Display',sans-serif;font-weight:900;font-size:26px;letter-spacing:-1px;line-height:1;color:var(--text);">RÉSEAU</span>
     </div>
 
-    <!-- CARTE -->
+    <!-- ONGLETS -->
+    <div id="network-tabs" style="flex-shrink:0;display:flex;gap:6px;padding:0 2px 8px;">
+      <button class="style-fchip on" onclick="switchNetworkTab('artistes',this)">👤 Artistes</button>
+      <button class="style-fchip" onclick="switchNetworkTab('evenements',this)">🎉 Événements</button>
+      <button class="style-fchip" onclick="switchNetworkTab('lieux',this)">📍 Lieux</button>
+    </div>
+
+    <!-- ═══ PANEL ARTISTES ═══ -->
+    <div id="network-panel-artistes" style="display:contents;">
+
+    <!-- CARTE ARTISTES -->
     <div class="network-map-wrap">
       <div id="leaflet-map" style="width:100%;height:100%;"></div>
       <div class="map-badge">
@@ -4367,6 +4415,54 @@ if (isPWA) {
         <div class="map-ctrl-btn" id="btn-locate" onclick="centrerSurMoi()" title="Ma position">📍</div>
         <div class="map-ctrl-btn" onclick="openMapFullscreen()" title="Plein écran" id="btn-map-fs">⛶</div>
       </div>
+    </div>
+
+    </div><!-- fin panel artistes -->
+
+    <!-- ═══ PANEL ÉVÉNEMENTS ═══ -->
+    <div id="network-panel-evenements" style="display:none;flex:1;min-height:0;flex-direction:column;gap:12px;">
+
+      <!-- Carte events -->
+      <div class="network-map-wrap" id="network-map-events-wrap">
+        <div id="leaflet-map-events" style="width:100%;height:100%;"></div>
+        <div class="map-badge">
+          <div class="dot"></div>
+          <span id="map-events-count">0 événements</span>
+        </div>
+        <div class="map-controls">
+          <div class="map-ctrl-btn" onclick="carteEvents && carteEvents.zoomIn()">＋</div>
+          <div class="map-ctrl-btn" onclick="carteEvents && carteEvents.zoomOut()">－</div>
+        </div>
+      </div>
+
+      <!-- Liste events -->
+      <div id="network-events-list" style="overflow-y:auto;-webkit-overflow-scrolling:touch;flex:1;min-height:0;display:flex;flex-direction:column;gap:8px;padding:2px 0;">
+        <div style="text-align:center;color:var(--muted);font-size:13px;padding:20px;">⏳ Chargement...</div>
+      </div>
+
+    </div>
+
+    <!-- ═══ PANEL LIEUX ═══ -->
+    <div id="network-panel-lieux" style="display:none;flex:1;min-height:0;flex-direction:column;gap:12px;">
+
+      <!-- Carte lieux -->
+      <div class="network-map-wrap" id="network-map-lieux-wrap">
+        <div id="leaflet-map-lieux" style="width:100%;height:100%;"></div>
+        <div class="map-badge">
+          <div class="dot"></div>
+          <span id="map-lieux-count">0 lieux</span>
+        </div>
+        <div class="map-controls">
+          <div class="map-ctrl-btn" onclick="carteLieux && carteLieux.zoomIn()">＋</div>
+          <div class="map-ctrl-btn" onclick="carteLieux && carteLieux.zoomOut()">－</div>
+        </div>
+      </div>
+
+      <!-- Liste lieux -->
+      <div id="network-lieux-list" style="overflow-y:auto;-webkit-overflow-scrolling:touch;flex:1;min-height:0;display:flex;flex-direction:column;gap:8px;padding:2px 0;">
+        <div style="text-align:center;color:var(--muted);font-size:13px;padding:20px;">⏳ Chargement...</div>
+      </div>
+
     </div>
 
     <!-- MAP FULLSCREEN OVERLAY -->
@@ -11580,6 +11676,252 @@ window.gainXP = async function(montant, type, labelOverride) {
     console.error('Erreur gainXP:', e);
   }
 };
+
+// ═══════════════════════════════════════════════
+// RÉSEAU : ONGLETS (Artistes / Événements / Lieux)
+// ═══════════════════════════════════════════════
+
+let _networkTabActif = 'artistes';
+let carteEvents = null;
+let carteLieux = null;
+let _eventsMarkers = [];
+let _lieuxMarkers = [];
+let _networkEventsLoaded = false;
+let _networkLieuxLoaded = false;
+
+window.switchNetworkTab = function(tab, btn) {
+  _networkTabActif = tab;
+
+  // Mettre à jour les chips d'onglets
+  document.querySelectorAll('#network-tabs .style-fchip').forEach(b => b.classList.remove('on'));
+  btn.classList.add('on');
+
+  const panels = ['artistes', 'evenements', 'lieux'];
+  panels.forEach(p => {
+    const el = document.getElementById('network-panel-' + p);
+    if (!el) return;
+    if (p === tab) {
+      el.style.display = p === 'artistes' ? 'contents' : 'flex';
+    } else {
+      el.style.display = 'none';
+    }
+  });
+
+  // Masquer/afficher la barre mobile et le drawer (uniquement pour artistes)
+  const bar = document.getElementById('network-mobile-bar');
+  if (bar) bar.style.display = tab === 'artistes' ? '' : 'none';
+
+  if (tab === 'evenements') {
+    _initCarteEvents();
+    if (!_networkEventsLoaded) _chargerNetworkEvents();
+  }
+  if (tab === 'lieux') {
+    _initCarteLieux();
+    if (!_networkLieuxLoaded) _chargerNetworkLieux();
+  }
+};
+
+function _initCarteEvents() {
+  if (carteEvents) { setTimeout(() => carteEvents.invalidateSize(), 100); return; }
+  const el = document.getElementById('leaflet-map-events');
+  if (!el || !window.L) return;
+  carteEvents = L.map('leaflet-map-events', {
+    center: [46.8, 2.3], zoom: 5,
+    zoomControl: false, attributionControl: false
+  });
+  L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
+    maxZoom: 18
+  }).addTo(carteEvents);
+  setTimeout(() => carteEvents.invalidateSize(), 200);
+}
+
+function _initCarteLieux() {
+  if (carteLieux) { setTimeout(() => carteLieux.invalidateSize(), 100); return; }
+  const el = document.getElementById('leaflet-map-lieux');
+  if (!el || !window.L) return;
+  carteLieux = L.map('leaflet-map-lieux', {
+    center: [46.8, 2.3], zoom: 5,
+    zoomControl: false, attributionControl: false
+  });
+  L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
+    maxZoom: 18
+  }).addTo(carteLieux);
+  setTimeout(() => carteLieux.invalidateSize(), 200);
+}
+
+async function _chargerNetworkEvents() {
+  _networkEventsLoaded = true;
+  const list = document.getElementById('network-events-list');
+  const count = document.getElementById('map-events-count');
+
+  // Réutiliser tousLesEvents si déjà chargé, sinon charger
+  let events = (typeof tousLesEvents !== 'undefined' && tousLesEvents.length > 0)
+    ? tousLesEvents
+    : await _fetchEvents();
+
+  // Filtrer les à venir
+  const now = new Date(); now.setHours(0,0,0,0);
+  const aVenir = events.filter(e => !_estPasse(e));
+
+  if (count) count.textContent = aVenir.length + ' événement' + (aVenir.length > 1 ? 's' : '');
+
+  // Placer les marqueurs sur la carte events
+  _initCarteEvents();
+  aVenir.forEach(async ev => {
+    const ville = ev.ville || ev.lieu || '';
+    if (!ville || !carteEvents) return;
+    const coords = await coordsVille(ville);
+    const cfg = TYPE_CONFIG[ev.type] || TYPE_CONFIG.soiree;
+    const couleur = ev.type === 'battle' ? '#f0c040' : ev.type === 'workshop' ? '#00F59B' : '#a855f7';
+    const icon = L.divIcon({
+      className: '',
+      html: `<div style="width:10px;height:10px;border-radius:50%;background:${couleur};box-shadow:0 0 8px ${couleur};border:2px solid rgba(255,255,255,0.3);"></div>`,
+      iconSize: [10, 10], iconAnchor: [5, 5]
+    });
+    const m = L.marker(coords, { icon }).addTo(carteEvents);
+    const dateStr = _formatDate(_getDatePrincipale(ev));
+    m.bindPopup(`<div style="font-family:'Syne',sans-serif;font-size:12px;font-weight:700;color:#fff;">${ev.nom || 'Événement'}</div><div style="font-size:11px;color:#aaa;margin-top:2px;">${dateStr}${ev.ville ? ' · ' + ev.ville : ''}</div>`, {
+      className: 'leaflet-popup-dark'
+    });
+    _eventsMarkers.push(m);
+  });
+
+  // Rendu liste
+  if (!list) return;
+  if (aVenir.length === 0) {
+    list.innerHTML = '<div style="text-align:center;color:var(--muted);font-size:13px;padding:30px;">Aucun événement à venir</div>';
+    return;
+  }
+  list.innerHTML = aVenir.slice(0, 20).map(ev => {
+    const cfg = TYPE_CONFIG[ev.type] || TYPE_CONFIG.soiree;
+    const couleur = ev.type === 'battle' ? 'var(--yellow)' : ev.type === 'workshop' ? 'var(--green)' : 'var(--purple)';
+    const badgeBg = ev.type === 'battle' ? 'rgba(240,192,64,0.12)' : ev.type === 'workshop' ? 'rgba(0,245,155,0.12)' : 'rgba(168,85,247,0.12)';
+    const dateStr = _formatDate(_getDatePrincipale(ev));
+    const label = ev.type === 'battle' ? 'Battle' : ev.type === 'workshop' ? 'Workshop' : 'Soirée';
+    return `<div class="salle-item" onclick="showPage('agenda')" style="cursor:pointer;">
+      <div class="salle-item-left">
+        <div class="salle-item-name">${ev.nom || 'Événement'}</div>
+        <div class="salle-item-city">${dateStr}${ev.ville ? ' · ' + ev.ville : ''}</div>
+      </div>
+      <div class="salle-item-right">
+        <span class="salle-item-tag" style="background:${badgeBg};color:${couleur};border-color:${couleur}33;">${label}</span>
+        <span class="salle-item-arrow">›</span>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+async function _fetchEvents() {
+  if (!window._db) return [];
+  try {
+    const { collection, getDocs } = await import('https://www.gstatic.com/firebasejs/10.0.0/firebase-firestore.js');
+    const snap = await getDocs(collection(window._db, 'evenements'));
+    const evs = [];
+    snap.forEach(d => evs.push({ id: d.id, ...d.data() }));
+    return evs;
+  } catch(e) { return []; }
+}
+
+async function _chargerNetworkLieux() {
+  _networkLieuxLoaded = true;
+  const list = document.getElementById('network-lieux-list');
+  const count = document.getElementById('map-lieux-count');
+
+  // Réutiliser les caches si dispo
+  const salles = (typeof _sallesCache !== 'undefined' && _sallesCache.length > 0)
+    ? _sallesCache : await _fetchSalles();
+  const ecoles = (typeof _ecolesCache !== 'undefined' && _ecolesCache.length > 0)
+    ? _ecolesCache : await _fetchEcoles();
+
+  const total = salles.length + ecoles.length;
+  if (count) count.textContent = total + ' lieu' + (total > 1 ? 'x' : '');
+
+  // Marqueurs carte lieux
+  _initCarteLieux();
+
+  salles.forEach(async s => {
+    const ville = s.ville || '';
+    if (!ville || !carteLieux) return;
+    const coords = await coordsVille(ville);
+    const icon = L.divIcon({
+      className: '',
+      html: `<div style="width:10px;height:10px;border-radius:50%;background:#60a5fa;box-shadow:0 0 8px #60a5fa;border:2px solid rgba(255,255,255,0.3);"></div>`,
+      iconSize: [10, 10], iconAnchor: [5, 5]
+    });
+    const m = L.marker(coords, { icon }).addTo(carteLieux);
+    m.bindPopup(`<div style="font-family:'Syne',sans-serif;font-size:12px;font-weight:700;color:#fff;">${s.nom || 'Salle'}</div><div style="font-size:11px;color:#aaa;margin-top:2px;">Salle · ${s.ville || ''}</div>`, { className: 'leaflet-popup-dark' });
+    _lieuxMarkers.push(m);
+  });
+
+  ecoles.forEach(async e => {
+    const ville = e.ville || '';
+    if (!ville || !carteLieux) return;
+    const coords = await coordsVille(ville);
+    const icon = L.divIcon({
+      className: '',
+      html: `<div style="width:10px;height:10px;border-radius:50%;background:#00F59B;box-shadow:0 0 8px #00F59B;border:2px solid rgba(255,255,255,0.3);"></div>`,
+      iconSize: [10, 10], iconAnchor: [5, 5]
+    });
+    const m = L.marker(coords, { icon }).addTo(carteLieux);
+    m.bindPopup(`<div style="font-family:'Syne',sans-serif;font-size:12px;font-weight:700;color:#fff;">${e.nom || 'École'}</div><div style="font-size:11px;color:#aaa;margin-top:2px;">Cours · ${e.ville || ''}</div>`, { className: 'leaflet-popup-dark' });
+    _lieuxMarkers.push(m);
+  });
+
+  // Rendu liste mixte
+  if (!list) return;
+  if (total === 0) {
+    list.innerHTML = '<div style="text-align:center;color:var(--muted);font-size:13px;padding:30px;">Aucun lieu enregistré</div>';
+    return;
+  }
+
+  const sallesHtml = salles.map(s => `
+    <div class="salle-item" onclick="showPage('salles')" style="cursor:pointer;">
+      <div class="salle-item-left">
+        <div class="salle-item-name">${s.nom || 'Salle'}</div>
+        <div class="salle-item-city">${s.ville || ''}${s.adresse ? ' · ' + s.adresse : ''}</div>
+      </div>
+      <div class="salle-item-right">
+        <span class="salle-item-tag" style="background:rgba(96,165,250,0.12);color:#60a5fa;border-color:rgba(96,165,250,0.2);">Salle</span>
+        <span class="salle-item-arrow">›</span>
+      </div>
+    </div>`).join('');
+
+  const ecolesHtml = ecoles.map(e => `
+    <div class="salle-item" onclick="showPage('salles')" style="cursor:pointer;">
+      <div class="salle-item-left">
+        <div class="salle-item-name">${e.nom || 'École'}</div>
+        <div class="salle-item-city">${e.ville || ''}${e.styles ? ' · ' + e.styles : ''}</div>
+      </div>
+      <div class="salle-item-right">
+        <span class="salle-item-tag" style="background:rgba(0,245,155,0.08);color:var(--green);border-color:rgba(0,245,155,0.15);">Cours</span>
+        <span class="salle-item-arrow">›</span>
+      </div>
+    </div>`).join('');
+
+  list.innerHTML = sallesHtml + ecolesHtml;
+}
+
+async function _fetchSalles() {
+  if (!window._db) return [];
+  try {
+    const { collection, getDocs } = await import('https://www.gstatic.com/firebasejs/10.0.0/firebase-firestore.js');
+    const snap = await getDocs(collection(window._db, 'salles'));
+    const arr = [];
+    snap.forEach(d => arr.push({ id: d.id, ...d.data() }));
+    return arr;
+  } catch(e) { return []; }
+}
+
+async function _fetchEcoles() {
+  if (!window._db) return [];
+  try {
+    const { collection, getDocs } = await import('https://www.gstatic.com/firebasejs/10.0.0/firebase-firestore.js');
+    const snap = await getDocs(collection(window._db, 'ecoles'));
+    const arr = [];
+    snap.forEach(d => arr.push({ id: d.id, ...d.data() }));
+    return arr;
+  } catch(e) { return []; }
+}
 
 </script>
 
