@@ -268,8 +268,6 @@ body.pwa #agenda-passes-toggle {
 }
 
 @media(min-width:769px) {
-  #modal-btn { margin-left: 15px; }
-  #modal-fav-btn { padding: 19px; }
 }
 
 /* ══════════════════════════════
@@ -1080,7 +1078,7 @@ body.pwa #network-mobile-bar {
 .to.sc{background:rgba(123,79,255,0.1);border-color:var(--purple);color:var(--purple);}
 .to.sa{background:rgba(255,217,61,0.1);border-color:var(--yellow);color:var(--yellow);}
 .to.sr{background:rgba(255,77,109,0.1);border-color:var(--red);color:var(--red);}
-#pe-pub,#pe-com,#pe-ami,#pe-priv{flex:1;padding:8px 4px;border-radius:10px;font-size:10px;}
+#pe-pub,#pe-com,#pe-ami,#pe-priv{flex:1;padding:3px 4px;border-radius:10px;font-size:10px;}
 
 .zone-opts{padding:16px 20px;display:flex;flex-direction:column;gap:8px;}
 .zo{
@@ -4525,53 +4523,26 @@ if (isPWA) {
       <div id="agenda-passes-grid" style="display:none;margin-top:16px;" class="agenda-grid"></div>
     </div>
 
-    <!-- MODAL DÉTAIL EVENT -->
-    <div id="event-modal" style="display:none;position:fixed;inset:0;z-index:10000;background:rgba(0,0,0,0.8);backdrop-filter:blur(10px);">
-      <div id="event-modal-scroll" style="position:absolute;inset:0;overflow-y:auto;-webkit-overflow-scrolling:touch;padding:calc(16px + env(safe-area-inset-top)) 16px calc(80px + env(safe-area-inset-bottom));">
-      <div style="max-width:500px;margin:0 auto;background:var(--card);border:1px solid var(--border);border-radius:24px;overflow:hidden;">
-        <!-- PHOTO PLEINE LARGEUR -->
-        <div id="modal-banner" style="height:220px;position:relative;">
-          <div id="modal-banner-bg" style="position:absolute;inset:0;"></div>
-          <div id="modal-banner-overlay-wrap" style="position:absolute;inset:0;background:linear-gradient(to bottom,rgba(0,0,0,0.1) 0%,rgba(0,0,0,0.55) 100%);"></div>
-          <button onclick="fermerModal()" style="position:absolute;top:12px;right:12px;width:36px;height:36px;border-radius:10px;background:rgba(0,0,0,0.5);border:1px solid rgba(255,255,255,0.1);color:white;font-size:18px;cursor:pointer;z-index:2;">✕</button>
-          <span id="modal-type" style="position:absolute;bottom:12px;left:12px;z-index:2;padding:5px 12px;border-radius:8px;font-size:12px;font-weight:700;font-family:'Syne',sans-serif;background:rgba(0,0,0,0.5);backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,0.1);"></span>
-        </div>
-        <!-- TITRE JUSTE SOUS LA PHOTO -->
-        <div style="padding:16px 24px 0;">
-          <div id="modal-title" style="font-family:'Syne',sans-serif;font-weight:800;font-size:22px;line-height:1.2;margin-bottom:16px;"></div>
-        </div>
-        <div style="padding:0 24px 24px;">
-          <div id="modal-meta" style="display:flex;flex-direction:column;gap:8px;margin-bottom:20px;"></div>
-          <div id="modal-desc" style="font-size:14px;color:var(--muted2);line-height:1.7;margin-bottom:20px;"></div>
-          <div id="modal-map-wrap" style="display:none;margin-bottom:20px;"></div>
+  </div>
+</div>
 
-          <!-- PARTICIPANTS APERÇU -->
-          <div id="modal-participants-wrap" style="display:none;margin-bottom:20px;">
-            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;">
-              <div style="font-family:'Syne',sans-serif;font-weight:700;font-size:12px;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);">Participants</div>
-              <button id="modal-voir-tous-btn" onclick="ouvrirListeParticipants()" style="background:none;border:none;color:var(--green);font-family:'Syne',sans-serif;font-weight:700;font-size:12px;cursor:pointer;padding:0;">Voir tous →</button>
-            </div>
-            <div id="modal-avatars-row" style="display:flex;align-items:center;gap:-6px;"></div>
-          </div>
-          <div style="display:flex;align-items:center;justify-content:space-between;">
-            <div>
-              <div id="modal-price" style="font-family:'Syne',sans-serif;font-weight:800;font-size:28px;"></div>
-              <div id="modal-inscrits" style="font-size:12px;color:var(--muted);margin-top:2px;"></div>
-            </div>
-            <div style="display:flex;align-items:center;gap:8px;">
-            <button id="modal-btn" onclick="sInscrire()" style="padding:14px 28px;border-radius:14px;background:var(--green);color:#080810;font-family:'Syne',sans-serif;font-weight:800;font-size:14px;border:none;cursor:pointer;">
-              Réserver
-            </button>
-            <button id="modal-fav-btn" onclick="toggleFavoriModal()" style="padding:14px;border-radius:14px;background:var(--card2);border:1px solid var(--border);color:var(--muted2);font-size:18px;cursor:pointer;transition:all 0.2s;">
-              ♡
-            </button>
-            </div>
-          </div>
-        </div>
-      </div>
-      </div>
+<!-- ═══ OVERLAY DÉTAIL ÉVÉNEMENT ═══ -->
+<div id="event-detail-overlay" style="display:none;position:fixed;inset:0;z-index:300;background:var(--bg);overflow-y:auto;-webkit-overflow-scrolling:touch;">
+  <div style="max-width:600px;margin:0 auto;padding:calc(50px + max(10px, env(safe-area-inset-top)) + 5px) 0 calc(120px + env(safe-area-inset-bottom));">
+    <!-- PHOTO HEADER -->
+    <div id="ev-detail-banner" style="height:220px;position:relative;width:100%;">
+      <div id="ev-detail-banner-bg" style="position:absolute;inset:0;background:#1a0d2b;"></div>
+      <div style="position:absolute;inset:0;background:linear-gradient(to bottom,rgba(0,0,0,0.1) 0%,rgba(0,0,0,0.6) 100%);"></div>
+      <button onclick="fermerDetailEvent()" style="position:absolute;top:16px;left:16px;width:36px;height:36px;border-radius:50%;background:rgba(0,0,0,0.5);border:1px solid rgba(255,255,255,0.15);color:white;font-size:18px;display:flex;align-items:center;justify-content:center;cursor:pointer;z-index:2;line-height:1;">←</button>
+      <span id="ev-detail-type" style="position:absolute;bottom:14px;left:16px;z-index:2;padding:4px 12px;border-radius:8px;font-size:11px;font-weight:700;font-family:'Syne',sans-serif;background:rgba(0,0,0,0.5);backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,0.1);"></span>
+      <button id="ev-detail-fav-btn" onclick="toggleFavoriDetail()" style="position:absolute;top:16px;right:16px;width:36px;height:36px;border-radius:50%;background:rgba(0,0,0,0.5);border:1px solid rgba(255,255,255,0.15);color:white;font-size:18px;display:flex;align-items:center;justify-content:center;cursor:pointer;z-index:2;">♡</button>
     </div>
-
+    <!-- TITRE -->
+    <div style="padding:16px 20px 0;">
+      <div id="ev-detail-title" style="font-family:'Syne',sans-serif;font-weight:800;font-size:22px;line-height:1.2;margin-bottom:4px;"></div>
+    </div>
+    <!-- CONTENU -->
+    <div id="ev-detail-content" style="padding:12px 20px 0;display:flex;flex-direction:column;gap:12px;"></div>
   </div>
 </div>
 
@@ -5207,13 +5178,7 @@ if (isPWA) {
           <div id="ph-admin-badge" style="display:none;margin-top:6px;">
             <span style="background:rgba(255,77,109,0.15);border:1px solid rgba(255,77,109,0.45);color:#ff4d6d;font-family:'Syne',sans-serif;font-weight:800;font-size:10px;letter-spacing:2px;padding:3px 10px;border-radius:6px;text-transform:uppercase;">⚡ Admin HAKO</span>
           </div>
-          <button class="ph-band" id="ph-band-btn" onclick="cyclerModeBracelet()" title="Changer le mode">
-            <div class="ph-led" id="ph-led"></div>
-            <span id="ph-band-text">Mode Amis</span>
-            <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="margin-left:4px;opacity:0.5;"><polyline points="6 9 12 15 18 9"/></svg>
-          </button>
-        </div>
-        <button class="ph-edit" onclick="ouvrirEdition()" style="display:flex;align-items:center;gap:7px;">
+          <button class="ph-edit" onclick="ouvrirEdition()" style="display:flex;align-items:center;gap:7px;">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
           Modifier
         </button>
@@ -5251,28 +5216,9 @@ if (isPWA) {
     </div>
 
     <div class="profile-grid">
-        <div class="pc-header">
-          <div class="pc-title">Zone de présence</div>
-          <div class="pc-badge pcb-pub">Visible</div>
-        </div>
-        <div class="zone-opts">
-          <div class="zo" onclick="selectZone(this)">
-            <div class="zo-left"><div><div class="zo-n">Ville</div><div class="zo-d">ex: "Paris"</div></div></div>
-            <div class="zo-check"></div>
-          </div>
-          <div class="zo sel" onclick="selectZone(this)">
-            <div class="zo-left"><div><div class="zo-n">Arrondissement</div><div class="zo-d">ex: "Paris 11e"</div></div></div>
-            <div class="zo-check ok">✓</div>
-          </div>
-          <div class="zo" onclick="selectZone(this)">
-            <div class="zo-left"><div><div class="zo-n">Quartier</div><div class="zo-d">ex: "Bastille"</div></div></div>
-            <div class="zo-check"></div>
-          </div>
-        </div>
-      </div>
 
       <div class="profile-card" style="margin-top:12px;">
-        <div class="pc-header" style="flex-direction:column;align-items:flex-start;gap:4px;">
+        <div class="pc-header" style="flex-direction:column;align-items:flex-start;gap:4px;padding-top:13px;">
           <div class="pc-title">Confidentialité</div>
           <div style="font-size:12px;color:var(--muted2);">Choisis qui peut voir chaque info</div>
         </div>
@@ -5366,7 +5312,7 @@ if (isPWA) {
 
       <!-- SECTION PRÉSENCE AUX ÉVÉNEMENTS -->
       <div class="profile-card" style="margin-top:12px;">
-        <div class="pc-header" style="flex-direction:column;align-items:flex-start;gap:4px;">
+        <div class="pc-header" style="flex-direction:column;align-items:flex-start;gap:4px;padding-top:13px;">
           <div class="pc-title">Présence aux événements</div>
           <div style="font-size:12px;color:var(--muted2);">Choisis qui te vois</div>
         </div>
@@ -6731,175 +6677,118 @@ function ouvrirEvent(id) {
 
   const cfg = TYPE_CONFIG[ev.type] || TYPE_CONFIG.soiree;
   const prix = ev.prix === 0 ? 'Gratuit' : (ev.prix || '?') + '€';
-
-  // Gestion multi-dates
-  const multiDates = ev.dates && ev.dates.length > 1;
-  const sortedDates = multiDates ? [...ev.dates].map(_toDate).filter(Boolean).sort((a,b)=>a-b) : null;
-  let dateLine = '';
-  if (multiDates) {
-    dateLine = `📅 Choisissez votre date${ev.heure ? ' · ' + ev.heure : ''}`;
-  } else {
-    const d = _getDatePrincipale(ev);
-    const dateObj = _toDate(d);
-    dateLine = `📅 ${dateObj ? dateObj.toLocaleDateString('fr-FR', { weekday:'long', day:'numeric', month:'long', year:'numeric' }) : ''}${ev.heure ? ' · ' + ev.heure : ''}`;
-  }
-
-  document.getElementById('modal-banner-bg').style.background = ev.photoUrl
-    ? `url('${ev.photoUrl}') center/cover no-repeat`
-    : cfg.bg;
-  // Overlay selon présence photo
-  const bannerOverlayWrap = document.getElementById('modal-banner-overlay-wrap');
-  if (bannerOverlayWrap) {
-    bannerOverlayWrap.style.background = ev.photoUrl
-      ? 'linear-gradient(to bottom, rgba(0,0,0,0.1) 0%, rgba(0,0,0,0.55) 100%)'
-      : 'linear-gradient(to bottom, rgba(0,0,0,0.3) 0%, rgba(0,0,0,0.65) 100%)';
-  }
-  // Ajuster hauteur bannière selon présence photo
-  const bannerEl = document.getElementById('modal-banner');
-  if (bannerEl) bannerEl.style.height = ev.photoUrl ? '220px' : '140px';
-  document.getElementById('modal-type').textContent = cfg.label;
-  document.getElementById('modal-title').textContent = ev.titre || '';
-  document.getElementById('modal-price').textContent = prix;
-  document.getElementById('modal-price').style.color = cfg.couleur;
-  document.getElementById('modal-inscrits').textContent = (ev.inscrits || 0) + ' personnes inscrites';
-  document.getElementById('modal-desc').textContent = ev.description || 'Aucune description disponible.';
-
-  // Sélecteur de date si multi-dates
-  const selectorHTML = multiDates ? `
-    <div id="modal-date-selector" style="display:flex;flex-direction:column;gap:8px;margin:4px 0 8px;">
-      ${sortedDates.map((d, i) => `
-        <label style="display:flex;align-items:center;gap:10px;cursor:pointer;padding:10px 12px;border-radius:10px;border:1px solid var(--border);transition:all 0.2s;" id="modal-date-opt-${i}">
-          <input type="checkbox" name="modal-date-choice" value="${d.toISOString()}" checked onchange="highlightDateOpt()" style="accent-color:var(--green);width:16px;height:16px;cursor:pointer;">
-          <span style="font-size:13px;color:var(--text);">${_formatDate(d)}</span>
-        </label>
-      `).join('')}
-    </div>
-  ` : '';
-
-  document.getElementById('modal-meta').innerHTML = `
-    <div class="ec-mi">${dateLine}</div>
-    ${selectorHTML}
-    <div class="ec-mi">📍 ${ev.ville || ''} ${ev.lieu ? '· ' + ev.lieu : ''}${ev.adresse ? '<br><span style="font-size:12px;color:var(--muted);padding-left:20px;">' + ev.adresse + '</span>' : ''}</div>
-    ${ev.styles ? `<div class="ec-mi">💃 ${ev.styles}</div>` : ''}
-    ${ev.vibe ? `<div class="ec-mi">🎵 ${ev.vibe}</div>` : ''}
-    ${ev.niveau ? `<div class="ec-mi">⭐ ${ev.niveau}</div>` : ''}
-    ${ev.organisateur ? `<div class="ec-mi">👤 Organisé par ${ev.organisateur}</div>` : ''}
-  `;
-
-  // Mini-carte si geopoint disponible
-  const mapWrap = document.getElementById('modal-map-wrap');
-  if (mapWrap) {
-    if (ev.geopoint && ev.geopoint.latitude && ev.geopoint.longitude) {
-      const lat = ev.geopoint.latitude;
-      const lng = ev.geopoint.longitude;
-      mapWrap.style.display = 'block';
-      mapWrap.innerHTML = `
-        <div id="modal-leaflet-map" style="width:100%;height:180px;border-radius:16px;overflow:hidden;position:relative;"></div>
-        <a href="https://maps.google.com/?q=${lat},${lng}" target="_blank"
-          style="display:flex;align-items:center;justify-content:center;gap:6px;margin-top:10px;padding:10px;border-radius:12px;background:rgba(0,245,155,0.07);border:1px solid rgba(0,245,155,0.2);color:var(--green);font-family:'Syne',sans-serif;font-weight:700;font-size:13px;text-decoration:none;transition:all 0.2s;">
-          🗺️ Ouvrir dans Google Maps ↗
-        </a>
-      `;
-      setTimeout(() => {
-        if (window._modalMap) { window._modalMap.remove(); window._modalMap = null; }
-        const mapEl = document.getElementById('modal-leaflet-map');
-        if (mapEl && window.L) {
-          const m = L.map('modal-leaflet-map', { zoomControl:false, attributionControl:false, dragging:false, scrollWheelZoom:false, doubleClickZoom:false }).setView([lat, lng], 15);
-          L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(m);
-          const pin = L.divIcon({ className:'', html:`<div style="width:18px;height:18px;border-radius:50%;background:var(--green);border:3px solid #080810;box-shadow:0 0 16px rgba(0,245,155,0.7);"></div>`, iconSize:[18,18], iconAnchor:[9,9] });
-          L.marker([lat, lng], { icon: pin }).addTo(m);
-          window._modalMap = m;
-        }
-      }, 100);
-    } else {
-      mapWrap.style.display = 'none';
-      mapWrap.innerHTML = '';
-      if (window._modalMap) { window._modalMap.remove(); window._modalMap = null; }
-    }
-  }
-
-  if (multiDates) highlightDateOpt();
-
   const passe = _estPasse(ev);
-  const btn = document.getElementById('modal-btn');
-  if (passe) {
-    btn.innerHTML = 'Événement terminé';
-    btn.disabled = true;
-    btn.style.background = 'var(--card2)';
-    btn.style.color = 'var(--muted)';
-    btn.style.border = '1px solid var(--border)';
-    btn.style.cursor = 'not-allowed';
-    btn.style.padding = '10px 16px';
-    btn.style.fontSize = '12px';
-    btn.onclick = null;
-    btn.removeAttribute('href');
-    btn.tagName === 'A' && btn.replaceWith((() => { const b = document.createElement('button'); b.id = 'modal-btn'; b.style.cssText = btn.style.cssText; b.innerHTML = btn.innerHTML; return b; })());
-  } else if (ev.lienResa) {
-    // Lien billetterie dispo → ouvrir directement
-    btn.innerHTML = 'Réserver ↗';
-    btn.disabled = false;
-    btn.style.background = 'var(--green)';
-    btn.style.color = '#080810';
-    btn.style.border = 'none';
-    btn.style.cursor = 'pointer';
-    btn.style.padding = '14px 28px';
-    btn.style.fontSize = '14px';
-    btn.onclick = function() { window.open(ev.lienResa, '_blank', 'noopener'); };
-  } else {
-    // Pas de lien → enregistrer (XP + compteur)
-    btn.innerHTML = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg> Enregistrer';
-    btn.style.display = 'flex';
-    btn.style.alignItems = 'center';
-    btn.style.gap = '8px';
-    btn.disabled = false;
-    btn.style.background = 'var(--green)';
-    btn.style.color = '#080810';
-    btn.style.border = 'none';
-    btn.style.cursor = 'pointer';
-    btn.style.padding = '14px 24px';
-    btn.style.fontSize = '14px';
-    btn.onclick = sInscrire;
-  }
 
-  // Bouton favori dans le modal
-  const favBtn = document.getElementById('modal-fav-btn');
+  // Bannière photo
+  const bg = document.getElementById('ev-detail-banner-bg');
+  if (bg) bg.style.background = ev.photoUrl ? `url('${ev.photoUrl}') center/cover no-repeat` : cfg.bg;
+  const bannerEl = document.getElementById('ev-detail-banner');
+  if (bannerEl) bannerEl.style.height = ev.photoUrl ? '220px' : '140px';
+  const typeEl = document.getElementById('ev-detail-type');
+  if (typeEl) { typeEl.textContent = cfg.label; typeEl.style.color = cfg.couleur; }
+  const titleEl = document.getElementById('ev-detail-title');
+  if (titleEl) titleEl.textContent = ev.titre || '';
+
+  // Favori
+  const favBtn = document.getElementById('ev-detail-fav-btn');
   if (favBtn) {
     const estFav = mesFavoris.has(ev.id);
     favBtn.textContent = estFav ? '♥' : '♡';
-    favBtn.style.color = estFav ? 'var(--red)' : 'var(--muted2)';
+    favBtn.style.color = estFav ? 'var(--red)' : 'white';
   }
 
-  document.getElementById('event-modal').style.display = 'block';
-  requestAnimationFrame(() => {
-    const modalScroll = document.getElementById('event-modal-scroll');
-    if (modalScroll) modalScroll.scrollTop = 0;
-  });
+  // Date
+  const multiDates = ev.dates && ev.dates.length > 1;
+  let dateLine = '';
+  if (multiDates) {
+    const sorted = [...ev.dates].map(_toDate).filter(Boolean).sort((a,b)=>a-b);
+    dateLine = `📅 ${_formatDate(sorted[0])} & ${_formatDate(sorted[sorted.length-1])}${ev.heure ? ' · ' + ev.heure : ''}`;
+  } else {
+    const d = _getDatePrincipale(ev);
+    const dateObj = _toDate(d);
+    dateLine = `📅 ${dateObj ? dateObj.toLocaleDateString('fr-FR',{weekday:'long',day:'numeric',month:'long',year:'numeric'}) : ''}${ev.heure ? ' · ' + ev.heure : ''}`;
+  }
 
-  // Charger les avatars participants
+  // Carte Google Maps
+  const mapsLink = ev.geopoint?.latitude
+    ? `<a href="https://maps.google.com/?q=${ev.geopoint.latitude},${ev.geopoint.longitude}" target="_blank" style="display:inline-flex;align-items:center;gap:6px;padding:10px 14px;border-radius:12px;background:rgba(0,245,155,0.07);border:1px solid rgba(0,245,155,0.2);color:var(--green);font-family:'Syne',sans-serif;font-weight:700;font-size:13px;text-decoration:none;">🗺️ Ouvrir dans Google Maps ↗</a>`
+    : '';
+
+  // Bouton action
+  let btnHtml = '';
+  if (passe) {
+    btnHtml = `<button disabled style="padding:13px 24px;border-radius:14px;background:var(--card2);color:var(--muted);border:1px solid var(--border);font-family:'Syne',sans-serif;font-weight:800;font-size:13px;cursor:not-allowed;">Événement terminé</button>`;
+  } else if (ev.lienResa) {
+    btnHtml = `<a href="${ev.lienResa}" target="_blank" rel="noopener" style="padding:13px 24px;border-radius:14px;background:var(--green);color:#080810;font-family:'Syne',sans-serif;font-weight:800;font-size:13px;text-decoration:none;display:inline-block;">Réserver ↗</a>`;
+  } else {
+    btnHtml = `<button onclick="sInscrire()" style="padding:13px 24px;border-radius:14px;background:var(--green);color:#080810;font-family:'Syne',sans-serif;font-weight:800;font-size:13px;border:none;cursor:pointer;display:flex;align-items:center;gap:8px;"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg>Enregistrer</button>`;
+  }
+
+  // Bloc participants
+  const inscrits = ev.inscrits || 0;
+
+  const content = document.getElementById('ev-detail-content');
+  if (content) content.innerHTML = `
+    <div style="background:var(--card);border:1px solid var(--border);border-radius:16px;padding:16px;display:flex;flex-direction:column;gap:8px;">
+      <div style="font-size:13px;color:var(--muted2);">${dateLine}</div>
+      <div style="font-size:13px;color:var(--muted2);">📍 ${ev.ville || ''}${ev.lieu ? ' · ' + ev.lieu : ''}${ev.adresse ? '<br><span style="font-size:12px;padding-left:18px;">' + ev.adresse + '</span>' : ''}</div>
+      ${ev.styles ? `<div style="font-size:13px;color:var(--muted2);">💃 ${ev.styles}</div>` : ''}
+      ${ev.vibe ? `<div style="font-size:13px;color:var(--muted2);">🎵 ${ev.vibe}</div>` : ''}
+      ${ev.niveau ? `<div style="font-size:13px;color:var(--muted2);">⭐ ${ev.niveau}</div>` : ''}
+      ${ev.organisateur ? `<div style="font-size:13px;color:var(--muted2);">👤 Organisé par ${ev.organisateur}</div>` : ''}
+    </div>
+
+    ${ev.description ? `<div style="background:var(--card);border:1px solid var(--border);border-radius:16px;padding:16px;">
+      <div style="font-family:'Syne',sans-serif;font-weight:700;font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);margin-bottom:8px;">Description</div>
+      <div style="font-size:14px;color:var(--muted2);line-height:1.7;">${ev.description}</div>
+    </div>` : ''}
+
+    ${mapsLink ? `<div>${mapsLink}</div>` : ''}
+
+    <div id="ev-detail-participants-wrap" style="display:none;background:var(--card);border:1px solid var(--border);border-radius:16px;padding:16px;">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;">
+        <div style="font-family:'Syne',sans-serif;font-weight:700;font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);">Participants</div>
+        <button onclick="ouvrirListeParticipants()" style="background:none;border:none;color:var(--green);font-family:'Syne',sans-serif;font-weight:700;font-size:12px;cursor:pointer;padding:0;">Voir tous →</button>
+      </div>
+      <div id="ev-detail-avatars-row" style="display:flex;align-items:center;"></div>
+    </div>
+
+    <div style="display:flex;align-items:center;justify-content:space-between;padding:4px 0 8px;">
+      <div>
+        <div style="font-family:'Syne',sans-serif;font-weight:800;font-size:28px;color:${cfg.couleur};">${prix}</div>
+        <div style="font-size:12px;color:var(--muted);margin-top:2px;" id="ev-detail-inscrits">${inscrits} personne${inscrits > 1 ? 's' : ''} inscrite${inscrits > 1 ? 's' : ''}</div>
+      </div>
+      ${btnHtml}
+    </div>
+  `;
+
+  const overlay = document.getElementById('event-detail-overlay');
+  overlay.style.display = 'block';
+  overlay.scrollTop = 0;
+
+  // Charger avatars participants
   chargerAvatarsParticipants(ev);
 }
 
-window.highlightDateOpt = function() {
-  document.querySelectorAll('[id^="modal-date-opt-"]').forEach(el => {
-    const cb = el.querySelector('input[type="checkbox"]');
-    el.style.borderColor = cb && cb.checked ? 'var(--green)' : 'var(--border)';
-    el.style.background = cb && cb.checked ? 'rgba(0,245,155,0.06)' : 'transparent';
-  });
+window.fermerDetailEvent = function() {
+  document.getElementById('event-detail-overlay').style.display = 'none';
+  if (window._modalMap) { window._modalMap.remove(); window._modalMap = null; }
 };
 
-function fermerModal() {
-  document.getElementById('event-modal').style.display = 'none';
-  if (window._modalMap) { window._modalMap.remove(); window._modalMap = null; }
-  const mapWrap = document.getElementById('modal-map-wrap');
-  if (mapWrap) { mapWrap.style.display = 'none'; mapWrap.innerHTML = ''; }
-}
+window.toggleFavoriDetail = async function() {
+  if (!eventCourant) return;
+  await toggleFavori(eventCourant.id);
+  const estFav = mesFavoris.has(eventCourant.id);
+  const btn = document.getElementById('ev-detail-fav-btn');
+  if (btn) { btn.textContent = estFav ? '♥' : '♡'; btn.style.color = estFav ? 'var(--red)' : 'white'; }
+};
 
 // ── Participants événement ──
 let _participantsProfils = [];
 
 async function chargerAvatarsParticipants(ev) {
-  const wrap = document.getElementById('modal-participants-wrap');
-  const row = document.getElementById('modal-avatars-row');
+  const wrap = document.getElementById('ev-detail-participants-wrap');
+  const row = document.getElementById('ev-detail-avatars-row');
   if (!wrap || !row) return;
 
   const uids = ev.participants || [];
@@ -6919,7 +6808,7 @@ async function chargerAvatarsParticipants(ev) {
     _participantsProfils = profils;
 
     const avatarsHtml = profils.map((p, i) => {
-      const style = `width:34px;height:34px;border-radius:50%;background:linear-gradient(135deg,var(--green),var(--purple));border:2px solid var(--bg);display:flex;align-items:center;justify-content:center;font-size:14px;overflow:hidden;position:relative;flex-shrink:0;margin-left:${i === 0 ? '0' : '-8px'};cursor:pointer;z-index:${10 - i};transition:transform 0.15s;`;
+      const style = `width:34px;height:34px;border-radius:50%;background:linear-gradient(135deg,var(--green),var(--purple));border:2px solid var(--bg);display:flex;align-items:center;justify-content:center;font-size:14px;overflow:hidden;position:relative;flex-shrink:0;margin-left:${i === 0 ? '0' : '-8px'};cursor:pointer;z-index:${10 - i};`;
       const img = p.photo ? `<img src="${p.photo}" style="width:100%;height:100%;object-fit:cover;position:absolute;inset:0;border-radius:50%;">` : '💃';
       return `<div style="${style}" onclick="ouvrirListeParticipants()" title="${p.nomAffiche || p.nom || p.pseudo || 'Artiste'}">${img}</div>`;
     }).join('');
@@ -7033,47 +6922,42 @@ window.fermerListeParticipants = function() {
 window.sInscrire = async function() {
   if (!window._currentUid) {
     alert('Connecte-toi pour t\'inscrire !');
-    fermerModal();
+    fermerDetailEvent();
     showPage('auth');
     return;
   }
   if (!eventCourant) return;
 
-  const btn = document.getElementById('modal-btn');
-  btn.textContent = '⏳ En cours...';
-  btn.disabled = true;
+  // Trouver le bouton action dans l'overlay
+  const btn = document.querySelector('#ev-detail-content button[onclick="sInscrire()"]') ||
+              document.querySelector('#ev-detail-content button');
+  if (btn) { btn.innerHTML = '⏳ En cours...'; btn.disabled = true; }
 
   try {
     const { doc, updateDoc, increment, arrayUnion } = await import(
       'https://www.gstatic.com/firebasejs/10.0.0/firebase-firestore.js'
     );
 
-    // Incrémenter inscrits sur l'event
     await updateDoc(doc(window._db, 'evenements', eventCourant.id), {
       inscrits: increment(1),
       participants: arrayUnion(window._currentUid)
     });
 
-    // Ajouter XP au danseur (+20 XP pour inscription event)
     await updateDoc(doc(window._db, 'danseurs', window._currentUid), {
       evenements: increment(1)
     });
     await window.gainXP(20, 'inscription_event');
 
-    btn.textContent = '✅ Inscrit !';
-    btn.style.background = 'var(--card2)';
-    btn.style.color = 'var(--green)';
-    btn.style.border = '1px solid var(--green)';
+    if (btn) { btn.innerHTML = '✅ Inscrit !'; btn.style.background = 'var(--card2)'; btn.style.color = 'var(--green)'; btn.style.border = '1px solid var(--green)'; }
 
-    // Mettre à jour le compteur local
     eventCourant.inscrits = (eventCourant.inscrits || 0) + 1;
-    document.getElementById('modal-inscrits').textContent = eventCourant.inscrits + ' personnes inscrites';
+    const inscEl = document.getElementById('ev-detail-inscrits');
+    if (inscEl) inscEl.textContent = eventCourant.inscrits + ' personne' + (eventCourant.inscrits > 1 ? 's' : '') + ' inscrite' + (eventCourant.inscrits > 1 ? 's' : '');
 
-    setTimeout(fermerModal, 1500);
+    setTimeout(fermerDetailEvent, 1500);
   } catch(e) {
     console.error('Erreur inscription:', e);
-    btn.textContent = '❌ Erreur';
-    btn.disabled = false;
+    if (btn) { btn.innerHTML = '❌ Erreur'; btn.disabled = false; }
   }
 }
 
@@ -8805,10 +8689,10 @@ window.toggleFavori = async function(eventId) {
       btn.style.color = mesFavoris.has(eventId) ? 'var(--red)' : '';
     }
     // Mettre à jour le modal si ouvert
-    const modalFav = document.getElementById('modal-fav-btn');
-    if (modalFav && eventCourant?.id === eventId) {
-      modalFav.textContent = mesFavoris.has(eventId) ? '♥' : '♡';
-      modalFav.style.color = mesFavoris.has(eventId) ? 'var(--red)' : 'var(--muted2)';
+    const detailFav = document.getElementById('ev-detail-fav-btn');
+    if (detailFav && eventCourant?.id === eventId) {
+      detailFav.textContent = mesFavoris.has(eventId) ? '♥' : '♡';
+      detailFav.style.color = mesFavoris.has(eventId) ? 'var(--red)' : 'white';
     }
     // Rafraîchir section favoris du profil
     afficherFavorisProfile();
@@ -8818,10 +8702,6 @@ window.toggleFavori = async function(eventId) {
     if (mesFavoris.has(eventId)) mesFavoris.delete(eventId);
     else mesFavoris.add(eventId);
   }
-}
-
-window.toggleFavoriModal = function() {
-  if (eventCourant) toggleFavori(eventCourant.id);
 }
 
 async function afficherFavorisProfile() {
