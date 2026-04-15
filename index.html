@@ -2465,11 +2465,9 @@ body.pwa #bottom-nav { display: flex !important; height: 87px; }
 body.hide-bottomnav #bottom-nav { display: none !important; }
 /* Conversation : bottom ajusté pour la bottom nav */
 @media(max-width:768px) {
-  body.has-bottomnav #msg-conversation { bottom: 62px !important; }
 }
-body.pwa #msg-conversation { bottom: 87px !important; }
 #msg-input-bar { padding-bottom: max(10px, env(safe-area-inset-bottom)); }
-#msg-conversation { bottom: 0 !important; }
+#msg-conversation { top: 0; bottom: 0; }
 body.keyboard-open #bottom-nav { display: none !important; }
 body.conv-ouverte #bottom-nav { display: none !important; }
 
@@ -4631,10 +4629,10 @@ if (isPWA) {
     </div>
 
     <!-- Fenêtre de conversation -->
-    <div id="msg-conversation" style="display:none;position:fixed;top:0;left:0;right:0;z-index:300;background:var(--bg);padding-top:max(55px, calc(35px + env(safe-area-inset-top)));display:none;flex-direction:column;">
+    <div id="msg-conversation" style="display:none;position:fixed;top:0;left:0;right:0;z-index:300;background:var(--bg);display:none;flex-direction:column;">
 
-      <!-- Header conversation -->
-      <div style="padding:16px 20px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:12px;flex-shrink:0;">
+      <!-- Header conversation — collé sous le main-nav -->
+      <div style="padding:16px 20px;padding-top:calc(16px + max(44px, calc(44px + env(safe-area-inset-top))));border-bottom:1px solid var(--border);display:flex;align-items:center;gap:12px;flex-shrink:0;">
         <button onclick="fermerConversation()" style="position:relative;width:32px;height:32px;border-radius:50%;background:rgba(255,255,255,0.06);border:1px solid var(--border);color:var(--text);display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0;transition:background 0.2s;" title="Retour">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
         </button>
@@ -8728,17 +8726,21 @@ async function ouvrirConversation(uid, nom, photo) {
       if (!conv || conv.style.display === 'none') return;
       const vvH = window.visualViewport.height;
       const wH  = window.innerHeight;
-      const keyboardOpen = wH - vvH > 100;
+      const keyboardH = wH - vvH; // hauteur du clavier
+      const keyboardOpen = keyboardH > 100;
+
       if (keyboardOpen) {
         document.body.classList.add('keyboard-open');
-        // Ajuster la conversation pour remplir le viewport visible
-        const offsetY = wH - vvH;
-        conv.style.bottom = '0';
-        conv.style.top    = window.visualViewport.offsetTop + 'px';
-        conv.style.height = vvH + 'px';
+        // La conversation occupe tout sauf le clavier
+        // top = 0 (on garde padding-top pour le main-nav)
+        // bottom = hauteur du clavier
+        conv.style.top    = '0';
+        conv.style.bottom = keyboardH + 'px';
+        conv.style.height = '';
       } else {
         document.body.classList.remove('keyboard-open');
         conv.style.top    = '0';
+        conv.style.bottom = '0';
         conv.style.height = '';
       }
     };
