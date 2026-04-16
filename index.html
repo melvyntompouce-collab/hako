@@ -4961,7 +4961,7 @@ if (isPWA) {
           </div>
         </div>
         <div class="form-group" style="margin:0">
-          <label class="form-label">Lieu / Adresse</label>
+          <label class="form-label">Adresse complète</label>
           <input id="ev-lieu" class="form-input" type="text" placeholder="Ex: Le Rex Club, Paris 10e" style="background:var(--bg2)">
         </div>
         <div class="form-group" style="margin:0">
@@ -5047,7 +5047,7 @@ if (isPWA) {
         </div>
 
         <div class="form-group" style="margin:0">
-          <label class="form-label">Adresse</label>
+          <label class="form-label">Adresse complète</label>
           <input id="salle-adresse" class="form-input" type="text" placeholder="Ex: 12 rue de la Danse, 33000 Bordeaux" style="background:var(--bg2)">
         </div>
 
@@ -5122,7 +5122,7 @@ if (isPWA) {
           </div>
         </div>
         <div class="form-group" style="margin:0">
-          <label class="form-label">Adresse</label>
+          <label class="form-label">Adresse complète</label>
           <input id="ecole-adresse" class="form-input" type="text" placeholder="Ex: 12 rue de la Danse, Paris" style="background:var(--bg2)">
         </div>
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
@@ -8177,7 +8177,7 @@ function _renderDatesList() {
     return;
   }
   container.innerHTML = window._evDates.map((d, i) => `
-    <div style="display:grid;grid-template-columns:1fr 1.4fr auto;gap:8px;align-items:center;">
+    <div style="display:grid;grid-template-columns:1fr 1fr auto;gap:8px;align-items:center;">
       <input class="form-input" type="date" value="${d.date}" style="background:var(--bg2)"
         oninput="window._evDates[${i}].date=this.value">
       <input class="form-input" type="text" placeholder="Ex: 21h00 → 04h00" value="${d.heure}" style="background:var(--bg2)"
@@ -8227,7 +8227,7 @@ window.ouvrirFormEvent = function() {
   window._evPhotoUrl = null;
   setVibeChips('');
   // Mémoriser d'où on vient
-  window._formRetour = document.getElementById('admin-dashboard').style.display === 'block' ? 'admin' : 'orga';
+  window._formRetour = (window._monRole === 'admin') ? 'admin' : 'orga';
   document.getElementById('orga-form').style.display = 'block';
   document.getElementById('orga-dashboard').style.display = 'none';
   document.getElementById('admin-dashboard').style.display = 'none';
@@ -8253,8 +8253,11 @@ window.fermerFormEvent = function() {
 // ── Formulaire salle (admin) ──
 
 window.ouvrirFormSalle = function(salleId) {
+  // Sauvegarder le contexte de retour
+  window._formRetourSalle = (window._monRole === 'admin') ? 'admin' : 'orga';
   // Cacher dashboard admin
   document.getElementById('admin-dashboard').style.display = 'none';
+  document.getElementById('orga-dashboard').style.display = 'none';
 
   // Reset champs
   const ids = ['salle-nom','salle-ville','salle-adresse','salle-prix','salle-surface','salle-desc','salle-contact','salle-lien'];
@@ -8299,10 +8302,16 @@ window.ouvrirFormSalle = function(salleId) {
 
 window.fermerFormSalle = function() {
   document.getElementById('admin-form-salle').style.display = 'none';
-  document.getElementById('admin-dashboard').style.display = 'block';
   const btn = document.getElementById('salle-submit-btn');
   if (btn) { btn.textContent = 'Publier la salle →'; btn.disabled = false; }
-  chargerDashboardAdmin();
+  const retour = window._formRetourSalle || 'admin';
+  window._formRetourSalle = null;
+  if (retour === 'admin') {
+    document.getElementById('admin-dashboard').style.display = 'block';
+    chargerDashboardAdmin();
+  } else {
+    document.getElementById('orga-dashboard').style.display = 'block';
+  }
 };
 
 window.sauvegarderSalle = async function() {
@@ -8406,7 +8415,9 @@ window.ajouterAbonnement = function() {
 };
 
 window.ouvrirFormEcole = function(ecoleId) {
+  window._formRetourEcole = (window._monRole === 'admin') ? 'admin' : 'orga';
   document.getElementById('admin-dashboard').style.display = 'none';
+  document.getElementById('orga-dashboard').style.display = 'none';
 
   // Reset
   ['ecole-nom','ecole-ville','ecole-cp','ecole-adresse','ecole-tel','ecole-email','ecole-lien','ecole-desc','ecole-styles'].forEach(id => {
@@ -8468,10 +8479,16 @@ window.ouvrirFormEcole = function(ecoleId) {
 
 window.fermerFormEcole = function() {
   document.getElementById('admin-form-ecole').style.display = 'none';
-  document.getElementById('admin-dashboard').style.display = 'block';
   const btn = document.getElementById('ecole-submit-btn');
   if (btn) { btn.textContent = "Publier l'école →"; btn.disabled = false; }
-  chargerDashboardAdmin();
+  const retour = window._formRetourEcole || 'admin';
+  window._formRetourEcole = null;
+  if (retour === 'admin') {
+    document.getElementById('admin-dashboard').style.display = 'block';
+    chargerDashboardAdmin();
+  } else {
+    document.getElementById('orga-dashboard').style.display = 'block';
+  }
 };
 
 window.sauvegarderEcole = async function() {
