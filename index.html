@@ -5501,7 +5501,7 @@ if (isPWA) {
       <div class="xp-src-row"><div class="xp-src-ico">🔥</div><div class="xp-src-info"><div class="xp-src-label">Connexion quotidienne</div><div class="xp-src-desc">Une fois par jour</div></div><div class="xp-src-val">+10</div></div>
       <div class="xp-src-row"><div class="xp-src-ico">🎟️</div><div class="xp-src-info"><div class="xp-src-label">Inscription à un événement</div><div class="xp-src-desc">À chaque participation</div></div><div class="xp-src-val">+20</div></div>
       <div class="xp-src-row"><div class="xp-src-ico">📸</div><div class="xp-src-info"><div class="xp-src-label">Photo de profil ajoutée</div><div class="xp-src-desc">Une seule fois</div></div><div class="xp-src-val">+20</div></div>
-      <div class="xp-src-row"><div class="xp-src-ico">✅</div><div class="xp-src-info"><div class="xp-src-label">Profil complété</div><div class="xp-src-desc">Styles + ville + bio</div></div><div class="xp-src-val">+50</div></div>
+      <div class="xp-src-row"><div class="xp-src-ico">✅</div><div class="xp-src-info"><div class="xp-src-label">Profil complété</div><div class="xp-src-desc">Photo + identité artistique + ville</div></div><div class="xp-src-val">+50</div></div>
       <div class="xp-src-row"><div class="xp-src-ico">🔗</div><div class="xp-src-info"><div class="xp-src-label">Réseaux sociaux liés</div><div class="xp-src-desc">Instagram ou TikTok</div></div><div class="xp-src-val">+15</div></div>
       <div class="xp-src-row"><div class="xp-src-ico">🤝</div><div class="xp-src-info"><div class="xp-src-label">Échange validé</div><div class="xp-src-desc">Via le bracelet Kima</div></div><div class="xp-src-val">+30</div></div>
       <div class="xp-src-row"><div class="xp-src-ico">🎨</div><div class="xp-src-info"><div class="xp-src-label">Identité artistique définie</div><div class="xp-src-desc">Style de danse ou métier — une seule fois</div></div><div class="xp-src-val">+15</div></div>
@@ -11026,7 +11026,7 @@ window.sauvegarderIdentite = async function() {
     const aStyles = styles.length > 0 || metiersSauv.length > 0 || (p.styles && p.styles.length > 0) || (p.metiers && p.metiers.length > 0);
     const aVille  = !!(ville || p.ville);
     const aBio    = !!(bio);
-    if (aPhoto && aStyles && aVille && aBio && !p.xpProfilDonne) {
+    if (aPhoto && aStyles && aVille && !p.xpProfilDonne) {
       xpUpdates.xpProfilDonne = true;
       setTimeout(() => window.gainXP(50, 'profil_complet'), 2000);
     }
