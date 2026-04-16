@@ -6819,6 +6819,18 @@ function ouvrirEvent(id) {
 }
 
 window.ouvrirEvent = ouvrirEvent;
+
+// Ouvre le détail d'un event directement depuis un objet event (sans dépendre de tousLesEvents)
+function ouvrirEventDepuisReseau(ev) {
+  if (!ev) return;
+  // Injecter dans tousLesEvents si absent pour que les fonctions dépendantes (inscriptions, favoris…) fonctionnent
+  if (tousLesEvents && !tousLesEvents.find(e => e.id === ev.id)) {
+    tousLesEvents.push(ev);
+  }
+  ouvrirEvent(ev.id);
+}
+window.ouvrirEventDepuisReseau = ouvrirEventDepuisReseau;
+
 window.fermerDetailEvent = function() {
   document.getElementById('event-detail-overlay').style.display = 'none';
   if (window._modalMap) { window._modalMap.remove(); window._modalMap = null; }
@@ -11864,13 +11876,13 @@ function _renderDrawerEvents() {
     dst.innerHTML = '<div style="padding:30px;text-align:center;color:var(--muted);font-size:13px;">Aucun événement à venir</div>';
     return;
   }
-  dst.innerHTML = _networkEventsData.map(ev => {
+  dst.innerHTML = _networkEventsData.map((ev, idx) => {
     const couleur = ev.type === 'battle' ? 'var(--yellow)' : ev.type === 'workshop' ? 'var(--green)' : 'var(--purple)';
     const badgeBg = ev.type === 'battle' ? 'rgba(240,192,64,0.12)' : ev.type === 'workshop' ? 'rgba(0,245,155,0.12)' : 'rgba(168,85,247,0.12)';
     const label = ev.type === 'battle' ? 'Battle' : ev.type === 'workshop' ? 'Workshop' : 'Soirée';
     const emoji = ev.type === 'battle' ? '🏆' : ev.type === 'workshop' ? '🎓' : '🎉';
     const dateStr = typeof _formatDate === 'function' ? _formatDate(_getDatePrincipale(ev)) : '';
-    return `<div class="dancer-card" onclick="fermerDrawerReseau();showPage('agenda');setTimeout(()=>ouvrirEvent('${ev.id}'),200);" style="padding:10px 12px;cursor:pointer;"><div style="width:38px;height:38px;border-radius:12px;flex-shrink:0;background:${badgeBg};border:2px solid ${couleur};display:flex;align-items:center;justify-content:center;font-size:18px;">${emoji}</div><div style="min-width:0;flex:1;"><div style="font-weight:700;font-size:13px;font-family:'Syne',sans-serif;">${ev.titre || 'Événement'}</div><div style="font-size:11px;color:var(--muted);margin-top:1px;">${dateStr}${ev.ville ? ' · ' + ev.ville : ''}</div></div><span style="font-size:10px;font-weight:700;padding:3px 8px;border-radius:6px;background:${badgeBg};color:${couleur};border:1px solid ${couleur}44;white-space:nowrap;">${label}</span></div>`;
+    return `<div class="dancer-card" onclick="fermerDrawerReseau();ouvrirEventDepuisReseau(_networkEventsData[${idx}]);" style="padding:10px 12px;cursor:pointer;"><div style="width:38px;height:38px;border-radius:12px;flex-shrink:0;background:${badgeBg};border:2px solid ${couleur};display:flex;align-items:center;justify-content:center;font-size:18px;">${emoji}</div><div style="min-width:0;flex:1;"><div style="font-weight:700;font-size:13px;font-family:'Syne',sans-serif;">${ev.titre || 'Événement'}</div><div style="font-size:11px;color:var(--muted);margin-top:1px;">${dateStr}${ev.ville ? ' · ' + ev.ville : ''}</div></div><span style="font-size:10px;font-weight:700;padding:3px 8px;border-radius:6px;background:${badgeBg};color:${couleur};border:1px solid ${couleur}44;white-space:nowrap;">${label}</span></div>`;
   }).join('');
 }
 
