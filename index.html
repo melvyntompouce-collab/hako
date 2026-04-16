@@ -4793,9 +4793,8 @@ if (isPWA) {
 </div>
 
 <!-- ═══ ESPACE ORGANISATEUR (overlay) ═══ -->
-<div id="organisateur-overlay" style="display:none;position:fixed;inset:0;z-index:9990;background:var(--bg);">
-  <div style="position:absolute;inset:0;overflow-y:auto;-webkit-overflow-scrolling:touch;padding-top:calc(70px + env(safe-area-inset-top));">
-  <div style="max-width:700px;margin:0 auto;padding:24px 20px 100px;">
+<div class="page" id="page-orga" style="display:none;overflow-y:auto;-webkit-overflow-scrolling:touch;">
+  <div style="max-width:700px;margin:0 auto;padding:24px 20px calc(100px + env(safe-area-inset-bottom));">
 
     <!-- Header -->
     <div style="display:flex;align-items:center;gap:16px;margin-bottom:28px;">
@@ -5214,7 +5213,6 @@ if (isPWA) {
     </div>
 
   </div>
-  </div>
 </div>
 
 <!-- ═══ PAGE: PROFIL ═══ -->
@@ -5524,12 +5522,7 @@ function getTransitionPair(fromId, toId, isBack) {
 function showPage(id, isBack = false) {
   const next = document.getElementById('page-' + id);
   if (!next || _transitionLock) return;
-  // Fermer l'overlay organisateur s'il est ouvert
-  const orgaOverlay = document.getElementById('organisateur-overlay');
-  if (orgaOverlay && orgaOverlay.style.display !== 'none') {
-    orgaOverlay.style.display = 'none';
-    document.body.style.overflow = '';
-  }
+  // (organisateur-overlay remplacé par page-orga)
   // Fermer les overlays cours / studios / workshops
   const salleOverlay = document.getElementById('salle-detail-overlay');
   if (salleOverlay) salleOverlay.style.display = 'none';
@@ -5602,6 +5595,7 @@ function showPage(id, isBack = false) {
   if (id === 'notifs')    setTimeout(afficherPageNotifs, DURATION);
   if (id === 'messages')  setTimeout(chargerMessages,   DURATION);
   if (id === 'agenda')    setTimeout(chargerAgenda,     DURATION);
+  if (id === 'orga')      setTimeout(chargerDashboardOrga, DURATION);
   if (id === 'network')   setTimeout(() => { if (tousLesDanseurs.length === 0) chargerCarte(); }, DURATION);
   if (id === 'bracelet')  setTimeout(initPageBracelet,  DURATION);
   if (id === 'ranking')   setTimeout(chargerClassement, DURATION);
@@ -7763,19 +7757,12 @@ let eventEnEdition = null;
 window.ouvrirOrganisateur = async function() {
   closeDrawer();
   closeNavProfileMenu();
-  await new Promise(r => setTimeout(r, 50));
-  const overlay = document.getElementById('organisateur-overlay');
-  overlay.style.display = 'block';
-  const inner = overlay.querySelector('div[style*="overflow-y"]');
-  if (inner) inner.scrollTop = 0;
-  document.body.style.overflow = 'hidden';
+  showPage('orga');
   await chargerDashboardOrga();
 }
 
 window.fermerOrganisateur = function() {
-  document.getElementById('organisateur-overlay').style.display = 'none';
-  fermerFormEvent();
-  document.body.style.overflow = '';
+  goBack();
 }
 
 async function chargerDashboardOrga() {
@@ -8243,7 +8230,7 @@ window.fermerFormEvent = function() {
   window._adminEditMode = false;
   const btn = document.getElementById('ev-submit-btn');
   if (btn) { btn.textContent = "Publier l'événement →"; btn.disabled = false; }
-  ouvrirOrganisateur();
+  showPage('orga');
   eventEnEdition = null;
 }
 
@@ -8302,7 +8289,7 @@ window.fermerFormSalle = function() {
   const btn = document.getElementById('salle-submit-btn');
   if (btn) { btn.textContent = 'Publier la salle →'; btn.disabled = false; }
   window._formRetourSalle = null;
-  ouvrirOrganisateur();
+  showPage('orga');
 };
 
 window.sauvegarderSalle = async function() {
@@ -8473,7 +8460,7 @@ window.fermerFormEcole = function() {
   const btn = document.getElementById('ecole-submit-btn');
   if (btn) { btn.textContent = "Publier l'école →"; btn.disabled = false; }
   window._formRetourEcole = null;
-  ouvrirOrganisateur();
+  showPage('orga');
 };
 
 window.sauvegarderEcole = async function() {
@@ -8658,7 +8645,7 @@ window.sauvegarderEvent = async function() {
     if (estEdition) {
       btn.textContent = 'Publier l\'événement →';
       document.getElementById('orga-form').style.display = 'none';
-      await ouvrirOrganisateur();
+      showPage('orga');
     } else {
       errDiv.textContent = '✅ Événement publié !';
       errDiv.style.color = 'var(--green)';
