@@ -5530,6 +5530,11 @@ function showPage(id, isBack = false) {
     orgaOverlay.style.display = 'none';
     document.body.style.overflow = '';
   }
+  // Fermer les overlays cours / studios / workshops
+  const salleOverlay = document.getElementById('salle-detail-overlay');
+  if (salleOverlay) salleOverlay.style.display = 'none';
+  const eventOverlay = document.getElementById('event-detail-overlay');
+  if (eventOverlay) eventOverlay.style.display = 'none';
 
   const fromId   = currentPage;
   const fromPage = document.querySelector('.page.active');
@@ -6730,19 +6735,16 @@ function _getDatePrincipale(ev) {
 function _estPasse(ev) {
   const maintenant = new Date();
   maintenant.setHours(0, 0, 0, 0);
-  // ev.dates = array d'objets {date, heure}
   if (ev.dates && Array.isArray(ev.dates) && ev.dates.length > 0) {
     const valides = ev.dates.map(d => _toDate(d && d.date ? d.date : d)).filter(Boolean);
     if (valides.length === 0) return false;
     return valides.every(d => d < maintenant);
   }
-  // ev.date = array de strings ["2026-03-07", "2026-03-08"]
   if (Array.isArray(ev.date)) {
     const valides = ev.date.map(d => _toDate(d)).filter(Boolean);
     if (valides.length === 0) return false;
     return valides.every(d => d < maintenant);
   }
-  // ev.date = string simple
   const d = _toDate(ev.date);
   if (!d) return false;
   return d < maintenant;
@@ -7381,16 +7383,19 @@ async function afficherWorkshopsPage() {
   if (!grid) return;
 
   // Si tousLesEvents pas encore chargé, charger depuis Firestore
-  let workshops = [];
+  let source = [];
   if (tousLesEvents.length > 0) {
-    workshops = tousLesEvents.filter(e => e.type === 'workshop' && !_estPasse(e));
+    source = tousLesEvents.filter(e => e.type === 'workshop');
   } else if (window._db) {
     try {      const snap = await window._getDocs(window._collection(window._db, 'evenements'));
       const evs = [];
       snap.forEach(d => evs.push({ id: d.id, ...d.data() }));
-      workshops = evs.filter(e => e.type === 'workshop' && !_estPasse(e));
+      source = evs.filter(e => e.type === 'workshop');
     } catch(e) { console.error('Erreur workshops:', e); }
   }
+
+  const workshops = source.filter(e => !_estPasse(e));
+  const passes = source.filter(e => _estPasse(e)).reverse();
 
   _workshopsCache = workshops;
   _workshopsFiltreActif = 'tous';
@@ -7398,7 +7403,32 @@ async function afficherWorkshopsPage() {
   const firstChip = document.querySelector('#workshops-filters .style-fchip');
   if (firstChip) firstChip.classList.add('on');
   _afficherWorkshopsFiltres();
+
+  // Section passés
+  const passesWrap = document.getElementById('workshops-passes-wrap');
+  const passesGrid = document.getElementById('workshops-passes-grid');
+  const passesCount = document.getElementById('workshops-passes-count');
+  const passesLabel = document.getElementById('workshops-passes-label');
+  if (passes.length > 0 && passesWrap && passesGrid) {
+    passesWrap.style.display = 'block';
+    passesGrid.innerHTML = passes.map(ev => _renderEventCard(ev, true)).join('');
+    if (passesCount) passesCount.textContent = passes.length;
+    if (passesLabel) passesLabel.textContent = passes.length === 1 ? 'Workshop terminé' : 'Workshops terminés';
+  } else if (passesWrap) {
+    passesWrap.style.display = 'none';
+  }
 }
+
+window.toggleWorkshopsPasses = function() {
+  const grid = document.getElementById('workshops-passes-grid');
+  const arrow = document.getElementById('workshops-passes-arrow');
+  const toggle = document.getElementById('workshops-passes-toggle');
+  if (!grid) return;
+  const ouvert = grid.style.display !== 'none';
+  grid.style.display = ouvert ? 'none' : 'flex';
+  if (arrow) arrow.style.transform = ouvert ? 'rotate(0deg)' : 'rotate(90deg)';
+  if (toggle) toggle.style.borderColor = ouvert ? 'var(--border)' : 'rgba(255,255,255,0.2)';
+};
 
 // PAGE SALLES
 // ════════════════════════════════
@@ -12184,6 +12214,15 @@ function _renderDrawerLieux() {
       </div>
       <div id="workshops-grid" class="agenda-grid">
         <div style="grid-column:1/-1;padding:30px;text-align:center;color:var(--muted);font-size:13px;">⏳ Chargement...</div>
+      </div>
+      <div id="workshops-passes-wrap" style="display:none;margin-top:32px;margin-bottom:16px;">
+        <button id="workshops-passes-toggle" onclick="toggleWorkshopsPasses()"
+          style="display:flex;align-items:center;gap:10px;width:100%;background:transparent;border:1px solid var(--border);border-radius:14px;padding:14px 18px;cursor:pointer;color:var(--muted2);font-family:'Syne',sans-serif;font-weight:700;font-size:13px;letter-spacing:1px;text-transform:uppercase;transition:all 0.2s;">
+          <span id="workshops-passes-arrow" style="font-size:10px;transition:transform 0.25s;">▶</span>
+          <span id="workshops-passes-label">Workshops terminés</span>
+          <span id="workshops-passes-count" style="margin-left:auto;background:rgba(255,255,255,0.06);border-radius:20px;padding:2px 10px;font-size:11px;"></span>
+        </button>
+        <div id="workshops-passes-grid" style="display:none;margin-top:16px;flex-direction:column;gap:10px;" class="agenda-grid"></div>
       </div>
     </div>
 
