@@ -8177,8 +8177,8 @@ function _renderDatesList() {
     return;
   }
   container.innerHTML = window._evDates.map((d, i) => `
-    <div style="display:grid;grid-template-columns:1fr 1fr auto;gap:8px;align-items:center;">
-      <input class="form-input" type="date" value="${d.date}" style="background:var(--bg2)"
+    <div style="display:grid;grid-template-columns:1fr 1fr auto;gap:8px;align-items:center;min-width:0;">
+      <input class="form-input" type="date" value="${d.date}" style="background:var(--bg2);min-width:0;width:100%;"
         oninput="window._evDates[${i}].date=this.value">
       <input class="form-input" type="text" placeholder="Ex: 21h00 → 04h00" value="${d.heure}" style="background:var(--bg2)"
         oninput="window._evDates[${i}].heure=this.value">
@@ -8241,12 +8241,7 @@ window.fermerFormEvent = function() {
   window._adminEditMode = false;
   const btn = document.getElementById('ev-submit-btn');
   if (btn) { btn.textContent = "Publier l'événement →"; btn.disabled = false; }
-  if (retour === 'admin') {
-    document.getElementById('admin-dashboard').style.display = 'block';
-    chargerDashboardAdmin();
-  } else {
-    document.getElementById('orga-dashboard').style.display = 'block';
-  }
+  ouvrirOrganisateur();
   eventEnEdition = null;
 }
 
@@ -8304,14 +8299,8 @@ window.fermerFormSalle = function() {
   document.getElementById('admin-form-salle').style.display = 'none';
   const btn = document.getElementById('salle-submit-btn');
   if (btn) { btn.textContent = 'Publier la salle →'; btn.disabled = false; }
-  const retour = window._formRetourSalle || 'admin';
   window._formRetourSalle = null;
-  if (retour === 'admin') {
-    document.getElementById('admin-dashboard').style.display = 'block';
-    chargerDashboardAdmin();
-  } else {
-    document.getElementById('orga-dashboard').style.display = 'block';
-  }
+  ouvrirOrganisateur();
 };
 
 window.sauvegarderSalle = async function() {
@@ -8481,14 +8470,8 @@ window.fermerFormEcole = function() {
   document.getElementById('admin-form-ecole').style.display = 'none';
   const btn = document.getElementById('ecole-submit-btn');
   if (btn) { btn.textContent = "Publier l'école →"; btn.disabled = false; }
-  const retour = window._formRetourEcole || 'admin';
   window._formRetourEcole = null;
-  if (retour === 'admin') {
-    document.getElementById('admin-dashboard').style.display = 'block';
-    chargerDashboardAdmin();
-  } else {
-    document.getElementById('orga-dashboard').style.display = 'block';
-  }
+  ouvrirOrganisateur();
 };
 
 window.sauvegarderEcole = async function() {
@@ -8673,13 +8656,7 @@ window.sauvegarderEvent = async function() {
     if (estEdition) {
       btn.textContent = 'Publier l\'événement →';
       document.getElementById('orga-form').style.display = 'none';
-      if (retour === 'admin') {
-        document.getElementById('admin-dashboard').style.display = 'block';
-        await chargerDashboardAdmin();
-      } else {
-        document.getElementById('orga-dashboard').style.display = 'block';
-        await chargerMesEvents();
-      }
+      await ouvrirOrganisateur();
     } else {
       errDiv.textContent = '✅ Événement publié !';
       errDiv.style.color = 'var(--green)';
