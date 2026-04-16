@@ -7766,7 +7766,7 @@ window.fermerOrganisateur = function() {
 
 async function chargerDashboardOrga() {
   if (!window._currentUid || !window._db) {
-    setTimeout(chargerDashboardOrga, 400);
+    window._onAuthReady = chargerDashboardOrga;
     return;
   }
   try {
@@ -11163,6 +11163,13 @@ async function chargerProfil(uid) {
     window._monRole    = d.role || null;
 
     mettreAJourNav(d);
+
+    // Exécuter les callbacks en attente d'auth
+    if (window._onAuthReady) {
+      const cb = window._onAuthReady;
+      window._onAuthReady = null;
+      cb();
+    }
 
     // ── Favoris (après avoir assigné _currentUid) ──
     afficherFavorisProfile().catch(e => console.error('Favoris:', e));
