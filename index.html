@@ -6906,8 +6906,11 @@ function ouvrirEvent(id) {
   }
 
   // Carte Google Maps
-  const mapsLink = ev.geopoint?.latitude
-    ? `<a href="https://maps.google.com/?q=${ev.geopoint.latitude},${ev.geopoint.longitude}" target="_blank" style="display:inline-flex;align-items:center;gap:6px;padding:10px 14px;border-radius:12px;background:rgba(0,245,155,0.07);border:1px solid rgba(0,245,155,0.2);color:var(--green);font-family:'Syne',sans-serif;font-weight:700;font-size:13px;text-decoration:none;">🗺️ Ouvrir dans Google Maps ↗</a>`
+  const _mapsQuery = ev.geopoint?.latitude
+    ? `${ev.geopoint.latitude},${ev.geopoint.longitude}`
+    : [ev.adresse, ev.ville].filter(Boolean).join(' ');
+  const mapsLink = _mapsQuery
+    ? `<a href="https://maps.google.com/?q=${encodeURIComponent(_mapsQuery)}" target="_blank" style="display:flex;align-items:center;justify-content:center;gap:8px;width:100%;padding:14px 20px;border-radius:14px;background:rgba(0,245,155,0.10);border:1px solid rgba(0,245,155,0.25);color:var(--green);font-family:'Syne',sans-serif;font-weight:800;font-size:14px;text-decoration:none;letter-spacing:0.2px;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg>Y aller</a>`
     : '';
 
   // Bouton action
@@ -7680,6 +7683,8 @@ window.ouvrirDetailSalle = function(type, index) {
         </a>
         ${lienHtml}
       </div>` : lienHtml ? `<div class="salle-detail-card">${lienHtml}</div>` : ''}
+
+      ${(() => { const q = item.geopoint?.latitude ? `${item.geopoint.latitude},${item.geopoint.longitude}` : [item.adresse, item.ville].filter(Boolean).join(' '); return q ? `<a href="https://maps.google.com/?q=${encodeURIComponent(q)}" target="_blank" style="display:flex;align-items:center;justify-content:center;gap:8px;width:100%;padding:14px 20px;border-radius:14px;background:rgba(0,245,155,0.10);border:1px solid rgba(0,245,155,0.25);color:var(--green);font-family:'Syne',sans-serif;font-weight:800;font-size:14px;text-decoration:none;letter-spacing:0.2px;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg>Y aller</a>` : ''; })()}
     `;
 
   } else {
@@ -7729,6 +7734,8 @@ window.ouvrirDetailSalle = function(type, index) {
         ${contactHtml}
         ${siteHtml}
       </div>` : ''}
+
+      ${(() => { const q = item.geopoint?.latitude ? `${item.geopoint.latitude},${item.geopoint.longitude}` : [item.adresse, item.ville].filter(Boolean).join(' '); return q ? `<a href="https://maps.google.com/?q=${encodeURIComponent(q)}" target="_blank" style="display:flex;align-items:center;justify-content:center;gap:8px;width:100%;padding:14px 20px;border-radius:14px;background:rgba(0,245,155,0.10);border:1px solid rgba(0,245,155,0.25);color:var(--green);font-family:'Syne',sans-serif;font-weight:800;font-size:14px;text-decoration:none;letter-spacing:0.2px;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg>Y aller</a>` : ''; })()}
     `;
   }
 
