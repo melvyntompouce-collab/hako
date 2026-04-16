@@ -2895,7 +2895,7 @@ if (isPWA) {
           <div class="hero-stat-label">Artistes inscrits</div>
         </div>
         <div>
-          <div class="hero-stat-val">12</div>
+          <div class="hero-stat-val">5</div>
           <div class="hero-stat-label">Disciplines artistiques</div>
         </div>
         <div>
@@ -2956,7 +2956,7 @@ if (isPWA) {
     <div class="section-header">
       <div class="section-tag">Fonctionnalités</div>
       <h2 class="section-title">TOUT CE DONT<br>TU AS BESOIN</h2>
-      <p class="section-sub">Une plateforme complète pensée pour la communauté danse</p>
+      <p class="section-sub">Une plateforme complète pensée pour la communauté artistique</p>
     </div>
     <div class="features-grid">
       <div class="feature-card" onclick="showPage('network')" style="cursor:pointer;" title="Voir le réseau">
@@ -2974,7 +2974,7 @@ if (isPWA) {
       <div class="feature-card" onclick="showPage('profile')" style="cursor:pointer;" title="Voir mon profil">
         <div class="feature-icon" style="background:rgba(155,93,229,0.1)">⌚</div>
         <div class="feature-title">Bracelet connecté</div>
-        <p class="feature-desc">Échangez vos profils en approchant vos poignets. LED, vibreur, BLE — la tech au service de la danse.</p>
+        <p class="feature-desc">Échangez vos profils en approchant vos poignets. LED, vibreur, BLE — la tech au service des artistes.</p>
         <div style="margin-top:12px;font-size:12px;color:var(--purple);font-weight:700;display:flex;align-items:center;gap:4px;">Mon profil <span>→</span></div>
       </div>
       <div class="feature-card" onclick="showPage('ranking')" style="cursor:pointer;" title="Voir le classement">
@@ -2992,7 +2992,7 @@ if (isPWA) {
       <div class="feature-card" onclick="showPage('messages')" style="cursor:pointer;" title="Voir les messages">
         <div class="feature-icon" style="background:rgba(0,245,155,0.1)">🎵</div>
         <div class="feature-title">Playlists & styles</div>
-        <p class="feature-desc">Partagez vos playlists Spotify, affichez vos styles de danse, trouvez des partenaires compatibles.</p>
+        <p class="feature-desc">Partagez vos playlists Spotify, affichez vos disciplines, trouvez des partenaires compatibles.</p>
         <div style="margin-top:12px;font-size:12px;color:var(--green);font-weight:700;display:flex;align-items:center;gap:4px;">Mes messages <span>→</span></div>
       </div>
     </div>
@@ -3009,8 +3009,8 @@ if (isPWA) {
       <p style="font-size:15px;color:var(--muted2);line-height:1.7;margin-bottom:24px;max-width:600px;">HAKO calcule automatiquement votre compatibilité avec chaque artiste du réseau. Plus le score est élevé, plus vous partagez de points communs.</p>
       <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px;">
         <div style="background:rgba(255,255,255,0.04);border-radius:14px;padding:16px;">
-          <div style="font-family:'Syne',sans-serif;font-weight:800;font-size:13px;color:var(--text);margin-bottom:4px;">💃 Styles de danse</div>
-          <div style="font-size:12px;color:var(--muted2);">Plus vous partagez de styles, plus le score monte</div>
+          <div style="font-family:'Syne',sans-serif;font-weight:800;font-size:13px;color:var(--text);margin-bottom:4px;">🎨 Disciplines</div>
+          <div style="font-size:12px;color:var(--muted2);">Plus vous partagez de disciplines, plus le score monte</div>
           <div style="font-size:11px;color:var(--green);font-weight:700;margin-top:8px;">Jusqu'à 40 pts</div>
         </div>
         <div style="background:rgba(255,255,255,0.04);border-radius:14px;padding:16px;">
@@ -3025,7 +3025,7 @@ if (isPWA) {
         </div>
         <div style="background:rgba(255,255,255,0.04);border-radius:14px;padding:16px;">
           <div style="font-family:'Syne',sans-serif;font-weight:800;font-size:13px;color:var(--text);margin-bottom:4px;">🎵 Musique</div>
-          <div style="font-size:12px;color:var(--muted2);">Genres musicaux que vous écoutez en dansant</div>
+          <div style="font-size:12px;color:var(--muted2);">Genres musicaux que vous écoutez et partagez</div>
           <div style="font-size:11px;color:var(--green);font-weight:700;margin-top:8px;">Jusqu'à 15 pts</div>
         </div>
       </div>
@@ -3047,7 +3047,7 @@ if (isPWA) {
       <div class="step">
         <div class="step-num">01</div>
         <div class="step-title">Créez votre profil</div>
-        <p class="step-desc">Inscrivez-vous, ajoutez vos styles de danse, votre zone et vos disponibilités.</p>
+        <p class="step-desc">Inscrivez-vous, ajoutez vos disciplines, votre zone et vos disponibilités.</p>
       </div>
       <div class="step">
         <div class="step-num">02</div>
@@ -3057,7 +3057,7 @@ if (isPWA) {
       <div class="step">
         <div class="step-num">03</div>
         <div class="step-title">Connectez-vous</div>
-        <p class="step-desc">Échangez vos profils via le bracelet ou le site — et dansez ensemble !</p>
+        <p class="step-desc">Échangez vos profils via le bracelet ou le site — et créez ensemble !</p>
       </div>
     </div>
   </section>
@@ -3117,6 +3117,7 @@ if (isPWA) {
             <button type="button" class="style-tag" onclick="toggleSignupType(this,'photographe')">📷 Photographe</button>
             <button type="button" class="style-tag" onclick="toggleSignupType(this,'videaste')">🎥 Vidéaste</button>
             <button type="button" class="style-tag" onclick="toggleSignupType(this,'beatmaker')">🎧 Beatmaker / DJ</button>
+            <button type="button" class="style-tag" onclick="toggleSignupType(this,'realisateur')">🎬 Réalisateur·rice</button>
           </div>
         </div>
 
@@ -3221,6 +3222,26 @@ if (isPWA) {
           <div class="form-group">
             <label class="form-label">Matériel <span style="color:var(--muted);font-weight:400">(optionnel)</span></label>
             <input id="signup-materiel-video" class="form-input" type="text" placeholder="Ex: Sony FX3, DJI Ronin, Premiere Pro...">
+          </div>
+        </div>
+
+        <div id="signup-section-realisateur" style="display:none;">
+          <div class="form-group">
+            <label class="form-label">Genres / formats</label>
+            <div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:6px;" id="signup-genres-real">
+              <button type="button" class="style-tag" onclick="toggleStyle2(this)">Clip musical</button>
+              <button type="button" class="style-tag" onclick="toggleStyle2(this)">Court-métrage</button>
+              <button type="button" class="style-tag" onclick="toggleStyle2(this)">Documentaire</button>
+              <button type="button" class="style-tag" onclick="toggleStyle2(this)">Pub / Promo</button>
+              <button type="button" class="style-tag" onclick="toggleStyle2(this)">Fiction</button>
+              <button type="button" class="style-tag" onclick="toggleStyle2(this)">Événement</button>
+              <button type="button" class="style-tag" onclick="toggleStyle2(this)">Série</button>
+              <button type="button" class="style-tag" onclick="toggleStyle2(this)">Reportage</button>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Logiciels <span style="color:var(--muted);font-weight:400">(optionnel)</span></label>
+            <input id="signup-logiciels-real" class="form-input" type="text" placeholder="Ex: Premiere Pro, DaVinci Resolve, After Effects...">
           </div>
         </div>
 
@@ -4478,6 +4499,7 @@ if (isPWA) {
         <button class="style-fchip filtre-metier-chip" data-metier="beatmaker" onclick="setMetierFiltre('beatmaker',this);syncDancerListMobile()">🎧 Beatmaker</button>
         <button class="style-fchip filtre-metier-chip" data-metier="photographe" onclick="setMetierFiltre('photographe',this);syncDancerListMobile()">📷 Photo</button>
         <button class="style-fchip filtre-metier-chip" data-metier="videaste" onclick="setMetierFiltre('videaste',this);syncDancerListMobile()">🎥 Vidéo</button>
+        <button class="style-fchip filtre-metier-chip" data-metier="realisateur" onclick="setMetierFiltre('realisateur',this);syncDancerListMobile()">🎬 Réal</button>
       </div>
       <input id="filtre-zone-mobile" type="text" list="villes-datalist" placeholder="📍 Ville..." oninput="syncVilleMobile(this.value)" autocomplete="off" style="width:100%;box-sizing:border-box;padding:7px 12px;border-radius:8px;background:var(--card);border:1px solid var(--border);color:var(--text);font-family:'DM Sans',sans-serif;font-size:13px;outline:none;margin-bottom:8px;" onfocus="this.style.borderColor='var(--green)'" onblur="this.style.borderColor='var(--border)'">
       <!-- Dropdown styles mobile -->
@@ -5569,6 +5591,8 @@ function showPage(id, isBack = false) {
   // Actions spécifiques par page
   if (id === 'notifs')    setTimeout(afficherPageNotifs, DURATION);
   if (id === 'messages')  setTimeout(chargerMessages,   DURATION);
+  if (id === 'agenda')    setTimeout(chargerAgenda,     DURATION);
+  if (id === 'network')   setTimeout(() => { if (tousLesDanseurs.length === 0) chargerCarte(); }, DURATION);
   if (id === 'bracelet')  setTimeout(initPageBracelet,  DURATION);
   if (id === 'ranking')   setTimeout(chargerClassement, DURATION);
   if (id === 'salles')    setTimeout(chargerSalles,     DURATION);
@@ -5741,7 +5765,7 @@ function toggleSignupType(btn, type) {
     btn.classList.add('selected');
   }
   // Afficher/masquer les sections selon les types sélectionnés
-  ['danseur','photographe','videaste','beatmaker'].forEach(t => {
+  ['danseur','photographe','videaste','beatmaker','realisateur'].forEach(t => {
     const section = document.getElementById('signup-section-' + t);
     if (section) section.style.display = _signupTypes.has(t) ? 'block' : 'none';
   });
@@ -5862,7 +5886,7 @@ window.toggleDispoDashboard = async function() {
   }
   if (window._monProfil) window._monProfil.disponible = nouvelleDispo;
 
-  try {    await setDoc(doc(window._db, 'danseurs', window._currentUid), { disponible: nouvelleDispo }, { merge: true });
+  try {    await window._setDoc(window._doc(window._db, 'danseurs', window._currentUid), { disponible: nouvelleDispo }, { merge: true });
   } catch(e) { console.error(e); }
 }
 
@@ -6028,7 +6052,7 @@ window.clicNotif = async function(index) {
     window._monProfil.notifications = allNotifs;
     mettreAJourBadgeNotif(allNotifs);
     afficherPageNotifs();
-    try {      await updateDoc(doc(window._db, 'danseurs', window._currentUid), { notifications: allNotifs });
+    try {      await window._updateDoc(window._doc(window._db, 'danseurs', window._currentUid), { notifications: allNotifs });
     } catch(e) { console.error('Erreur marquage lu:', e); }
   }
 
@@ -6036,7 +6060,7 @@ window.clicNotif = async function(index) {
   if (n.type === 'nouveau_message') {
     showPage('messages');
     if (n.de) {
-      try {        const snap = await getDoc(doc(window._db, 'danseurs', n.de));
+      try {        const snap = await window._getDoc(window._doc(window._db, 'danseurs', n.de));
         const data = snap.exists() ? snap.data() : {};
         const nom = data.nom || 'Utilisateur';
         const photo = data.photo || '';
@@ -6080,7 +6104,7 @@ window.marquerNotifLu = async function(index) {
   window._monProfil.notifications = allNotifs;
   mettreAJourBadgeNotif(allNotifs);
   afficherPageNotifs();
-  try {    await updateDoc(doc(window._db, 'danseurs', window._currentUid), { notifications: allNotifs });
+  try {    await window._updateDoc(window._doc(window._db, 'danseurs', window._currentUid), { notifications: allNotifs });
   } catch(e) { console.error('Erreur marquage lu:', e); }
 };
 
@@ -6092,7 +6116,7 @@ window.marquerNotifNonLu = async function(index) {
   window._monProfil.notifications = allNotifs;
   mettreAJourBadgeNotif(allNotifs);
   afficherPageNotifs();
-  try {    await updateDoc(doc(window._db, 'danseurs', window._currentUid), { notifications: allNotifs });
+  try {    await window._updateDoc(window._doc(window._db, 'danseurs', window._currentUid), { notifications: allNotifs });
   } catch(e) { console.error('Erreur marquage non lu:', e); }
 };
 
@@ -6119,7 +6143,7 @@ window.marquerToutLu = async function() {
   window._monProfil.notifications = allNotifs;
   mettreAJourBadgeNotif(allNotifs);
   afficherPageNotifs();
-  try {    await updateDoc(doc(window._db, 'danseurs', window._currentUid), { notifications: allNotifs });
+  try {    await window._updateDoc(window._doc(window._db, 'danseurs', window._currentUid), { notifications: allNotifs });
   } catch(e) { console.error('Erreur tout lu:', e); }
 };
 
@@ -6133,7 +6157,7 @@ window.supprimerNotif = async function(index) {
   mettreAJourBadgeNotif(allNotifs);
   afficherPageNotifs();
   afficherActiviteDashboard();
-  try {    await updateDoc(doc(window._db, 'danseurs', window._currentUid), { notifications: allNotifs });
+  try {    await window._updateDoc(window._doc(window._db, 'danseurs', window._currentUid), { notifications: allNotifs });
   } catch(e) { console.error('Erreur suppression notif:', e); }
 };
 
@@ -6155,7 +6179,7 @@ window.supprimerNotifsLues = async function() {
   mettreAJourBadgeNotif(allNotifs);
   afficherPageNotifs();
   afficherActiviteDashboard();
-  try {    await updateDoc(doc(window._db, 'danseurs', window._currentUid), { notifications: allNotifs });
+  try {    await window._updateDoc(window._doc(window._db, 'danseurs', window._currentUid), { notifications: allNotifs });
   } catch(e) { console.error('Erreur suppression notifs lues:', e); }
 };
 
@@ -6166,7 +6190,7 @@ async function afficherEventsDashboard() {
   if (!section || !list || !window._db) return;
 
   try {
-    if (tousLesEvents.length === 0) {      const snap = await getDocs(collection(window._db, 'evenements'));
+    if (tousLesEvents.length === 0) {      const snap = await window._getDocs(window._collection(window._db, 'evenements'));
       snap.forEach(d => tousLesEvents.push({ id: d.id, ...d.data() }));
     }
 
@@ -6210,7 +6234,7 @@ async function afficherCompatiblesDashboard() {
   if (!section || !list || !window._monProfil || !window._db) return;
 
   try {
-    if (tousLesDanseurs.length === 0) {      const snap = await getDocs(query(collection(window._db, 'danseurs'), where('visibilite','in',['public','amis'])));
+    if (tousLesDanseurs.length === 0) {      const snap = await window._getDocs(window._query(window._collection(window._db, 'danseurs'), window._where('visibilite','in',['public','amis'])));
       snap.forEach(d => tousLesDanseurs.push({ ...d.data(), uid: d.id }));
     }
 
@@ -6250,7 +6274,7 @@ async function afficherFavorisDashboard() {
   if (mesFavoris.size === 0) { section.style.display = 'none'; return; }
 
   if (tousLesEvents.length === 0 && window._db) {
-    try {      const snap = await getDocs(collection(window._db, 'evenements'));
+    try {      const snap = await window._getDocs(window._collection(window._db, 'evenements'));
       snap.forEach(d => tousLesEvents.push({ id: d.id, ...d.data() }));
     } catch(e) { return; }
   }
@@ -6524,7 +6548,7 @@ async function chargerAgenda() {
 
   try {
 
-    const snap = await getDocs(collection(window._db, 'evenements'));
+    const snap = await window._getDocs(window._collection(window._db, 'evenements'));
 
     tousLesEvents = [];
     snap.forEach(d => tousLesEvents.push({ id: d.id, ...d.data() }));
@@ -6846,7 +6870,7 @@ async function chargerAvatarsParticipants(ev) {
     const reste = uids.length - afficher.length;
 
     const profils = await Promise.all(
-      afficher.map(uid => getDoc(doc(window._db, 'danseurs', uid)).then(s => s.exists() ? { uid, ...s.data() } : { uid }))
+      afficher.map(uid => window._getDoc(window._doc(window._db, 'danseurs', uid)).then(s => s.exists() ? { uid, ...s.data() } : { uid }))
     );
     _participantsProfils = profils;
 
@@ -6892,7 +6916,7 @@ window.ouvrirListeParticipants = async function() {
     const mesAbos = new Set(moi?.abonnements || []);
 
     const profils = await Promise.all(
-      uids.map(uid => getDoc(doc(window._db, 'danseurs', uid)).then(s => s.exists() ? { uid, ...s.data() } : { uid }))
+      uids.map(uid => window._getDoc(window._doc(window._db, 'danseurs', uid)).then(s => s.exists() ? { uid, ...s.data() } : { uid }))
     );
 
     // Filtrer selon confidentialité de chaque participant
@@ -6976,12 +7000,12 @@ window.sInscrire = async function() {
 
   try {
 
-    await updateDoc(doc(window._db, 'evenements', eventCourant.id), {
+    await window._updateDoc(window._doc(window._db, 'evenements', eventCourant.id), {
       inscrits: increment(1),
-      participants: arrayUnion(window._currentUid)
+      participants: window._arrayUnion(window._currentUid)
     });
 
-    await updateDoc(doc(window._db, 'danseurs', window._currentUid), {
+    await window._updateDoc(window._doc(window._db, 'danseurs', window._currentUid), {
       evenements: increment(1)
     });
     await window.gainXP(20, 'inscription_event');
@@ -7094,12 +7118,12 @@ async function chargerClassement() {
     // Construire la query selon le tab
     let q;
     if (rkTabActif === 'ville' && currentUser?.zone) {
-      q = query(collection(window._db,'danseurs'), where('zone','==',currentUser.zone), orderBy('xp','desc'), limit(20));
+      q = window._query(window._collection(window._db,'danseurs'), window._where('zone','==',currentUser.zone), window._orderBy('xp','desc'), window._limit(20));
     } else {
-      q = query(collection(window._db,'danseurs'), orderBy('xp','desc'), limit(20));
+      q = window._query(window._collection(window._db,'danseurs'), window._orderBy('xp','desc'), window._limit(20));
     }
 
-    const snap = await getDocs(q);
+    const snap = await window._getDocs(q);
     const danseurs = [];
     snap.forEach(d => danseurs.push({ uid: d.id, ...d.data() }));
 
@@ -7115,12 +7139,12 @@ async function chargerClassement() {
       } else {
         // User pas dans le top 20 : fetch son profil directement
         try {
-          const snap2 = await getDoc(doc(window._db, 'danseurs', currentUid));
+          const snap2 = await window._getDoc(window._doc(window._db, 'danseurs', currentUid));
           if (snap2.exists()) {
             moiData = { uid: currentUid, ...snap2.data() };
             const myXp = moiData.xp || 0;
-            const qAll = query(collection(window._db,'danseurs'), where('xp','>',myXp));
-            const snapPos = await getDocs(qAll);
+            const qAll = window._query(window._collection(window._db,'danseurs'), window._where('xp','>',myXp));
+            const snapPos = await window._getDocs(qAll);
             monPosition = snapPos.size + 1;
           }
         } catch(e2) { console.warn('Pos user hors top20:', e2); }
@@ -7219,7 +7243,7 @@ async function afficherWorkshopsPage() {
   if (tousLesEvents.length > 0) {
     workshops = tousLesEvents.filter(e => e.type === 'workshop' && !_estPasse(e));
   } else if (window._db) {
-    try {      const snap = await getDocs(collection(window._db, 'evenements'));
+    try {      const snap = await window._getDocs(window._collection(window._db, 'evenements'));
       const evs = [];
       snap.forEach(d => evs.push({ id: d.id, ...d.data() }));
       workshops = evs.filter(e => e.type === 'workshop' && !_estPasse(e));
@@ -7244,13 +7268,13 @@ async function chargerSalles() {
   if (!window._db) { setTimeout(chargerSalles, 500); return; }
 
   // Charger les workshops depuis tousLesEvents (déjà en mémoire ou Firestore)
-  afficherWorkshopsPage();
+  try { await afficherWorkshopsPage(); } catch(e) { console.error('Erreur workshops:', e); }
 
   const grid = document.getElementById('salles-grid');
   if (!grid) return;
   grid.innerHTML = '<div class="salles-empty"><div class="salles-empty-ico">⏳</div><div>Chargement...</div></div>';
 
-  try {    const snap = await getDocs(collection(window._db, 'salles'));
+  try {    const snap = await window._getDocs(window._collection(window._db, 'salles'));
     _sallesCache = [];
     snap.forEach(d => _sallesCache.push({ id: d.id, ...d.data() }));
     // Tri par date de création desc
@@ -7273,7 +7297,7 @@ async function chargerEcoles() {
   const grid = document.getElementById('ecoles-grid');
   if (!grid) return;
   grid.innerHTML = '<div class="salles-empty"><div class="salles-empty-ico">⏳</div><div>Chargement...</div></div>';
-  try {    const snap = await getDocs(collection(window._db, 'ecoles'));
+  try {    const snap = await window._getDocs(window._collection(window._db, 'ecoles'));
     _ecolesCache = [];
     snap.forEach(d => _ecolesCache.push({ id: d.id, ...d.data() }));
     _ecolesCache.sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0));
@@ -7579,7 +7603,7 @@ async function chargerDashboardOrga() {
   if (!window._currentUid || !window._db) return;
   try {
 
-    const snap = await getDoc(doc(window._db, 'danseurs', window._currentUid));
+    const snap = await window._getDoc(window._doc(window._db, 'danseurs', window._currentUid));
     if (!snap.exists()) return;
     const d = snap.data();
     window._monRole = d.role || null;
@@ -7613,11 +7637,11 @@ window.validerCodeInvitation = async function() {
 
   try {
 
-    const q = query(
-      collection(window._db, 'inviteCodes'),
-      where('code', '==', code)
+    const q = window._query(
+      window._collection(window._db, 'inviteCodes'),
+      window._where('code', '==', code)
     );
-    const snap = await getDocs(q);
+    const snap = await window._getDocs(q);
 
     if (snap.empty) {
       msg.textContent = '❌ Code invalide.';
@@ -7639,13 +7663,13 @@ window.validerCodeInvitation = async function() {
     const role = codeData.type === 'admin' ? 'admin' : 'organisateur';
 
     // Marquer le code comme utilisé
-    await updateDoc(doc(window._db, 'inviteCodes', codeDoc.id), {
+    await window._updateDoc(window._doc(window._db, 'inviteCodes', codeDoc.id), {
       usedBy: window._currentUid,
       usedAt: new Date().toISOString()
     });
 
     // Mettre à jour le profil
-    await updateDoc(doc(window._db, 'danseurs', window._currentUid), {
+    await window._updateDoc(window._doc(window._db, 'danseurs', window._currentUid), {
       role,
       organisateur: 'valide'
     });
@@ -7676,11 +7700,11 @@ async function chargerDashboardAdmin() {
   try {
 
     const [usersSnap, eventsSnap, codesSnap, sallesSnap, ecolesSnap] = await Promise.all([
-      getDocs(collection(window._db, 'danseurs')),
-      getDocs(collection(window._db, 'evenements')),
-      getDocs(collection(window._db, 'inviteCodes')),
-      getDocs(collection(window._db, 'salles')),
-      getDocs(collection(window._db, 'ecoles'))
+      window._getDocs(window._collection(window._db, 'danseurs')),
+      window._getDocs(window._collection(window._db, 'evenements')),
+      window._getDocs(window._collection(window._db, 'inviteCodes')),
+      window._getDocs(window._collection(window._db, 'salles')),
+      window._getDocs(window._collection(window._db, 'ecoles'))
     ]);
 
     const users  = usersSnap.docs.map(d => ({ id: d.id, ...d.data() }));
@@ -7790,7 +7814,7 @@ window.adminModifierEvent = async function(id) {
 window.adminSupprimerEvent = async function(id) {
   if (!confirm('Supprimer cet événement définitivement ?')) return;
   try {
-    await deleteDoc(doc(window._db, 'evenements', id));
+    await window._deleteDoc(window._doc(window._db, 'evenements', id));
     await chargerDashboardAdmin();
   } catch(e) { alert('Erreur : ' + e.message); }
 }
@@ -7799,7 +7823,7 @@ window.adminSupprimerCompte = async function(uid) {
   if (uid === window._currentUid) { alert('Tu ne peux pas supprimer ton propre compte depuis ici.'); return; }
   if (!confirm('Supprimer ce compte définitivement ? Cette action est irréversible.')) return;
   try {
-    await deleteDoc(doc(window._db, 'danseurs', uid));
+    await window._deleteDoc(window._doc(window._db, 'danseurs', uid));
     await chargerDashboardAdmin();
   } catch(e) { alert('Erreur : ' + e.message); }
 }
@@ -7820,7 +7844,7 @@ window.envoyerNotifGlobale = async function() {
 
   try {
 
-    const snap = await getDocs(collection(window._db, 'danseurs'));
+    const snap = await window._getDocs(window._collection(window._db, 'danseurs'));
     const notif = {
       id:      Date.now().toString(),
       type:    'broadcast',
@@ -7832,8 +7856,8 @@ window.envoyerNotifGlobale = async function() {
     };
 
     const promises = snap.docs.map(d =>
-      updateDoc(doc(window._db, 'danseurs', d.id), {
-        notifications: arrayUnion(notif)
+      window._updateDoc(window._doc(window._db, 'danseurs', d.id), {
+        notifications: window._arrayUnion(notif)
       })
     );
     await Promise.all(promises);
@@ -7853,9 +7877,9 @@ window.envoyerNotifGlobale = async function() {
 
 async function chargerMesEvents() {
   try {
-    const snap = await getDocs(query(
-      collection(window._db, 'evenements'),
-      where('organisateurUid', '==', window._currentUid)
+    const snap = await window._getDocs(window._query(
+      window._collection(window._db, 'evenements'),
+      window._where('organisateurUid', '==', window._currentUid)
     ));
 
     let totalInscrits = 0, totalRevenus = 0;
@@ -8070,7 +8094,7 @@ window.ouvrirFormSalle = function(salleId) {
     document.getElementById('salle-submit-btn').textContent = 'Enregistrer →';
     // Charger les données existantes
     (async () => {
-      try {        const snap = await getDoc(doc(window._db, 'salles', salleId));
+      try {        const snap = await window._getDoc(window._doc(window._db, 'salles', salleId));
         if (!snap.exists()) return;
         const s = snap.data();
         document.getElementById('salle-nom').value     = s.nom        || '';
@@ -8139,10 +8163,10 @@ window.sauvegarderSalle = async function() {
 
   try {    const editId = document.getElementById('salle-edit-id').value;
     if (editId) {
-      await setDoc(doc(window._db, 'salles', editId), data, { merge: true });
+      await window._setDoc(window._doc(window._db, 'salles', editId), data, { merge: true });
     } else {
       data.createdAt = Date.now();
-      await addDoc(collection(window._db, 'salles'), data);
+      await window._addDoc(window._collection(window._db, 'salles'), data);
     }
     fermerFormSalle();
   } catch(e) {
@@ -8156,7 +8180,7 @@ window.sauvegarderSalle = async function() {
 
 window.supprimerSalle = async function(id) {
   if (!confirm('Supprimer cette salle définitivement ?')) return;
-  try {    await deleteDoc(doc(window._db, 'salles', id));
+  try {    await window._deleteDoc(window._doc(window._db, 'salles', id));
     chargerDashboardAdmin();
   } catch(e) {
     console.error('Erreur suppression salle:', e);
@@ -8223,7 +8247,7 @@ window.ouvrirFormEcole = function(ecoleId) {
     document.getElementById('admin-form-ecole-title').textContent = "MODIFIER L'ÉCOLE";
     document.getElementById('ecole-submit-btn').textContent = 'Enregistrer →';
     (async () => {
-      try {        const snap = await getDoc(doc(window._db, 'ecoles', ecoleId));
+      try {        const snap = await window._getDoc(window._doc(window._db, 'ecoles', ecoleId));
         if (!snap.exists()) return;
         const e = snap.data();
         document.getElementById('ecole-nom').value    = e.nom        || '';
@@ -8313,10 +8337,10 @@ window.sauvegarderEcole = async function() {
 
   try {    const editId = document.getElementById('ecole-edit-id').value;
     if (editId) {
-      await setDoc(doc(window._db, 'ecoles', editId), data, { merge: true });
+      await window._setDoc(window._doc(window._db, 'ecoles', editId), data, { merge: true });
     } else {
       data.createdAt = Date.now();
-      await addDoc(collection(window._db, 'ecoles'), data);
+      await window._addDoc(window._collection(window._db, 'ecoles'), data);
     }
     fermerFormEcole();
   } catch(e) {
@@ -8328,7 +8352,7 @@ window.sauvegarderEcole = async function() {
 
 window.supprimerEcole = async function(id) {
   if (!confirm('Supprimer cette école définitivement ?')) return;
-  try {    await deleteDoc(doc(window._db, 'ecoles', id));
+  try {    await window._deleteDoc(window._doc(window._db, 'ecoles', id));
     chargerDashboardAdmin();
   } catch(e) { console.error('Erreur suppression école:', e); }
 };
@@ -8336,7 +8360,7 @@ window.supprimerEcole = async function(id) {
 
 window.modifierEvent = async function(id) {
   try {
-    const snap = await getDoc(doc(window._db, 'evenements', id));
+    const snap = await window._getDoc(window._doc(window._db, 'evenements', id));
     if (!snap.exists()) return;
     const ev = snap.data();
     eventEnEdition = id;
@@ -8427,7 +8451,7 @@ window.sauvegarderEvent = async function() {
   try {
 
     if (eventEnEdition) {
-      const snap = await getDoc(doc(window._db, 'evenements', eventEnEdition));
+      const snap = await window._getDoc(window._doc(window._db, 'evenements', eventEnEdition));
       if (!snap.exists() || (snap.data().organisateurUid !== window._currentUid && window._monRole !== 'admin')) {
         errDiv.textContent = '⛔ Action non autorisée.';
         errDiv.style.display = 'block';
@@ -8435,11 +8459,11 @@ window.sauvegarderEvent = async function() {
         btn.disabled = false;
         return;
       }
-      await setDoc(doc(window._db, 'evenements', eventEnEdition), data, { merge: true });
+      await window._setDoc(window._doc(window._db, 'evenements', eventEnEdition), data, { merge: true });
     } else {
       data.inscrits = 0;
       data.createdAt = new Date().toISOString();
-      await addDoc(collection(window._db, 'evenements'), data);
+      await window._addDoc(window._collection(window._db, 'evenements'), data);
     }
 
     tousLesEvents = [];
@@ -8494,12 +8518,12 @@ window.supprimerEvent = async function(id) {
   if (!window._currentUid) return;
   if (!confirm('Supprimer cet événement définitivement ?')) return;
   try {
-    const snap = await getDoc(doc(window._db, 'evenements', id));
+    const snap = await window._getDoc(window._doc(window._db, 'evenements', id));
     if (!snap.exists() || snap.data().organisateurUid !== window._currentUid) {
       alert('⛔ Action non autorisée.');
       return;
     }
-    await deleteDoc(doc(window._db, 'evenements', id));
+    await window._deleteDoc(window._doc(window._db, 'evenements', id));
     await chargerMesEvents();
   } catch(e) { console.error(e); }
 }
@@ -8512,7 +8536,7 @@ window.voirInscrits = async function(eventId) {
   list.innerHTML = '<div style="text-align:center;padding:20px;color:var(--muted);">⏳ Chargement...</div>';
 
   try {
-    const snap = await getDoc(doc(window._db, 'evenements', eventId));
+    const snap = await window._getDoc(window._doc(window._db, 'evenements', eventId));
     if (!snap.exists()) return;
     const ev = snap.data();
     const participants = ev.participants || [];
@@ -8523,7 +8547,7 @@ window.voirInscrits = async function(eventId) {
     }
 
     const profils = await Promise.all(participants.map(uid =>
-      getDoc(doc(window._db, 'danseurs', uid)).then(s => s.exists() ? { uid, ...s.data() } : { uid, nom: 'Inconnu' })
+      window._getDoc(window._doc(window._db, 'danseurs', uid)).then(s => s.exists() ? { uid, ...s.data() } : { uid, nom: 'Inconnu' })
     ));
 
     list.innerHTML = profils.map(p => {
@@ -8578,13 +8602,13 @@ window.validerCheckin = async function() {
     let danseurUid = null;
     let danseurNom = '';
 
-    const q = await getDocs(query(collection(window._db, 'danseurs'), where('email', '==', input)));
+    const q = await window._getDocs(window._query(window._collection(window._db, 'danseurs'), window._where('email', '==', input)));
     if (!q.empty) {
       danseurUid = q.docs[0].id;
       const d = q.docs[0].data();
       danseurNom = d.nomAffiche || d.nom || d.pseudo || 'Artiste';
     } else if (input.length > 10) {
-      // Essayer comme UID direct      const snap = await getDoc(doc(window._db, 'danseurs', input));
+      // Essayer comme UID direct      const snap = await window._getDoc(window._doc(window._db, 'danseurs', input));
       if (snap.exists()) {
         danseurUid = input;
         const d = snap.data();
@@ -8600,8 +8624,8 @@ window.validerCheckin = async function() {
     }
 
     // Enregistrer le check-in
-    await updateDoc(doc(window._db, 'evenements', checkinEventId), {
-      checkins: arrayUnion({ uid: danseurUid, date: new Date().toISOString() })
+    await window._updateDoc(window._doc(window._db, 'evenements', checkinEventId), {
+      checkins: window._arrayUnion({ uid: danseurUid, date: new Date().toISOString() })
     });
 
     result.textContent = '✅ ' + danseurNom + ' — Check-in validé !';
@@ -8629,7 +8653,7 @@ window.ouvrirListeSociale = async function(type) {
 
   try {
 
-    const moi = await getDoc(doc(window._db, 'danseurs', window._currentUid));
+    const moi = await window._getDoc(window._doc(window._db, 'danseurs', window._currentUid));
     if (!moi.exists()) return;
     const moiData = moi.data();
     let uids = [];
@@ -8637,9 +8661,9 @@ window.ouvrirListeSociale = async function(type) {
     if (type === 'abonnements') {
       uids = moiData.abonnements || [];
     } else {
-      const snap = await getDocs(query(
-        collection(window._db, 'danseurs'),
-        where('abonnements', 'array-contains', window._currentUid)
+      const snap = await window._getDocs(window._query(
+        window._collection(window._db, 'danseurs'),
+        window._where('abonnements', 'array-contains', window._currentUid)
       ));
       snap.forEach(d => uids.push(d.id));
     }
@@ -8650,7 +8674,7 @@ window.ouvrirListeSociale = async function(type) {
     }
 
     const profils = await Promise.all(uids.map(uid =>
-      getDoc(doc(window._db, 'danseurs', uid)).then(s => s.exists() ? { uid, ...s.data() } : null)
+      window._getDoc(window._doc(window._db, 'danseurs', uid)).then(s => s.exists() ? { uid, ...s.data() } : null)
     ));
 
     const amiAbos = moiData.abonnements || [];
@@ -8691,7 +8715,7 @@ let mesFavoris = new Set();
 
 async function chargerFavoris() {
   if (!window._currentUid || !window._db) return;
-  try {    const snap = await getDoc(doc(window._db, 'danseurs', window._currentUid));
+  try {    const snap = await window._getDoc(window._doc(window._db, 'danseurs', window._currentUid));
     if (snap.exists()) {
       mesFavoris = new Set(snap.data().favoris || []);
     }
@@ -8710,7 +8734,7 @@ window.toggleFavori = async function(eventId) {
     }
 
     // Sauvegarder tout le Set en une fois — évite arrayUnion/arrayRemove
-    await setDoc(doc(window._db, 'danseurs', window._currentUid), {
+    await window._setDoc(window._doc(window._db, 'danseurs', window._currentUid), {
       favoris: [...mesFavoris]
     }, { merge: true });
 
@@ -8749,7 +8773,7 @@ async function afficherFavorisProfile() {
   // Charger les events si pas encore chargés
   if (tousLesEvents.length === 0 && window._db) {
     try {
-      const snap = await getDocs(collection(window._db, 'evenements'));
+      const snap = await window._getDocs(window._collection(window._db, 'evenements'));
       snap.forEach(d => tousLesEvents.push({ id: d.id, ...d.data() }));
     } catch(e) { console.error(e); return; }
   }
@@ -8779,7 +8803,7 @@ let convOuverte = null;
 
 async function chargerAbonnements() {
   if (!window._currentUid || !window._db) return;
-  try {    const snap = await getDoc(doc(window._db, 'danseurs', window._currentUid));
+  try {    const snap = await window._getDoc(window._doc(window._db, 'danseurs', window._currentUid));
     if (snap.exists()) {
       const d = snap.data();
       mesAbonnements = new Set(d.abonnements || []);
@@ -8790,9 +8814,9 @@ async function chargerAbonnements() {
   } catch(e) { console.error('Abonnements:', e); }
 
   // Comptage abonnés dans un try séparé pour ne pas bloquer
-  try {    const abonnesSnap = await getDocs(query(
-      collection(window._db, 'danseurs'),
-      where('abonnements', 'array-contains', window._currentUid)
+  try {    const abonnesSnap = await window._getDocs(window._query(
+      window._collection(window._db, 'danseurs'),
+      window._where('abonnements', 'array-contains', window._currentUid)
     ));
     const statAbonnes = document.getElementById('stat-abonnes');
     if (statAbonnes) statAbonnes.textContent = abonnesSnap.size;
@@ -8829,19 +8853,19 @@ window.toggleSuivre = async function(targetUid) {
 
     if (estSuivi) {
       // Se désabonner
-      await updateDoc(doc(window._db, 'danseurs', window._currentUid), {
+      await window._updateDoc(window._doc(window._db, 'danseurs', window._currentUid), {
         abonnements: arrayRemove(targetUid)
       });
       mesAbonnements.delete(targetUid);
       mettreAJourBtnSuivre(targetUid, false);
     } else {
       // S'abonner
-      await updateDoc(doc(window._db, 'danseurs', window._currentUid), {
-        abonnements: arrayUnion(targetUid)
+      await window._updateDoc(window._doc(window._db, 'danseurs', window._currentUid), {
+        abonnements: window._arrayUnion(targetUid)
       });
       // Notifier la cible
-      await updateDoc(doc(window._db, 'danseurs', targetUid), {
-        notifications: arrayUnion({
+      await window._updateDoc(window._doc(window._db, 'danseurs', targetUid), {
+        notifications: window._arrayUnion({
           type: 'nouveau_abonne',
           de: window._currentUid,
           date: new Date().toISOString(),
@@ -8859,6 +8883,10 @@ window.toggleSuivre = async function(targetUid) {
 // ════════════════════════════════
 async function chargerMessages() {
   if (!window._currentUid || !window._db) {
+    if (!window._currentUid && window._db) {
+      setTimeout(chargerMessages, 600);
+      return;
+    }
     document.getElementById('msg-not-connected').style.display = 'block';
     document.getElementById('msg-list').style.display = 'none';
     return;
@@ -8870,7 +8898,7 @@ async function chargerMessages() {
   try {
 
     // Charger mon profil pour avoir mes abonnements
-    const moi = await getDoc(doc(window._db, 'danseurs', window._currentUid));
+    const moi = await window._getDoc(window._doc(window._db, 'danseurs', window._currentUid));
     if (!moi.exists()) return;
     const moiData = moi.data();
     const mesAbos = moiData.abonnements || [];
@@ -8878,7 +8906,7 @@ async function chargerMessages() {
     // Trouver les amis mutuels (abonnement mutuel)
     const amisMutuels = [];
     for (const uid of mesAbos) {
-      const ami = await getDoc(doc(window._db, 'danseurs', uid));
+      const ami = await window._getDoc(window._doc(window._db, 'danseurs', uid));
       if (ami.exists()) {
         const amiData = ami.data();
         const amiAbos = amiData.abonnements || [];
@@ -8970,8 +8998,8 @@ async function ouvrirConversation(uid, nom, photo) {
   // Écouter en temps réel
   const convId = [window._currentUid, uid].sort().join('_');
   try {
-    window._msgListener = onSnapshot(
-      query(collection(window._db, 'conversations', convId, 'messages'), orderBy('date', 'asc')),
+    window._msgListener = window._onSnapshot(
+      window._query(window._collection(window._db, 'conversations', convId, 'messages'), window._orderBy('date', 'asc')),
       snap => afficherMessages(snap.docs.map(d => d.data()))
     );
   } catch(e) { console.error(e); }
@@ -8997,9 +9025,9 @@ function fermerConversation() {
 async function chargerMessagesConv(uid) {
   try {
     const convId = [window._currentUid, uid].sort().join('_');
-    const snap = await getDocs(query(
-      collection(window._db, 'conversations', convId, 'messages'),
-      orderBy('date', 'asc')
+    const snap = await window._getDocs(window._query(
+      window._collection(window._db, 'conversations', convId, 'messages'),
+      window._orderBy('date', 'asc')
     ));
     afficherMessages(snap.docs.map(d => d.data()));
   } catch(e) { console.error(e); }
@@ -9310,21 +9338,21 @@ async function _envoyerDansConv(data) {
   try {
     const convId = [window._currentUid, convOuverte].sort().join('_');
 
-    await setDoc(doc(window._db, 'conversations', convId), {
+    await window._setDoc(window._doc(window._db, 'conversations', convId), {
       participants: [window._currentUid, convOuverte],
       dernierMessage: data.texte || '',
       date: new Date().toISOString()
     }, { merge: true });
 
-    await addDoc(collection(window._db, 'conversations', convId, 'messages'), {
+    await window._addDoc(window._collection(window._db, 'conversations', convId, 'messages'), {
       de: window._currentUid,
       date: new Date().toISOString(),
       lu: false,
       ...data
     });
 
-    await updateDoc(doc(window._db, 'danseurs', convOuverte), {
-      notifications: arrayUnion({
+    await window._updateDoc(window._doc(window._db, 'danseurs', convOuverte), {
+      notifications: window._arrayUnion({
         type: 'nouveau_message',
         de: window._currentUid,
         date: new Date().toISOString(),
@@ -9541,9 +9569,9 @@ async function chargerCarte() {
 
   try {
 
-    const snap = await getDocs(query(
-      collection(window._db, 'danseurs'),
-      where('visibilite', 'in', ['public', 'amis'])
+    const snap = await window._getDocs(window._query(
+      window._collection(window._db, 'danseurs'),
+      window._where('visibilite', 'in', ['public', 'amis'])
     ));
 
     tousLesDanseurs = [];
@@ -9615,7 +9643,7 @@ window.ouvrirProfilArtiste = async function(uid) {
   window.scrollTo(0, 0);
 
   try {
-    const snap = await getDoc(doc(window._db, 'danseurs', uid));
+    const snap = await window._getDoc(window._doc(window._db, 'danseurs', uid));
     if (!snap.exists()) return;
     const d = snap.data();
 
@@ -10241,7 +10269,7 @@ document.addEventListener('click', function(e) {
 <!-- ═══ FIREBASE AUTH ═══ -->
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.0.0/firebase-app.js";
-import { getFirestore, doc, setDoc, getDoc, collection, getDocs, query, where, updateDoc, deleteDoc, addDoc, getCountFromServer }
+import { getFirestore, doc, setDoc, getDoc, collection, getDocs, query, where, updateDoc, deleteDoc, addDoc, getCountFromServer, orderBy, limit, arrayUnion, onSnapshot }
   from "https://www.gstatic.com/firebasejs/10.0.0/firebase-firestore.js";
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword,
   onAuthStateChanged, signOut, sendPasswordResetEmail, deleteUser }
@@ -10264,6 +10292,22 @@ const auth = getAuth(app);
 // Exposer globalement pour la carte
 window._db   = db;
 window._auth = auth;
+
+// Exposer les fonctions Firestore pour les scripts hors module
+window._getDocs    = getDocs;
+window._getDoc     = getDoc;
+window._setDoc     = setDoc;
+window._addDoc     = addDoc;
+window._updateDoc  = updateDoc;
+window._deleteDoc  = deleteDoc;
+window._collection = collection;
+window._query      = query;
+window._where      = where;
+window._doc        = doc;
+window._arrayUnion  = arrayUnion;
+window._orderBy     = orderBy;
+window._limit       = limit;
+window._onSnapshot  = onSnapshot;
 
 // ════════════════════════════════
 // INSCRIPTION
@@ -10305,6 +10349,11 @@ window.inscrire = async function() {
   const genresBeat = [...document.querySelectorAll('#signup-genres-beat .style-tag.selected')]
     .map(t => t.textContent);
   const daw = document.getElementById('signup-daw')?.value.trim() || '';
+
+  // Champs réalisateur
+  const genresReal = [...document.querySelectorAll('#signup-genres-real .style-tag.selected')]
+    .map(t => t.textContent);
+  const logicielsReal = document.getElementById('signup-logiciels-real')?.value.trim() || '';
 
   // Validation
   errDiv.style.display = 'none';
@@ -10352,6 +10401,10 @@ window.inscrire = async function() {
     if (metiers.includes('beatmaker')) {
       profileData.genresBeat = genresBeat;
       profileData.daw        = daw;
+    }
+    if (metiers.includes('realisateur')) {
+      profileData.genresReal    = genresReal;
+      profileData.logicielsReal = logicielsReal;
     }
 
     await setDoc(doc(db, 'danseurs', uid), profileData);
@@ -10475,6 +10528,10 @@ window.sauvegarderIdentite = async function() {
   if (metiersSauv.includes('beatmaker')) {
     metierData.genresBeat = [...document.querySelectorAll('#edit-genres-beat .style-tag.selected')].map(t => t.textContent.trim());
     metierData.daw        = document.getElementById('edit-daw')?.value.trim() || '';
+  }
+  if (metiersSauv.includes('realisateur')) {
+    metierData.genresReal    = [...document.querySelectorAll('#edit-genres-real .style-tag.selected')].map(t => t.textContent.trim());
+    metierData.logicielsReal = document.getElementById('edit-logiciels-real')?.value.trim() || '';
   }
 
   try {
@@ -10635,7 +10692,7 @@ async function chargerProfil(uid) {
 
     // ── Sections métier (édition profil) ──
     const metiers = d.metiers || (d.styles && d.styles.length ? ['danseur'] : []);
-    ['danseur','photographe','videaste','beatmaker'].forEach(m => {
+    ['danseur','photographe','videaste','beatmaker','realisateur'].forEach(m => {
       const sec = document.getElementById('edit-section-' + m);
       if (sec) sec.style.display = metiers.includes(m) ? 'block' : 'none';
     });
@@ -10664,6 +10721,15 @@ async function chargerProfil(uid) {
       if (elD) elD.value = d.daw || '';
       (d.genresBeat || []).forEach(s => {
         document.querySelectorAll('#edit-genres-beat .style-tag').forEach(tag => {
+          if (tag.textContent === s) tag.classList.add('selected');
+        });
+      });
+    }
+    if (metiers.includes('realisateur')) {
+      const elR = document.getElementById('edit-logiciels-real');
+      if (elR) elR.value = d.logicielsReal || '';
+      (d.genresReal || []).forEach(s => {
+        document.querySelectorAll('#edit-genres-real .style-tag').forEach(tag => {
           if (tag.textContent === s) tag.classList.add('selected');
         });
       });
@@ -12238,6 +12304,25 @@ function _renderDrawerLieux() {
             </div>
             <label class="form-label" style="margin-bottom:6px;">DAW / Logiciels</label>
             <input id="edit-daw" class="form-input" type="text" placeholder="Ex: FL Studio, Ableton, Logic Pro..." style="background:var(--bg2);">
+          </div>
+        </div>
+
+        <!-- CHAMPS RÉALISATEUR (édition) -->
+        <div id="edit-section-realisateur" style="display:none;">
+          <div style="background:var(--card);border:1px solid var(--border);border-radius:20px;padding:24px;margin-bottom:16px;">
+            <div style="font-family:'Syne',sans-serif;font-weight:700;font-size:14px;margin-bottom:12px;">🎬 Genres / formats</div>
+            <div style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:14px;" id="edit-genres-real">
+              <button class="style-tag" onclick="toggleStyle(this)">Clip musical</button>
+              <button class="style-tag" onclick="toggleStyle(this)">Court-métrage</button>
+              <button class="style-tag" onclick="toggleStyle(this)">Documentaire</button>
+              <button class="style-tag" onclick="toggleStyle(this)">Pub / Promo</button>
+              <button class="style-tag" onclick="toggleStyle(this)">Fiction</button>
+              <button class="style-tag" onclick="toggleStyle(this)">Événement</button>
+              <button class="style-tag" onclick="toggleStyle(this)">Série</button>
+              <button class="style-tag" onclick="toggleStyle(this)">Reportage</button>
+            </div>
+            <label class="form-label" style="margin-bottom:6px;">Logiciels</label>
+            <input id="edit-logiciels-real" class="form-input" type="text" placeholder="Ex: Premiere Pro, DaVinci Resolve, After Effects..." style="background:var(--bg2);">
           </div>
         </div>
 
