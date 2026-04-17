@@ -3182,6 +3182,14 @@ if (isPWA) {
           <input id="signup-pseudo" class="form-input" type="text" placeholder="Ex: La Furia, DJ Koz...">
         </div>
         <div class="form-group">
+          <label class="form-label">Nom d'utilisateur <span style="color:var(--red);font-weight:600">*</span></label>
+          <div style="position:relative;">
+            <span style="position:absolute;left:14px;top:50%;transform:translateY(-50%);color:var(--muted2);font-weight:700;font-size:14px;">@</span>
+            <input id="signup-username" class="form-input" type="text" placeholder="lasoul_paris" autocomplete="off" style="padding-left:28px;" oninput="verifierUsernameSignup(this.value)">
+          </div>
+          <div id="signup-username-msg" style="font-size:11px;margin-top:5px;font-weight:700;"></div>
+        </div>
+        <div class="form-group">
           <label class="form-label">Email</label>
           <input id="signup-email" class="form-input" type="email" placeholder="ton@email.com">
         </div>
@@ -10192,6 +10200,7 @@ function afficherListeDanseurs(danseurs) {
         </div>
         <div class="dc-info" style="min-width:0;flex:1;">
           <div class="dc-name" style="font-size:13px;">${nom}${badgeArtiste}</div>
+          ${d.username ? `<div style="font-size:11px;color:var(--green);font-weight:700;margin-top:1px;">@${d.username}</div>` : ''}
           <div style="font-size:11px;color:var(--muted);margin-top:1px;">
             ${subLabel}${d.zone ? `📍 ${d.zone}` : ''}
           </div>
@@ -10278,13 +10287,12 @@ window.ouvrirProfilArtiste = async function(uid) {
       else if (niveauAp >= 6) apAvatarEl.classList.add('avatar-diamant');
     }
 
-    // ── Blase ──
+    // ── Handle (@username) + Blase ──
     const handleEl = document.getElementById('ap-handle');
-    if (d.blase && peutVoir('nom')) {
-      handleEl.textContent = '🎭 ' + d.blase;
-    } else {
-      handleEl.textContent = '';
-    }
+    const handleParts = [];
+    if (d.username) handleParts.push('@' + d.username);
+    if (d.blase && peutVoir('nom')) handleParts.push('🎭 ' + d.blase);
+    handleEl.textContent = handleParts.join('  ·  ');
 
     // ── Zone ──
     document.getElementById('ap-zone').textContent = '📍 ' + (d.zone || 'Zone non définie');
@@ -10903,10 +10911,11 @@ function filtrerDanseurs() {
 
   if (search) {
     filtrés = filtrés.filter(d => {
-      const nom    = (d.nomAffiche || d.nom || d.pseudo || '').toLowerCase();
-      const styles = normaliserStyles(d.styles).join(' ').toLowerCase();
-      const z      = (d.zone || '').toLowerCase();
-      return nom.includes(search) || styles.includes(search) || z.includes(search);
+      const nom      = (d.nomAffiche || d.nom || d.pseudo || '').toLowerCase();
+      const username = ('@' + (d.username || '')).toLowerCase();
+      const styles   = normaliserStyles(d.styles).join(' ').toLowerCase();
+      const z        = (d.zone || '').toLowerCase();
+      return nom.includes(search) || username.includes(search) || styles.includes(search) || z.includes(search);
     });
   }
 
@@ -11045,11 +11054,59 @@ window._limit       = limit;
 window._onSnapshot  = onSnapshot;
 
 // ════════════════════════════════
+// USERNAME — vérification unicité
+// ════════════════════════════════
+let _usernameCheckTimer = null;
+
+async function _checkUsername(val, msgId) {
+  const msg = document.getElementById(msgId);
+  if (!msg) return;
+  const clean = val.toLowerCase().replace(/[^a-z0-9_]/g, '');
+  if (!clean || clean.length < 3) {
+    msg.textContent = clean.length > 0 ? '⚠️ 3 caractères minimum' : '';
+    msg.style.color = 'var(--red)';
+    return;
+  }
+  if (clean.length > 20) {
+    msg.textContent = '⚠️ 20 caractères maximum';
+    msg.style.color = 'var(--red)';
+    return;
+  }
+  msg.textContent = '⏳ Vérification...';
+  msg.style.color = 'var(--muted)';
+  try {
+    const snap = await window._getDocs(window._query(window._collection(window._db, 'danseurs'), window._where('username', '==', clean)));
+    const currentUid = window._currentUid;
+    const taken = snap.docs.some(d => d.id !== currentUid);
+    if (taken) {
+      msg.textContent = '✗ @' + clean + ' est déjà pris';
+      msg.style.color = 'var(--red)';
+    } else {
+      msg.textContent = '✓ @' + clean + ' est disponible';
+      msg.style.color = 'var(--green)';
+    }
+  } catch(e) {
+    msg.textContent = '';
+  }
+}
+
+window.verifierUsernameSignup = function(val) {
+  clearTimeout(_usernameCheckTimer);
+  _usernameCheckTimer = setTimeout(() => _checkUsername(val, 'signup-username-msg'), 600);
+};
+
+window.verifierUsernameEdit = function(val) {
+  clearTimeout(_usernameCheckTimer);
+  _usernameCheckTimer = setTimeout(() => _checkUsername(val, 'profil-username-msg'), 600);
+};
+
+// ════════════════════════════════
 // INSCRIPTION
 // ════════════════════════════════
 window.inscrire = async function() {
   const nom      = document.getElementById('signup-nom').value.trim();
   const pseudo   = document.getElementById('signup-pseudo').value.trim();
+  const username = document.getElementById('signup-username').value.trim().toLowerCase().replace(/[^a-z0-9_]/g,'');
   const email    = document.getElementById('signup-email').value.trim();
   const password = document.getElementById('signup-password').value;
   const zone     = normaliserVille(document.getElementById('signup-zone').value || '');
@@ -11111,6 +11168,10 @@ window.inscrire = async function() {
   if (!email)  { afficherErreur(errDiv, '⚠️ Entre ton email'); return; }
   if (password.length < 6) { afficherErreur(errDiv, '⚠️ Mot de passe trop court (6 caractères min)'); return; }
   if (metiers.length === 0) { afficherErreur(errDiv, '⚠️ Choisis au moins un type de profil'); return; }
+  if (!username || username.length < 3) { afficherErreur(errDiv, '⚠️ Choisis un nom d\'utilisateur (3 caractères min)'); return; }
+  // Vérifier unicité username
+  const usernameCheck = await window._getDocs(window._query(window._collection(window._db, 'danseurs'), window._where('username', '==', username)));
+  if (!usernameCheck.empty) { afficherErreur(errDiv, '⚠️ Ce nom d\'utilisateur est déjà pris'); return; }
 
   btn.textContent = 'Création en cours...';
   btn.disabled = true;
@@ -11122,6 +11183,7 @@ window.inscrire = async function() {
     const profileData = {
       nom,
       pseudo,
+      username,
       displayChoice,
       nomAffiche,
       email,
@@ -11178,6 +11240,10 @@ window.inscrire = async function() {
     setTimeout(() => {
       chargerProfil(uid);
       window.showPage('profile');
+      if (!username) setTimeout(() => {
+        const el = document.getElementById('profil-username');
+        if (el) { window.ouvrirEdition && window.ouvrirEdition(); el.focus(); }
+      }, 2000);
     }, 1500);
 
   } catch(e) {
@@ -11253,6 +11319,7 @@ window.sauvegarderIdentite = async function() {
 
   const nom   = document.getElementById('profil-nom')?.value.trim()       || '';
   const blase = document.getElementById('profil-blase')?.value.trim()     || '';
+  const usernameEdit = document.getElementById('profil-username')?.value.trim().toLowerCase().replace(/[^a-z0-9_]/g,'') || '';
   const tel   = document.getElementById('profil-tel')?.value.trim()       || '';
   const ville = normaliserVille(document.getElementById('profil-ville')?.value || '');
   const instagram    = document.getElementById('profil-instagram')?.value.trim().replace('@','') || '';
@@ -11311,8 +11378,16 @@ window.sauvegarderIdentite = async function() {
   }
 
   try {
+    // Vérifier unicité username si modifié
+    if (usernameEdit && usernameEdit.length >= 3) {
+      const uCheck = await window._getDocs(window._query(window._collection(window._db, 'danseurs'), window._where('username', '==', usernameEdit)));
+      const taken = uCheck.docs.some(doc => doc.id !== user.uid);
+      if (taken) { alert('⚠️ Ce nom d\'utilisateur est déjà pris'); return; }
+    }
+
     await setDoc(doc(db, 'danseurs', user.uid), {
       nom, blase, tel,
+      ...(usernameEdit && usernameEdit.length >= 3 ? { username: usernameEdit } : {}),
       ...(ville ? { ville, zone: ville } : {}),
       instagram, tiktok, lien, lienVisible,
       spotify, applemusic, deezer, soundcloud,
@@ -11478,6 +11553,7 @@ async function chargerProfil(uid) {
     // ── Champs édition ──
     const champNom      = document.getElementById('profil-nom');
     const champBlase    = document.getElementById('profil-blase');
+    const champUsername = document.getElementById('profil-username');
     const champTel        = document.getElementById('profil-tel');
     const champVille      = document.getElementById('profil-ville');
     const champInsta      = document.getElementById('profil-instagram');
@@ -11489,6 +11565,7 @@ async function chargerProfil(uid) {
     const champSoundcloud = document.getElementById('profil-soundcloud');
     if (champNom)         champNom.value         = d.nom        || '';
     if (champBlase)       champBlase.value       = d.blase      || '';
+    if (champUsername)    champUsername.value    = d.username   || '';
     if (champTel)         champTel.value         = d.tel        || '';
     if (champVille) {
       champVille.value = d.ville || d.zone || '';
@@ -13040,6 +13117,14 @@ function _renderDrawerLieux() {
             <div class="form-group" style="margin:0">
               <label class="form-label">Nom d'artiste <span style="color:var(--muted);font-weight:400">(optionnel)</span></label>
               <input id="profil-blase" class="form-input" type="text" placeholder="Ex: La Furia" style="background:var(--bg2)">
+            </div>
+            <div class="form-group" style="margin:0">
+              <label class="form-label">Nom d'utilisateur <span style="color:var(--red);font-weight:600">*</span></label>
+              <div style="position:relative;">
+                <span style="position:absolute;left:14px;top:50%;transform:translateY(-50%);color:var(--muted2);font-weight:700;font-size:14px;">@</span>
+                <input id="profil-username" class="form-input" type="text" placeholder="lasoul_paris" autocomplete="off" style="background:var(--bg2);padding-left:28px;" oninput="verifierUsernameEdit(this.value)">
+              </div>
+              <div id="profil-username-msg" style="font-size:11px;margin-top:5px;font-weight:700;"></div>
             </div>
             <div class="form-group" style="margin:0">
               <label class="form-label">Numéro de téléphone <span style="color:var(--muted);font-weight:400">(optionnel)</span></label>
