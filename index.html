@@ -11911,9 +11911,8 @@ async function chargerProfil(uid) {
     // ── Sections métier (édition profil) ──
     const metiers = d.metiers || (d.styles && d.styles.length ? ['danseur'] : []);
 
-    // Pré-cocher les chips de sélection de métier
     // Pré-remplir les selects catégorie/spécialité édition
-    const editMetiersList = profil.metiers || (profil.styles && profil.styles.length ? ['danseur'] : []);
+    const editMetiersList = d.metiers || (d.styles && d.styles.length ? ['danseur'] : []);
     if (editMetiersList.length) {
       const editCat = getCategorieFromMetiers(editMetiersList);
       const editSelCat = document.getElementById('edit-categorie');
