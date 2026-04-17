@@ -8885,7 +8885,8 @@ window.ouvrirFormEvent = function() {
   document.getElementById('orga-form').style.display = 'block';
   document.getElementById('orga-dashboard').style.display = 'none';
   document.getElementById('admin-dashboard').style.display = 'none';
-  document.getElementById('orga-form').scrollIntoView({ behavior: 'smooth' });
+  const _pageOrga = document.getElementById('page-orga');
+  if (_pageOrga) _pageOrga.scrollTop = 0;
 }
 
 window.fermerFormEvent = function() {
@@ -8946,7 +8947,7 @@ window.ouvrirFormSalle = function(salleId) {
   }
 
   document.getElementById('admin-form-salle').style.display = 'block';
-  document.getElementById('admin-form-salle').scrollIntoView({ behavior: 'smooth' });
+  const _pgS = document.getElementById('page-orga'); if (_pgS) _pgS.scrollTop = 0;
 };
 
 window.fermerFormSalle = function() {
@@ -9126,7 +9127,7 @@ window.ouvrirFormEcole = function(ecoleId) {
   }
 
   document.getElementById('admin-form-ecole').style.display = 'block';
-  document.getElementById('admin-form-ecole').scrollIntoView({ behavior: 'smooth' });
+  const _pgE = document.getElementById('page-orga'); if (_pgE) _pgE.scrollTop = 0;
 };
 
 window.fermerFormEcole = function() {
@@ -9357,7 +9358,7 @@ window.sauvegarderEvent = async function() {
       document.getElementById('ev-photo-label-text').textContent = 'Choisir une image JPG ou PNG';
       window._evPhotoUrl = null;
       setVibeChips('');
-      document.getElementById('orga-form').scrollIntoView({ behavior: 'smooth' });
+      const _pgM = document.getElementById('page-orga'); if (_pgM) _pgM.scrollTop = 0;
     }
   } catch(e) {
     errDiv.textContent = '❌ Erreur : ' + e.message;
