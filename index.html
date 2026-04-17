@@ -7177,6 +7177,7 @@ function ouvrirEvent(id) {
   `;
 
   const overlay = document.getElementById('event-detail-overlay');
+  cacherBarreReseau();
   overlay.style.display = 'block';
   overlay.scrollTop = 0;
 
@@ -7261,6 +7262,7 @@ window.ouvrirListeParticipants = async function() {
   const countEl = document.getElementById('participants-count-label');
 
   titreEl.textContent = eventCourant.titre || '';
+  cacherBarreReseau();
   overlay.style.display = 'block';
   overlay.scrollTop = 0;
   listEl.innerHTML = '<div style="text-align:center;padding:40px;color:var(--muted);font-size:13px;">⏳ Chargement...</div>';
@@ -8022,6 +8024,7 @@ window.ouvrirDetailSalle = function(type, index) {
 
   document.getElementById('salle-detail-content').innerHTML = html;
   const overlay = document.getElementById('salle-detail-overlay');
+  cacherBarreReseau();
   overlay.style.display = 'block';
   overlay.scrollTop = 0;
 };
@@ -10204,10 +10207,17 @@ function afficherListeDanseurs(danseurs) {
 // ════════════════════════════════
 let artisteCourant = null;
 
+// ── Cache la barre de recherche réseau quand un overlay s'ouvre ──
+function cacherBarreReseau() {
+  const bar = document.getElementById('network-mobile-bar');
+  if (bar) bar.style.display = 'none';
+}
+
 window.ouvrirProfilArtiste = async function(uid) {
   // Fermer le drawer réseau si ouvert
   if (window.fermerDrawerReseau) fermerDrawerReseau();
   artisteCourant = uid;
+  cacherBarreReseau();
   document.getElementById('artiste-overlay').style.display = 'block';
   window.scrollTo(0, 0);
 
@@ -10927,6 +10937,7 @@ let carteFS = null;
 function openMapFullscreen() {
   const overlay = document.getElementById('map-fullscreen-overlay');
   const inner = document.getElementById('map-fullscreen-inner');
+  cacherBarreReseau();
   overlay.style.display = 'block';
   document.body.style.overflow = 'hidden';
   const closeBtn = document.getElementById('btn-map-fs-close');
