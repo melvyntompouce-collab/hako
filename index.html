@@ -5465,14 +5465,12 @@ if (isPWA) {
     </div>
 
     <!-- Modal abonnés / abonnements -->
-    <div id="social-modal" style="display:none;position:fixed;inset:0;z-index:300;background:rgba(0,0,0,0.8);backdrop-filter:blur(10px);align-items:center;justify-content:center;padding:20px;">
-      <div style="background:var(--card);border:1px solid var(--border);border-radius:24px;width:100%;max-width:480px;max-height:80vh;overflow:hidden;display:flex;flex-direction:column;">
-        <div style="padding:20px 24px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;flex-shrink:0;">
-          <div id="social-modal-title" style="font-family:'Syne',sans-serif;font-weight:800;font-size:18px;"></div>
-          <button onclick="fermerListeSociale()" style="width:32px;height:32px;border-radius:8px;background:var(--card2);border:1px solid var(--border);color:var(--text);cursor:pointer;font-size:16px;">✕</button>
-        </div>
-        <div id="social-modal-list" style="overflow-y:auto;padding:16px;scrollbar-width:none;"></div>
+    <div id="social-modal" style="display:none;position:fixed;inset:0;z-index:300;background:var(--bg);flex-direction:column;">
+      <div style="display:flex;align-items:center;justify-content:space-between;padding:16px 20px;border-bottom:1px solid var(--border);flex-shrink:0;">
+        <div id="social-modal-title" style="font-family:'Syne',sans-serif;font-weight:800;font-size:18px;"></div>
+        <button onclick="fermerListeSociale()" style="width:36px;height:36px;border-radius:50%;background:rgba(255,255,255,0.06);border:1px solid var(--border);color:var(--text);cursor:pointer;font-size:18px;display:flex;align-items:center;justify-content:center;line-height:1;">←</button>
       </div>
+      <div id="social-modal-list" style="overflow-y:auto;-webkit-overflow-scrolling:touch;padding:16px;flex:1;scrollbar-width:none;"></div>
     </div>
 
     <div class="profile-grid" style="margin-top:20px;">
@@ -9194,6 +9192,7 @@ window.ouvrirListeSociale = async function(type) {
   const title = document.getElementById('social-modal-title');
 
   modal.style.display = 'flex';
+  modal.scrollTop = 0;
   title.textContent = type === 'abonnements' ? 'ABONNEMENTS' : 'ABONNÉS';
   list.innerHTML = '<div style="text-align:center;padding:30px;color:var(--muted);">⏳ Chargement...</div>';
 
@@ -11881,6 +11880,15 @@ async function chargerProfil(uid) {
     const abonnements = d.abonnements || [];
     const statAbos = document.getElementById('stat-abonnements');
     if (statAbos) statAbos.textContent = abonnements.length;
+    // Comptage abonnés (ceux qui nous suivent)
+    try {
+      const abonnesSnap = await window._getDocs(window._query(
+        window._collection(window._db, 'danseurs'),
+        window._where('abonnements', 'array-contains', uid)
+      ));
+      const statAbonnes = document.getElementById('stat-abonnes');
+      if (statAbonnes) statAbonnes.textContent = abonnesSnap.size;
+    } catch(e) { console.error('Comptage abonnés:', e); }
 
     // ── Stocker uid courant EN PREMIER ──
     window._currentUid = uid;
