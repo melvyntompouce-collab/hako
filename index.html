@@ -5397,6 +5397,7 @@ if (isPWA) {
           <div id="ph-admin-badge" style="display:none;">
             <span style="background:rgba(255,77,109,0.15);border:1px solid rgba(255,77,109,0.45);color:#ff4d6d;font-family:'Syne',sans-serif;font-weight:800;font-size:10px;letter-spacing:2px;padding:3px 10px;border-radius:6px;text-transform:uppercase;">⚡ Admin HAKO</span>
           </div>
+          <div id="ph-metiers-badges" style="display:none;flex-wrap:wrap;gap:5px;margin-top:6px;"></div>
         </div>
       </div>
 
@@ -11575,6 +11576,29 @@ async function chargerProfil(uid) {
     if (privReseaux) {
       const reseauxList = [d.instagram ? '@'+d.instagram+' (IG)' : '', d.tiktok ? '@'+d.tiktok+' (TK)' : ''].filter(Boolean);
       privReseaux.textContent = reseauxList.length ? reseauxList.join(', ') : 'Non renseigné';
+    }
+
+    // ── Badges métier dans le header ──
+    const phMetiersBadges = document.getElementById('ph-metiers-badges');
+    if (phMetiersBadges) {
+      const METIER_BADGES = {
+        danseur:     '💃 Danseur·se',
+        photographe: '📷 Photographe',
+        videaste:    '🎥 Vidéaste',
+        beatmaker:   '🎧 Beatmaker',
+        realisateur: '🎬 Réalisateur·rice',
+        dj:          '🎛️ DJ',
+        musicien:    '🎸 Musicien·ne',
+        chanteur:    '🎤 Chanteur·se'
+      };
+      if (metiers.length) {
+        phMetiersBadges.innerHTML = metiers.map(m => METIER_BADGES[m]
+          ? `<span style="padding:3px 9px;border-radius:20px;background:rgba(0,245,155,0.08);border:1px solid rgba(0,245,155,0.2);color:var(--green);font-size:11px;font-weight:700;">${METIER_BADGES[m]}</span>`
+          : '').join('');
+        phMetiersBadges.style.display = 'flex';
+      } else {
+        phMetiersBadges.style.display = 'none';
+      }
     }
 
     // ── Section disciplines dans le profil perso (lecture seule) ──
