@@ -6862,7 +6862,7 @@ function _renderEventCard(ev, passe) {
     dateLine = `📅 ${_formatDate(d)}${ev.heure ? ' · ' + ev.heure : ''}`;
   }
 
-  const locLine = [ev.ville, ev.adresse].filter(Boolean).join(' · ');
+  const locLine = [ev.ville, ev.adresse||ev.lieu].filter(Boolean).join(' · ');
 
   const btnHtml = `<button class="ec-btn ec-btn-green" onclick="event.stopPropagation();ouvrirEvent('${ev.id}')">En savoir plus</button>`;
 
@@ -7001,7 +7001,7 @@ function ouvrirEvent(id) {
   // Carte Google Maps
   const _mapsQuery = ev.geopoint?.latitude
     ? `${ev.geopoint.latitude},${ev.geopoint.longitude}`
-    : [ev.adresse, ev.ville].filter(Boolean).join(' ');
+    : [ev.adresse || ev.lieu, ev.ville].filter(Boolean).join(' ');
   const mapsLink = _mapsQuery
     ? `<a href="https://maps.google.com/?q=${encodeURIComponent(_mapsQuery)}" target="_blank" style="display:flex;align-items:center;justify-content:center;gap:8px;width:100%;padding:14px 20px;border-radius:14px;background:rgba(0,245,155,0.10);border:1px solid rgba(0,245,155,0.25);color:var(--green);font-family:'Syne',sans-serif;font-weight:800;font-size:14px;text-decoration:none;letter-spacing:0.2px;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg>Y aller</a>`
     : '';
@@ -7023,7 +7023,7 @@ function ouvrirEvent(id) {
   if (content) content.innerHTML = `
     <div style="background:var(--card);border:1px solid var(--border);border-radius:16px;padding:16px;display:flex;flex-direction:column;gap:8px;">
       <div style="font-size:13px;color:var(--muted2);">${dateLine}</div>
-      <div style="font-size:13px;color:var(--muted2);">📍 ${ev.ville || ''}${ev.adresse ? ' · ' + ev.adresse : ''}</div>
+      <div style="font-size:13px;color:var(--muted2);">📍 ${ev.ville || ''}${(ev.adresse||ev.lieu) ? ' · ' + (ev.adresse||ev.lieu) : ''}</div>
       ${ev.styles ? `<div style="font-size:13px;color:var(--muted2);">💃 ${ev.styles}</div>` : ''}
       ${ev.vibe ? `<div style="font-size:13px;color:var(--muted2);">🎵 ${ev.vibe}</div>` : ''}
       ${ev.niveau ? `<div style="font-size:13px;color:var(--muted2);">⭐ ${ev.niveau}</div>` : ''}
@@ -12385,7 +12385,7 @@ async function _placerMarqueursEvents() {
   if (!carte) return;
   _clearNetworkMarkers();
   for (const ev of _networkEventsData) {
-    const ville = ev.ville || ev.adresse || '';
+    const ville = ev.ville || ev.adresse || ev.lieu || '';
     if (!ville) continue;
     const coords = await coordsVille(ville);
     const couleur = ev.type === 'battle' ? '#f0c040' : ev.type === 'workshop' ? '#00F59B' : '#a855f7';
