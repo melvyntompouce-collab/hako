@@ -3167,6 +3167,9 @@ if (isPWA) {
             <button type="button" class="style-tag" onclick="toggleSignupType(this,'videaste')">🎥 Vidéaste</button>
             <button type="button" class="style-tag" onclick="toggleSignupType(this,'beatmaker')">🎧 Beatmaker / DJ</button>
             <button type="button" class="style-tag" onclick="toggleSignupType(this,'realisateur')">🎬 Réalisateur·rice</button>
+            <button type="button" class="style-tag" onclick="toggleSignupType(this,'dj')">🎛️ DJ</button>
+            <button type="button" class="style-tag" onclick="toggleSignupType(this,'musicien')">🎸 Musicien·ne</button>
+            <button type="button" class="style-tag" onclick="toggleSignupType(this,'chanteur')">🎤 Chanteur·se / Rappeur·se</button>
           </div>
         </div>
 
@@ -3315,6 +3318,85 @@ if (isPWA) {
           <div class="form-group">
             <label class="form-label">DAW / Logiciels <span style="color:var(--muted);font-weight:400">(optionnel)</span></label>
             <input id="signup-daw" class="form-input" type="text" placeholder="Ex: FL Studio, Ableton, Logic Pro...">
+          </div>
+        </div>
+
+        <div id="signup-section-dj" style="display:none;">
+          <div class="form-group">
+            <label class="form-label">Genres mixés</label>
+            <div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:6px;" id="signup-genres-dj">
+              <button type="button" class="style-tag" onclick="toggleStyle2(this)">House</button>
+              <button type="button" class="style-tag" onclick="toggleStyle2(this)">Techno</button>
+              <button type="button" class="style-tag" onclick="toggleStyle2(this)">Hip-Hop</button>
+              <button type="button" class="style-tag" onclick="toggleStyle2(this)">Afrobeat</button>
+              <button type="button" class="style-tag" onclick="toggleStyle2(this)">Dancehall</button>
+              <button type="button" class="style-tag" onclick="toggleStyle2(this)">Amapiano</button>
+              <button type="button" class="style-tag" onclick="toggleStyle2(this)">R&B</button>
+              <button type="button" class="style-tag" onclick="toggleStyle2(this)">Kizomba / Semba</button>
+              <button type="button" class="style-tag" onclick="toggleStyle2(this)">Électro</button>
+              <button type="button" class="style-tag" onclick="toggleStyle2(this)">Latin</button>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Logiciels / Matériel <span style="color:var(--muted);font-weight:400">(optionnel)</span></label>
+            <input id="signup-matos-dj" class="form-input" type="text" placeholder="Ex: Traktor, Serato, Pioneer CDJ...">
+          </div>
+        </div>
+
+        <div id="signup-section-musicien" style="display:none;">
+          <div class="form-group">
+            <label class="form-label">Instruments</label>
+            <div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:6px;" id="signup-instruments-musicien">
+              <button type="button" class="style-tag" onclick="toggleStyle2(this)">Guitare</button>
+              <button type="button" class="style-tag" onclick="toggleStyle2(this)">Piano / Clavier</button>
+              <button type="button" class="style-tag" onclick="toggleStyle2(this)">Basse</button>
+              <button type="button" class="style-tag" onclick="toggleStyle2(this)">Batterie</button>
+              <button type="button" class="style-tag" onclick="toggleStyle2(this)">Violon</button>
+              <button type="button" class="style-tag" onclick="toggleStyle2(this)">Saxophone</button>
+              <button type="button" class="style-tag" onclick="toggleStyle2(this)">Trompette</button>
+              <button type="button" class="style-tag" onclick="toggleStyle2(this)">Flûte</button>
+              <button type="button" class="style-tag" onclick="toggleStyle2(this)">Percussions</button>
+              <button type="button" class="style-tag" onclick="toggleStyle2(this)">Autre</button>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Genres musicaux</label>
+            <div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:6px;" id="signup-genres-musicien">
+              <button type="button" class="style-tag" onclick="toggleStyle2(this)">Jazz</button>
+              <button type="button" class="style-tag" onclick="toggleStyle2(this)">Soul</button>
+              <button type="button" class="style-tag" onclick="toggleStyle2(this)">Funk</button>
+              <button type="button" class="style-tag" onclick="toggleStyle2(this)">Classique</button>
+              <button type="button" class="style-tag" onclick="toggleStyle2(this)">Hip-Hop</button>
+              <button type="button" class="style-tag" onclick="toggleStyle2(this)">R&B</button>
+              <button type="button" class="style-tag" onclick="toggleStyle2(this)">Latin</button>
+              <button type="button" class="style-tag" onclick="toggleStyle2(this)">Électro</button>
+            </div>
+          </div>
+        </div>
+
+        <div id="signup-section-chanteur" style="display:none;">
+          <div class="form-group">
+            <label class="form-label">Genres musicaux</label>
+            <div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:6px;" id="signup-genres-chanteur">
+              <button type="button" class="style-tag" onclick="toggleStyle2(this)">Hip-Hop / Rap</button>
+              <button type="button" class="style-tag" onclick="toggleStyle2(this)">R&B</button>
+              <button type="button" class="style-tag" onclick="toggleStyle2(this)">Soul</button>
+              <button type="button" class="style-tag" onclick="toggleStyle2(this)">Afrobeat</button>
+              <button type="button" class="style-tag" onclick="toggleStyle2(this)">Pop</button>
+              <button type="button" class="style-tag" onclick="toggleStyle2(this)">Jazz</button>
+              <button type="button" class="style-tag" onclick="toggleStyle2(this)">Gospel</button>
+              <button type="button" class="style-tag" onclick="toggleStyle2(this)">Reggae / Dancehall</button>
+              <button type="button" class="style-tag" onclick="toggleStyle2(this)">Latin</button>
+              <button type="button" class="style-tag" onclick="toggleStyle2(this)">Électro</button>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Niveau <span style="color:var(--muted);font-weight:400">(optionnel)</span></label>
+            <div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:6px;" id="signup-niveaux-chanteur">
+              <button type="button" class="style-tag" onclick="toggleSignupSingle(this,'signup-niveaux-chanteur')">Amateur</button>
+              <button type="button" class="style-tag" onclick="toggleSignupSingle(this,'signup-niveaux-chanteur')">Semi-pro</button>
+              <button type="button" class="style-tag" onclick="toggleSignupSingle(this,'signup-niveaux-chanteur')">Professionnel</button>
+            </div>
           </div>
         </div>
 
@@ -4549,6 +4631,9 @@ if (isPWA) {
         <button class="style-fchip filtre-metier-chip" data-metier="photographe" onclick="setMetierFiltre('photographe',this);syncDancerListMobile()">📷 Photo</button>
         <button class="style-fchip filtre-metier-chip" data-metier="videaste" onclick="setMetierFiltre('videaste',this);syncDancerListMobile()">🎥 Vidéo</button>
         <button class="style-fchip filtre-metier-chip" data-metier="realisateur" onclick="setMetierFiltre('realisateur',this);syncDancerListMobile()">🎬 Réal</button>
+        <button class="style-fchip filtre-metier-chip" data-metier="dj" onclick="setMetierFiltre('dj',this);syncDancerListMobile()">🎛️ DJ</button>
+        <button class="style-fchip filtre-metier-chip" data-metier="musicien" onclick="setMetierFiltre('musicien',this);syncDancerListMobile()">🎸 Musicien</button>
+        <button class="style-fchip filtre-metier-chip" data-metier="chanteur" onclick="setMetierFiltre('chanteur',this);syncDancerListMobile()">🎤 Chanteur</button>
       </div>
       <input id="filtre-zone-mobile" type="text" list="villes-datalist" placeholder="📍 Ville..." oninput="syncVilleMobile(this.value)" autocomplete="off" style="width:100%;box-sizing:border-box;padding:7px 12px;border-radius:8px;background:var(--card);border:1px solid var(--border);color:var(--text);font-family:'DM Sans',sans-serif;font-size:13px;outline:none;margin-bottom:8px;" onfocus="this.style.borderColor='var(--green)'" onblur="this.style.borderColor='var(--border)'">
       <!-- Dropdown styles mobile -->
@@ -5867,7 +5952,7 @@ function toggleSignupType(btn, type) {
     btn.classList.add('selected');
   }
   // Afficher/masquer les sections selon les types sélectionnés
-  ['danseur','photographe','videaste','beatmaker','realisateur'].forEach(t => {
+  ['danseur','photographe','videaste','beatmaker','realisateur','dj','musicien','chanteur'].forEach(t => {
     const section = document.getElementById('signup-section-' + t);
     if (section) section.style.display = _signupTypes.has(t) ? 'block' : 'none';
   });
@@ -10032,7 +10117,7 @@ function afficherListeDanseurs(danseurs) {
     return;
   }
 
-  const METIER_ICONS = { danseur:'💃', photographe:'📷', videaste:'🎥', beatmaker:'🎧', realisateur:'🎬' };
+  const METIER_ICONS = { danseur:'💃', photographe:'📷', videaste:'🎥', beatmaker:'🎧', realisateur:'🎬', dj:'🎛️', musicien:'🎸', chanteur:'🎤' };
   list.innerHTML = danseurs.map(d => {
     const nom = d.nomAffiche || d.nom || d.pseudo || 'Artiste';
     const metiers = d.metiers || (d.styles && d.styles.length ? ['danseur'] : []);
@@ -10213,7 +10298,10 @@ window.ouvrirProfilArtiste = async function(uid) {
       photographe: '📷 Photographe',
       videaste:    '🎥 Vidéaste',
       beatmaker:   '🎧 Beatmaker / DJ',
-      realisateur: '🎬 Réalisateur·rice'
+      realisateur: '🎬 Réalisateur·rice',
+      dj:          '🎛️ DJ',
+      musicien:    '🎸 Musicien·ne',
+      chanteur:    '🎤 Chanteur·se / Rappeur·se'
     };
 
     let metierSection = document.getElementById('ap-metier');
@@ -10295,6 +10383,34 @@ window.ouvrirProfilArtiste = async function(uid) {
       }
       if (d.logicielsReal) {
         metierHtml += `<div style="margin-bottom:12px;"><span style="font-size:11px;color:var(--muted);font-weight:700;letter-spacing:1px;text-transform:uppercase;">Logiciels : </span><span style="font-size:13px;color:var(--text);font-weight:600;">${d.logicielsReal}</span></div>`;
+      }
+    }
+
+    // DJ — genres + matériel
+    if (metiers.includes('dj')) {
+      if (d.genresDj && d.genresDj.length) {
+        metierHtml += `<div style="margin-bottom:12px;"><div style="font-size:11px;color:var(--muted);font-weight:700;letter-spacing:1px;text-transform:uppercase;margin-bottom:6px;">Genres mixés</div><div style="display:flex;flex-wrap:wrap;gap:6px;">${d.genresDj.map(s => `<span style="padding:4px 10px;border-radius:12px;background:rgba(255,255,255,0.05);color:var(--muted2);font-size:12px;font-weight:600;">${s}</span>`).join('')}</div></div>`;
+      }
+      if (d.matosDj) {
+        metierHtml += `<div style="margin-bottom:12px;"><span style="font-size:11px;color:var(--muted);font-weight:700;letter-spacing:1px;text-transform:uppercase;">Matériel : </span><span style="font-size:13px;color:var(--text);font-weight:600;">${d.matosDj}</span></div>`;
+      }
+    }
+    // Musicien — instruments + genres
+    if (metiers.includes('musicien')) {
+      if (d.instrumentsMusicien && d.instrumentsMusicien.length) {
+        metierHtml += `<div style="margin-bottom:12px;"><div style="font-size:11px;color:var(--muted);font-weight:700;letter-spacing:1px;text-transform:uppercase;margin-bottom:6px;">Instruments</div><div style="display:flex;flex-wrap:wrap;gap:6px;">${d.instrumentsMusicien.map(s => `<span style="padding:4px 10px;border-radius:12px;background:rgba(255,255,255,0.05);color:var(--muted2);font-size:12px;font-weight:600;">${s}</span>`).join('')}</div></div>`;
+      }
+      if (d.genresMusicien && d.genresMusicien.length) {
+        metierHtml += `<div style="margin-bottom:12px;"><div style="font-size:11px;color:var(--muted);font-weight:700;letter-spacing:1px;text-transform:uppercase;margin-bottom:6px;">Genres</div><div style="display:flex;flex-wrap:wrap;gap:6px;">${d.genresMusicien.map(s => `<span style="padding:4px 10px;border-radius:12px;background:rgba(255,255,255,0.05);color:var(--muted2);font-size:12px;font-weight:600;">${s}</span>`).join('')}</div></div>`;
+      }
+    }
+    // Chanteur — genres + niveau
+    if (metiers.includes('chanteur')) {
+      if (d.genresChanteur && d.genresChanteur.length) {
+        metierHtml += `<div style="margin-bottom:12px;"><div style="font-size:11px;color:var(--muted);font-weight:700;letter-spacing:1px;text-transform:uppercase;margin-bottom:6px;">Genres</div><div style="display:flex;flex-wrap:wrap;gap:6px;">${d.genresChanteur.map(s => `<span style="padding:4px 10px;border-radius:12px;background:rgba(255,255,255,0.05);color:var(--muted2);font-size:12px;font-weight:600;">${s}</span>`).join('')}</div></div>`;
+      }
+      if (d.niveauChanteur) {
+        metierHtml += `<div style="margin-bottom:12px;"><span style="font-size:11px;color:var(--muted);font-weight:700;letter-spacing:1px;text-transform:uppercase;">Niveau : </span><span style="font-size:13px;color:var(--text);font-weight:600;">${d.niveauChanteur}</span></div>`;
       }
     }
 
@@ -10922,6 +11038,22 @@ window.inscrire = async function() {
     .map(t => t.textContent);
   const logicielsReal = document.getElementById('signup-logiciels-real')?.value.trim() || '';
 
+  // Champs DJ
+  const genresDj = [...document.querySelectorAll('#signup-genres-dj .style-tag.selected')]
+    .map(t => t.textContent);
+  const matosDj = document.getElementById('signup-matos-dj')?.value.trim() || '';
+
+  // Champs musicien
+  const instrumentsMusicien = [...document.querySelectorAll('#signup-instruments-musicien .style-tag.selected')]
+    .map(t => t.textContent);
+  const genresMusicien = [...document.querySelectorAll('#signup-genres-musicien .style-tag.selected')]
+    .map(t => t.textContent);
+
+  // Champs chanteur
+  const genresChanteur = [...document.querySelectorAll('#signup-genres-chanteur .style-tag.selected')]
+    .map(t => t.textContent);
+  const niveauChanteur = document.querySelector('#signup-niveaux-chanteur .style-tag.selected')?.textContent || '';
+
   // Validation
   errDiv.style.display = 'none';
   if (!email)  { afficherErreur(errDiv, '⚠️ Entre ton email'); return; }
@@ -10972,6 +11104,18 @@ window.inscrire = async function() {
     if (metiers.includes('realisateur')) {
       profileData.genresReal    = genresReal;
       profileData.logicielsReal = logicielsReal;
+    }
+    if (metiers.includes('dj')) {
+      profileData.genresDj = genresDj;
+      profileData.matosDj  = matosDj;
+    }
+    if (metiers.includes('musicien')) {
+      profileData.instrumentsMusicien = instrumentsMusicien;
+      profileData.genresMusicien      = genresMusicien;
+    }
+    if (metiers.includes('chanteur')) {
+      profileData.genresChanteur = genresChanteur;
+      profileData.niveauChanteur = niveauChanteur;
     }
 
     await setDoc(doc(db, 'danseurs', uid), profileData);
@@ -11100,6 +11244,18 @@ window.sauvegarderIdentite = async function() {
   if (metiersSauv.includes('realisateur')) {
     metierData.genresReal    = [...document.querySelectorAll('#edit-genres-real .style-tag.selected')].map(t => t.textContent.trim());
     metierData.logicielsReal = document.getElementById('edit-logiciels-real')?.value.trim() || '';
+  }
+  if (metiersSauv.includes('dj')) {
+    metierData.genresDj = [...document.querySelectorAll('#edit-genres-dj .style-tag.selected')].map(t => t.textContent.trim());
+    metierData.matosDj  = document.getElementById('edit-matos-dj')?.value.trim() || '';
+  }
+  if (metiersSauv.includes('musicien')) {
+    metierData.instrumentsMusicien = [...document.querySelectorAll('#edit-instruments-musicien .style-tag.selected')].map(t => t.textContent.trim());
+    metierData.genresMusicien      = [...document.querySelectorAll('#edit-genres-musicien .style-tag.selected')].map(t => t.textContent.trim());
+  }
+  if (metiersSauv.includes('chanteur')) {
+    metierData.genresChanteur = [...document.querySelectorAll('#edit-genres-chanteur .style-tag.selected')].map(t => t.textContent.trim());
+    metierData.niveauChanteur = document.querySelector('#edit-niveaux-chanteur .style-tag.selected')?.textContent.trim() || '';
   }
 
   try {
@@ -11306,7 +11462,7 @@ async function chargerProfil(uid) {
       }
     });
 
-    ['danseur','photographe','videaste','beatmaker','realisateur'].forEach(m => {
+    ['danseur','photographe','videaste','beatmaker','realisateur','dj','musicien','chanteur'].forEach(m => {
       const sec = document.getElementById('edit-section-' + m);
       if (sec) sec.style.display = metiers.includes(m) ? 'block' : 'none';
     });
@@ -11347,6 +11503,39 @@ async function chargerProfil(uid) {
           if (tag.textContent === s) tag.classList.add('selected');
         });
       });
+    }
+    if (metiers.includes('dj')) {
+      const elDj = document.getElementById('edit-matos-dj');
+      if (elDj) elDj.value = d.matosDj || '';
+      (d.genresDj || []).forEach(s => {
+        document.querySelectorAll('#edit-genres-dj .style-tag').forEach(tag => {
+          if (tag.textContent === s) tag.classList.add('selected');
+        });
+      });
+    }
+    if (metiers.includes('musicien')) {
+      (d.instrumentsMusicien || []).forEach(s => {
+        document.querySelectorAll('#edit-instruments-musicien .style-tag').forEach(tag => {
+          if (tag.textContent === s) tag.classList.add('selected');
+        });
+      });
+      (d.genresMusicien || []).forEach(s => {
+        document.querySelectorAll('#edit-genres-musicien .style-tag').forEach(tag => {
+          if (tag.textContent === s) tag.classList.add('selected');
+        });
+      });
+    }
+    if (metiers.includes('chanteur')) {
+      (d.genresChanteur || []).forEach(s => {
+        document.querySelectorAll('#edit-genres-chanteur .style-tag').forEach(tag => {
+          if (tag.textContent === s) tag.classList.add('selected');
+        });
+      });
+      if (d.niveauChanteur) {
+        document.querySelectorAll('#edit-niveaux-chanteur .style-tag').forEach(tag => {
+          if (tag.textContent === d.niveauChanteur) tag.classList.add('selected');
+        });
+      }
     }
 
     // ── Toggles plateformes ──
@@ -12836,6 +13025,9 @@ function _renderDrawerLieux() {
             <button type="button" class="style-tag" data-metier="videaste" onclick="toggleEditMetier(this)">🎥 Vidéaste</button>
             <button type="button" class="style-tag" data-metier="beatmaker" onclick="toggleEditMetier(this)">🎧 Beatmaker / DJ</button>
             <button type="button" class="style-tag" data-metier="realisateur" onclick="toggleEditMetier(this)">🎬 Réalisateur·rice</button>
+            <button type="button" class="style-tag" data-metier="dj" onclick="toggleEditMetier(this)">🎛️ DJ</button>
+            <button type="button" class="style-tag" data-metier="musicien" onclick="toggleEditMetier(this)">🎸 Musicien·ne</button>
+            <button type="button" class="style-tag" data-metier="chanteur" onclick="toggleEditMetier(this)">🎤 Chanteur·se / Rappeur·se</button>
           </div>
         </div>
 
@@ -12984,6 +13176,82 @@ function _renderDrawerLieux() {
             </div>
             <label class="form-label" style="margin-bottom:6px;">Logiciels</label>
             <input id="edit-logiciels-real" class="form-input" type="text" placeholder="Ex: Premiere Pro, DaVinci Resolve, After Effects..." style="background:var(--bg2);">
+          </div>
+        </div>
+
+        <!-- CHAMPS DJ (édition) -->
+        <div id="edit-section-dj" style="display:none;">
+          <div style="background:var(--card);border:1px solid var(--border);border-radius:20px;padding:24px;margin-bottom:16px;">
+            <div style="font-family:'Syne',sans-serif;font-weight:700;font-size:14px;margin-bottom:12px;">🎛️ Genres mixés</div>
+            <div style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:14px;" id="edit-genres-dj">
+              <button class="style-tag" onclick="toggleStyle(this)">House</button>
+              <button class="style-tag" onclick="toggleStyle(this)">Techno</button>
+              <button class="style-tag" onclick="toggleStyle(this)">Hip-Hop</button>
+              <button class="style-tag" onclick="toggleStyle(this)">Afrobeat</button>
+              <button class="style-tag" onclick="toggleStyle(this)">Dancehall</button>
+              <button class="style-tag" onclick="toggleStyle(this)">Amapiano</button>
+              <button class="style-tag" onclick="toggleStyle(this)">R&amp;B</button>
+              <button class="style-tag" onclick="toggleStyle(this)">Kizomba / Semba</button>
+              <button class="style-tag" onclick="toggleStyle(this)">Électro</button>
+              <button class="style-tag" onclick="toggleStyle(this)">Latin</button>
+            </div>
+            <label class="form-label" style="margin-bottom:6px;">Matériel / Logiciels</label>
+            <input id="edit-matos-dj" class="form-input" type="text" placeholder="Ex: Traktor, Serato, Pioneer CDJ..." style="background:var(--bg2);">
+          </div>
+        </div>
+
+        <!-- CHAMPS MUSICIEN (édition) -->
+        <div id="edit-section-musicien" style="display:none;">
+          <div style="background:var(--card);border:1px solid var(--border);border-radius:20px;padding:24px;margin-bottom:16px;">
+            <div style="font-family:'Syne',sans-serif;font-weight:700;font-size:14px;margin-bottom:12px;">🎸 Instruments</div>
+            <div style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:14px;" id="edit-instruments-musicien">
+              <button class="style-tag" onclick="toggleStyle(this)">Guitare</button>
+              <button class="style-tag" onclick="toggleStyle(this)">Piano / Clavier</button>
+              <button class="style-tag" onclick="toggleStyle(this)">Basse</button>
+              <button class="style-tag" onclick="toggleStyle(this)">Batterie</button>
+              <button class="style-tag" onclick="toggleStyle(this)">Violon</button>
+              <button class="style-tag" onclick="toggleStyle(this)">Saxophone</button>
+              <button class="style-tag" onclick="toggleStyle(this)">Trompette</button>
+              <button class="style-tag" onclick="toggleStyle(this)">Flûte</button>
+              <button class="style-tag" onclick="toggleStyle(this)">Percussions</button>
+              <button class="style-tag" onclick="toggleStyle(this)">Autre</button>
+            </div>
+            <div style="font-family:'Syne',sans-serif;font-weight:700;font-size:13px;margin-bottom:8px;margin-top:4px;">Genres</div>
+            <div style="display:flex;flex-wrap:wrap;gap:6px;" id="edit-genres-musicien">
+              <button class="style-tag" onclick="toggleStyle(this)">Jazz</button>
+              <button class="style-tag" onclick="toggleStyle(this)">Soul</button>
+              <button class="style-tag" onclick="toggleStyle(this)">Funk</button>
+              <button class="style-tag" onclick="toggleStyle(this)">Classique</button>
+              <button class="style-tag" onclick="toggleStyle(this)">Hip-Hop</button>
+              <button class="style-tag" onclick="toggleStyle(this)">R&amp;B</button>
+              <button class="style-tag" onclick="toggleStyle(this)">Latin</button>
+              <button class="style-tag" onclick="toggleStyle(this)">Électro</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- CHAMPS CHANTEUR (édition) -->
+        <div id="edit-section-chanteur" style="display:none;">
+          <div style="background:var(--card);border:1px solid var(--border);border-radius:20px;padding:24px;margin-bottom:16px;">
+            <div style="font-family:'Syne',sans-serif;font-weight:700;font-size:14px;margin-bottom:12px;">🎤 Genres musicaux</div>
+            <div style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:14px;" id="edit-genres-chanteur">
+              <button class="style-tag" onclick="toggleStyle(this)">Hip-Hop / Rap</button>
+              <button class="style-tag" onclick="toggleStyle(this)">R&amp;B</button>
+              <button class="style-tag" onclick="toggleStyle(this)">Soul</button>
+              <button class="style-tag" onclick="toggleStyle(this)">Afrobeat</button>
+              <button class="style-tag" onclick="toggleStyle(this)">Pop</button>
+              <button class="style-tag" onclick="toggleStyle(this)">Jazz</button>
+              <button class="style-tag" onclick="toggleStyle(this)">Gospel</button>
+              <button class="style-tag" onclick="toggleStyle(this)">Reggae / Dancehall</button>
+              <button class="style-tag" onclick="toggleStyle(this)">Latin</button>
+              <button class="style-tag" onclick="toggleStyle(this)">Électro</button>
+            </div>
+            <div style="font-family:'Syne',sans-serif;font-weight:700;font-size:13px;margin-bottom:8px;">Niveau</div>
+            <div style="display:flex;flex-wrap:wrap;gap:6px;" id="edit-niveaux-chanteur">
+              <button class="style-tag" onclick="toggleStyle(this)">Amateur</button>
+              <button class="style-tag" onclick="toggleStyle(this)">Semi-pro</button>
+              <button class="style-tag" onclick="toggleStyle(this)">Professionnel</button>
+            </div>
           </div>
         </div>
 
