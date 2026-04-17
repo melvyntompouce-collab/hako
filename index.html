@@ -11998,6 +11998,11 @@ function mettreAJourNav(user) {
         orgaBtn.style.background = 'rgba(255,77,109,0.1)';
         orgaBtn.style.borderColor = 'var(--red)';
         orgaBtn.style.color = 'var(--red)';
+      } else if (window._monRole === 'organisateur') {
+        orgaBtn.textContent = '🎪 Espace organisateur';
+        orgaBtn.style.background = 'rgba(77,159,255,0.1)';
+        orgaBtn.style.borderColor = 'var(--blue)';
+        orgaBtn.style.color = 'var(--blue)';
       } else {
         orgaBtn.textContent = '🎪 Devenir organisateur';
         orgaBtn.style.background = 'rgba(77,159,255,0.1)';
