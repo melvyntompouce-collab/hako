@@ -4726,7 +4726,13 @@ if (isPWA) {
           <h1 style="font-family:'Big Shoulders Display',sans-serif;font-weight:900;font-size:26px;letter-spacing:-1px;line-height:1;">AGENDA</h1>
         </div>
       </div>
-      <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center;">
+      <div style="display:flex;flex-direction:column;gap:10px;width:100%;">
+        <select id="agenda-categorie" class="form-select" style="background:var(--bg2);max-width:220px;font-family:'DM Sans',sans-serif;font-size:13px;padding:8px 12px;border-radius:10px;border:1.5px solid var(--border);color:var(--text);cursor:pointer;" onchange="setAgendaCategorie(this.value)">
+          <option value="toutes">🎭 Toutes les disciplines</option>
+          <option value="danse">💃 Danse</option>
+          <option value="musique">🎵 Musique</option>
+          <option value="audiovisuel">🎬 Audiovisuel</option>
+        </select>
         <div class="agenda-filters" id="agenda-filters">
           <button class="agenda-filter on" onclick="setAgendaFiltre('tous',this)">Tous</button>
           <button class="agenda-filter" onclick="setAgendaFiltre('soiree',this)">Soirées</button>
@@ -5111,6 +5117,14 @@ if (isPWA) {
             <option value="battle">🏆 Battle</option>
             <option value="workshop">🎓 Workshop</option>
             <option value="stage">🏫 Stage</option>
+          </select>
+        </div>
+        <div class="form-group" style="margin:0">
+          <label class="form-label">Discipline</label>
+          <select id="ev-discipline" class="form-select">
+            <option value="danse">💃 Danse</option>
+            <option value="musique">🎵 Musique</option>
+            <option value="audiovisuel">🎬 Audiovisuel</option>
           </select>
         </div>
         <div class="form-group" style="margin:0">
@@ -6880,7 +6894,19 @@ document.querySelectorAll('.rk-tab').forEach(t => {
 
 let tousLesEvents = [];
 let agendaFiltre = 'tous';
+let agendaCategorie = 'toutes';
 let eventCourant = null;
+
+const DISCIPLINE_MAP = {
+  danse:       ['danse'],
+  musique:     ['musique'],
+  audiovisuel: ['audiovisuel'],
+};
+
+function setAgendaCategorie(val) {
+  agendaCategorie = val;
+  afficherEvents();
+}
 
 const TYPE_CONFIG = {
   soiree:   { label:'🎉 SOIRÉE',   bg:'linear-gradient(135deg,#1a0526,#260d1a)', couleur:'var(--purple)' },
@@ -7044,9 +7070,15 @@ function afficherEvents() {
   const maintenant = new Date();
   maintenant.setHours(0, 0, 0, 0);
 
-  let source = agendaFiltre === 'tous'
-    ? tousLesEvents
-    : tousLesEvents.filter(e => e.type === agendaFiltre);
+  // Filtrer par catégorie discipline
+  let source = tousLesEvents;
+  if (agendaCategorie !== 'toutes') {
+    source = source.filter(e => (e.discipline || 'danse') === agendaCategorie);
+  }
+  // Filtrer par type d'événement
+  if (agendaFiltre !== 'tous') {
+    source = source.filter(e => e.type === agendaFiltre);
+  }
 
   const aVenir = source.filter(e => !_estPasse(e));
   const passes = source.filter(e => _estPasse(e)).reverse();
@@ -8917,7 +8949,8 @@ window.modifierEvent = async function(id) {
     eventEnEdition = id;
 
     document.getElementById('ev-titre').value  = ev.titre   || '';
-    document.getElementById('ev-type').value   = ev.type    || 'soiree';
+    document.getElementById('ev-type').value       = ev.type       || 'soiree';
+    document.getElementById('ev-discipline').value = ev.discipline || 'danse';
     _loadDatesList(ev);
     document.getElementById('ev-ville').value  = ev.ville   || 'Paris';
     document.getElementById('ev-prix').value   = ev.prix    || 0;
@@ -8988,6 +9021,7 @@ window.sauvegarderEvent = async function() {
   const data = {
     titre,
     type:          document.getElementById('ev-type').value,
+    discipline:    document.getElementById('ev-discipline').value,
     dates:         (window._evDates || []).filter(d => d.date).map(d => ({date: d.date, heure: d.heure || ''})),
     ville:         document.getElementById('ev-ville').value,
     prix:          parseFloat(document.getElementById('ev-prix').value) || 0,
