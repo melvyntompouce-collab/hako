@@ -5493,22 +5493,6 @@ if (isPWA) {
         </div>
 
         <!-- STYLES -->
-        <div class="priv-row" id="privrow-styles">
-          <div class="priv-row-top">
-          <div class="priv-left">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;color:var(--muted2);"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>
-            <div><div class="priv-fn">Styles de danse</div><div class="priv-fv" id="priv-val-styles">—</div></div>
-          </div>
-          <div class="tg">
-            <button class="to" onclick="setPriv(this,0)">PUB</button>
-            <button class="to sc" onclick="setPriv(this,1)">COMMU</button>
-            <button class="to" onclick="setPriv(this,2)">AMIS</button>
-            <button class="to" onclick="setPriv(this,3)">PRIV</button>
-          </div>
-          </div>
-          <div class="priv-desc" id="privdesc-styles"></div>
-        </div>
-
         <!-- RÉSEAUX SOCIAUX -->
         <div class="priv-row" id="privrow-reseaux">
           <div class="priv-row-top">
@@ -5756,6 +5740,8 @@ function showPage(id, isBack = false) {
   if (salleOverlay) salleOverlay.style.display = 'none';
   const eventOverlay = document.getElementById('event-detail-overlay');
   if (eventOverlay) eventOverlay.style.display = 'none';
+  const artisteOverlay = document.getElementById('artiste-overlay');
+  if (artisteOverlay) artisteOverlay.style.display = 'none';
 
   const fromId   = currentPage;
   const fromPage = document.querySelector('.page.active');
@@ -6737,14 +6723,13 @@ document.addEventListener('input', function(e) {
 // ── Mode global confidentialité ──
 const PRIV_LABELS = {
   nom:     { public:'Ton nom est visible par tout le monde.', communaute:'Visible uniquement par les membres compatibles à 50%+.', amis:'Visible uniquement par tes amis mutuels.', prive:'Ton nom est masqué pour tout le monde.' },
-  styles:  { public:'Tes styles sont visibles par tout le monde.', communaute:'Visibles uniquement par les membres compatibles à 50%+.', amis:'Visibles uniquement par tes amis mutuels.', prive:'Tes styles sont masqués pour tout le monde.' },
   reseaux: { public:'Tes réseaux sont visibles par tout le monde.', communaute:'Visibles uniquement par les membres compatibles à 50%+.', amis:'Visibles uniquement par tes amis mutuels.', prive:'Tes réseaux sont masqués pour tout le monde.' },
   tel:     { public:'Ton numéro est visible par tout le monde.', communaute:'Visible uniquement par les membres compatibles à 50%+.', amis:'Visible uniquement par tes amis mutuels.', prive:'Ton numéro est masqué pour tout le monde.' },
   playlists:{ public:'Tes playlists sont visibles par tout le monde.', communaute:'Visibles uniquement par les membres compatibles à 50%+.', amis:'Visibles uniquement par tes amis mutuels.', prive:'Tes playlists sont masquées pour tout le monde.' },
   disciplines:{ public:'Tes disciplines et spécialités sont visibles par tout le monde.', communaute:'Visibles uniquement par les membres compatibles à 50%+.', amis:'Visibles uniquement par tes amis mutuels.', prive:'Tes disciplines sont masquées pour tout le monde.' },
 };
 
-const PRIV_CHAMPS = { 'Nom / Pseudo':'nom', 'Styles de danse':'styles', 'Réseaux sociaux':'reseaux', 'Téléphone':'tel', 'Playlists':'playlists', 'Disciplines & spécialités':'disciplines' };
+const PRIV_CHAMPS = { 'Nom / Pseudo':'nom', 'Réseaux sociaux':'reseaux', 'Téléphone':'tel', 'Playlists':'playlists', 'Disciplines & spécialités':'disciplines' };
 const PRIV_VALEURS = ['public','communaute','amis','prive'];
 const PRIV_CLS     = ['sp','sc','sa','sr'];
 
@@ -11624,13 +11609,11 @@ async function chargerProfil(uid) {
     const stylesNormStr = window.normaliserStyles(d.styles).join(', ') || 'Non renseigné';
 
     const privNom      = document.getElementById('priv-val-nom');
-    const privStyles   = document.getElementById('priv-val-styles');
     const privReseaux  = document.getElementById('priv-val-reseaux');
     const privTel      = document.getElementById('tel-display-priv');
     const privPlaylist = document.getElementById('priv-val-playlists');
 
     if (privNom)      privNom.textContent      = nomPrivAffiche;
-    if (privStyles)   privStyles.textContent   = stylesNormStr;
     if (privReseaux) {
       const reseauxList = [d.instagram ? '@'+d.instagram+' (IG)' : '', d.tiktok ? '@'+d.tiktok+' (TK)' : ''].filter(Boolean);
       privReseaux.textContent = reseauxList.length ? reseauxList.join(', ') : 'Non renseigné';
@@ -11799,7 +11782,6 @@ async function chargerProfil(uid) {
     // ── Confidentialité ──
     const conf = d.confidentialite || {};
     _initPrivRow('privrow-nom',      'nom',      conf.nom      || 'public');
-    _initPrivRow('privrow-styles',   'styles',   conf.styles   || 'public');
     _initPrivRow('privrow-reseaux',  'reseaux',  conf.reseaux  || 'public');
     _initPrivRow('privrow-tel',      'tel',      conf.tel      || 'public');
     _initPrivRow('privrow-playlists','playlists',conf.playlists|| 'public');
