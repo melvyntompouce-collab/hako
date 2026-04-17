@@ -5560,6 +5560,22 @@ if (isPWA) {
           <div class="priv-desc" id="privdesc-playlists"></div>
         </div>
 
+        <div class="priv-row" id="privrow-disciplines">
+          <div class="priv-row-top">
+          <div class="priv-left">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;color:var(--muted2);"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            <div><div class="priv-fn">Disciplines & spécialités</div><div class="priv-fv" id="priv-val-disciplines">Non renseigné</div></div>
+          </div>
+          <div class="tg">
+            <button class="to" onclick="setPriv(this,0)">PUB</button>
+            <button class="to sc" onclick="setPriv(this,1)">COMMU</button>
+            <button class="to" onclick="setPriv(this,2)">AMIS</button>
+            <button class="to" onclick="setPriv(this,3)">PRIV</button>
+          </div>
+          </div>
+          <div class="priv-desc" id="privdesc-disciplines"></div>
+        </div>
+
       </div>
 
       <!-- SECTION PRÉSENCE AUX ÉVÉNEMENTS -->
@@ -6725,9 +6741,10 @@ const PRIV_LABELS = {
   reseaux: { public:'Tes réseaux sont visibles par tout le monde.', communaute:'Visibles uniquement par les membres compatibles à 50%+.', amis:'Visibles uniquement par tes amis mutuels.', prive:'Tes réseaux sont masqués pour tout le monde.' },
   tel:     { public:'Ton numéro est visible par tout le monde.', communaute:'Visible uniquement par les membres compatibles à 50%+.', amis:'Visible uniquement par tes amis mutuels.', prive:'Ton numéro est masqué pour tout le monde.' },
   playlists:{ public:'Tes playlists sont visibles par tout le monde.', communaute:'Visibles uniquement par les membres compatibles à 50%+.', amis:'Visibles uniquement par tes amis mutuels.', prive:'Tes playlists sont masquées pour tout le monde.' },
+  disciplines:{ public:'Tes disciplines et spécialités sont visibles par tout le monde.', communaute:'Visibles uniquement par les membres compatibles à 50%+.', amis:'Visibles uniquement par tes amis mutuels.', prive:'Tes disciplines sont masquées pour tout le monde.' },
 };
 
-const PRIV_CHAMPS = { 'Nom / Pseudo':'nom', 'Styles de danse':'styles', 'Réseaux sociaux':'reseaux', 'Téléphone':'tel', 'Playlists':'playlists' };
+const PRIV_CHAMPS = { 'Nom / Pseudo':'nom', 'Styles de danse':'styles', 'Réseaux sociaux':'reseaux', 'Téléphone':'tel', 'Playlists':'playlists', 'Disciplines & spécialités':'disciplines' };
 const PRIV_VALEURS = ['public','communaute','amis','prive'];
 const PRIV_CLS     = ['sp','sc','sa','sr'];
 
@@ -7154,7 +7171,7 @@ function ouvrirEvent(id) {
 
     ${ev.description ? `<div style="background:var(--card);border:1px solid var(--border);border-radius:16px;padding:16px;">
       <div style="font-family:'Syne',sans-serif;font-weight:700;font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);margin-bottom:8px;">Description</div>
-      <div style="font-size:14px;color:var(--muted2);line-height:1.7;">${ev.description}</div>
+      <div style="font-size:14px;color:var(--muted2);line-height:1.7;white-space:pre-line;">${ev.description}</div>
     </div>` : ''}
 
     ${mapsLink ? `<div>${mapsLink}</div>` : ''}
@@ -7924,9 +7941,7 @@ window.ouvrirDetailSalle = function(type, index) {
       : `<span class="salle-card-tag" style="background:rgba(255,77,109,0.08);color:var(--red);border-color:rgba(255,77,109,0.15);">Indisponible</span>`;
     const surface = item.surface ? `<span class="salle-card-tag">${item.surface} m²</span>` : '';
 
-    const dispoChips = (item.dispos || []).map(j =>
-      `<span class="salle-dispo-chip ok">${j}</span>`
-    ).join('');
+
 
     const contactHref = item.contact && item.contact.includes('@')
       ? `mailto:${item.contact}`
@@ -7947,15 +7962,15 @@ window.ouvrirDetailSalle = function(type, index) {
             ${item.prix ? `<div style="font-family:'Big Shoulders Display',sans-serif;font-weight:900;font-size:28px;color:var(--green);line-height:1;">${item.prix}€</div><div style="font-size:11px;color:var(--muted);">/ heure</div>` : ''}
           </div>
         </div>
-        <div class="salle-card-tags" style="margin-bottom:${dispoChips ? '10px' : '0'};">
+        <div class="salle-card-tags" style="margin-bottom:10px;">
           ${dispoBadge}${surface}
         </div>
-        ${dispoChips ? `<div class="salle-dispo">${dispoChips}</div>` : ''}
+
       </div>
 
       ${item.description ? `<div class="salle-detail-card">
         <div style="font-family:'Syne',sans-serif;font-weight:700;font-size:12px;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);margin-bottom:10px;">Description</div>
-        <div style="font-size:14px;color:var(--muted2);line-height:1.7;">${item.description}</div>
+        <div style="font-size:14px;color:var(--muted2);line-height:1.7;white-space:pre-line;">${item.description}</div>
       </div>` : ''}
 
       ${item.contact ? `<div class="salle-detail-card" style="display:flex;flex-direction:column;gap:8px;">
@@ -7999,7 +8014,7 @@ window.ouvrirDetailSalle = function(type, index) {
 
       ${item.description ? `<div class="salle-detail-card">
         <div style="font-family:'Syne',sans-serif;font-weight:700;font-size:12px;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);margin-bottom:10px;">Description</div>
-        <div style="font-size:14px;color:var(--muted2);line-height:1.7;">${item.description}</div>
+        <div style="font-size:14px;color:var(--muted2);line-height:1.7;white-space:pre-line;">${item.description}</div>
       </div>` : ''}
 
       ${horaires ? `<div class="salle-detail-card">
@@ -10361,6 +10376,8 @@ window.ouvrirProfilArtiste = async function(uid) {
 
     let metierHtml = '';
 
+    if (peutVoir('disciplines')) {
+
     // Badges métier
     const badgesMetier = metiers.map(m => METIER_LABELS[m]).filter(Boolean);
     if (badgesMetier.length) {
@@ -10460,6 +10477,8 @@ window.ouvrirProfilArtiste = async function(uid) {
         metierHtml += `<div style="margin-bottom:12px;"><span style="font-size:11px;color:var(--muted);font-weight:700;letter-spacing:1px;text-transform:uppercase;">Niveau : </span><span style="font-size:13px;color:var(--text);font-weight:600;">${d.niveauChanteur}</span></div>`;
       }
     }
+
+    } // fin peutVoir('disciplines')
 
     if (metierHtml) {
       metierSection.style.display = 'block';
@@ -11733,6 +11752,14 @@ async function chargerProfil(uid) {
       privPlaylist.textContent = plateformes.length ? plateformes.join(', ') : 'Non renseigné';
     }
 
+    // Valeur affichée pour disciplines
+    const privDisc = document.getElementById('priv-val-disciplines');
+    if (privDisc) {
+      const METIER_LABELS_SHORT = { danseur:'Danseur·se', photographe:'Photographe', videaste:'Vidéaste', beatmaker:'Beatmaker', realisateur:'Réalisateur·rice', dj:'DJ', musicien:'Musicien·ne', chanteur:'Chanteur·se' };
+      const metiersList = (d.metiers || []).map(m => METIER_LABELS_SHORT[m]).filter(Boolean);
+      privDisc.textContent = metiersList.length ? metiersList.join(', ') : 'Non renseigné';
+    }
+
     const type = d.affichageType || 'nom';
     const btnAff = document.getElementById('show-' + type);
     if (btnAff) toggleAffichage(type, btnAff);
@@ -11776,6 +11803,7 @@ async function chargerProfil(uid) {
     _initPrivRow('privrow-reseaux',  'reseaux',  conf.reseaux  || 'public');
     _initPrivRow('privrow-tel',      'tel',      conf.tel      || 'public');
     _initPrivRow('privrow-playlists','playlists',conf.playlists|| 'public');
+    _initPrivRow('privrow-disciplines','disciplines',conf.disciplines|| 'public');
 
     // ── Genres musicaux ──
     const genresNorm = window.normaliserStyles(d.genres);
